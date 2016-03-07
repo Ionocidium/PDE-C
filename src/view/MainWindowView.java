@@ -9,8 +9,11 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
+import javax.swing.JButton;
 import javax.swing.JEditorPane;
+import javax.swing.ImageIcon;
 
 public class MainWindowView
 {
@@ -113,10 +116,36 @@ public class MainWindowView
 	menuBar.add(helpMenu);
 	helpMenu.add(helpHelpItem);
 	helpMenu.add(aboutHelpItem);
+	JToolBar coreToolbar = new JToolBar();
+	coreToolbar.setFloatable(false);
+	coreToolbar.setRollover(true);
+	JButton newButton = new JButton("");
+	newButton.setToolTipText("New");
+	newButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\src\\view\\images\\newFile.png"));
+	JButton openButton = new JButton("");
+	openButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\src\\view\\images\\openFile.png"));
+	openButton.setToolTipText("Open");
+	JButton saveButton = new JButton("");
+	saveButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\src\\view\\images\\saveFile.png"));
+	saveButton.setToolTipText("Save");
+	JButton compileButton = new JButton("");
+	compileButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\src\\view\\images\\buildCompile.png"));
+	compileButton.setToolTipText("Compile");
+	JButton debugButton = new JButton("");
+	debugButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\src\\view\\images\\debugCompile.png"));
+	debugButton.setToolTipText("Debug");
+	coreToolbar.setBounds(0, 0, 620, 48);
+	coreToolbar.add(newButton);
+	coreToolbar.add(openButton);
+	coreToolbar.add(saveButton);
+	coreToolbar.addSeparator();
+	coreToolbar.add(compileButton);
+	coreToolbar.add(debugButton);
 	JEditorPane editorPane = new JEditorPane();
-	editorPane.setBounds(10, 11, 584, 343);
+	editorPane.setBounds(10, 59, 594, 305);
 	editorPane.setFont(lucida);
 	frame.getContentPane().add(editorPane);
+	frame.getContentPane().add(coreToolbar);
 	frame.setJMenuBar(menuBar);
   }
 }
