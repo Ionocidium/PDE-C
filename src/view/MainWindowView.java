@@ -56,6 +56,7 @@ public class MainWindowView
 	frame.setBounds(100, 100, 620, 425);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.getContentPane().setLayout(null);
+	frame.setResizable(false);
 	
 	JMenuBar menuBar = new JMenuBar();
 	JMenu fileMenu = new JMenu("File");
@@ -113,7 +114,7 @@ public class MainWindowView
 	helpMenu.add(helpHelpItem);
 	helpMenu.add(aboutHelpItem);
 	JEditorPane editorPane = new JEditorPane();
-	editorPane.setBounds(10, 42, 584, 333);
+	editorPane.setBounds(10, 11, 584, 343);
 	editorPane.setFont(lucida);
 	frame.getContentPane().add(editorPane);
 	frame.setJMenuBar(menuBar);
