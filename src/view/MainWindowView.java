@@ -12,9 +12,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.ImageIcon;
 import javax.swing.JTextPane;
+
+import controller.AutoFormat;
+
+import java.awt.event.KeyAdapter;
 
 public class MainWindowView
 {
@@ -147,6 +150,36 @@ public class MainWindowView
 	coreToolbar.addSeparator();
 	coreToolbar.add(compileButton);
 	coreToolbar.add(debugButton);
+	editorPane.addKeyListener(new KeyAdapter() {
+		@Override
+		public void keyReleased(KeyEvent ke) {
+			AutoFormat ab = new AutoFormat(editorPane);
+			if(ke.isShiftDown() && ke.getKeyChar() == '{')
+			{
+				if(ab.checkBrace())
+				{
+					int currentPos = editorPane.getCaretPosition();
+					String stringBefore = editorPane.getText().substring(0, editorPane.getText().indexOf("{", 0) + 1);
+					String stringAfter = editorPane.getText().substring(editorPane.getText().indexOf("{", 0) + 1, editorPane.getText().length());
+					editorPane.setText(stringBefore + "}" + stringAfter);
+					editorPane.setCaretPosition(editorPane.getText().indexOf("}", editorPane.getText().indexOf("{")));
+				}
+			}
+			if(ke.getKeyChar() == '\n')
+			{
+				if(ab.checkInnerBrace())
+				{
+					String stringBefore = editorPane.getText().substring(0, editorPane.getText().indexOf("{", 0) + 1);
+					String stringAfter = editorPane.getText().substring(editorPane.getText().indexOf("{", 0) + 1, editorPane.getText().length());
+					editorPane.setText(stringBefore + "\n\t" + stringAfter);
+					editorPane.setCaretPosition(editorPane.getText().lastIndexOf("\t") + 1);
+				}
+			}
+		}
+	});
+	editorPane.setBounds(10, 59, 594, 305);
+	editorPane.setFont(lucida);
+	frame.getContentPane().add(editorPane);
 	frame.getContentPane().add(coreToolbar);
 	frame.setJMenuBar(menuBar);
   }
