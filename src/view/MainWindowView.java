@@ -14,6 +14,7 @@ import javax.swing.KeyStroke;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.ImageIcon;
+import javax.swing.JTextPane;
 
 public class MainWindowView
 {
@@ -60,6 +61,11 @@ public class MainWindowView
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.getContentPane().setLayout(null);
 	frame.setResizable(false);
+	
+	JTextPane editorPane = new JTextPane();
+	editorPane.setBounds(10, 59, 594, 305);
+	editorPane.setFont(lucida);
+	frame.getContentPane().add(editorPane);
 	
 	JMenuBar menuBar = new JMenuBar();
 	JMenu fileMenu = new JMenu("File");
@@ -141,10 +147,6 @@ public class MainWindowView
 	coreToolbar.addSeparator();
 	coreToolbar.add(compileButton);
 	coreToolbar.add(debugButton);
-	JEditorPane editorPane = new JEditorPane();
-	editorPane.setBounds(10, 59, 594, 305);
-	editorPane.setFont(lucida);
-	frame.getContentPane().add(editorPane);
 	frame.getContentPane().add(coreToolbar);
 	frame.setJMenuBar(menuBar);
   }
