@@ -1,16 +1,16 @@
 package controller;
 
-import javax.swing.JEditorPane;
+import javax.swing.JTextPane;
 
 public class AutoFormat {
 
-	private JEditorPane editorPane;
+	private JTextPane editorPane;
 	
 	public AutoFormat(){
-		this.editorPane = new JEditorPane();
+		this.editorPane = new JTextPane();
 	}
 	
-	public AutoFormat(JEditorPane jep){
+	public AutoFormat(JTextPane jep){
 		this.editorPane = jep;
 	}
 	
@@ -37,11 +37,11 @@ public class AutoFormat {
 		return result;
 	}
 	
-	public JEditorPane getEditorPane(){
+	public JTextPane getEditorPane(){
 		return this.editorPane;
 	}
 	
-	public void setEditorPane(JEditorPane jep){
+	public void setEditorPane(JTextPane jep){
 		this.editorPane = jep;
 	}
 	

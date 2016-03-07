@@ -12,8 +12,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.ImageIcon;
+import javax.swing.JTextPane;
 
 import controller.AutoFormat;
 
@@ -64,6 +64,11 @@ public class MainWindowView
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.getContentPane().setLayout(null);
 	frame.setResizable(false);
+	
+	JTextPane editorPane = new JTextPane();
+	editorPane.setBounds(10, 59, 594, 305);
+	editorPane.setFont(lucida);
+	frame.getContentPane().add(editorPane);
 	
 	JMenuBar menuBar = new JMenuBar();
 	JMenu fileMenu = new JMenu("File");
@@ -125,18 +130,18 @@ public class MainWindowView
 	coreToolbar.setRollover(true);
 	JButton newButton = new JButton("");
 	newButton.setToolTipText("New");
-	newButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\src\\view\\images\\newFile.png"));
+	newButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\resources\\images\\newFile.png"));
 	JButton openButton = new JButton("");
-	openButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\src\\view\\images\\openFile.png"));
+	openButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\resources\\images\\openFile.png"));
 	openButton.setToolTipText("Open");
 	JButton saveButton = new JButton("");
-	saveButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\src\\view\\images\\saveFile.png"));
+	saveButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\resources\\images\\saveFile.png"));
 	saveButton.setToolTipText("Save");
 	JButton compileButton = new JButton("");
-	compileButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\src\\view\\images\\buildCompile.png"));
+	compileButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\resources\\images\\buildCompile.png"));
 	compileButton.setToolTipText("Compile");
 	JButton debugButton = new JButton("");
-	debugButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\src\\view\\images\\debugCompile.png"));
+	debugButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\resources\\images\\debugCompile.png"));
 	debugButton.setToolTipText("Debug");
 	coreToolbar.setBounds(0, 0, 620, 48);
 	coreToolbar.add(newButton);
@@ -145,7 +150,6 @@ public class MainWindowView
 	coreToolbar.addSeparator();
 	coreToolbar.add(compileButton);
 	coreToolbar.add(debugButton);
-	JEditorPane editorPane = new JEditorPane();
 	editorPane.addKeyListener(new KeyAdapter() {
 		@Override
 		public void keyReleased(KeyEvent ke) {
