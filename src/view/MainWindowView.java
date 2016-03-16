@@ -62,6 +62,7 @@ public class MainWindowView
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.getContentPane().setLayout(null);
 	frame.setResizable(false);
+	frame.setLocationRelativeTo(null);
 	
 	RSyntaxTextArea editorPane = new RSyntaxTextArea();
 	editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
@@ -130,18 +131,18 @@ public class MainWindowView
 	coreToolbar.setRollover(true);
 	JButton newButton = new JButton("");
 	newButton.setToolTipText("New");
-	newButton.setIcon(new ImageIcon(MainWindowView.class.getResource("/images/newFile.png")));
+	newButton.setIcon(new ImageIcon("resources/images/newFile.png"));
 	JButton openButton = new JButton("");
-	openButton.setIcon(new ImageIcon(MainWindowView.class.getResource("/images/openFile.png")));
+	openButton.setIcon(new ImageIcon("resources/images/openFile.png"));
 	openButton.setToolTipText("Open");
 	JButton saveButton = new JButton("");
-	saveButton.setIcon(new ImageIcon(MainWindowView.class.getResource("/images/saveFile.png")));
+	saveButton.setIcon(new ImageIcon("resources/images/saveFile.png"));
 	saveButton.setToolTipText("Save");
 	JButton compileButton = new JButton("");
-	compileButton.setIcon(new ImageIcon(MainWindowView.class.getResource("/images/buildCompile.png")));
+	compileButton.setIcon(new ImageIcon("resources/images/buildCompile.png"));
 	compileButton.setToolTipText("Compile");
 	JButton debugButton = new JButton("");
-	debugButton.setIcon(new ImageIcon(MainWindowView.class.getResource("/images/debugCompile.png")));
+	debugButton.setIcon(new ImageIcon("resources/images/debugCompile.png"));
 	debugButton.setToolTipText("Debug");
 	coreToolbar.setBounds(0, 0, 620, 48);
 	coreToolbar.add(newButton);
