@@ -58,7 +58,6 @@ public class MainWindowView
    */
   private void initialize()
   {
-	Font lucida = new Font("Lucida Console", Font.PLAIN, 12);
 	frame = new JFrame();
 	frame.setBounds(100, 100, 620, 425);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
