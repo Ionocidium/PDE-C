@@ -11,13 +11,13 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
+
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-import javax.swing.JTextPane;
-
-import controller.AutoFormat;
-
-import java.awt.event.KeyAdapter;
 
 public class MainWindowView
 {
@@ -58,17 +58,18 @@ public class MainWindowView
    */
   private void initialize()
   {
-	Font lucida = new Font("Lucida Console", Font.PLAIN, 12);
 	frame = new JFrame();
 	frame.setBounds(100, 100, 620, 425);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.getContentPane().setLayout(null);
 	frame.setResizable(false);
 	
-	JTextPane editorPane = new JTextPane();
-	editorPane.setBounds(10, 59, 594, 305);
-	editorPane.setFont(lucida);
-	frame.getContentPane().add(editorPane);
+	RSyntaxTextArea editorPane = new RSyntaxTextArea();
+	editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
+	editorPane.setCodeFoldingEnabled(true);
+	RTextScrollPane scrollPane = new RTextScrollPane(editorPane);
+	scrollPane.setIconRowHeaderEnabled(true);
+	scrollPane.setBounds(0, 48, 614, 326);
 	
 	JMenuBar menuBar = new JMenuBar();
 	JMenu fileMenu = new JMenu("File");
@@ -130,18 +131,18 @@ public class MainWindowView
 	coreToolbar.setRollover(true);
 	JButton newButton = new JButton("");
 	newButton.setToolTipText("New");
-	newButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\resources\\images\\newFile.png"));
+	newButton.setIcon(new ImageIcon(MainWindowView.class.getResource("/images/newFile.png")));
 	JButton openButton = new JButton("");
-	openButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\resources\\images\\openFile.png"));
+	openButton.setIcon(new ImageIcon(MainWindowView.class.getResource("/images/openFile.png")));
 	openButton.setToolTipText("Open");
 	JButton saveButton = new JButton("");
-	saveButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\resources\\images\\saveFile.png"));
+	saveButton.setIcon(new ImageIcon(MainWindowView.class.getResource("/images/saveFile.png")));
 	saveButton.setToolTipText("Save");
 	JButton compileButton = new JButton("");
-	compileButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\resources\\images\\buildCompile.png"));
+	compileButton.setIcon(new ImageIcon(MainWindowView.class.getResource("/images/buildCompile.png")));
 	compileButton.setToolTipText("Compile");
 	JButton debugButton = new JButton("");
-	debugButton.setIcon(new ImageIcon("C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\resources\\images\\debugCompile.png"));
+	debugButton.setIcon(new ImageIcon(MainWindowView.class.getResource("/images/debugCompile.png")));
 	debugButton.setToolTipText("Debug");
 	coreToolbar.setBounds(0, 0, 620, 48);
 	coreToolbar.add(newButton);
@@ -150,37 +151,8 @@ public class MainWindowView
 	coreToolbar.addSeparator();
 	coreToolbar.add(compileButton);
 	coreToolbar.add(debugButton);
-	editorPane.addKeyListener(new KeyAdapter() {
-		@Override
-		public void keyReleased(KeyEvent ke) {
-			AutoFormat ab = new AutoFormat(editorPane);
-			if(ke.isShiftDown() && ke.getKeyChar() == '{')
-			{
-				if(ab.checkBrace())
-				{
-					int currentPos = editorPane.getCaretPosition();
-					String stringBefore = editorPane.getText().substring(0, editorPane.getText().indexOf("{", 0) + 1);
-					String stringAfter = editorPane.getText().substring(editorPane.getText().indexOf("{", 0) + 1, editorPane.getText().length());
-					editorPane.setText(stringBefore + "}" + stringAfter);
-					editorPane.setCaretPosition(editorPane.getText().indexOf("}", editorPane.getText().indexOf("{")));
-				}
-			}
-			if(ke.getKeyChar() == '\n')
-			{
-				if(ab.checkInnerBrace())
-				{
-					String stringBefore = editorPane.getText().substring(0, editorPane.getText().indexOf("{", 0) + 1);
-					String stringAfter = editorPane.getText().substring(editorPane.getText().indexOf("{", 0) + 1, editorPane.getText().length());
-					editorPane.setText(stringBefore + "\n\t" + stringAfter);
-					editorPane.setCaretPosition(editorPane.getText().lastIndexOf("\t") + 1);
-				}
-			}
-		}
-	});
-	editorPane.setBounds(10, 59, 594, 305);
-	editorPane.setFont(lucida);
-	frame.getContentPane().add(editorPane);
-	frame.getContentPane().add(coreToolbar);
 	frame.setJMenuBar(menuBar);
+	frame.getContentPane().add(coreToolbar);
+	frame.getContentPane().add(scrollPane);
   }
 }
