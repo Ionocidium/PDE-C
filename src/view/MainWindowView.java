@@ -15,13 +15,10 @@ import javax.swing.text.BadLocationException;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.Gutter;
-import org.fife.ui.rtextarea.GutterIconInfo;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.JButton;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 
 public class MainWindowView
 {
