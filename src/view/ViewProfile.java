@@ -9,8 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import java.awt.Color;
+import javax.swing.SwingConstants;
 
-public class StudentProfile {
+public class ViewProfile {
 
 	private JFrame studentProfileFrame;
 	private JTextField txtIDNum;
@@ -18,6 +19,8 @@ public class StudentProfile {
 	private JTextField txtRoom;
 	private JTextField txtSection;
 	private JTextField txtRemarks;
+	private JTextField txtAttainedActivity;
+	private JTextField txtMaximumActivity;
 
 	/**
 	 * Launch the application.
@@ -26,7 +29,7 @@ public class StudentProfile {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					StudentProfile window = new StudentProfile();
+					ViewProfile window = new ViewProfile();
 					window.studentProfileFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +41,7 @@ public class StudentProfile {
 	/**
 	 * Create the application.
 	 */
-	public StudentProfile() {
+	public ViewProfile() {
 		initialize();
 	}
 
@@ -49,7 +52,7 @@ public class StudentProfile {
 		studentProfileFrame = new JFrame();
 		studentProfileFrame.setResizable(false);
 		studentProfileFrame.setSize(720, 480);
-		studentProfileFrame.setTitle("Student Profile");
+		studentProfileFrame.setTitle("View Profile");
 		studentProfileFrame.getContentPane().setLayout(null);
 		
 		JPanel generalInfoPanel = new JPanel();
@@ -105,10 +108,6 @@ public class StudentProfile {
 		lblActivities.setBounds(277, 81, 64, 24);
 		generalInfoPanel.add(lblActivities);
 		
-		JButton btnCheckMyActivities = new JButton("Check Activities");
-		btnCheckMyActivities.setBounds(351, 82, 128, 23);
-		generalInfoPanel.add(btnCheckMyActivities);
-		
 		JLabel lblRemarks = new JLabel("Remarks");
 		lblRemarks.setBounds(10, 151, 64, 24);
 		generalInfoPanel.add(lblRemarks);
@@ -119,6 +118,27 @@ public class StudentProfile {
 		txtRemarks.setColumns(10);
 		txtRemarks.setBounds(158, 151, 320, 24);
 		generalInfoPanel.add(txtRemarks);
+		
+		txtAttainedActivity = new JTextField();
+		txtAttainedActivity.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtAttainedActivity.setText("3");
+		txtAttainedActivity.setEditable(false);
+		txtAttainedActivity.setColumns(10);
+		txtAttainedActivity.setBounds(382, 81, 32, 24);
+		generalInfoPanel.add(txtAttainedActivity);
+		
+		JLabel label = new JLabel("/");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setBounds(424, 81, 12, 24);
+		generalInfoPanel.add(label);
+		
+		txtMaximumActivity = new JTextField();
+		txtMaximumActivity.setText("3");
+		txtMaximumActivity.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtMaximumActivity.setEditable(false);
+		txtMaximumActivity.setColumns(10);
+		txtMaximumActivity.setBounds(446, 81, 32, 24);
+		generalInfoPanel.add(txtMaximumActivity);
 		
 		JPanel aboutMePanel = new JPanel();
 		aboutMePanel.setBounds(10, 213, 694, 227);
@@ -133,10 +153,6 @@ public class StudentProfile {
 		txtpnProgrammerAndLearner.setText("Programmer and learner here.");
 		txtpnProgrammerAndLearner.setBounds(10, 46, 674, 170);
 		aboutMePanel.add(txtpnProgrammerAndLearner);
-		
-		JButton btnSave = new JButton("Save");
-		btnSave.setBounds(620, 11, 64, 24);
-		aboutMePanel.add(btnSave);
 		
 		JPanel imgPanel = new JPanel();
 		imgPanel.setBounds(10, 10, 146, 187);

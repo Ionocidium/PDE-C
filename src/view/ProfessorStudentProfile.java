@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import java.awt.Color;
 
-public class StudentProfile {
+public class ProfessorStudentProfile {
 
 	private JFrame studentProfileFrame;
 	private JTextField txtIDNum;
@@ -26,7 +26,7 @@ public class StudentProfile {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					StudentProfile window = new StudentProfile();
+					ProfessorStudentProfile window = new ProfessorStudentProfile();
 					window.studentProfileFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +38,7 @@ public class StudentProfile {
 	/**
 	 * Create the application.
 	 */
-	public StudentProfile() {
+	public ProfessorStudentProfile() {
 		initialize();
 	}
 
@@ -49,7 +49,7 @@ public class StudentProfile {
 		studentProfileFrame = new JFrame();
 		studentProfileFrame.setResizable(false);
 		studentProfileFrame.setSize(720, 480);
-		studentProfileFrame.setTitle("Student Profile");
+		studentProfileFrame.setTitle("Edit Profile");
 		studentProfileFrame.getContentPane().setLayout(null);
 		
 		JPanel generalInfoPanel = new JPanel();
@@ -62,7 +62,6 @@ public class StudentProfile {
 		generalInfoPanel.add(lblIDNum);
 		
 		txtIDNum = new JTextField();
-		txtIDNum.setEditable(false);
 		txtIDNum.setBounds(158, 11, 320, 24);
 		txtIDNum.setText("10987654");
 		generalInfoPanel.add(txtIDNum);
@@ -73,7 +72,6 @@ public class StudentProfile {
 		generalInfoPanel.add(lblName);
 		
 		txtName = new JTextField();
-		txtName.setEditable(false);
 		txtName.setBounds(158, 46, 320, 24);
 		txtName.setText("Nielson, Niels");
 		txtName.setColumns(10);
@@ -84,7 +82,6 @@ public class StudentProfile {
 		generalInfoPanel.add(lblRoomNo);
 		
 		txtRoom = new JTextField();
-		txtRoom.setEditable(false);
 		txtRoom.setBounds(84, 81, 64, 24);
 		txtRoom.setText("GK302A");
 		txtRoom.setColumns(10);
@@ -95,7 +92,6 @@ public class StudentProfile {
 		generalInfoPanel.add(lblSection);
 		
 		txtSection = new JTextField();
-		txtSection.setEditable(false);
 		txtSection.setBounds(219, 81, 48, 24);
 		txtSection.setText("S11A");
 		txtSection.setColumns(10);
@@ -105,20 +101,19 @@ public class StudentProfile {
 		lblActivities.setBounds(277, 81, 64, 24);
 		generalInfoPanel.add(lblActivities);
 		
-		JButton btnCheckMyActivities = new JButton("Check Activities");
-		btnCheckMyActivities.setBounds(351, 82, 128, 23);
-		generalInfoPanel.add(btnCheckMyActivities);
-		
 		JLabel lblRemarks = new JLabel("Remarks");
 		lblRemarks.setBounds(10, 151, 64, 24);
 		generalInfoPanel.add(lblRemarks);
 		
 		txtRemarks = new JTextField();
-		txtRemarks.setEditable(false);
 		txtRemarks.setText("A very diligent student. Passes requirements on time");
 		txtRemarks.setColumns(10);
 		txtRemarks.setBounds(158, 151, 320, 24);
 		generalInfoPanel.add(txtRemarks);
+		
+		JButton button = new JButton("Check Activities");
+		button.setBounds(351, 82, 128, 23);
+		generalInfoPanel.add(button);
 		
 		JPanel aboutMePanel = new JPanel();
 		aboutMePanel.setBounds(10, 213, 694, 227);
@@ -134,9 +129,9 @@ public class StudentProfile {
 		txtpnProgrammerAndLearner.setBounds(10, 46, 674, 170);
 		aboutMePanel.add(txtpnProgrammerAndLearner);
 		
-		JButton btnSave = new JButton("Save");
-		btnSave.setBounds(620, 11, 64, 24);
-		aboutMePanel.add(btnSave);
+		JButton btnSaveProfileInformation = new JButton("Save Profile Information");
+		btnSaveProfileInformation.setBounds(492, 11, 192, 24);
+		aboutMePanel.add(btnSaveProfileInformation);
 		
 		JPanel imgPanel = new JPanel();
 		imgPanel.setBounds(10, 10, 146, 187);
