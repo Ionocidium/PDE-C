@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 
 public class FindWindow {
 
-	private JFrame frame;
+	private JFrame findAndReplaceFrame;
 	private JTextField findContentTextField2;
 	private JTextField replaceContentTextField;
 	private JTextField findContentTextField;
@@ -30,7 +30,7 @@ public class FindWindow {
 			public void run() {
 				try {
 					FindWindow window = new FindWindow();
-					window.frame.setVisible(true);
+					window.findAndReplaceFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,14 +49,15 @@ public class FindWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setResizable(false);
-		frame.setBounds(100, 100, 640, 240);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		findAndReplaceFrame = new JFrame();
+		findAndReplaceFrame.setTitle("Find and Replace...");
+		findAndReplaceFrame.setResizable(false);
+		findAndReplaceFrame.setBounds(100, 100, 640, 240);
+		findAndReplaceFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		findAndReplaceFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		frame.getContentPane().add(tabbedPane);
+		findAndReplaceFrame.getContentPane().add(tabbedPane);
 		
 		JPanel findPanel = new JPanel();
 		tabbedPane.addTab("Find", null, findPanel, null);
