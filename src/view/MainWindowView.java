@@ -27,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import controller.fileops.FileLoad;
+import controller.fileops.FileSave;
 
 public class MainWindowView
 {
@@ -110,6 +111,7 @@ public class MainWindowView
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
 			  Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+			  System.out.println(path.toString());
 			  String ext = path.getFileName().toString();
 			  FileLoad loader = new FileLoad();
 			  
@@ -126,10 +128,29 @@ public class MainWindowView
 			}
 		  }
 		});
+		
 		openFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		JMenuItem saveFileItem = new JMenuItem("Save", KeyEvent.VK_S);
 		saveFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		JMenuItem saveAsFileItem = new JMenuItem("Save As...", KeyEvent.VK_A);
+		
+		saveAsFileItem.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+			  int returnVal = fileChooser.showSaveDialog(frame);
+			  
+			  if (returnVal == JFileChooser.APPROVE_OPTION)
+			  {
+				Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+				
+				FileSave saveFile = new FileSave();
+				
+				saveFile.writeFile(path, editorPane.getText());
+			  }
+			}
+		});
+		
 		JMenuItem exitFileItem = new JMenuItem("Exit", KeyEvent.VK_X);
 		exitFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
 		JMenu editMenu = new JMenu("Edit");
