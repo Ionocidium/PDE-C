@@ -6,9 +6,12 @@ import java.awt.BorderLayout;
 import javax.swing.JTextPane;
 
 import controller.CommandLineControls;
+import service.CBRCIntegration;
 
 import java.awt.Font;
 import java.io.IOException;
+import javax.swing.JScrollPane;
+import javax.swing.JScrollBar;
 
 public class CompileLog {
 
@@ -19,6 +22,9 @@ public class CompileLog {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			/* (non-Javadoc)
+			 * @see java.lang.Runnable#run()
+			 */
 			public void run() {
 				try {
 					CompileLog window = new CompileLog();
@@ -47,12 +53,18 @@ public class CompileLog {
 		frmCompileLog.setBounds(100, 100, 718, 394);
 		frmCompileLog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCompileLog.getContentPane().setLayout(new BorderLayout(0, 0));
+		CommandLineControls clc = new CommandLineControls("C:\\Users\\InYong\\Documents\\test.c");
+		CBRCIntegration cbrc = new CBRCIntegration();
 		
 		JTextPane txtpnTest = new JTextPane();
 		txtpnTest.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		CommandLineControls clc = new CommandLineControls("C:\\Users\\InYong\\Documents\\test.c");
-		txtpnTest.setText(clc.getStdOut() + "\n" + clc.getStdError());
-		frmCompileLog.getContentPane().add(txtpnTest, BorderLayout.CENTER);
+		txtpnTest.setText(clc.getStdOut() + "\n" + clc.getStdError() + "\n" + cbrc.feedback0());
+		txtpnTest.setCaretPosition(0);
+		// frmCompileLog.getContentPane().add(txtpnTest, BorderLayout.CENTER);
+		
+		JScrollPane scrollPane = new JScrollPane(txtpnTest);
+		scrollPane.getVerticalScrollBar().setValue(0);
+		frmCompileLog.getContentPane().add(scrollPane, BorderLayout.CENTER);
 	}
 
 }
