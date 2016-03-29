@@ -11,7 +11,6 @@ import service.CBRCIntegration;
 import java.awt.Font;
 import java.io.IOException;
 import javax.swing.JScrollPane;
-import javax.swing.JScrollBar;
 
 public class CompileLog {
 
