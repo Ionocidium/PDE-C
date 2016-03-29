@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.text.BadLocationException;
@@ -18,7 +19,14 @@ import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import controller.fileops.FileLoad;
 
 public class MainWindowView
 {
@@ -65,6 +73,8 @@ public class MainWindowView
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
+		
+		final JFileChooser fileChooser = new JFileChooser();
 
 		RSyntaxTextArea editorPane = new RSyntaxTextArea();
 		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
@@ -91,6 +101,31 @@ public class MainWindowView
 		JMenuItem newFileItem = new JMenuItem("New", KeyEvent.VK_N);
 		newFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 		JMenuItem openFileItem = new JMenuItem("Open", KeyEvent.VK_O);
+		openFileItem.addActionListener(new ActionListener() 
+		{
+		  public void actionPerformed(ActionEvent e) 
+		  {
+			int returnVal = fileChooser.showOpenDialog(frame);
+			
+			if (returnVal == JFileChooser.APPROVE_OPTION)
+			{
+			  Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+			  String ext = path.getFileName().toString();
+			  FileLoad loader = new FileLoad();
+			  
+			  if (loader.checker(ext))
+			  {
+				String pathContents = loader.loadFile(path);
+				editorPane.setText(pathContents);
+			  }
+			  
+			  else
+			  {
+				JOptionPane.showMessageDialog(null, "Not a C source code.", "Error", JOptionPane.ERROR_MESSAGE);
+			  }
+			}
+		  }
+		});
 		openFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		JMenuItem saveFileItem = new JMenuItem("Save", KeyEvent.VK_S);
 		saveFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));

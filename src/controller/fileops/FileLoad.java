@@ -7,8 +7,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class FileLoad 
 {
+  private Matcher matcher;
+  private Pattern pattern;
+  
   public FileLoad()
   {
 		
@@ -42,5 +48,14 @@ public class FileLoad
 	}
 	  
 	return cCode;
+  }
+  
+  public boolean checker(String fileName)
+  {
+	String codePattern = "([^\\s]+(\\.(?i)(c))$)";
+	pattern = Pattern.compile(codePattern);
+	matcher = pattern.matcher(fileName);
+	
+	return matcher.matches();
   }
 }
