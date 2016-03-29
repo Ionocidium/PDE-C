@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -76,6 +77,9 @@ public class MainWindowView
 		frame.setLocationRelativeTo(null);
 		
 		final JFileChooser fileChooser = new JFileChooser();
+		FileNameExtensionFilter cFilter = new FileNameExtensionFilter(
+		     "C Source (*.c)", "c");
+		fileChooser.setFileFilter(cFilter);
 
 		RSyntaxTextArea editorPane = new RSyntaxTextArea();
 		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
@@ -111,7 +115,6 @@ public class MainWindowView
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
 			  Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
-			  System.out.println(path.toString());
 			  String ext = path.getFileName().toString();
 			  FileLoad loader = new FileLoad();
 			  
