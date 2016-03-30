@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import javax.swing.JScrollPane;
-import javax.swing.JScrollBar;
 
 public class CompileLog {
 
