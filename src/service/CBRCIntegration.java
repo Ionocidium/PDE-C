@@ -24,7 +24,7 @@ public class CBRCIntegration {
 				+ "\t\ty++;\n"
 				+ "\t\tz = x*y;\n"
 				+ "\t}\n"
-				+ "\tgetch();\n"
+				+ "\tgetchar();\n"
 				+ "\treturn 0;\n"
 				+ "}\n",
 				"Feedback Level: 1"
