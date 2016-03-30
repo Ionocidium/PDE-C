@@ -13,6 +13,6 @@ int main()
         y++;
         z = x*y;
     }
-	getchar();
+	getch();
     return 0;
 }

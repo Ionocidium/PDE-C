@@ -29,13 +29,13 @@ public class CBRCIntegration {
 				+ "}\n",
 				"Feedback Level: 1"
 				+ "\n"
-				+ "In line 16: remove the getch();.",
+				+ "Remove the error found by the compiler as indicated above.",
 				"Feedback Level: 2"
 				+ "\n"
-				+ "You will just need to remove the getch() in your code.",
+				+ "The getch() method in your code is not recognized by the compiler, or is missing a required header to be able to find the desired method to be executed.",
 				"Feedback Level: 3"
 				+ "\n"
-				+ "The only way to solve this issue is to remove getch() in your code in line 16, there may be other solutions besides this one."};
+				+ "The only way to solve this issue is to remove getch(); in your code in line 16, or replace it with a better alternative such as getchar();."};
 		return feedbacks[randNum];
 	}
 }
