@@ -10,37 +10,40 @@ import service.CBRCIntegration;
 
 import java.awt.Font;
 import java.io.IOException;
+import java.nio.file.Path;
+
 import javax.swing.JScrollPane;
 import javax.swing.JScrollBar;
 
 public class CompileLog {
 
 	private JFrame frmCompileLog;
-
+	private Path cPath;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			/* (non-Javadoc)
-			 * @see java.lang.Runnable#run()
-			 */
-			public void run() {
-				try {
-					CompileLog window = new CompileLog();
-					window.frmCompileLog.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			/* (non-Javadoc)
+//			 * @see java.lang.Runnable#run()
+//			 */
+//			public void run() {
+//				try {
+//					CompileLog window = new CompileLog();
+//					window.frmCompileLog.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
 	 * @throws IOException 
 	 */
-	public CompileLog() throws IOException {
+	public CompileLog(Path path) throws IOException {
+	  	this.cPath = path;
 		initialize();
 	}
 
@@ -53,7 +56,9 @@ public class CompileLog {
 		frmCompileLog.setBounds(100, 100, 718, 394);
 		frmCompileLog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCompileLog.getContentPane().setLayout(new BorderLayout(0, 0));
-		CommandLineControls clc = new CommandLineControls("C:\\Users\\InYong\\Documents\\test.c");
+		frmCompileLog.setLocationRelativeTo(null);
+		frmCompileLog.setVisible(true);
+		CommandLineControls clc = new CommandLineControls(cPath.toString());
 		CBRCIntegration cbrc = new CBRCIntegration();
 		
 		JTextPane txtpnTest = new JTextPane();

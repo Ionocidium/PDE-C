@@ -3,6 +3,7 @@ package view;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -34,7 +35,7 @@ public class MainWindowView
 {
 
 	private JFrame frame;
-
+	private Path filePath;
 	/**
 	 * Launch the application.
 	 */
@@ -61,6 +62,7 @@ public class MainWindowView
 	 */
 	public MainWindowView()
 	{
+	  	filePath = null;
 		initialize();
 	}
 
@@ -80,6 +82,9 @@ public class MainWindowView
 		FileNameExtensionFilter cFilter = new FileNameExtensionFilter(
 		     "C Source (*.c)", "c");
 		fileChooser.setFileFilter(cFilter);
+		
+		FileSave saveFile = new FileSave();
+		FileLoad loader = new FileLoad();
 
 		RSyntaxTextArea editorPane = new RSyntaxTextArea();
 		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
@@ -115,8 +120,8 @@ public class MainWindowView
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
 			  Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+			  filePath = path;
 			  String ext = path.getFileName().toString();
-			  FileLoad loader = new FileLoad();
 			  
 			  if (loader.checker(ext))
 			  {
@@ -145,10 +150,7 @@ public class MainWindowView
 			  
 			  if (returnVal == JFileChooser.APPROVE_OPTION)
 			  {
-				Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
-				
-				FileSave saveFile = new FileSave();
-				
+				Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());			
 				saveFile.writeFile(path, editorPane.getText());
 			  }
 			}
@@ -175,6 +177,51 @@ public class MainWindowView
 		JMenu buildMenu = new JMenu("Build");
 		buildMenu.setMnemonic(KeyEvent.VK_B);
 		JMenuItem compileBuildItem = new JMenuItem("Compile", KeyEvent.VK_C);
+		
+		compileBuildItem.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+			  try
+			  {
+				if (filePath != null)
+				{
+				  CompileLog log = new CompileLog(filePath);
+				}
+				
+				else
+				{
+				  int returnVal = fileChooser.showOpenDialog(frame);
+					
+					if (returnVal == JFileChooser.APPROVE_OPTION)
+					{
+					  Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+					  filePath = path;
+					  String ext = path.getFileName().toString();
+					  
+					  if (loader.checker(ext))
+					  {
+						String pathContents = loader.loadFile(path);
+						editorPane.setText(pathContents);
+						CompileLog log = new CompileLog(filePath);
+					  }
+					  
+					  else
+					  {
+						JOptionPane.showMessageDialog(null, "Not a C source code.", "Error", JOptionPane.ERROR_MESSAGE);
+					  }
+					}			
+				}
+			  }
+			  
+			  catch (IOException e1)
+			  {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			  }
+			  
+			}
+		});
 		compileBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
 		JMenuItem debugBuildItem = new JMenuItem("Debug", KeyEvent.VK_D);
 		debugBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
