@@ -1,6 +1,5 @@
 package controller.fileops;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -16,7 +15,7 @@ public class FileSave {
 	
   public void writeFile(Path path, String contents)
   {
-	Charset charset = Charset.forName("US-ASCII");
+	Charset charset = Charset.forName("UTF-8");
 	String s = contents;
 	
 	try (BufferedWriter writer = Files.newBufferedWriter(path, charset))

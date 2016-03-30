@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import javax.swing.JTextPane;
 
 import controller.CommandLineControls;
+import controller.CommandLineControls64;
 import service.CBRCIntegration;
 
 import java.awt.Font;
@@ -45,6 +46,11 @@ public class CompileLog {
 	  	this.cPath = path;
 		initialize();
 	}
+	
+	public JFrame getFrame()
+	{
+	  return frmCompileLog;
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -53,11 +59,11 @@ public class CompileLog {
 		frmCompileLog = new JFrame();
 		frmCompileLog.setTitle("Compile Log");
 		frmCompileLog.setBounds(100, 100, 718, 394);
-		frmCompileLog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmCompileLog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmCompileLog.getContentPane().setLayout(new BorderLayout(0, 0));
 		frmCompileLog.setLocationRelativeTo(null);
 		frmCompileLog.setVisible(true);
-		CommandLineControls clc = new CommandLineControls(cPath.toString());
+		CommandLineControls64 clc = new CommandLineControls64(cPath.toString());
 		CBRCIntegration cbrc = new CBRCIntegration();
 		
 		JTextPane txtpnTest = new JTextPane();

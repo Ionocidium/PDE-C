@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,7 +21,7 @@ public class FileLoad
 
   public String loadFile(Path path)
   {
-	Charset charset = Charset.forName("US-ASCII");
+	Charset charset = Charset.forName("UTF-8");
 	String line = null;
 	String cCode = new String();
 	  
