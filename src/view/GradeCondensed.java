@@ -15,10 +15,12 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JToggleButton;
+import javax.swing.JTextField;
 
 public class GradeCondensed {
 
 	private JFrame gradesFrame;
+	private JTextField statusTextField;
 
 	/**
 	 * Launch the application.
@@ -49,7 +51,7 @@ public class GradeCondensed {
 	private void initialize() {
 		gradesFrame = new JFrame();
 		gradesFrame.setTitle("Student Grades");
-		gradesFrame.setBounds(100, 100, 720, 300);
+		gradesFrame.setBounds(100, 100, 720, 320);
 		gradesFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gradesFrame.getContentPane().setLayout(null);
 		
@@ -162,7 +164,7 @@ public class GradeCondensed {
 		gbc_showSourceCode1.gridy = 1;
 		tabulatedSubmissionsPanel.add(showSourceCode1, gbc_showSourceCode1);
 		
-		JLabel deliverableDateSubmitted1Label = new JLabel("1/4/2016 13:56:29 PM UTC+0800");
+		JLabel deliverableDateSubmitted1Label = new JLabel("1/4/2016 1:56:29 PM UTC+0800");
 		GridBagConstraints gbc_deliverableDateSubmitted1Label = new GridBagConstraints();
 		gbc_deliverableDateSubmitted1Label.fill = GridBagConstraints.BOTH;
 		gbc_deliverableDateSubmitted1Label.insets = new Insets(0, 0, 5, 5);
@@ -196,7 +198,7 @@ public class GradeCondensed {
 		gbc_studentName2Label.gridy = 2;
 		tabulatedSubmissionsPanel.add(studentName2Label, gbc_studentName2Label);
 		
-		JLabel studentSection2Label = new JLabel("S11B");
+		JLabel studentSection2Label = new JLabel("S11A");
 		GridBagConstraints gbc_studentSection2Label = new GridBagConstraints();
 		gbc_studentSection2Label.fill = GridBagConstraints.BOTH;
 		gbc_studentSection2Label.insets = new Insets(0, 0, 5, 5);
@@ -219,7 +221,7 @@ public class GradeCondensed {
 		gbc_showSourceCode2.gridy = 2;
 		tabulatedSubmissionsPanel.add(showSourceCode2, gbc_showSourceCode2);
 		
-		JLabel deliverableDateSubmitted2Label = new JLabel("1/3/2016 14:06:57 PM UTC+0800");
+		JLabel deliverableDateSubmitted2Label = new JLabel("1/3/2016 2:06:57 PM UTC+0800");
 		GridBagConstraints gbc_deliverableDateSubmitted2Label = new GridBagConstraints();
 		gbc_deliverableDateSubmitted2Label.fill = GridBagConstraints.BOTH;
 		gbc_deliverableDateSubmitted2Label.insets = new Insets(0, 0, 5, 5);
@@ -253,7 +255,7 @@ public class GradeCondensed {
 		gbc_studentName3Label.gridy = 3;
 		tabulatedSubmissionsPanel.add(studentName3Label, gbc_studentName3Label);
 		
-		JLabel studentSection3Label = new JLabel("S12A");
+		JLabel studentSection3Label = new JLabel("S11A");
 		GridBagConstraints gbc_studentSection3Label = new GridBagConstraints();
 		gbc_studentSection3Label.fill = GridBagConstraints.BOTH;
 		gbc_studentSection3Label.insets = new Insets(0, 0, 5, 5);
@@ -276,7 +278,8 @@ public class GradeCondensed {
 		gbc_showSourceCode3.gridy = 3;
 		tabulatedSubmissionsPanel.add(showSourceCode3, gbc_showSourceCode3);
 		
-		JLabel deliverableDateSubmitted3Label = new JLabel("1/5/2016 15:22:18 PM UTC+0800");
+		JLabel deliverableDateSubmitted3Label = new JLabel("1/5/2016 3:22:18 PM UTC+0800");
+		deliverableDateSubmitted3Label.setForeground(Color.RED);
 		GridBagConstraints gbc_deliverableDateSubmitted3Label = new GridBagConstraints();
 		gbc_deliverableDateSubmitted3Label.fill = GridBagConstraints.BOTH;
 		gbc_deliverableDateSubmitted3Label.insets = new Insets(0, 0, 5, 5);
@@ -310,7 +313,7 @@ public class GradeCondensed {
 		gbc_studentName4Label.gridy = 4;
 		tabulatedSubmissionsPanel.add(studentName4Label, gbc_studentName4Label);
 		
-		JLabel studentSection4Label = new JLabel("S11B");
+		JLabel studentSection4Label = new JLabel("S11A");
 		GridBagConstraints gbc_studentSection4Label = new GridBagConstraints();
 		gbc_studentSection4Label.fill = GridBagConstraints.BOTH;
 		gbc_studentSection4Label.insets = new Insets(0, 0, 5, 5);
@@ -333,7 +336,7 @@ public class GradeCondensed {
 		gbc_showSourceCode4.gridy = 4;
 		tabulatedSubmissionsPanel.add(showSourceCode4, gbc_showSourceCode4);
 		
-		JLabel deliverableDateSubmitted4Label = new JLabel("1/3/2016 13:20:05 PM UTC+0800");
+		JLabel deliverableDateSubmitted4Label = new JLabel("1/3/2016 1:20:05 PM UTC+0800");
 		GridBagConstraints gbc_deliverableDateSubmitted4Label = new GridBagConstraints();
 		gbc_deliverableDateSubmitted4Label.fill = GridBagConstraints.BOTH;
 		gbc_deliverableDateSubmitted4Label.insets = new Insets(0, 0, 5, 5);
@@ -367,7 +370,7 @@ public class GradeCondensed {
 		gbc_studentName5Label.gridy = 5;
 		tabulatedSubmissionsPanel.add(studentName5Label, gbc_studentName5Label);
 		
-		JLabel studentSection5Label = new JLabel("S12A");
+		JLabel studentSection5Label = new JLabel("S11A");
 		GridBagConstraints gbc_studentSection5Label = new GridBagConstraints();
 		gbc_studentSection5Label.fill = GridBagConstraints.BOTH;
 		gbc_studentSection5Label.insets = new Insets(0, 0, 0, 5);
@@ -390,7 +393,8 @@ public class GradeCondensed {
 		gbc_showSourceCode5.gridy = 5;
 		tabulatedSubmissionsPanel.add(showSourceCode5, gbc_showSourceCode5);
 		
-		JLabel deliverableDateSubmitted5Label = new JLabel("1/5/2016 15:16:41 PM UTC+0800");
+		JLabel deliverableDateSubmitted5Label = new JLabel("1/5/2016 3:16:41 PM UTC+0800");
+		deliverableDateSubmitted5Label.setForeground(Color.RED);
 		GridBagConstraints gbc_deliverableDateSubmitted5Label = new GridBagConstraints();
 		gbc_deliverableDateSubmitted5Label.fill = GridBagConstraints.BOTH;
 		gbc_deliverableDateSubmitted5Label.insets = new Insets(0, 0, 0, 5);
@@ -407,17 +411,29 @@ public class GradeCondensed {
 		gbc_deliverableGrade5ComboBox.gridy = 5;
 		tabulatedSubmissionsPanel.add(deliverableGrade5ComboBox, gbc_deliverableGrade5ComboBox);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Basic Functions", "Conditional Statements", "Loops", "Functions", "ASCII Art I"}));
-		comboBox.setBounds(111, 8, 170, 20);
-		gradesFrame.getContentPane().add(comboBox);
+		JComboBox activitySelectionCBox = new JComboBox();
+		activitySelectionCBox.setModel(new DefaultComboBoxModel(new String[] {"Basic Functions", "Conditional Statements", "Loops", "Functions", "ASCII Art I"}));
+		activitySelectionCBox.setBounds(111, 8, 170, 20);
+		gradesFrame.getContentPane().add(activitySelectionCBox);
 		
 		JButton submitButton = new JButton("Submit Grades");
 		submitButton.setBounds(575, 7, 119, 23);
 		gradesFrame.getContentPane().add(submitButton);
 		
-		JButton searchButton = new JButton("Query Search");
-		searchButton.setBounds(446, 7, 119, 23);
-		gradesFrame.getContentPane().add(searchButton);
+		JLabel sectionNameLabel = new JLabel("Select Section:");
+		sectionNameLabel.setBounds(291, 11, 91, 14);
+		gradesFrame.getContentPane().add(sectionNameLabel);
+		
+		JComboBox sectionSelectionCBox = new JComboBox();
+		sectionSelectionCBox.setModel(new DefaultComboBoxModel(new String[] {"S11A", "S11B", "S12A"}));
+		sectionSelectionCBox.setBounds(395, 8, 60, 20);
+		gradesFrame.getContentPane().add(sectionSelectionCBox);
+		
+		statusTextField = new JTextField();
+		statusTextField.setEditable(false);
+		statusTextField.setText("Deadline of Basic Functions: 1/4/2016 11:59:59 PM UTC +0800");
+		statusTextField.setBounds(0, 261, 704, 20);
+		gradesFrame.getContentPane().add(statusTextField);
+		statusTextField.setColumns(10);
 	}
 }
