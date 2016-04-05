@@ -9,14 +9,20 @@ import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import java.awt.GridLayout;
 import javax.swing.SwingConstants;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JToggleButton;
+import javax.swing.JScrollPane;
+import java.awt.BorderLayout;
 
-public class GradeCondensed {
+public class GradeExpanded {
 
 	private JFrame gradesFrame;
 
@@ -27,7 +33,7 @@ public class GradeCondensed {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GradeCondensed window = new GradeCondensed();
+					GradeExpanded window = new GradeExpanded();
 					window.gradesFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,7 +45,7 @@ public class GradeCondensed {
 	/**
 	 * Create the application.
 	 */
-	public GradeCondensed() {
+	public GradeExpanded() {
 		initialize();
 	}
 
@@ -49,7 +55,7 @@ public class GradeCondensed {
 	private void initialize() {
 		gradesFrame = new JFrame();
 		gradesFrame.setTitle("Student Grades");
-		gradesFrame.setBounds(100, 100, 720, 300);
+		gradesFrame.setBounds(100, 100, 720, 480);
 		gradesFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gradesFrame.getContentPane().setLayout(null);
 		
@@ -59,13 +65,13 @@ public class GradeCondensed {
 		
 		JPanel tabulatedSubmissionsPanel = new JPanel();
 		tabulatedSubmissionsPanel.setBackground(Color.WHITE);
-		tabulatedSubmissionsPanel.setBounds(10, 36, 684, 214);
+		tabulatedSubmissionsPanel.setBounds(10, 36, 684, 394);
 		gradesFrame.getContentPane().add(tabulatedSubmissionsPanel);
 		GridBagLayout gbl_tabulatedSubmissionsPanel = new GridBagLayout();
 		gbl_tabulatedSubmissionsPanel.columnWidths = new int[]{76, 87, 51, 87, 0, 87, 48, 0};
-		gbl_tabulatedSubmissionsPanel.rowHeights = new int[]{35, 35, 35, 35, 35, 35, 0};
-		gbl_tabulatedSubmissionsPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_tabulatedSubmissionsPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_tabulatedSubmissionsPanel.rowHeights = new int[]{35, 35, 0, 0, 35, 35, 35, 35, 0};
+		gbl_tabulatedSubmissionsPanel.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_tabulatedSubmissionsPanel.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		tabulatedSubmissionsPanel.setLayout(gbl_tabulatedSubmissionsPanel);
 		
 		JLabel studentIDLabel = new JLabel("Student ID");
@@ -155,7 +161,8 @@ public class GradeCondensed {
 		gbc_studentSourceCode1Label.gridy = 1;
 		tabulatedSubmissionsPanel.add(studentSourceCode1Label, gbc_studentSourceCode1Label);
 		
-		JToggleButton showSourceCode1 = new JToggleButton("+");
+		JToggleButton showSourceCode1 = new JToggleButton("-");
+		showSourceCode1.setSelected(true);
 		GridBagConstraints gbc_showSourceCode1 = new GridBagConstraints();
 		gbc_showSourceCode1.insets = new Insets(0, 0, 5, 5);
 		gbc_showSourceCode1.gridx = 4;
@@ -180,12 +187,44 @@ public class GradeCondensed {
 		gbc_deliverableGrade1ComboBox.gridy = 1;
 		tabulatedSubmissionsPanel.add(deliverableGrade1ComboBox, gbc_deliverableGrade1ComboBox);
 		
+		/*
+		RSyntaxTextArea deliverableEditorPane1 = new RSyntaxTextArea();
+		deliverableEditorPane1.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
+		deliverableEditorPane1.setCodeFoldingEnabled(true);
+		RTextScrollPane deliverableSourceCode1 = new RTextScrollPane(deliverableEditorPane1);
+		GridBagConstraints gbc_deliverableSourceCode1 = new GridBagConstraints();
+		gbc_deliverableSourceCode1.gridwidth = 7;
+		gbc_deliverableSourceCode1.insets = new Insets(0, 0, 5, 5);
+		gbc_deliverableSourceCode1.fill = GridBagConstraints.BOTH;
+		gbc_deliverableSourceCode1.gridx = 0;
+		gbc_deliverableSourceCode1.gridy = 2;
+		tabulatedSubmissionsPanel.add(deliverableSourceCode1, gbc_deliverableSourceCode1);
+		*/
+		
+		JPanel deliverableSourceCode1Panel = new JPanel();
+		GridBagConstraints gbc_deliverableSourceCode1Panel = new GridBagConstraints();
+		gbc_deliverableSourceCode1Panel.gridwidth = 7;
+		gbc_deliverableSourceCode1Panel.gridheight = 2;
+		gbc_deliverableSourceCode1Panel.insets = new Insets(0, 0, 5, 5);
+		gbc_deliverableSourceCode1Panel.fill = GridBagConstraints.BOTH;
+		gbc_deliverableSourceCode1Panel.gridx = 0;
+		gbc_deliverableSourceCode1Panel.gridy = 2;
+		tabulatedSubmissionsPanel.add(deliverableSourceCode1Panel, gbc_deliverableSourceCode1Panel);
+		
+		RSyntaxTextArea editorPane = new RSyntaxTextArea();
+		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
+		editorPane.setCodeFoldingEnabled(true);
+		deliverableSourceCode1Panel.setLayout(new BorderLayout(0, 0));
+		RTextScrollPane scrollPane = new RTextScrollPane(editorPane);
+		scrollPane.setIconRowHeaderEnabled(true);
+		deliverableSourceCode1Panel.add(scrollPane);
+		
 		JLabel studentID2Label = new JLabel("10864213");
 		GridBagConstraints gbc_studentID2Label = new GridBagConstraints();
 		gbc_studentID2Label.fill = GridBagConstraints.BOTH;
 		gbc_studentID2Label.insets = new Insets(0, 0, 5, 5);
 		gbc_studentID2Label.gridx = 0;
-		gbc_studentID2Label.gridy = 2;
+		gbc_studentID2Label.gridy = 4;
 		tabulatedSubmissionsPanel.add(studentID2Label, gbc_studentID2Label);
 		
 		JLabel studentName2Label = new JLabel("Rizal, Jose");
@@ -193,7 +232,7 @@ public class GradeCondensed {
 		gbc_studentName2Label.fill = GridBagConstraints.BOTH;
 		gbc_studentName2Label.insets = new Insets(0, 0, 5, 5);
 		gbc_studentName2Label.gridx = 1;
-		gbc_studentName2Label.gridy = 2;
+		gbc_studentName2Label.gridy = 4;
 		tabulatedSubmissionsPanel.add(studentName2Label, gbc_studentName2Label);
 		
 		JLabel studentSection2Label = new JLabel("S11B");
@@ -201,7 +240,7 @@ public class GradeCondensed {
 		gbc_studentSection2Label.fill = GridBagConstraints.BOTH;
 		gbc_studentSection2Label.insets = new Insets(0, 0, 5, 5);
 		gbc_studentSection2Label.gridx = 2;
-		gbc_studentSection2Label.gridy = 2;
+		gbc_studentSection2Label.gridy = 4;
 		tabulatedSubmissionsPanel.add(studentSection2Label, gbc_studentSection2Label);
 		
 		JLabel studentSourceCode2Label = new JLabel("Rizal_Jose_BasicFunctions.c");
@@ -209,14 +248,14 @@ public class GradeCondensed {
 		gbc_studentSourceCode2Label.fill = GridBagConstraints.BOTH;
 		gbc_studentSourceCode2Label.insets = new Insets(0, 0, 5, 5);
 		gbc_studentSourceCode2Label.gridx = 3;
-		gbc_studentSourceCode2Label.gridy = 2;
+		gbc_studentSourceCode2Label.gridy = 4;
 		tabulatedSubmissionsPanel.add(studentSourceCode2Label, gbc_studentSourceCode2Label);
 		
 		JToggleButton showSourceCode2 = new JToggleButton("+");
 		GridBagConstraints gbc_showSourceCode2 = new GridBagConstraints();
 		gbc_showSourceCode2.insets = new Insets(0, 0, 5, 5);
 		gbc_showSourceCode2.gridx = 4;
-		gbc_showSourceCode2.gridy = 2;
+		gbc_showSourceCode2.gridy = 4;
 		tabulatedSubmissionsPanel.add(showSourceCode2, gbc_showSourceCode2);
 		
 		JLabel deliverableDateSubmitted2Label = new JLabel("1/3/2016 14:06:57 PM UTC+0800");
@@ -224,7 +263,7 @@ public class GradeCondensed {
 		gbc_deliverableDateSubmitted2Label.fill = GridBagConstraints.BOTH;
 		gbc_deliverableDateSubmitted2Label.insets = new Insets(0, 0, 5, 5);
 		gbc_deliverableDateSubmitted2Label.gridx = 5;
-		gbc_deliverableDateSubmitted2Label.gridy = 2;
+		gbc_deliverableDateSubmitted2Label.gridy = 4;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted2Label, gbc_deliverableDateSubmitted2Label);
 		
 		JComboBox deliverableGrade2ComboBox = new JComboBox();
@@ -234,7 +273,7 @@ public class GradeCondensed {
 		gbc_deliverableGrade2ComboBox.fill = GridBagConstraints.BOTH;
 		gbc_deliverableGrade2ComboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_deliverableGrade2ComboBox.gridx = 6;
-		gbc_deliverableGrade2ComboBox.gridy = 2;
+		gbc_deliverableGrade2ComboBox.gridy = 4;
 		tabulatedSubmissionsPanel.add(deliverableGrade2ComboBox, gbc_deliverableGrade2ComboBox);
 		
 		JLabel studentID3Label = new JLabel("11021333");
@@ -242,7 +281,7 @@ public class GradeCondensed {
 		gbc_studentID3Label.fill = GridBagConstraints.BOTH;
 		gbc_studentID3Label.insets = new Insets(0, 0, 5, 5);
 		gbc_studentID3Label.gridx = 0;
-		gbc_studentID3Label.gridy = 3;
+		gbc_studentID3Label.gridy = 5;
 		tabulatedSubmissionsPanel.add(studentID3Label, gbc_studentID3Label);
 		
 		JLabel studentName3Label = new JLabel("Jobs, Steve");
@@ -250,7 +289,7 @@ public class GradeCondensed {
 		gbc_studentName3Label.fill = GridBagConstraints.BOTH;
 		gbc_studentName3Label.insets = new Insets(0, 0, 5, 5);
 		gbc_studentName3Label.gridx = 1;
-		gbc_studentName3Label.gridy = 3;
+		gbc_studentName3Label.gridy = 5;
 		tabulatedSubmissionsPanel.add(studentName3Label, gbc_studentName3Label);
 		
 		JLabel studentSection3Label = new JLabel("S12A");
@@ -258,7 +297,7 @@ public class GradeCondensed {
 		gbc_studentSection3Label.fill = GridBagConstraints.BOTH;
 		gbc_studentSection3Label.insets = new Insets(0, 0, 5, 5);
 		gbc_studentSection3Label.gridx = 2;
-		gbc_studentSection3Label.gridy = 3;
+		gbc_studentSection3Label.gridy = 5;
 		tabulatedSubmissionsPanel.add(studentSection3Label, gbc_studentSection3Label);
 		
 		JLabel studentSourceCode3Label = new JLabel("Jobs_Steve_BasicFunctions.c");
@@ -266,14 +305,14 @@ public class GradeCondensed {
 		gbc_studentSourceCode3Label.fill = GridBagConstraints.BOTH;
 		gbc_studentSourceCode3Label.insets = new Insets(0, 0, 5, 5);
 		gbc_studentSourceCode3Label.gridx = 3;
-		gbc_studentSourceCode3Label.gridy = 3;
+		gbc_studentSourceCode3Label.gridy = 5;
 		tabulatedSubmissionsPanel.add(studentSourceCode3Label, gbc_studentSourceCode3Label);
 		
 		JToggleButton showSourceCode3 = new JToggleButton("+");
 		GridBagConstraints gbc_showSourceCode3 = new GridBagConstraints();
 		gbc_showSourceCode3.insets = new Insets(0, 0, 5, 5);
 		gbc_showSourceCode3.gridx = 4;
-		gbc_showSourceCode3.gridy = 3;
+		gbc_showSourceCode3.gridy = 5;
 		tabulatedSubmissionsPanel.add(showSourceCode3, gbc_showSourceCode3);
 		
 		JLabel deliverableDateSubmitted3Label = new JLabel("1/5/2016 15:22:18 PM UTC+0800");
@@ -281,7 +320,7 @@ public class GradeCondensed {
 		gbc_deliverableDateSubmitted3Label.fill = GridBagConstraints.BOTH;
 		gbc_deliverableDateSubmitted3Label.insets = new Insets(0, 0, 5, 5);
 		gbc_deliverableDateSubmitted3Label.gridx = 5;
-		gbc_deliverableDateSubmitted3Label.gridy = 3;
+		gbc_deliverableDateSubmitted3Label.gridy = 5;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted3Label, gbc_deliverableDateSubmitted3Label);
 		
 		JComboBox deliverableGrade3ComboBox = new JComboBox();
@@ -291,7 +330,7 @@ public class GradeCondensed {
 		gbc_deliverableGrade3ComboBox.fill = GridBagConstraints.BOTH;
 		gbc_deliverableGrade3ComboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_deliverableGrade3ComboBox.gridx = 6;
-		gbc_deliverableGrade3ComboBox.gridy = 3;
+		gbc_deliverableGrade3ComboBox.gridy = 5;
 		tabulatedSubmissionsPanel.add(deliverableGrade3ComboBox, gbc_deliverableGrade3ComboBox);
 		
 		JLabel studentID4Label = new JLabel("11133360");
@@ -299,7 +338,7 @@ public class GradeCondensed {
 		gbc_studentID4Label.fill = GridBagConstraints.BOTH;
 		gbc_studentID4Label.insets = new Insets(0, 0, 5, 5);
 		gbc_studentID4Label.gridx = 0;
-		gbc_studentID4Label.gridy = 4;
+		gbc_studentID4Label.gridy = 6;
 		tabulatedSubmissionsPanel.add(studentID4Label, gbc_studentID4Label);
 		
 		JLabel studentName4Label = new JLabel("Aguilar, Fred");
@@ -307,7 +346,7 @@ public class GradeCondensed {
 		gbc_studentName4Label.fill = GridBagConstraints.BOTH;
 		gbc_studentName4Label.insets = new Insets(0, 0, 5, 5);
 		gbc_studentName4Label.gridx = 1;
-		gbc_studentName4Label.gridy = 4;
+		gbc_studentName4Label.gridy = 6;
 		tabulatedSubmissionsPanel.add(studentName4Label, gbc_studentName4Label);
 		
 		JLabel studentSection4Label = new JLabel("S11B");
@@ -315,7 +354,7 @@ public class GradeCondensed {
 		gbc_studentSection4Label.fill = GridBagConstraints.BOTH;
 		gbc_studentSection4Label.insets = new Insets(0, 0, 5, 5);
 		gbc_studentSection4Label.gridx = 2;
-		gbc_studentSection4Label.gridy = 4;
+		gbc_studentSection4Label.gridy = 6;
 		tabulatedSubmissionsPanel.add(studentSection4Label, gbc_studentSection4Label);
 		
 		JLabel studentSourceCode4Label = new JLabel("Aguilar_Fred_BasicFunctions.c");
@@ -323,14 +362,14 @@ public class GradeCondensed {
 		gbc_studentSourceCode4Label.fill = GridBagConstraints.BOTH;
 		gbc_studentSourceCode4Label.insets = new Insets(0, 0, 5, 5);
 		gbc_studentSourceCode4Label.gridx = 3;
-		gbc_studentSourceCode4Label.gridy = 4;
+		gbc_studentSourceCode4Label.gridy = 6;
 		tabulatedSubmissionsPanel.add(studentSourceCode4Label, gbc_studentSourceCode4Label);
 		
 		JToggleButton showSourceCode4 = new JToggleButton("+");
 		GridBagConstraints gbc_showSourceCode4 = new GridBagConstraints();
 		gbc_showSourceCode4.insets = new Insets(0, 0, 5, 5);
 		gbc_showSourceCode4.gridx = 4;
-		gbc_showSourceCode4.gridy = 4;
+		gbc_showSourceCode4.gridy = 6;
 		tabulatedSubmissionsPanel.add(showSourceCode4, gbc_showSourceCode4);
 		
 		JLabel deliverableDateSubmitted4Label = new JLabel("1/3/2016 13:20:05 PM UTC+0800");
@@ -338,7 +377,7 @@ public class GradeCondensed {
 		gbc_deliverableDateSubmitted4Label.fill = GridBagConstraints.BOTH;
 		gbc_deliverableDateSubmitted4Label.insets = new Insets(0, 0, 5, 5);
 		gbc_deliverableDateSubmitted4Label.gridx = 5;
-		gbc_deliverableDateSubmitted4Label.gridy = 4;
+		gbc_deliverableDateSubmitted4Label.gridy = 6;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted4Label, gbc_deliverableDateSubmitted4Label);
 		
 		JComboBox deliverableGrade4ComboBox = new JComboBox();
@@ -348,7 +387,7 @@ public class GradeCondensed {
 		gbc_deliverableGrade4ComboBox.fill = GridBagConstraints.BOTH;
 		gbc_deliverableGrade4ComboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_deliverableGrade4ComboBox.gridx = 6;
-		gbc_deliverableGrade4ComboBox.gridy = 4;
+		gbc_deliverableGrade4ComboBox.gridy = 6;
 		tabulatedSubmissionsPanel.add(deliverableGrade4ComboBox, gbc_deliverableGrade4ComboBox);
 		
 		JLabel studentID5Label = new JLabel("11280960");
@@ -356,7 +395,7 @@ public class GradeCondensed {
 		gbc_studentID5Label.fill = GridBagConstraints.BOTH;
 		gbc_studentID5Label.insets = new Insets(0, 0, 0, 5);
 		gbc_studentID5Label.gridx = 0;
-		gbc_studentID5Label.gridy = 5;
+		gbc_studentID5Label.gridy = 7;
 		tabulatedSubmissionsPanel.add(studentID5Label, gbc_studentID5Label);
 		
 		JLabel studentName5Label = new JLabel("Gates, Bill");
@@ -364,7 +403,7 @@ public class GradeCondensed {
 		gbc_studentName5Label.fill = GridBagConstraints.BOTH;
 		gbc_studentName5Label.insets = new Insets(0, 0, 0, 5);
 		gbc_studentName5Label.gridx = 1;
-		gbc_studentName5Label.gridy = 5;
+		gbc_studentName5Label.gridy = 7;
 		tabulatedSubmissionsPanel.add(studentName5Label, gbc_studentName5Label);
 		
 		JLabel studentSection5Label = new JLabel("S12A");
@@ -372,7 +411,7 @@ public class GradeCondensed {
 		gbc_studentSection5Label.fill = GridBagConstraints.BOTH;
 		gbc_studentSection5Label.insets = new Insets(0, 0, 0, 5);
 		gbc_studentSection5Label.gridx = 2;
-		gbc_studentSection5Label.gridy = 5;
+		gbc_studentSection5Label.gridy = 7;
 		tabulatedSubmissionsPanel.add(studentSection5Label, gbc_studentSection5Label);
 		
 		JLabel studentSourceCode5Label = new JLabel("Gates_Bill_BasicFunctions.c");
@@ -380,14 +419,14 @@ public class GradeCondensed {
 		gbc_studentSourceCode5Label.fill = GridBagConstraints.BOTH;
 		gbc_studentSourceCode5Label.insets = new Insets(0, 0, 0, 5);
 		gbc_studentSourceCode5Label.gridx = 3;
-		gbc_studentSourceCode5Label.gridy = 5;
+		gbc_studentSourceCode5Label.gridy = 7;
 		tabulatedSubmissionsPanel.add(studentSourceCode5Label, gbc_studentSourceCode5Label);
 		
 		JToggleButton showSourceCode5 = new JToggleButton("+");
 		GridBagConstraints gbc_showSourceCode5 = new GridBagConstraints();
 		gbc_showSourceCode5.insets = new Insets(0, 0, 0, 5);
 		gbc_showSourceCode5.gridx = 4;
-		gbc_showSourceCode5.gridy = 5;
+		gbc_showSourceCode5.gridy = 7;
 		tabulatedSubmissionsPanel.add(showSourceCode5, gbc_showSourceCode5);
 		
 		JLabel deliverableDateSubmitted5Label = new JLabel("1/5/2016 15:16:41 PM UTC+0800");
@@ -395,7 +434,7 @@ public class GradeCondensed {
 		gbc_deliverableDateSubmitted5Label.fill = GridBagConstraints.BOTH;
 		gbc_deliverableDateSubmitted5Label.insets = new Insets(0, 0, 0, 5);
 		gbc_deliverableDateSubmitted5Label.gridx = 5;
-		gbc_deliverableDateSubmitted5Label.gridy = 5;
+		gbc_deliverableDateSubmitted5Label.gridy = 7;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted5Label, gbc_deliverableDateSubmitted5Label);
 		
 		JComboBox deliverableGrade5ComboBox = new JComboBox();
@@ -404,7 +443,7 @@ public class GradeCondensed {
 		GridBagConstraints gbc_deliverableGrade5ComboBox = new GridBagConstraints();
 		gbc_deliverableGrade5ComboBox.fill = GridBagConstraints.BOTH;
 		gbc_deliverableGrade5ComboBox.gridx = 6;
-		gbc_deliverableGrade5ComboBox.gridy = 5;
+		gbc_deliverableGrade5ComboBox.gridy = 7;
 		tabulatedSubmissionsPanel.add(deliverableGrade5ComboBox, gbc_deliverableGrade5ComboBox);
 		
 		JComboBox comboBox = new JComboBox();

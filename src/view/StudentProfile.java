@@ -103,12 +103,12 @@ public class StudentProfile {
 		activityList = new JTable();
 		activityList.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"Basic Functions", "Nielson_BasicFunctions.c", "1/4/2016", "4.0"},
-				{"Conditional Statements", "Nielson_ConditionalStatements.c", "1/11/2016", "3.0"},
-				{"Loops", "Nielson_Loops.c", "1/18/2016", "2.0"},
-				{"Functions", "Nielson_Functions.c", "1/25/2016", "1.0"},
-				{"ASCII Art I", "Nielson_ASCIIArtI.c", "2/1/2016", "NGS"},
-				{null, null, null, null},
+				{"Basic Functions", "Nielson_Niels_BasicFunctions.c", "1/4/2016 13:56:29 PM UTC+0800", "4.0"},
+				{"Conditional Statements", "Nielson_Niels_ConditionalStatements.c", "1/11/2016 14:29:56 PM UTC+0800", "3.0"},
+				{"Loops", "Nielson_Niels_Loops.c", "1/18/2016 13:37:48 PM UTC+0800", "2.0"},
+				{"Functions", "Nielson_Niels_Functions.c", "1/25/2016 13:08:35 PM UTC+0800", "1.0"},
+				{"ASCII Art I", "Nielson_Niels_ASCIIArtI.c", "2/1/2016 14:10:10 PM UTC+0800", "NGS"},
+				{null, null, "", null},
 				{null, null, null, null},
 				{null, null, null, null},
 				{null, null, null, null},
@@ -127,10 +127,10 @@ public class StudentProfile {
 				return columnTypes[columnIndex];
 			}
 		});
-		activityList.getColumnModel().getColumn(0).setPreferredWidth(191);
-		activityList.getColumnModel().getColumn(1).setPreferredWidth(166);
-		activityList.getColumnModel().getColumn(2).setPreferredWidth(55);
-		activityList.getColumnModel().getColumn(3).setPreferredWidth(23);
+		activityList.getColumnModel().getColumn(0).setPreferredWidth(129);
+		activityList.getColumnModel().getColumn(1).setPreferredWidth(226);
+		activityList.getColumnModel().getColumn(2).setPreferredWidth(188);
+		activityList.getColumnModel().getColumn(3).setPreferredWidth(40);
 		activityPane.setViewportView(activityList);
 	}
 }
