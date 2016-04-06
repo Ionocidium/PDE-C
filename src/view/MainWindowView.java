@@ -34,7 +34,7 @@ import controller.fileops.FileSave;
 public class MainWindowView
 {
 
-	private JFrame frame;
+	private JFrame frmPdec;
 	private Path filePath;
 	/**
 	 * Launch the application.
@@ -48,7 +48,7 @@ public class MainWindowView
 				try
 				{
 					MainWindowView window = new MainWindowView();
-					window.frame.setVisible(true);
+					window.frmPdec.setVisible(true);
 				} catch (Exception e)
 				{
 					e.printStackTrace();
@@ -71,12 +71,13 @@ public class MainWindowView
 	 */
 	private void initialize()
 	{
-		frame = new JFrame();
-		frame.setBounds(100, 100, 620, 425);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		frame.setResizable(false);
-		frame.setLocationRelativeTo(null);
+		frmPdec = new JFrame();
+		frmPdec.setTitle("PDE-C");
+		frmPdec.setBounds(100, 100, 620, 425);
+		frmPdec.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmPdec.getContentPane().setLayout(null);
+		frmPdec.setResizable(false);
+		frmPdec.setLocationRelativeTo(null);
 		
 		final JFileChooser fileChooser = new JFileChooser();
 		FileNameExtensionFilter cFilter = new FileNameExtensionFilter(
@@ -115,7 +116,7 @@ public class MainWindowView
 		{
 		  public void actionPerformed(ActionEvent e) 
 		  {
-			int returnVal = fileChooser.showOpenDialog(frame);
+			int returnVal = fileChooser.showOpenDialog(frmPdec);
 			
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
@@ -146,7 +147,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-			  int returnVal = fileChooser.showSaveDialog(frame);
+			  int returnVal = fileChooser.showSaveDialog(frmPdec);
 			  
 			  if (returnVal == JFileChooser.APPROVE_OPTION)
 			  {
@@ -191,7 +192,7 @@ public class MainWindowView
 				
 				else
 				{
-				  int returnVal = fileChooser.showOpenDialog(frame);
+				  int returnVal = fileChooser.showOpenDialog(frmPdec);
 					
 					if (returnVal == JFileChooser.APPROVE_OPTION)
 					{
@@ -286,8 +287,8 @@ public class MainWindowView
 		coreToolbar.add(button);
 		coreToolbar.add(button2);
 
-		frame.setJMenuBar(menuBar);
-		frame.getContentPane().add(coreToolbar);
-		frame.getContentPane().add(scrollPane);
+		frmPdec.setJMenuBar(menuBar);
+		frmPdec.getContentPane().add(coreToolbar);
+		frmPdec.getContentPane().add(scrollPane);
 	}
 }
