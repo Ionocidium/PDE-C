@@ -289,6 +289,14 @@ public class MainWindowView
 
 		frmPdec.setJMenuBar(menuBar);
 		frmPdec.getContentPane().add(coreToolbar);
+		
+		JButton button3 = new JButton("Open Submitted...");
+		button3.setToolTipText("Open Submitted...");
+		coreToolbar.add(button3);
+		
+		JButton btnLogout = new JButton("Logout");
+		btnLogout.setToolTipText("Logout");
+		coreToolbar.add(btnLogout);
 		frmPdec.getContentPane().add(scrollPane);
 	}
 }

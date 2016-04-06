@@ -12,6 +12,7 @@ import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.SwingConstants;
 
 public class StudentProfile {
 
@@ -20,6 +21,8 @@ public class StudentProfile {
 	private JTextField txtName;
 	private JTextField txtSection;
 	private JTable activityList;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -95,6 +98,29 @@ public class StudentProfile {
 		JLabel lblActivities = new JLabel("Activities:");
 		lblActivities.setBounds(10, 46, 64, 24);
 		generalInfoPanel.add(lblActivities);
+		
+		textField = new JTextField();
+		textField.setToolTipText("Activities Done");
+		textField.setHorizontalAlignment(SwingConstants.RIGHT);
+		textField.setText("5");
+		textField.setEditable(false);
+		textField.setColumns(10);
+		textField.setBounds(106, 46, 26, 24);
+		generalInfoPanel.add(textField);
+		
+		textField_1 = new JTextField();
+		textField_1.setToolTipText("Total Activities");
+		textField_1.setText("10");
+		textField_1.setHorizontalAlignment(SwingConstants.LEFT);
+		textField_1.setEditable(false);
+		textField_1.setColumns(10);
+		textField_1.setBounds(156, 46, 26, 24);
+		generalInfoPanel.add(textField_1);
+		
+		JLabel label = new JLabel("/");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setBounds(106, 46, 76, 24);
+		generalInfoPanel.add(label);
 		
 		JScrollPane activityPane = new JScrollPane();
 		activityPane.setBounds(10, 83, 614, 237);

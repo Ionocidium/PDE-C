@@ -17,7 +17,7 @@ import java.awt.Insets;
 import javax.swing.JToggleButton;
 import javax.swing.JTextField;
 
-public class ActivityStudentCondensed {
+public class ActivityListProfessorView {
 
 	private JFrame activityList;
 	private JTextField statusTextField;
@@ -29,7 +29,7 @@ public class ActivityStudentCondensed {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ActivityStudentCondensed window = new ActivityStudentCondensed();
+					ActivityListProfessorView window = new ActivityListProfessorView();
 					window.activityList.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,7 +41,7 @@ public class ActivityStudentCondensed {
 	/**
 	 * Create the application.
 	 */
-	public ActivityStudentCondensed() {
+	public ActivityListProfessorView() {
 		initialize();
 	}
 
@@ -51,18 +51,18 @@ public class ActivityStudentCondensed {
 	private void initialize() {
 		activityList = new JFrame();
 		activityList.setTitle("Activity List");
-		activityList.setBounds(100, 100, 800, 320);
+		activityList.setBounds(100, 100, 954, 320);
 		activityList.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		activityList.getContentPane().setLayout(null);
 		
 		JPanel tabulatedSubmissionsPanel = new JPanel();
 		tabulatedSubmissionsPanel.setBackground(Color.WHITE);
-		tabulatedSubmissionsPanel.setBounds(10, 36, 764, 214);
+		tabulatedSubmissionsPanel.setBounds(10, 36, 916, 214);
 		activityList.getContentPane().add(tabulatedSubmissionsPanel);
 		GridBagLayout gbl_tabulatedSubmissionsPanel = new GridBagLayout();
-		gbl_tabulatedSubmissionsPanel.columnWidths = new int[]{155, 87, 0, 200, 216, 0};
+		gbl_tabulatedSubmissionsPanel.columnWidths = new int[]{155, 87, 0, 0, 0, 200, 216, 0};
 		gbl_tabulatedSubmissionsPanel.rowHeights = new int[]{35, 35, 35, 35, 35, 35, 0};
-		gbl_tabulatedSubmissionsPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_tabulatedSubmissionsPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_tabulatedSubmissionsPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		tabulatedSubmissionsPanel.setLayout(gbl_tabulatedSubmissionsPanel);
 		
@@ -78,19 +78,27 @@ public class ActivityStudentCondensed {
 		JLabel studentNameLabel = new JLabel("Activity Filename");
 		studentNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_studentNameLabel = new GridBagConstraints();
-		gbc_studentNameLabel.gridwidth = 2;
 		gbc_studentNameLabel.fill = GridBagConstraints.BOTH;
 		gbc_studentNameLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_studentNameLabel.gridx = 1;
 		gbc_studentNameLabel.gridy = 0;
 		tabulatedSubmissionsPanel.add(studentNameLabel, gbc_studentNameLabel);
 		
+		JLabel lblActions = new JLabel("Actions");
+		lblActions.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_lblActions = new GridBagConstraints();
+		gbc_lblActions.gridwidth = 3;
+		gbc_lblActions.insets = new Insets(0, 0, 5, 5);
+		gbc_lblActions.gridx = 2;
+		gbc_lblActions.gridy = 0;
+		tabulatedSubmissionsPanel.add(lblActions, gbc_lblActions);
+		
 		JLabel studentSectionLabel = new JLabel("Date Uploaded");
 		studentSectionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_studentSectionLabel = new GridBagConstraints();
 		gbc_studentSectionLabel.fill = GridBagConstraints.BOTH;
 		gbc_studentSectionLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_studentSectionLabel.gridx = 3;
+		gbc_studentSectionLabel.gridx = 5;
 		gbc_studentSectionLabel.gridy = 0;
 		tabulatedSubmissionsPanel.add(studentSectionLabel, gbc_studentSectionLabel);
 		
@@ -99,7 +107,7 @@ public class ActivityStudentCondensed {
 		GridBagConstraints gbc_studentSourceCodeLabel = new GridBagConstraints();
 		gbc_studentSourceCodeLabel.fill = GridBagConstraints.BOTH;
 		gbc_studentSourceCodeLabel.insets = new Insets(0, 0, 5, 0);
-		gbc_studentSourceCodeLabel.gridx = 4;
+		gbc_studentSourceCodeLabel.gridx = 6;
 		gbc_studentSourceCodeLabel.gridy = 0;
 		tabulatedSubmissionsPanel.add(studentSourceCodeLabel, gbc_studentSourceCodeLabel);
 		
@@ -119,19 +127,33 @@ public class ActivityStudentCondensed {
 		gbc_lblBasicFunctionspdf.gridy = 1;
 		tabulatedSubmissionsPanel.add(lblBasicFunctionspdf, gbc_lblBasicFunctionspdf);
 		
-		JButton btnUpload = new JButton("Save");
+		JButton btnUpload = new JButton("Update");
 		GridBagConstraints gbc_btnUpload = new GridBagConstraints();
 		gbc_btnUpload.insets = new Insets(0, 0, 5, 5);
 		gbc_btnUpload.gridx = 2;
 		gbc_btnUpload.gridy = 1;
 		tabulatedSubmissionsPanel.add(btnUpload, gbc_btnUpload);
 		
+		JButton btnView = new JButton("View");
+		GridBagConstraints gbc_btnView = new GridBagConstraints();
+		gbc_btnView.insets = new Insets(0, 0, 5, 5);
+		gbc_btnView.gridx = 3;
+		gbc_btnView.gridy = 1;
+		tabulatedSubmissionsPanel.add(btnView, gbc_btnView);
+		
+		JButton btnDelete = new JButton("Delete");
+		GridBagConstraints gbc_btnDelete = new GridBagConstraints();
+		gbc_btnDelete.insets = new Insets(0, 0, 5, 5);
+		gbc_btnDelete.gridx = 4;
+		gbc_btnDelete.gridy = 1;
+		tabulatedSubmissionsPanel.add(btnDelete, gbc_btnDelete);
+		
 		JLabel deliverableDateSubmitted1Label = new JLabel("1/2/2016 1:30:29 PM UTC+0800");
 		GridBagConstraints gbc_deliverableDateSubmitted1Label = new GridBagConstraints();
 		gbc_deliverableDateSubmitted1Label.anchor = GridBagConstraints.WEST;
 		gbc_deliverableDateSubmitted1Label.fill = GridBagConstraints.VERTICAL;
 		gbc_deliverableDateSubmitted1Label.insets = new Insets(0, 0, 5, 5);
-		gbc_deliverableDateSubmitted1Label.gridx = 3;
+		gbc_deliverableDateSubmitted1Label.gridx = 5;
 		gbc_deliverableDateSubmitted1Label.gridy = 1;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted1Label, gbc_deliverableDateSubmitted1Label);
 		
@@ -139,7 +161,7 @@ public class ActivityStudentCondensed {
 		GridBagConstraints gbc_lblPm = new GridBagConstraints();
 		gbc_lblPm.anchor = GridBagConstraints.WEST;
 		gbc_lblPm.insets = new Insets(0, 0, 5, 0);
-		gbc_lblPm.gridx = 4;
+		gbc_lblPm.gridx = 6;
 		gbc_lblPm.gridy = 1;
 		tabulatedSubmissionsPanel.add(lblPm, gbc_lblPm);
 		
@@ -159,19 +181,33 @@ public class ActivityStudentCondensed {
 		gbc_lblConditionalStatementspdf.gridy = 2;
 		tabulatedSubmissionsPanel.add(lblConditionalStatementspdf, gbc_lblConditionalStatementspdf);
 		
-		JButton btnSave = new JButton("Save");
+		JButton btnSave = new JButton("Update");
 		GridBagConstraints gbc_btnSave = new GridBagConstraints();
 		gbc_btnSave.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSave.gridx = 2;
 		gbc_btnSave.gridy = 2;
 		tabulatedSubmissionsPanel.add(btnSave, gbc_btnSave);
 		
+		JButton button = new JButton("View");
+		GridBagConstraints gbc_button = new GridBagConstraints();
+		gbc_button.insets = new Insets(0, 0, 5, 5);
+		gbc_button.gridx = 3;
+		gbc_button.gridy = 2;
+		tabulatedSubmissionsPanel.add(button, gbc_button);
+		
+		JButton button_4 = new JButton("Delete");
+		GridBagConstraints gbc_button_4 = new GridBagConstraints();
+		gbc_button_4.insets = new Insets(0, 0, 5, 5);
+		gbc_button_4.gridx = 4;
+		gbc_button_4.gridy = 2;
+		tabulatedSubmissionsPanel.add(button_4, gbc_button_4);
+		
 		JLabel deliverableDateSubmitted2Label = new JLabel("1/9/2016 1:30:29 PM UTC+0800");
 		GridBagConstraints gbc_deliverableDateSubmitted2Label = new GridBagConstraints();
 		gbc_deliverableDateSubmitted2Label.anchor = GridBagConstraints.WEST;
 		gbc_deliverableDateSubmitted2Label.fill = GridBagConstraints.VERTICAL;
 		gbc_deliverableDateSubmitted2Label.insets = new Insets(0, 0, 5, 5);
-		gbc_deliverableDateSubmitted2Label.gridx = 3;
+		gbc_deliverableDateSubmitted2Label.gridx = 5;
 		gbc_deliverableDateSubmitted2Label.gridy = 2;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted2Label, gbc_deliverableDateSubmitted2Label);
 		
@@ -179,7 +215,7 @@ public class ActivityStudentCondensed {
 		GridBagConstraints gbc_lblPm_1 = new GridBagConstraints();
 		gbc_lblPm_1.anchor = GridBagConstraints.WEST;
 		gbc_lblPm_1.insets = new Insets(0, 0, 5, 0);
-		gbc_lblPm_1.gridx = 4;
+		gbc_lblPm_1.gridx = 6;
 		gbc_lblPm_1.gridy = 2;
 		tabulatedSubmissionsPanel.add(lblPm_1, gbc_lblPm_1);
 		
@@ -199,12 +235,26 @@ public class ActivityStudentCondensed {
 		gbc_lblLoopspdf.gridy = 3;
 		tabulatedSubmissionsPanel.add(lblLoopspdf, gbc_lblLoopspdf);
 		
-		JButton btnSave_1 = new JButton("Save");
+		JButton btnSave_1 = new JButton("Update");
 		GridBagConstraints gbc_btnSave_1 = new GridBagConstraints();
 		gbc_btnSave_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSave_1.gridx = 2;
 		gbc_btnSave_1.gridy = 3;
 		tabulatedSubmissionsPanel.add(btnSave_1, gbc_btnSave_1);
+		
+		JButton button_1 = new JButton("View");
+		GridBagConstraints gbc_button_1 = new GridBagConstraints();
+		gbc_button_1.insets = new Insets(0, 0, 5, 5);
+		gbc_button_1.gridx = 3;
+		gbc_button_1.gridy = 3;
+		tabulatedSubmissionsPanel.add(button_1, gbc_button_1);
+		
+		JButton button_5 = new JButton("Delete");
+		GridBagConstraints gbc_button_5 = new GridBagConstraints();
+		gbc_button_5.insets = new Insets(0, 0, 5, 5);
+		gbc_button_5.gridx = 4;
+		gbc_button_5.gridy = 3;
+		tabulatedSubmissionsPanel.add(button_5, gbc_button_5);
 		
 		JLabel deliverableDateSubmitted3Label = new JLabel("1/16/2016 1:30:29 PM UTC+0800");
 		deliverableDateSubmitted3Label.setForeground(Color.BLACK);
@@ -212,7 +262,7 @@ public class ActivityStudentCondensed {
 		gbc_deliverableDateSubmitted3Label.anchor = GridBagConstraints.WEST;
 		gbc_deliverableDateSubmitted3Label.fill = GridBagConstraints.VERTICAL;
 		gbc_deliverableDateSubmitted3Label.insets = new Insets(0, 0, 5, 5);
-		gbc_deliverableDateSubmitted3Label.gridx = 3;
+		gbc_deliverableDateSubmitted3Label.gridx = 5;
 		gbc_deliverableDateSubmitted3Label.gridy = 3;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted3Label, gbc_deliverableDateSubmitted3Label);
 		
@@ -220,7 +270,7 @@ public class ActivityStudentCondensed {
 		GridBagConstraints gbc_lblPm_2 = new GridBagConstraints();
 		gbc_lblPm_2.anchor = GridBagConstraints.WEST;
 		gbc_lblPm_2.insets = new Insets(0, 0, 5, 0);
-		gbc_lblPm_2.gridx = 4;
+		gbc_lblPm_2.gridx = 6;
 		gbc_lblPm_2.gridy = 3;
 		tabulatedSubmissionsPanel.add(lblPm_2, gbc_lblPm_2);
 		
@@ -240,19 +290,33 @@ public class ActivityStudentCondensed {
 		gbc_lblFunctionspdf.gridy = 4;
 		tabulatedSubmissionsPanel.add(lblFunctionspdf, gbc_lblFunctionspdf);
 		
-		JButton btnSave_2 = new JButton("Save");
+		JButton btnSave_2 = new JButton("Update");
 		GridBagConstraints gbc_btnSave_2 = new GridBagConstraints();
 		gbc_btnSave_2.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSave_2.gridx = 2;
 		gbc_btnSave_2.gridy = 4;
 		tabulatedSubmissionsPanel.add(btnSave_2, gbc_btnSave_2);
 		
+		JButton button_2 = new JButton("View");
+		GridBagConstraints gbc_button_2 = new GridBagConstraints();
+		gbc_button_2.insets = new Insets(0, 0, 5, 5);
+		gbc_button_2.gridx = 3;
+		gbc_button_2.gridy = 4;
+		tabulatedSubmissionsPanel.add(button_2, gbc_button_2);
+		
+		JButton button_6 = new JButton("Delete");
+		GridBagConstraints gbc_button_6 = new GridBagConstraints();
+		gbc_button_6.insets = new Insets(0, 0, 5, 5);
+		gbc_button_6.gridx = 4;
+		gbc_button_6.gridy = 4;
+		tabulatedSubmissionsPanel.add(button_6, gbc_button_6);
+		
 		JLabel deliverableDateSubmitted4Label = new JLabel("1/23/2016 1:20:05 PM UTC+0800");
 		GridBagConstraints gbc_deliverableDateSubmitted4Label = new GridBagConstraints();
 		gbc_deliverableDateSubmitted4Label.anchor = GridBagConstraints.WEST;
 		gbc_deliverableDateSubmitted4Label.fill = GridBagConstraints.VERTICAL;
 		gbc_deliverableDateSubmitted4Label.insets = new Insets(0, 0, 5, 5);
-		gbc_deliverableDateSubmitted4Label.gridx = 3;
+		gbc_deliverableDateSubmitted4Label.gridx = 5;
 		gbc_deliverableDateSubmitted4Label.gridy = 4;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted4Label, gbc_deliverableDateSubmitted4Label);
 		
@@ -260,7 +324,7 @@ public class ActivityStudentCondensed {
 		GridBagConstraints gbc_lblPm_3 = new GridBagConstraints();
 		gbc_lblPm_3.anchor = GridBagConstraints.WEST;
 		gbc_lblPm_3.insets = new Insets(0, 0, 5, 0);
-		gbc_lblPm_3.gridx = 4;
+		gbc_lblPm_3.gridx = 6;
 		gbc_lblPm_3.gridy = 4;
 		tabulatedSubmissionsPanel.add(lblPm_3, gbc_lblPm_3);
 		
@@ -280,12 +344,26 @@ public class ActivityStudentCondensed {
 		gbc_lblAsciiArtIpdf.gridy = 5;
 		tabulatedSubmissionsPanel.add(lblAsciiArtIpdf, gbc_lblAsciiArtIpdf);
 		
-		JButton btnSave_3 = new JButton("Save");
+		JButton btnSave_3 = new JButton("Update");
 		GridBagConstraints gbc_btnSave_3 = new GridBagConstraints();
 		gbc_btnSave_3.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSave_3.gridx = 2;
 		gbc_btnSave_3.gridy = 5;
 		tabulatedSubmissionsPanel.add(btnSave_3, gbc_btnSave_3);
+		
+		JButton button_3 = new JButton("View");
+		GridBagConstraints gbc_button_3 = new GridBagConstraints();
+		gbc_button_3.insets = new Insets(0, 0, 0, 5);
+		gbc_button_3.gridx = 3;
+		gbc_button_3.gridy = 5;
+		tabulatedSubmissionsPanel.add(button_3, gbc_button_3);
+		
+		JButton button_7 = new JButton("Delete");
+		GridBagConstraints gbc_button_7 = new GridBagConstraints();
+		gbc_button_7.insets = new Insets(0, 0, 0, 5);
+		gbc_button_7.gridx = 4;
+		gbc_button_7.gridy = 5;
+		tabulatedSubmissionsPanel.add(button_7, gbc_button_7);
 		
 		JLabel deliverableDateSubmitted5Label = new JLabel("1/30/2016 3:16:41 PM UTC+0800");
 		deliverableDateSubmitted5Label.setForeground(Color.BLACK);
@@ -293,21 +371,25 @@ public class ActivityStudentCondensed {
 		gbc_deliverableDateSubmitted5Label.anchor = GridBagConstraints.WEST;
 		gbc_deliverableDateSubmitted5Label.fill = GridBagConstraints.VERTICAL;
 		gbc_deliverableDateSubmitted5Label.insets = new Insets(0, 0, 0, 5);
-		gbc_deliverableDateSubmitted5Label.gridx = 3;
+		gbc_deliverableDateSubmitted5Label.gridx = 5;
 		gbc_deliverableDateSubmitted5Label.gridy = 5;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted5Label, gbc_deliverableDateSubmitted5Label);
 		
 		JLabel lblPm_4 = new JLabel("2/1/2016 11:59:59 PM UTC +0800");
 		GridBagConstraints gbc_lblPm_4 = new GridBagConstraints();
 		gbc_lblPm_4.anchor = GridBagConstraints.WEST;
-		gbc_lblPm_4.gridx = 4;
+		gbc_lblPm_4.gridx = 6;
 		gbc_lblPm_4.gridy = 5;
 		tabulatedSubmissionsPanel.add(lblPm_4, gbc_lblPm_4);
 		
 		statusTextField = new JTextField();
 		statusTextField.setEditable(false);
-		statusTextField.setBounds(0, 261, 784, 20);
+		statusTextField.setBounds(0, 261, 938, 20);
 		activityList.getContentPane().add(statusTextField);
 		statusTextField.setColumns(10);
+		
+		JButton btnDeleteAll = new JButton("Delete All");
+		btnDeleteAll.setBounds(807, 7, 119, 23);
+		activityList.getContentPane().add(btnDeleteAll);
 	}
 }
