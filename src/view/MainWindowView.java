@@ -271,6 +271,10 @@ public class MainWindowView
 		JButton debugButton = new JButton("");
 		debugButton.setIcon(new ImageIcon("resources/images/debugCompile.png"));
 		debugButton.setToolTipText("Debug");
+		JButton button = new JButton("View Activities");
+		button.setToolTipText("View Activities");
+		JButton button2 = new JButton("View Profile");
+		button2.setToolTipText("View Profile");
 		coreToolbar.setBounds(0, 0, 620, 48);
 		coreToolbar.add(newButton);
 		coreToolbar.add(openButton);
@@ -278,6 +282,9 @@ public class MainWindowView
 		coreToolbar.addSeparator();
 		coreToolbar.add(compileButton);
 		coreToolbar.add(debugButton);
+		coreToolbar.addSeparator();
+		coreToolbar.add(button);
+		coreToolbar.add(button2);
 
 		frame.setJMenuBar(menuBar);
 		frame.getContentPane().add(coreToolbar);
