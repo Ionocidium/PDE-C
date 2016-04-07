@@ -51,18 +51,18 @@ public class StudentListProfessorView {
 	private void initialize() {
 		activityList = new JFrame();
 		activityList.setTitle("Student List");
-		activityList.setBounds(100, 100, 600, 320);
+		activityList.setBounds(100, 100, 650, 320);
 		activityList.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		activityList.getContentPane().setLayout(null);
 		
 		JPanel tabulatedSubmissionsPanel = new JPanel();
 		tabulatedSubmissionsPanel.setBackground(Color.WHITE);
-		tabulatedSubmissionsPanel.setBounds(10, 36, 564, 214);
+		tabulatedSubmissionsPanel.setBounds(10, 36, 614, 214);
 		activityList.getContentPane().add(tabulatedSubmissionsPanel);
 		GridBagLayout gbl_tabulatedSubmissionsPanel = new GridBagLayout();
-		gbl_tabulatedSubmissionsPanel.columnWidths = new int[]{155, 87, 0, 0, 0, 0};
+		gbl_tabulatedSubmissionsPanel.columnWidths = new int[]{89, 166, 0, 0, 0, 0, 0};
 		gbl_tabulatedSubmissionsPanel.rowHeights = new int[]{35, 35, 35, 35, 35, 35, 0};
-		gbl_tabulatedSubmissionsPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_tabulatedSubmissionsPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_tabulatedSubmissionsPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		tabulatedSubmissionsPanel.setLayout(gbl_tabulatedSubmissionsPanel);
 		
@@ -92,21 +92,21 @@ public class StudentListProfessorView {
 		gbc_lblActions.gridy = 0;
 		tabulatedSubmissionsPanel.add(lblActions, gbc_lblActions);
 		
-		JLabel label_11 = new JLabel("10987654");
-		GridBagConstraints gbc_label_11 = new GridBagConstraints();
-		gbc_label_11.anchor = GridBagConstraints.WEST;
-		gbc_label_11.insets = new Insets(0, 0, 5, 5);
-		gbc_label_11.gridx = 0;
-		gbc_label_11.gridy = 1;
-		tabulatedSubmissionsPanel.add(label_11, gbc_label_11);
+		JLabel label_14 = new JLabel("11133360");
+		GridBagConstraints gbc_label_14 = new GridBagConstraints();
+		gbc_label_14.anchor = GridBagConstraints.WEST;
+		gbc_label_14.insets = new Insets(0, 0, 5, 5);
+		gbc_label_14.gridx = 0;
+		gbc_label_14.gridy = 1;
+		tabulatedSubmissionsPanel.add(label_14, gbc_label_14);
 		
-		JLabel label_6 = new JLabel("Nielson, Niels");
-		GridBagConstraints gbc_label_6 = new GridBagConstraints();
-		gbc_label_6.anchor = GridBagConstraints.WEST;
-		gbc_label_6.insets = new Insets(0, 0, 5, 5);
-		gbc_label_6.gridx = 1;
-		gbc_label_6.gridy = 1;
-		tabulatedSubmissionsPanel.add(label_6, gbc_label_6);
+		JLabel label_9 = new JLabel("Aguilar, Fred");
+		GridBagConstraints gbc_label_9 = new GridBagConstraints();
+		gbc_label_9.anchor = GridBagConstraints.WEST;
+		gbc_label_9.insets = new Insets(0, 0, 5, 5);
+		gbc_label_9.gridx = 1;
+		gbc_label_9.gridy = 1;
+		tabulatedSubmissionsPanel.add(label_9, gbc_label_9);
 		
 		JLabel label_1 = new JLabel("S11A");
 		GridBagConstraints gbc_label_1 = new GridBagConstraints();
@@ -115,35 +115,42 @@ public class StudentListProfessorView {
 		gbc_label_1.gridy = 1;
 		tabulatedSubmissionsPanel.add(label_1, gbc_label_1);
 		
-		JButton btnView = new JButton("View Profile/Activities");
+		JButton btnView = new JButton("View Profile");
 		GridBagConstraints gbc_btnView = new GridBagConstraints();
 		gbc_btnView.insets = new Insets(0, 0, 5, 5);
 		gbc_btnView.gridx = 3;
 		gbc_btnView.gridy = 1;
 		tabulatedSubmissionsPanel.add(btnView, gbc_btnView);
 		
+		JButton btnViewActivities = new JButton("View Activities");
+		GridBagConstraints gbc_btnViewActivities = new GridBagConstraints();
+		gbc_btnViewActivities.insets = new Insets(0, 0, 5, 5);
+		gbc_btnViewActivities.gridx = 4;
+		gbc_btnViewActivities.gridy = 1;
+		tabulatedSubmissionsPanel.add(btnViewActivities, gbc_btnViewActivities);
+		
 		JButton btnDelete = new JButton("Remove");
 		GridBagConstraints gbc_btnDelete = new GridBagConstraints();
 		gbc_btnDelete.insets = new Insets(0, 0, 5, 0);
-		gbc_btnDelete.gridx = 4;
+		gbc_btnDelete.gridx = 5;
 		gbc_btnDelete.gridy = 1;
 		tabulatedSubmissionsPanel.add(btnDelete, gbc_btnDelete);
 		
-		JLabel label_12 = new JLabel("10864213");
-		GridBagConstraints gbc_label_12 = new GridBagConstraints();
-		gbc_label_12.anchor = GridBagConstraints.WEST;
-		gbc_label_12.insets = new Insets(0, 0, 5, 5);
-		gbc_label_12.gridx = 0;
-		gbc_label_12.gridy = 2;
-		tabulatedSubmissionsPanel.add(label_12, gbc_label_12);
+		JLabel label_15 = new JLabel("11280960");
+		GridBagConstraints gbc_label_15 = new GridBagConstraints();
+		gbc_label_15.anchor = GridBagConstraints.WEST;
+		gbc_label_15.insets = new Insets(0, 0, 5, 5);
+		gbc_label_15.gridx = 0;
+		gbc_label_15.gridy = 2;
+		tabulatedSubmissionsPanel.add(label_15, gbc_label_15);
 		
-		JLabel label_7 = new JLabel("Rizal, Jose");
-		GridBagConstraints gbc_label_7 = new GridBagConstraints();
-		gbc_label_7.anchor = GridBagConstraints.WEST;
-		gbc_label_7.insets = new Insets(0, 0, 5, 5);
-		gbc_label_7.gridx = 1;
-		gbc_label_7.gridy = 2;
-		tabulatedSubmissionsPanel.add(label_7, gbc_label_7);
+		JLabel label_10 = new JLabel("Gates, Bill");
+		GridBagConstraints gbc_label_10 = new GridBagConstraints();
+		gbc_label_10.anchor = GridBagConstraints.WEST;
+		gbc_label_10.insets = new Insets(0, 0, 5, 5);
+		gbc_label_10.gridx = 1;
+		gbc_label_10.gridy = 2;
+		tabulatedSubmissionsPanel.add(label_10, gbc_label_10);
 		
 		JLabel label_2 = new JLabel("S11A");
 		GridBagConstraints gbc_label_2 = new GridBagConstraints();
@@ -152,17 +159,24 @@ public class StudentListProfessorView {
 		gbc_label_2.gridy = 2;
 		tabulatedSubmissionsPanel.add(label_2, gbc_label_2);
 		
-		JButton btnViewProfileactivities = new JButton("View Profile/Activities");
-		GridBagConstraints gbc_btnViewProfileactivities = new GridBagConstraints();
-		gbc_btnViewProfileactivities.insets = new Insets(0, 0, 5, 5);
-		gbc_btnViewProfileactivities.gridx = 3;
-		gbc_btnViewProfileactivities.gridy = 2;
-		tabulatedSubmissionsPanel.add(btnViewProfileactivities, gbc_btnViewProfileactivities);
+		JButton button_4 = new JButton("View Profile");
+		GridBagConstraints gbc_button_4 = new GridBagConstraints();
+		gbc_button_4.insets = new Insets(0, 0, 5, 5);
+		gbc_button_4.gridx = 3;
+		gbc_button_4.gridy = 2;
+		tabulatedSubmissionsPanel.add(button_4, gbc_button_4);
+		
+		JButton button = new JButton("View Activities");
+		GridBagConstraints gbc_button = new GridBagConstraints();
+		gbc_button.insets = new Insets(0, 0, 5, 5);
+		gbc_button.gridx = 4;
+		gbc_button.gridy = 2;
+		tabulatedSubmissionsPanel.add(button, gbc_button);
 		
 		JButton btnRemove = new JButton("Remove");
 		GridBagConstraints gbc_btnRemove = new GridBagConstraints();
 		gbc_btnRemove.insets = new Insets(0, 0, 5, 0);
-		gbc_btnRemove.gridx = 4;
+		gbc_btnRemove.gridx = 5;
 		gbc_btnRemove.gridy = 2;
 		tabulatedSubmissionsPanel.add(btnRemove, gbc_btnRemove);
 		
@@ -189,35 +203,42 @@ public class StudentListProfessorView {
 		gbc_label_3.gridy = 3;
 		tabulatedSubmissionsPanel.add(label_3, gbc_label_3);
 		
-		JButton btnViewProfileactivities_1 = new JButton("View Profile/Activities");
-		GridBagConstraints gbc_btnViewProfileactivities_1 = new GridBagConstraints();
-		gbc_btnViewProfileactivities_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnViewProfileactivities_1.gridx = 3;
-		gbc_btnViewProfileactivities_1.gridy = 3;
-		tabulatedSubmissionsPanel.add(btnViewProfileactivities_1, gbc_btnViewProfileactivities_1);
+		JButton button_5 = new JButton("View Profile");
+		GridBagConstraints gbc_button_5 = new GridBagConstraints();
+		gbc_button_5.insets = new Insets(0, 0, 5, 5);
+		gbc_button_5.gridx = 3;
+		gbc_button_5.gridy = 3;
+		tabulatedSubmissionsPanel.add(button_5, gbc_button_5);
+		
+		JButton button_1 = new JButton("View Activities");
+		GridBagConstraints gbc_button_1 = new GridBagConstraints();
+		gbc_button_1.insets = new Insets(0, 0, 5, 5);
+		gbc_button_1.gridx = 4;
+		gbc_button_1.gridy = 3;
+		tabulatedSubmissionsPanel.add(button_1, gbc_button_1);
 		
 		JButton btnRemove_1 = new JButton("Remove");
 		GridBagConstraints gbc_btnRemove_1 = new GridBagConstraints();
 		gbc_btnRemove_1.insets = new Insets(0, 0, 5, 0);
-		gbc_btnRemove_1.gridx = 4;
+		gbc_btnRemove_1.gridx = 5;
 		gbc_btnRemove_1.gridy = 3;
 		tabulatedSubmissionsPanel.add(btnRemove_1, gbc_btnRemove_1);
 		
-		JLabel label_14 = new JLabel("11133360");
-		GridBagConstraints gbc_label_14 = new GridBagConstraints();
-		gbc_label_14.anchor = GridBagConstraints.WEST;
-		gbc_label_14.insets = new Insets(0, 0, 5, 5);
-		gbc_label_14.gridx = 0;
-		gbc_label_14.gridy = 4;
-		tabulatedSubmissionsPanel.add(label_14, gbc_label_14);
+		JLabel label_11 = new JLabel("10987654");
+		GridBagConstraints gbc_label_11 = new GridBagConstraints();
+		gbc_label_11.anchor = GridBagConstraints.WEST;
+		gbc_label_11.insets = new Insets(0, 0, 5, 5);
+		gbc_label_11.gridx = 0;
+		gbc_label_11.gridy = 4;
+		tabulatedSubmissionsPanel.add(label_11, gbc_label_11);
 		
-		JLabel label_9 = new JLabel("Aguilar, Fred");
-		GridBagConstraints gbc_label_9 = new GridBagConstraints();
-		gbc_label_9.anchor = GridBagConstraints.WEST;
-		gbc_label_9.insets = new Insets(0, 0, 5, 5);
-		gbc_label_9.gridx = 1;
-		gbc_label_9.gridy = 4;
-		tabulatedSubmissionsPanel.add(label_9, gbc_label_9);
+		JLabel label_6 = new JLabel("Nielson, Niels");
+		GridBagConstraints gbc_label_6 = new GridBagConstraints();
+		gbc_label_6.anchor = GridBagConstraints.WEST;
+		gbc_label_6.insets = new Insets(0, 0, 5, 5);
+		gbc_label_6.gridx = 1;
+		gbc_label_6.gridy = 4;
+		tabulatedSubmissionsPanel.add(label_6, gbc_label_6);
 		
 		JLabel label_4 = new JLabel("S11A");
 		GridBagConstraints gbc_label_4 = new GridBagConstraints();
@@ -226,35 +247,42 @@ public class StudentListProfessorView {
 		gbc_label_4.gridy = 4;
 		tabulatedSubmissionsPanel.add(label_4, gbc_label_4);
 		
-		JButton btnViewProfileactivities_2 = new JButton("View Profile/Activities");
-		GridBagConstraints gbc_btnViewProfileactivities_2 = new GridBagConstraints();
-		gbc_btnViewProfileactivities_2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnViewProfileactivities_2.gridx = 3;
-		gbc_btnViewProfileactivities_2.gridy = 4;
-		tabulatedSubmissionsPanel.add(btnViewProfileactivities_2, gbc_btnViewProfileactivities_2);
+		JButton button_6 = new JButton("View Profile");
+		GridBagConstraints gbc_button_6 = new GridBagConstraints();
+		gbc_button_6.insets = new Insets(0, 0, 5, 5);
+		gbc_button_6.gridx = 3;
+		gbc_button_6.gridy = 4;
+		tabulatedSubmissionsPanel.add(button_6, gbc_button_6);
+		
+		JButton button_2 = new JButton("View Activities");
+		GridBagConstraints gbc_button_2 = new GridBagConstraints();
+		gbc_button_2.insets = new Insets(0, 0, 5, 5);
+		gbc_button_2.gridx = 4;
+		gbc_button_2.gridy = 4;
+		tabulatedSubmissionsPanel.add(button_2, gbc_button_2);
 		
 		JButton btnRemove_2 = new JButton("Remove");
 		GridBagConstraints gbc_btnRemove_2 = new GridBagConstraints();
 		gbc_btnRemove_2.insets = new Insets(0, 0, 5, 0);
-		gbc_btnRemove_2.gridx = 4;
+		gbc_btnRemove_2.gridx = 5;
 		gbc_btnRemove_2.gridy = 4;
 		tabulatedSubmissionsPanel.add(btnRemove_2, gbc_btnRemove_2);
 		
-		JLabel label_15 = new JLabel("11280960");
-		GridBagConstraints gbc_label_15 = new GridBagConstraints();
-		gbc_label_15.anchor = GridBagConstraints.WEST;
-		gbc_label_15.insets = new Insets(0, 0, 0, 5);
-		gbc_label_15.gridx = 0;
-		gbc_label_15.gridy = 5;
-		tabulatedSubmissionsPanel.add(label_15, gbc_label_15);
+		JLabel label_12 = new JLabel("10864213");
+		GridBagConstraints gbc_label_12 = new GridBagConstraints();
+		gbc_label_12.anchor = GridBagConstraints.WEST;
+		gbc_label_12.insets = new Insets(0, 0, 0, 5);
+		gbc_label_12.gridx = 0;
+		gbc_label_12.gridy = 5;
+		tabulatedSubmissionsPanel.add(label_12, gbc_label_12);
 		
-		JLabel label_10 = new JLabel("Gates, Bill");
-		GridBagConstraints gbc_label_10 = new GridBagConstraints();
-		gbc_label_10.anchor = GridBagConstraints.WEST;
-		gbc_label_10.insets = new Insets(0, 0, 0, 5);
-		gbc_label_10.gridx = 1;
-		gbc_label_10.gridy = 5;
-		tabulatedSubmissionsPanel.add(label_10, gbc_label_10);
+		JLabel label_7 = new JLabel("Rizal, Jose");
+		GridBagConstraints gbc_label_7 = new GridBagConstraints();
+		gbc_label_7.anchor = GridBagConstraints.WEST;
+		gbc_label_7.insets = new Insets(0, 0, 0, 5);
+		gbc_label_7.gridx = 1;
+		gbc_label_7.gridy = 5;
+		tabulatedSubmissionsPanel.add(label_7, gbc_label_7);
 		
 		JLabel label_5 = new JLabel("S11A");
 		GridBagConstraints gbc_label_5 = new GridBagConstraints();
@@ -263,27 +291,34 @@ public class StudentListProfessorView {
 		gbc_label_5.gridy = 5;
 		tabulatedSubmissionsPanel.add(label_5, gbc_label_5);
 		
-		JButton btnViewProfileactivities_3 = new JButton("View Profile/Activities");
-		GridBagConstraints gbc_btnViewProfileactivities_3 = new GridBagConstraints();
-		gbc_btnViewProfileactivities_3.insets = new Insets(0, 0, 0, 5);
-		gbc_btnViewProfileactivities_3.gridx = 3;
-		gbc_btnViewProfileactivities_3.gridy = 5;
-		tabulatedSubmissionsPanel.add(btnViewProfileactivities_3, gbc_btnViewProfileactivities_3);
+		JButton button_7 = new JButton("View Profile");
+		GridBagConstraints gbc_button_7 = new GridBagConstraints();
+		gbc_button_7.insets = new Insets(0, 0, 0, 5);
+		gbc_button_7.gridx = 3;
+		gbc_button_7.gridy = 5;
+		tabulatedSubmissionsPanel.add(button_7, gbc_button_7);
+		
+		JButton button_3 = new JButton("View Activities");
+		GridBagConstraints gbc_button_3 = new GridBagConstraints();
+		gbc_button_3.insets = new Insets(0, 0, 0, 5);
+		gbc_button_3.gridx = 4;
+		gbc_button_3.gridy = 5;
+		tabulatedSubmissionsPanel.add(button_3, gbc_button_3);
 		
 		JButton btnRemove_3 = new JButton("Remove");
 		GridBagConstraints gbc_btnRemove_3 = new GridBagConstraints();
-		gbc_btnRemove_3.gridx = 4;
+		gbc_btnRemove_3.gridx = 5;
 		gbc_btnRemove_3.gridy = 5;
 		tabulatedSubmissionsPanel.add(btnRemove_3, gbc_btnRemove_3);
 		
 		statusTextField = new JTextField();
 		statusTextField.setEditable(false);
-		statusTextField.setBounds(0, 261, 584, 20);
+		statusTextField.setBounds(0, 261, 634, 20);
 		activityList.getContentPane().add(statusTextField);
 		statusTextField.setColumns(10);
 		
 		JButton btnDeleteAll = new JButton("Remove All");
-		btnDeleteAll.setBounds(455, 6, 119, 23);
+		btnDeleteAll.setBounds(505, 6, 119, 23);
 		activityList.getContentPane().add(btnDeleteAll);
 		
 		JLabel label = new JLabel("Select Section:");
