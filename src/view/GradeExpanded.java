@@ -26,7 +26,12 @@ import javax.swing.JTextField;
 public class GradeExpanded {
 
 	private JFrame gradesFrame;
-	private JTextField textField;
+	private JTextField txtDeadlineOfBasic;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
 
 	/**
 	 * Launch the application.
@@ -57,7 +62,7 @@ public class GradeExpanded {
 	private void initialize() {
 		gradesFrame = new JFrame();
 		gradesFrame.setTitle("Student Grades");
-		gradesFrame.setBounds(100, 100, 720, 502);
+		gradesFrame.setBounds(100, 100, 760, 502);
 		gradesFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gradesFrame.getContentPane().setLayout(null);
 		
@@ -67,12 +72,12 @@ public class GradeExpanded {
 		
 		JPanel tabulatedSubmissionsPanel = new JPanel();
 		tabulatedSubmissionsPanel.setBackground(Color.WHITE);
-		tabulatedSubmissionsPanel.setBounds(10, 36, 684, 394);
+		tabulatedSubmissionsPanel.setBounds(10, 36, 724, 394);
 		gradesFrame.getContentPane().add(tabulatedSubmissionsPanel);
 		GridBagLayout gbl_tabulatedSubmissionsPanel = new GridBagLayout();
-		gbl_tabulatedSubmissionsPanel.columnWidths = new int[]{76, 87, 51, 87, 0, 87, 48, 0};
+		gbl_tabulatedSubmissionsPanel.columnWidths = new int[]{76, 87, 51, 87, 0, 0, 87, 48, 0};
 		gbl_tabulatedSubmissionsPanel.rowHeights = new int[]{35, 35, 0, 0, 35, 35, 35, 35, 0};
-		gbl_tabulatedSubmissionsPanel.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_tabulatedSubmissionsPanel.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_tabulatedSubmissionsPanel.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		tabulatedSubmissionsPanel.setLayout(gbl_tabulatedSubmissionsPanel);
 		
@@ -106,7 +111,7 @@ public class GradeExpanded {
 		JLabel studentSourceCodeLabel = new JLabel("Source Code");
 		studentSourceCodeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_studentSourceCodeLabel = new GridBagConstraints();
-		gbc_studentSourceCodeLabel.gridwidth = 2;
+		gbc_studentSourceCodeLabel.gridwidth = 3;
 		gbc_studentSourceCodeLabel.fill = GridBagConstraints.BOTH;
 		gbc_studentSourceCodeLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_studentSourceCodeLabel.gridx = 3;
@@ -118,7 +123,7 @@ public class GradeExpanded {
 		GridBagConstraints gbc_deliverableDateSubmittedLabel = new GridBagConstraints();
 		gbc_deliverableDateSubmittedLabel.fill = GridBagConstraints.BOTH;
 		gbc_deliverableDateSubmittedLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_deliverableDateSubmittedLabel.gridx = 5;
+		gbc_deliverableDateSubmittedLabel.gridx = 6;
 		gbc_deliverableDateSubmittedLabel.gridy = 0;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmittedLabel, gbc_deliverableDateSubmittedLabel);
 		
@@ -127,7 +132,7 @@ public class GradeExpanded {
 		GridBagConstraints gbc_deliverableGradeLabel = new GridBagConstraints();
 		gbc_deliverableGradeLabel.fill = GridBagConstraints.BOTH;
 		gbc_deliverableGradeLabel.insets = new Insets(0, 0, 5, 0);
-		gbc_deliverableGradeLabel.gridx = 6;
+		gbc_deliverableGradeLabel.gridx = 7;
 		gbc_deliverableGradeLabel.gridy = 0;
 		tabulatedSubmissionsPanel.add(deliverableGradeLabel, gbc_deliverableGradeLabel);
 		
@@ -171,23 +176,21 @@ public class GradeExpanded {
 		gbc_showSourceCode1.gridy = 1;
 		tabulatedSubmissionsPanel.add(showSourceCode1, gbc_showSourceCode1);
 		
+		JButton button = new JButton("Test");
+		GridBagConstraints gbc_button = new GridBagConstraints();
+		gbc_button.insets = new Insets(0, 0, 5, 5);
+		gbc_button.gridx = 5;
+		gbc_button.gridy = 1;
+		tabulatedSubmissionsPanel.add(button, gbc_button);
+		
 		JLabel deliverableDateSubmitted1Label = new JLabel("1/4/2016 1:56:29 PM UTC+0800");
 		GridBagConstraints gbc_deliverableDateSubmitted1Label = new GridBagConstraints();
-		gbc_deliverableDateSubmitted1Label.fill = GridBagConstraints.BOTH;
+		gbc_deliverableDateSubmitted1Label.anchor = GridBagConstraints.EAST;
+		gbc_deliverableDateSubmitted1Label.fill = GridBagConstraints.VERTICAL;
 		gbc_deliverableDateSubmitted1Label.insets = new Insets(0, 0, 5, 5);
-		gbc_deliverableDateSubmitted1Label.gridx = 5;
+		gbc_deliverableDateSubmitted1Label.gridx = 6;
 		gbc_deliverableDateSubmitted1Label.gridy = 1;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted1Label, gbc_deliverableDateSubmitted1Label);
-		
-		JComboBox deliverableGrade1ComboBox = new JComboBox();
-		deliverableGrade1ComboBox.setModel(new DefaultComboBoxModel(new String[] {"4.0", "3.5", "3.0", "2.5", "2.0", "1.5", "1.0", "0.0", "NGS"}));
-		deliverableGrade1ComboBox.setSelectedIndex(0);
-		GridBagConstraints gbc_deliverableGrade1ComboBox = new GridBagConstraints();
-		gbc_deliverableGrade1ComboBox.fill = GridBagConstraints.BOTH;
-		gbc_deliverableGrade1ComboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_deliverableGrade1ComboBox.gridx = 6;
-		gbc_deliverableGrade1ComboBox.gridy = 1;
-		tabulatedSubmissionsPanel.add(deliverableGrade1ComboBox, gbc_deliverableGrade1ComboBox);
 		
 		/*
 		RSyntaxTextArea deliverableEditorPane1 = new RSyntaxTextArea();
@@ -203,9 +206,19 @@ public class GradeExpanded {
 		tabulatedSubmissionsPanel.add(deliverableSourceCode1, gbc_deliverableSourceCode1);
 		*/
 		
+		textField_1 = new JTextField();
+		textField_1.setText("80");
+		textField_1.setColumns(10);
+		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
+		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
+		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_1.gridx = 7;
+		gbc_textField_1.gridy = 1;
+		tabulatedSubmissionsPanel.add(textField_1, gbc_textField_1);
+		
 		JPanel deliverableSourceCode1Panel = new JPanel();
 		GridBagConstraints gbc_deliverableSourceCode1Panel = new GridBagConstraints();
-		gbc_deliverableSourceCode1Panel.gridwidth = 7;
+		gbc_deliverableSourceCode1Panel.gridwidth = 8;
 		gbc_deliverableSourceCode1Panel.gridheight = 2;
 		gbc_deliverableSourceCode1Panel.insets = new Insets(0, 0, 5, 0);
 		gbc_deliverableSourceCode1Panel.fill = GridBagConstraints.BOTH;
@@ -261,23 +274,31 @@ public class GradeExpanded {
 		gbc_showSourceCode2.gridy = 4;
 		tabulatedSubmissionsPanel.add(showSourceCode2, gbc_showSourceCode2);
 		
+		JButton button_1 = new JButton("Test");
+		GridBagConstraints gbc_button_1 = new GridBagConstraints();
+		gbc_button_1.insets = new Insets(0, 0, 5, 5);
+		gbc_button_1.gridx = 5;
+		gbc_button_1.gridy = 4;
+		tabulatedSubmissionsPanel.add(button_1, gbc_button_1);
+		
 		JLabel deliverableDateSubmitted2Label = new JLabel("1/3/2016 2:06:57 PM UTC+0800");
 		GridBagConstraints gbc_deliverableDateSubmitted2Label = new GridBagConstraints();
-		gbc_deliverableDateSubmitted2Label.fill = GridBagConstraints.BOTH;
+		gbc_deliverableDateSubmitted2Label.anchor = GridBagConstraints.EAST;
+		gbc_deliverableDateSubmitted2Label.fill = GridBagConstraints.VERTICAL;
 		gbc_deliverableDateSubmitted2Label.insets = new Insets(0, 0, 5, 5);
-		gbc_deliverableDateSubmitted2Label.gridx = 5;
+		gbc_deliverableDateSubmitted2Label.gridx = 6;
 		gbc_deliverableDateSubmitted2Label.gridy = 4;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted2Label, gbc_deliverableDateSubmitted2Label);
 		
-		JComboBox deliverableGrade2ComboBox = new JComboBox();
-		deliverableGrade2ComboBox.setModel(new DefaultComboBoxModel(new String[] {"4.0", "3.5", "3.0", "2.5", "2.0", "1.5", "1.0", "0.0", "NGS"}));
-		deliverableGrade2ComboBox.setSelectedIndex(1);
-		GridBagConstraints gbc_deliverableGrade2ComboBox = new GridBagConstraints();
-		gbc_deliverableGrade2ComboBox.fill = GridBagConstraints.BOTH;
-		gbc_deliverableGrade2ComboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_deliverableGrade2ComboBox.gridx = 6;
-		gbc_deliverableGrade2ComboBox.gridy = 4;
-		tabulatedSubmissionsPanel.add(deliverableGrade2ComboBox, gbc_deliverableGrade2ComboBox);
+		textField_2 = new JTextField();
+		textField_2.setText("92");
+		textField_2.setColumns(10);
+		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
+		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
+		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_2.gridx = 7;
+		gbc_textField_2.gridy = 4;
+		tabulatedSubmissionsPanel.add(textField_2, gbc_textField_2);
 		
 		JLabel studentID3Label = new JLabel("11021333");
 		GridBagConstraints gbc_studentID3Label = new GridBagConstraints();
@@ -318,24 +339,32 @@ public class GradeExpanded {
 		gbc_showSourceCode3.gridy = 5;
 		tabulatedSubmissionsPanel.add(showSourceCode3, gbc_showSourceCode3);
 		
+		JButton button_2 = new JButton("Test");
+		GridBagConstraints gbc_button_2 = new GridBagConstraints();
+		gbc_button_2.insets = new Insets(0, 0, 5, 5);
+		gbc_button_2.gridx = 5;
+		gbc_button_2.gridy = 5;
+		tabulatedSubmissionsPanel.add(button_2, gbc_button_2);
+		
 		JLabel deliverableDateSubmitted3Label = new JLabel("1/5/2016 3:22:18 PM UTC+0800");
 		deliverableDateSubmitted3Label.setForeground(Color.RED);
 		GridBagConstraints gbc_deliverableDateSubmitted3Label = new GridBagConstraints();
-		gbc_deliverableDateSubmitted3Label.fill = GridBagConstraints.BOTH;
+		gbc_deliverableDateSubmitted3Label.anchor = GridBagConstraints.EAST;
+		gbc_deliverableDateSubmitted3Label.fill = GridBagConstraints.VERTICAL;
 		gbc_deliverableDateSubmitted3Label.insets = new Insets(0, 0, 5, 5);
-		gbc_deliverableDateSubmitted3Label.gridx = 5;
+		gbc_deliverableDateSubmitted3Label.gridx = 6;
 		gbc_deliverableDateSubmitted3Label.gridy = 5;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted3Label, gbc_deliverableDateSubmitted3Label);
 		
-		JComboBox deliverableGrade3ComboBox = new JComboBox();
-		deliverableGrade3ComboBox.setModel(new DefaultComboBoxModel(new String[] {"4.0", "3.5", "3.0", "2.5", "2.0", "1.5", "1.0", "0.0", "NGS"}));
-		deliverableGrade3ComboBox.setSelectedIndex(4);
-		GridBagConstraints gbc_deliverableGrade3ComboBox = new GridBagConstraints();
-		gbc_deliverableGrade3ComboBox.fill = GridBagConstraints.BOTH;
-		gbc_deliverableGrade3ComboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_deliverableGrade3ComboBox.gridx = 6;
-		gbc_deliverableGrade3ComboBox.gridy = 5;
-		tabulatedSubmissionsPanel.add(deliverableGrade3ComboBox, gbc_deliverableGrade3ComboBox);
+		textField_3 = new JTextField();
+		textField_3.setText("75");
+		textField_3.setColumns(10);
+		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
+		gbc_textField_3.insets = new Insets(0, 0, 5, 0);
+		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_3.gridx = 7;
+		gbc_textField_3.gridy = 5;
+		tabulatedSubmissionsPanel.add(textField_3, gbc_textField_3);
 		
 		JLabel studentID1Label = new JLabel("10987654");
 		GridBagConstraints gbc_studentID1Label = new GridBagConstraints();
@@ -376,23 +405,31 @@ public class GradeExpanded {
 		gbc_showSourceCode4.gridy = 6;
 		tabulatedSubmissionsPanel.add(showSourceCode4, gbc_showSourceCode4);
 		
+		JButton button_3 = new JButton("Test");
+		GridBagConstraints gbc_button_3 = new GridBagConstraints();
+		gbc_button_3.insets = new Insets(0, 0, 5, 5);
+		gbc_button_3.gridx = 5;
+		gbc_button_3.gridy = 6;
+		tabulatedSubmissionsPanel.add(button_3, gbc_button_3);
+		
 		JLabel deliverableDateSubmitted4Label = new JLabel("1/3/2016 1:20:05 PM UTC+0800");
 		GridBagConstraints gbc_deliverableDateSubmitted4Label = new GridBagConstraints();
-		gbc_deliverableDateSubmitted4Label.fill = GridBagConstraints.BOTH;
+		gbc_deliverableDateSubmitted4Label.anchor = GridBagConstraints.EAST;
+		gbc_deliverableDateSubmitted4Label.fill = GridBagConstraints.VERTICAL;
 		gbc_deliverableDateSubmitted4Label.insets = new Insets(0, 0, 5, 5);
-		gbc_deliverableDateSubmitted4Label.gridx = 5;
+		gbc_deliverableDateSubmitted4Label.gridx = 6;
 		gbc_deliverableDateSubmitted4Label.gridy = 6;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted4Label, gbc_deliverableDateSubmitted4Label);
 		
-		JComboBox deliverableGrade4ComboBox = new JComboBox();
-		deliverableGrade4ComboBox.setModel(new DefaultComboBoxModel(new String[] {"4.0", "3.5", "3.0", "2.5", "2.0", "1.5", "1.0", "0.0", "NGS"}));
-		deliverableGrade4ComboBox.setSelectedIndex(6);
-		GridBagConstraints gbc_deliverableGrade4ComboBox = new GridBagConstraints();
-		gbc_deliverableGrade4ComboBox.fill = GridBagConstraints.BOTH;
-		gbc_deliverableGrade4ComboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_deliverableGrade4ComboBox.gridx = 6;
-		gbc_deliverableGrade4ComboBox.gridy = 6;
-		tabulatedSubmissionsPanel.add(deliverableGrade4ComboBox, gbc_deliverableGrade4ComboBox);
+		textField_4 = new JTextField();
+		textField_4.setText("65");
+		textField_4.setColumns(10);
+		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
+		gbc_textField_4.insets = new Insets(0, 0, 5, 0);
+		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_4.gridx = 7;
+		gbc_textField_4.gridy = 6;
+		tabulatedSubmissionsPanel.add(textField_4, gbc_textField_4);
 		
 		JLabel studentID2Label = new JLabel("10864213");
 		GridBagConstraints gbc_studentID2Label = new GridBagConstraints();
@@ -433,23 +470,31 @@ public class GradeExpanded {
 		gbc_showSourceCode5.gridy = 7;
 		tabulatedSubmissionsPanel.add(showSourceCode5, gbc_showSourceCode5);
 		
+		JButton button_4 = new JButton("Test");
+		GridBagConstraints gbc_button_4 = new GridBagConstraints();
+		gbc_button_4.insets = new Insets(0, 0, 0, 5);
+		gbc_button_4.gridx = 5;
+		gbc_button_4.gridy = 7;
+		tabulatedSubmissionsPanel.add(button_4, gbc_button_4);
+		
 		JLabel deliverableDateSubmitted5Label = new JLabel("1/5/2016 3:16:41 PM UTC+0800");
 		deliverableDateSubmitted5Label.setForeground(Color.RED);
 		GridBagConstraints gbc_deliverableDateSubmitted5Label = new GridBagConstraints();
-		gbc_deliverableDateSubmitted5Label.fill = GridBagConstraints.BOTH;
+		gbc_deliverableDateSubmitted5Label.anchor = GridBagConstraints.EAST;
+		gbc_deliverableDateSubmitted5Label.fill = GridBagConstraints.VERTICAL;
 		gbc_deliverableDateSubmitted5Label.insets = new Insets(0, 0, 0, 5);
-		gbc_deliverableDateSubmitted5Label.gridx = 5;
+		gbc_deliverableDateSubmitted5Label.gridx = 6;
 		gbc_deliverableDateSubmitted5Label.gridy = 7;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted5Label, gbc_deliverableDateSubmitted5Label);
 		
-		JComboBox deliverableGrade5ComboBox = new JComboBox();
-		deliverableGrade5ComboBox.setModel(new DefaultComboBoxModel(new String[] {"4.0", "3.5", "3.0", "2.5", "2.0", "1.5", "1.0", "0.0", "NGS"}));
-		deliverableGrade5ComboBox.setSelectedIndex(8);
-		GridBagConstraints gbc_deliverableGrade5ComboBox = new GridBagConstraints();
-		gbc_deliverableGrade5ComboBox.fill = GridBagConstraints.BOTH;
-		gbc_deliverableGrade5ComboBox.gridx = 6;
-		gbc_deliverableGrade5ComboBox.gridy = 7;
-		tabulatedSubmissionsPanel.add(deliverableGrade5ComboBox, gbc_deliverableGrade5ComboBox);
+		textField_5 = new JTextField();
+		textField_5.setText("-1");
+		textField_5.setColumns(10);
+		GridBagConstraints gbc_textField_5 = new GridBagConstraints();
+		gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_5.gridx = 7;
+		gbc_textField_5.gridy = 7;
+		tabulatedSubmissionsPanel.add(textField_5, gbc_textField_5);
 		
 		JComboBox activitySelectionCBox = new JComboBox();
 		activitySelectionCBox.setModel(new DefaultComboBoxModel(new String[] {"Basic Functions", "Conditional Statements", "Loops", "Functions", "ASCII Art I"}));
@@ -457,7 +502,7 @@ public class GradeExpanded {
 		gradesFrame.getContentPane().add(activitySelectionCBox);
 		
 		JButton submitButton = new JButton("Submit Grades");
-		submitButton.setBounds(575, 7, 119, 23);
+		submitButton.setBounds(615, 7, 119, 23);
 		gradesFrame.getContentPane().add(submitButton);
 		
 		JLabel sectionNameLabel = new JLabel("Select Section:");
@@ -469,11 +514,11 @@ public class GradeExpanded {
 		sectionSelectionCBox.setBounds(395, 8, 60, 20);
 		gradesFrame.getContentPane().add(sectionSelectionCBox);
 		
-		textField = new JTextField();
-		textField.setText("Deadline of Basic Functions: 1/4/2016 11:59:59 PM UTC +0800");
-		textField.setEditable(false);
-		textField.setColumns(10);
-		textField.setBounds(0, 443, 704, 20);
-		gradesFrame.getContentPane().add(textField);
+		txtDeadlineOfBasic = new JTextField();
+		txtDeadlineOfBasic.setText("Deadline of Basic Functions: 1/4/2016 2:30 PM UTC +0800");
+		txtDeadlineOfBasic.setEditable(false);
+		txtDeadlineOfBasic.setColumns(10);
+		txtDeadlineOfBasic.setBounds(0, 443, 744, 20);
+		gradesFrame.getContentPane().add(txtDeadlineOfBasic);
 	}
 }
