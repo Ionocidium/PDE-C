@@ -131,21 +131,21 @@ public class GradeExpanded {
 		gbc_deliverableGradeLabel.gridy = 0;
 		tabulatedSubmissionsPanel.add(deliverableGradeLabel, gbc_deliverableGradeLabel);
 		
-		JLabel studentID1Label = new JLabel("10987654");
-		GridBagConstraints gbc_studentID1Label = new GridBagConstraints();
-		gbc_studentID1Label.fill = GridBagConstraints.BOTH;
-		gbc_studentID1Label.insets = new Insets(0, 0, 5, 5);
-		gbc_studentID1Label.gridx = 0;
-		gbc_studentID1Label.gridy = 1;
-		tabulatedSubmissionsPanel.add(studentID1Label, gbc_studentID1Label);
+		JLabel studentID4Label = new JLabel("11133360");
+		GridBagConstraints gbc_studentID4Label = new GridBagConstraints();
+		gbc_studentID4Label.fill = GridBagConstraints.BOTH;
+		gbc_studentID4Label.insets = new Insets(0, 0, 5, 5);
+		gbc_studentID4Label.gridx = 0;
+		gbc_studentID4Label.gridy = 1;
+		tabulatedSubmissionsPanel.add(studentID4Label, gbc_studentID4Label);
 		
-		JLabel studentName1Label = new JLabel("Nielson, Niels");
-		GridBagConstraints gbc_studentName1Label = new GridBagConstraints();
-		gbc_studentName1Label.fill = GridBagConstraints.BOTH;
-		gbc_studentName1Label.insets = new Insets(0, 0, 5, 5);
-		gbc_studentName1Label.gridx = 1;
-		gbc_studentName1Label.gridy = 1;
-		tabulatedSubmissionsPanel.add(studentName1Label, gbc_studentName1Label);
+		JLabel studentName4Label = new JLabel("Aguilar, Fred");
+		GridBagConstraints gbc_studentName4Label = new GridBagConstraints();
+		gbc_studentName4Label.fill = GridBagConstraints.BOTH;
+		gbc_studentName4Label.insets = new Insets(0, 0, 5, 5);
+		gbc_studentName4Label.gridx = 1;
+		gbc_studentName4Label.gridy = 1;
+		tabulatedSubmissionsPanel.add(studentName4Label, gbc_studentName4Label);
 		
 		JLabel studentSection1Label = new JLabel("S11A");
 		GridBagConstraints gbc_studentSection1Label = new GridBagConstraints();
@@ -155,13 +155,13 @@ public class GradeExpanded {
 		gbc_studentSection1Label.gridy = 1;
 		tabulatedSubmissionsPanel.add(studentSection1Label, gbc_studentSection1Label);
 		
-		JLabel studentSourceCode1Label = new JLabel("Nielson_Niels_BasicFunctions.c");
-		GridBagConstraints gbc_studentSourceCode1Label = new GridBagConstraints();
-		gbc_studentSourceCode1Label.fill = GridBagConstraints.BOTH;
-		gbc_studentSourceCode1Label.insets = new Insets(0, 0, 5, 5);
-		gbc_studentSourceCode1Label.gridx = 3;
-		gbc_studentSourceCode1Label.gridy = 1;
-		tabulatedSubmissionsPanel.add(studentSourceCode1Label, gbc_studentSourceCode1Label);
+		JLabel studentSourceCode4Label = new JLabel("Aguilar_Fred_BasicFunctions.c");
+		GridBagConstraints gbc_studentSourceCode4Label = new GridBagConstraints();
+		gbc_studentSourceCode4Label.fill = GridBagConstraints.BOTH;
+		gbc_studentSourceCode4Label.insets = new Insets(0, 0, 5, 5);
+		gbc_studentSourceCode4Label.gridx = 3;
+		gbc_studentSourceCode4Label.gridy = 1;
+		tabulatedSubmissionsPanel.add(studentSourceCode4Label, gbc_studentSourceCode4Label);
 		
 		JToggleButton showSourceCode1 = new JToggleButton("-");
 		showSourceCode1.setSelected(true);
@@ -207,7 +207,7 @@ public class GradeExpanded {
 		GridBagConstraints gbc_deliverableSourceCode1Panel = new GridBagConstraints();
 		gbc_deliverableSourceCode1Panel.gridwidth = 7;
 		gbc_deliverableSourceCode1Panel.gridheight = 2;
-		gbc_deliverableSourceCode1Panel.insets = new Insets(0, 0, 5, 5);
+		gbc_deliverableSourceCode1Panel.insets = new Insets(0, 0, 5, 0);
 		gbc_deliverableSourceCode1Panel.fill = GridBagConstraints.BOTH;
 		gbc_deliverableSourceCode1Panel.gridx = 0;
 		gbc_deliverableSourceCode1Panel.gridy = 2;
@@ -222,37 +222,37 @@ public class GradeExpanded {
 		scrollPane.setIconRowHeaderEnabled(true);
 		deliverableSourceCode1Panel.add(scrollPane);
 		
-		JLabel studentID2Label = new JLabel("10864213");
-		GridBagConstraints gbc_studentID2Label = new GridBagConstraints();
-		gbc_studentID2Label.fill = GridBagConstraints.BOTH;
-		gbc_studentID2Label.insets = new Insets(0, 0, 5, 5);
-		gbc_studentID2Label.gridx = 0;
-		gbc_studentID2Label.gridy = 4;
-		tabulatedSubmissionsPanel.add(studentID2Label, gbc_studentID2Label);
+		JLabel studentID5Label = new JLabel("11280960");
+		GridBagConstraints gbc_studentID5Label = new GridBagConstraints();
+		gbc_studentID5Label.fill = GridBagConstraints.BOTH;
+		gbc_studentID5Label.insets = new Insets(0, 0, 5, 5);
+		gbc_studentID5Label.gridx = 0;
+		gbc_studentID5Label.gridy = 4;
+		tabulatedSubmissionsPanel.add(studentID5Label, gbc_studentID5Label);
 		
-		JLabel studentName2Label = new JLabel("Rizal, Jose");
-		GridBagConstraints gbc_studentName2Label = new GridBagConstraints();
-		gbc_studentName2Label.fill = GridBagConstraints.BOTH;
-		gbc_studentName2Label.insets = new Insets(0, 0, 5, 5);
-		gbc_studentName2Label.gridx = 1;
-		gbc_studentName2Label.gridy = 4;
-		tabulatedSubmissionsPanel.add(studentName2Label, gbc_studentName2Label);
+		JLabel studentName5Label = new JLabel("Gates, Bill");
+		GridBagConstraints gbc_studentName5Label = new GridBagConstraints();
+		gbc_studentName5Label.fill = GridBagConstraints.BOTH;
+		gbc_studentName5Label.insets = new Insets(0, 0, 5, 5);
+		gbc_studentName5Label.gridx = 1;
+		gbc_studentName5Label.gridy = 4;
+		tabulatedSubmissionsPanel.add(studentName5Label, gbc_studentName5Label);
 		
-		JLabel studentSection2Label = new JLabel("S11B");
-		GridBagConstraints gbc_studentSection2Label = new GridBagConstraints();
-		gbc_studentSection2Label.fill = GridBagConstraints.BOTH;
-		gbc_studentSection2Label.insets = new Insets(0, 0, 5, 5);
-		gbc_studentSection2Label.gridx = 2;
-		gbc_studentSection2Label.gridy = 4;
-		tabulatedSubmissionsPanel.add(studentSection2Label, gbc_studentSection2Label);
+		JLabel label = new JLabel("S11A");
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.anchor = GridBagConstraints.WEST;
+		gbc_label.insets = new Insets(0, 0, 5, 5);
+		gbc_label.gridx = 2;
+		gbc_label.gridy = 4;
+		tabulatedSubmissionsPanel.add(label, gbc_label);
 		
-		JLabel studentSourceCode2Label = new JLabel("Rizal_Jose_BasicFunctions.c");
-		GridBagConstraints gbc_studentSourceCode2Label = new GridBagConstraints();
-		gbc_studentSourceCode2Label.fill = GridBagConstraints.BOTH;
-		gbc_studentSourceCode2Label.insets = new Insets(0, 0, 5, 5);
-		gbc_studentSourceCode2Label.gridx = 3;
-		gbc_studentSourceCode2Label.gridy = 4;
-		tabulatedSubmissionsPanel.add(studentSourceCode2Label, gbc_studentSourceCode2Label);
+		JLabel studentSourceCode5Label = new JLabel("Gates_Bill_BasicFunctions.c");
+		GridBagConstraints gbc_studentSourceCode5Label = new GridBagConstraints();
+		gbc_studentSourceCode5Label.fill = GridBagConstraints.BOTH;
+		gbc_studentSourceCode5Label.insets = new Insets(0, 0, 5, 5);
+		gbc_studentSourceCode5Label.gridx = 3;
+		gbc_studentSourceCode5Label.gridy = 4;
+		tabulatedSubmissionsPanel.add(studentSourceCode5Label, gbc_studentSourceCode5Label);
 		
 		JToggleButton showSourceCode2 = new JToggleButton("+");
 		GridBagConstraints gbc_showSourceCode2 = new GridBagConstraints();
@@ -295,13 +295,13 @@ public class GradeExpanded {
 		gbc_studentName3Label.gridy = 5;
 		tabulatedSubmissionsPanel.add(studentName3Label, gbc_studentName3Label);
 		
-		JLabel studentSection3Label = new JLabel("S12A");
-		GridBagConstraints gbc_studentSection3Label = new GridBagConstraints();
-		gbc_studentSection3Label.fill = GridBagConstraints.BOTH;
-		gbc_studentSection3Label.insets = new Insets(0, 0, 5, 5);
-		gbc_studentSection3Label.gridx = 2;
-		gbc_studentSection3Label.gridy = 5;
-		tabulatedSubmissionsPanel.add(studentSection3Label, gbc_studentSection3Label);
+		JLabel label_1 = new JLabel("S11A");
+		GridBagConstraints gbc_label_1 = new GridBagConstraints();
+		gbc_label_1.anchor = GridBagConstraints.WEST;
+		gbc_label_1.insets = new Insets(0, 0, 5, 5);
+		gbc_label_1.gridx = 2;
+		gbc_label_1.gridy = 5;
+		tabulatedSubmissionsPanel.add(label_1, gbc_label_1);
 		
 		JLabel studentSourceCode3Label = new JLabel("Jobs_Steve_BasicFunctions.c");
 		GridBagConstraints gbc_studentSourceCode3Label = new GridBagConstraints();
@@ -337,37 +337,37 @@ public class GradeExpanded {
 		gbc_deliverableGrade3ComboBox.gridy = 5;
 		tabulatedSubmissionsPanel.add(deliverableGrade3ComboBox, gbc_deliverableGrade3ComboBox);
 		
-		JLabel studentID4Label = new JLabel("11133360");
-		GridBagConstraints gbc_studentID4Label = new GridBagConstraints();
-		gbc_studentID4Label.fill = GridBagConstraints.BOTH;
-		gbc_studentID4Label.insets = new Insets(0, 0, 5, 5);
-		gbc_studentID4Label.gridx = 0;
-		gbc_studentID4Label.gridy = 6;
-		tabulatedSubmissionsPanel.add(studentID4Label, gbc_studentID4Label);
+		JLabel studentID1Label = new JLabel("10987654");
+		GridBagConstraints gbc_studentID1Label = new GridBagConstraints();
+		gbc_studentID1Label.fill = GridBagConstraints.BOTH;
+		gbc_studentID1Label.insets = new Insets(0, 0, 5, 5);
+		gbc_studentID1Label.gridx = 0;
+		gbc_studentID1Label.gridy = 6;
+		tabulatedSubmissionsPanel.add(studentID1Label, gbc_studentID1Label);
 		
-		JLabel studentName4Label = new JLabel("Aguilar, Fred");
-		GridBagConstraints gbc_studentName4Label = new GridBagConstraints();
-		gbc_studentName4Label.fill = GridBagConstraints.BOTH;
-		gbc_studentName4Label.insets = new Insets(0, 0, 5, 5);
-		gbc_studentName4Label.gridx = 1;
-		gbc_studentName4Label.gridy = 6;
-		tabulatedSubmissionsPanel.add(studentName4Label, gbc_studentName4Label);
+		JLabel studentName1Label = new JLabel("Nielson, Niels");
+		GridBagConstraints gbc_studentName1Label = new GridBagConstraints();
+		gbc_studentName1Label.fill = GridBagConstraints.BOTH;
+		gbc_studentName1Label.insets = new Insets(0, 0, 5, 5);
+		gbc_studentName1Label.gridx = 1;
+		gbc_studentName1Label.gridy = 6;
+		tabulatedSubmissionsPanel.add(studentName1Label, gbc_studentName1Label);
 		
-		JLabel studentSection4Label = new JLabel("S11B");
-		GridBagConstraints gbc_studentSection4Label = new GridBagConstraints();
-		gbc_studentSection4Label.fill = GridBagConstraints.BOTH;
-		gbc_studentSection4Label.insets = new Insets(0, 0, 5, 5);
-		gbc_studentSection4Label.gridx = 2;
-		gbc_studentSection4Label.gridy = 6;
-		tabulatedSubmissionsPanel.add(studentSection4Label, gbc_studentSection4Label);
+		JLabel label_2 = new JLabel("S11A");
+		GridBagConstraints gbc_label_2 = new GridBagConstraints();
+		gbc_label_2.anchor = GridBagConstraints.WEST;
+		gbc_label_2.insets = new Insets(0, 0, 5, 5);
+		gbc_label_2.gridx = 2;
+		gbc_label_2.gridy = 6;
+		tabulatedSubmissionsPanel.add(label_2, gbc_label_2);
 		
-		JLabel studentSourceCode4Label = new JLabel("Aguilar_Fred_BasicFunctions.c");
-		GridBagConstraints gbc_studentSourceCode4Label = new GridBagConstraints();
-		gbc_studentSourceCode4Label.fill = GridBagConstraints.BOTH;
-		gbc_studentSourceCode4Label.insets = new Insets(0, 0, 5, 5);
-		gbc_studentSourceCode4Label.gridx = 3;
-		gbc_studentSourceCode4Label.gridy = 6;
-		tabulatedSubmissionsPanel.add(studentSourceCode4Label, gbc_studentSourceCode4Label);
+		JLabel studentSourceCode1Label = new JLabel("Nielson_Niels_BasicFunctions.c");
+		GridBagConstraints gbc_studentSourceCode1Label = new GridBagConstraints();
+		gbc_studentSourceCode1Label.fill = GridBagConstraints.BOTH;
+		gbc_studentSourceCode1Label.insets = new Insets(0, 0, 5, 5);
+		gbc_studentSourceCode1Label.gridx = 3;
+		gbc_studentSourceCode1Label.gridy = 6;
+		tabulatedSubmissionsPanel.add(studentSourceCode1Label, gbc_studentSourceCode1Label);
 		
 		JToggleButton showSourceCode4 = new JToggleButton("+");
 		GridBagConstraints gbc_showSourceCode4 = new GridBagConstraints();
@@ -394,37 +394,37 @@ public class GradeExpanded {
 		gbc_deliverableGrade4ComboBox.gridy = 6;
 		tabulatedSubmissionsPanel.add(deliverableGrade4ComboBox, gbc_deliverableGrade4ComboBox);
 		
-		JLabel studentID5Label = new JLabel("11280960");
-		GridBagConstraints gbc_studentID5Label = new GridBagConstraints();
-		gbc_studentID5Label.fill = GridBagConstraints.BOTH;
-		gbc_studentID5Label.insets = new Insets(0, 0, 0, 5);
-		gbc_studentID5Label.gridx = 0;
-		gbc_studentID5Label.gridy = 7;
-		tabulatedSubmissionsPanel.add(studentID5Label, gbc_studentID5Label);
+		JLabel studentID2Label = new JLabel("10864213");
+		GridBagConstraints gbc_studentID2Label = new GridBagConstraints();
+		gbc_studentID2Label.fill = GridBagConstraints.BOTH;
+		gbc_studentID2Label.insets = new Insets(0, 0, 0, 5);
+		gbc_studentID2Label.gridx = 0;
+		gbc_studentID2Label.gridy = 7;
+		tabulatedSubmissionsPanel.add(studentID2Label, gbc_studentID2Label);
 		
-		JLabel studentName5Label = new JLabel("Gates, Bill");
-		GridBagConstraints gbc_studentName5Label = new GridBagConstraints();
-		gbc_studentName5Label.fill = GridBagConstraints.BOTH;
-		gbc_studentName5Label.insets = new Insets(0, 0, 0, 5);
-		gbc_studentName5Label.gridx = 1;
-		gbc_studentName5Label.gridy = 7;
-		tabulatedSubmissionsPanel.add(studentName5Label, gbc_studentName5Label);
+		JLabel studentName2Label = new JLabel("Rizal, Jose");
+		GridBagConstraints gbc_studentName2Label = new GridBagConstraints();
+		gbc_studentName2Label.fill = GridBagConstraints.BOTH;
+		gbc_studentName2Label.insets = new Insets(0, 0, 0, 5);
+		gbc_studentName2Label.gridx = 1;
+		gbc_studentName2Label.gridy = 7;
+		tabulatedSubmissionsPanel.add(studentName2Label, gbc_studentName2Label);
 		
-		JLabel studentSection5Label = new JLabel("S12A");
-		GridBagConstraints gbc_studentSection5Label = new GridBagConstraints();
-		gbc_studentSection5Label.fill = GridBagConstraints.BOTH;
-		gbc_studentSection5Label.insets = new Insets(0, 0, 0, 5);
-		gbc_studentSection5Label.gridx = 2;
-		gbc_studentSection5Label.gridy = 7;
-		tabulatedSubmissionsPanel.add(studentSection5Label, gbc_studentSection5Label);
+		JLabel label_3 = new JLabel("S11A");
+		GridBagConstraints gbc_label_3 = new GridBagConstraints();
+		gbc_label_3.anchor = GridBagConstraints.WEST;
+		gbc_label_3.insets = new Insets(0, 0, 0, 5);
+		gbc_label_3.gridx = 2;
+		gbc_label_3.gridy = 7;
+		tabulatedSubmissionsPanel.add(label_3, gbc_label_3);
 		
-		JLabel studentSourceCode5Label = new JLabel("Gates_Bill_BasicFunctions.c");
-		GridBagConstraints gbc_studentSourceCode5Label = new GridBagConstraints();
-		gbc_studentSourceCode5Label.fill = GridBagConstraints.BOTH;
-		gbc_studentSourceCode5Label.insets = new Insets(0, 0, 0, 5);
-		gbc_studentSourceCode5Label.gridx = 3;
-		gbc_studentSourceCode5Label.gridy = 7;
-		tabulatedSubmissionsPanel.add(studentSourceCode5Label, gbc_studentSourceCode5Label);
+		JLabel studentSourceCode2Label = new JLabel("Rizal_Jose_BasicFunctions.c");
+		GridBagConstraints gbc_studentSourceCode2Label = new GridBagConstraints();
+		gbc_studentSourceCode2Label.fill = GridBagConstraints.BOTH;
+		gbc_studentSourceCode2Label.insets = new Insets(0, 0, 0, 5);
+		gbc_studentSourceCode2Label.gridx = 3;
+		gbc_studentSourceCode2Label.gridy = 7;
+		tabulatedSubmissionsPanel.add(studentSourceCode2Label, gbc_studentSourceCode2Label);
 		
 		JToggleButton showSourceCode5 = new JToggleButton("+");
 		GridBagConstraints gbc_showSourceCode5 = new GridBagConstraints();
