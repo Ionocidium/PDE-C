@@ -270,6 +270,7 @@ public class MainWindowView
 		compileButton.setIcon(new ImageIcon("resources/images/buildCompile.png"));
 		compileButton.setToolTipText("Compile");
 		JButton debugButton = new JButton("");
+		debugButton.setEnabled(false);
 		debugButton.setIcon(new ImageIcon("resources/images/debugCompile.png"));
 		debugButton.setToolTipText("Debug");
 		JButton button = new JButton("View Activities");
@@ -284,15 +285,18 @@ public class MainWindowView
 		coreToolbar.add(compileButton);
 		coreToolbar.add(debugButton);
 		coreToolbar.addSeparator();
+		
+		JButton btnNewButton = new JButton("Resume");
+		coreToolbar.add(btnNewButton);
+		
+		JButton btnStepOver = new JButton("Step Over");
+		coreToolbar.add(btnStepOver);
+		coreToolbar.addSeparator();
 		coreToolbar.add(button);
 		coreToolbar.add(button2);
 
 		frmPdec.setJMenuBar(menuBar);
 		frmPdec.getContentPane().add(coreToolbar);
-		
-		JButton button3 = new JButton("Open Submitted...");
-		button3.setToolTipText("Open Submitted...");
-		coreToolbar.add(button3);
 		
 		JButton btnLogout = new JButton("Logout");
 		btnLogout.setToolTipText("Logout");
