@@ -129,11 +129,11 @@ public class StudentProfile {
 		activityList = new JTable();
 		activityList.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"Basic Functions", "Nielson_Niels_BasicFunctions.c", "1/4/2016 1:56:29 PM UTC+0800", "4.0"},
-				{"Conditional Statements", "Nielson_Niels_ConditionalStatements.c", "1/11/2016 2:29:56 PM UTC+0800", "3.0"},
-				{"Loops", "Nielson_Niels_Loops.c", "1/18/2016 1:37:48 PM UTC+0800", "2.0"},
-				{"Functions", "Nielson_Niels_Functions.c", "1/25/2016 1:08:35 PM UTC+0800", "1.0"},
-				{"ASCII Art I", "Nielson_Niels_ASCIIArtI.c", "2/1/2016 2:10:10 PM UTC+0800", "NGS"},
+				{"Basic Functions", "Nielson_Niels_BasicFunctions.c", "1/4/2016 1:56:29 PM UTC+0800", "NGS"},
+				{"Conditional Statements", "Nielson_Niels_ConditionalStatements.c", "1/11/2016 2:29:56 PM UTC+0800", "83"},
+				{"Loops", "Nielson_Niels_Loops.c", "1/18/2016 1:37:48 PM UTC+0800", "91"},
+				{"Functions", "Nielson_Niels_Functions.c", "1/25/2016 1:08:35 PM UTC+0800", "82"},
+				{"ASCII Art I", "Nielson_Niels_ASCIIArtI.c", "2/1/2016 2:10:10 PM UTC+0800", "60"},
 				{null, null, "", null},
 				{null, null, null, null},
 				{null, null, null, null},
