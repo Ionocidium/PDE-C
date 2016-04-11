@@ -135,7 +135,7 @@ public class ActivityStudentCondensed {
 		gbc_deliverableDateSubmitted1Label.gridy = 1;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted1Label, gbc_deliverableDateSubmitted1Label);
 		
-		JLabel lblPm = new JLabel("1/4/2016 11:59:59 PM UTC +0800");
+		JLabel lblPm = new JLabel("1/4/2016 2:30 PM");
 		GridBagConstraints gbc_lblPm = new GridBagConstraints();
 		gbc_lblPm.anchor = GridBagConstraints.WEST;
 		gbc_lblPm.insets = new Insets(0, 0, 5, 0);
@@ -175,7 +175,7 @@ public class ActivityStudentCondensed {
 		gbc_deliverableDateSubmitted2Label.gridy = 2;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted2Label, gbc_deliverableDateSubmitted2Label);
 		
-		JLabel lblPm_1 = new JLabel("1/11/2016 11:59:59 PM UTC +0800");
+		JLabel lblPm_1 = new JLabel("1/11/2016 2:30 PM");
 		GridBagConstraints gbc_lblPm_1 = new GridBagConstraints();
 		gbc_lblPm_1.anchor = GridBagConstraints.WEST;
 		gbc_lblPm_1.insets = new Insets(0, 0, 5, 0);
@@ -207,7 +207,6 @@ public class ActivityStudentCondensed {
 		tabulatedSubmissionsPanel.add(btnSave_1, gbc_btnSave_1);
 		
 		JLabel deliverableDateSubmitted3Label = new JLabel("1/16/2016 1:30:29 PM UTC+0800");
-		deliverableDateSubmitted3Label.setForeground(Color.BLACK);
 		GridBagConstraints gbc_deliverableDateSubmitted3Label = new GridBagConstraints();
 		gbc_deliverableDateSubmitted3Label.anchor = GridBagConstraints.WEST;
 		gbc_deliverableDateSubmitted3Label.fill = GridBagConstraints.VERTICAL;
@@ -216,7 +215,7 @@ public class ActivityStudentCondensed {
 		gbc_deliverableDateSubmitted3Label.gridy = 3;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted3Label, gbc_deliverableDateSubmitted3Label);
 		
-		JLabel lblPm_2 = new JLabel("1/18/2016 11:59:59 PM UTC +0800");
+		JLabel lblPm_2 = new JLabel("1/18/2016 2:30 PM");
 		GridBagConstraints gbc_lblPm_2 = new GridBagConstraints();
 		gbc_lblPm_2.anchor = GridBagConstraints.WEST;
 		gbc_lblPm_2.insets = new Insets(0, 0, 5, 0);
@@ -256,7 +255,7 @@ public class ActivityStudentCondensed {
 		gbc_deliverableDateSubmitted4Label.gridy = 4;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted4Label, gbc_deliverableDateSubmitted4Label);
 		
-		JLabel lblPm_3 = new JLabel("1/25/2016 11:59:59 PM UTC +0800");
+		JLabel lblPm_3 = new JLabel("1/25/2016 2:30 PM");
 		GridBagConstraints gbc_lblPm_3 = new GridBagConstraints();
 		gbc_lblPm_3.anchor = GridBagConstraints.WEST;
 		gbc_lblPm_3.insets = new Insets(0, 0, 5, 0);
@@ -288,7 +287,6 @@ public class ActivityStudentCondensed {
 		tabulatedSubmissionsPanel.add(btnSave_3, gbc_btnSave_3);
 		
 		JLabel deliverableDateSubmitted5Label = new JLabel("1/30/2016 3:16:41 PM UTC+0800");
-		deliverableDateSubmitted5Label.setForeground(Color.BLACK);
 		GridBagConstraints gbc_deliverableDateSubmitted5Label = new GridBagConstraints();
 		gbc_deliverableDateSubmitted5Label.anchor = GridBagConstraints.WEST;
 		gbc_deliverableDateSubmitted5Label.fill = GridBagConstraints.VERTICAL;
@@ -297,7 +295,7 @@ public class ActivityStudentCondensed {
 		gbc_deliverableDateSubmitted5Label.gridy = 5;
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted5Label, gbc_deliverableDateSubmitted5Label);
 		
-		JLabel lblPm_4 = new JLabel("2/1/2016 11:59:59 PM UTC +0800");
+		JLabel lblPm_4 = new JLabel("2/1/2016 2:30 PM");
 		GridBagConstraints gbc_lblPm_4 = new GridBagConstraints();
 		gbc_lblPm_4.anchor = GridBagConstraints.WEST;
 		gbc_lblPm_4.gridx = 4;
