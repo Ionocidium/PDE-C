@@ -422,7 +422,7 @@ public class GradeExpanded {
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted4Label, gbc_deliverableDateSubmitted4Label);
 		
 		textField_4 = new JTextField();
-		textField_4.setText("65");
+		textField_4.setText("-1");
 		textField_4.setColumns(10);
 		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
 		gbc_textField_4.insets = new Insets(0, 0, 5, 0);
@@ -488,7 +488,7 @@ public class GradeExpanded {
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted5Label, gbc_deliverableDateSubmitted5Label);
 		
 		textField_5 = new JTextField();
-		textField_5.setText("-1");
+		textField_5.setText("65");
 		textField_5.setColumns(10);
 		GridBagConstraints gbc_textField_5 = new GridBagConstraints();
 		gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;

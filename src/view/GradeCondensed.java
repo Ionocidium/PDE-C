@@ -382,7 +382,7 @@ public class GradeCondensed {
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted4Label, gbc_deliverableDateSubmitted4Label);
 		
 		textField_3 = new JTextField();
-		textField_3.setText("65");
+		textField_3.setText("-1");
 		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
 		gbc_textField_3.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
@@ -448,7 +448,7 @@ public class GradeCondensed {
 		tabulatedSubmissionsPanel.add(deliverableDateSubmitted5Label, gbc_deliverableDateSubmitted5Label);
 		
 		textField_4 = new JTextField();
-		textField_4.setText("-1");
+		textField_4.setText("65");
 		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
 		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_4.gridx = 7;
