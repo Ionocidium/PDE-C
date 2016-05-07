@@ -28,8 +28,10 @@ import java.awt.event.ActionListener;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import controller.EventController;
 import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
+import java.awt.event.KeyAdapter;
 
 public class MainWindowView
 {
@@ -85,25 +87,40 @@ public class MainWindowView
 		
 		FileSave saveFile = new FileSave();
 		FileLoad loader = new FileLoad();
+		EventController eventController = EventController.getEventController();
 
 		RSyntaxTextArea editorPane = new RSyntaxTextArea();
+		editorPane.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+			  
+			  if (e.isControlDown())
+			  {
+				if (e.getKeyCode() == e.VK_S)
+				{
+				  if (filePath != null)
+				  {
+					eventController.saveFile(frame, editorPane, filePath);
+				  }
+				  
+				  else
+				  {
+					eventController.saveAsFile(frame, editorPane);
+				  }	  
+				}
+				
+				else if (e.getKeyCode() == e.VK_O)
+				{
+				  eventController.openFile(frame, editorPane);
+				}
+			  }
+			}
+		});
 		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
 		editorPane.setCodeFoldingEnabled(true);
 		RTextScrollPane scrollPane = new RTextScrollPane(editorPane);
 		scrollPane.setIconRowHeaderEnabled(true);
 		scrollPane.setBounds(0, 48, 614, 326);
-		Gutter g = scrollPane.getGutter();
-		g.setBookmarkIcon(new ImageIcon("resources/images/Breakpoint16.png"));
-		g.setBookmarkingEnabled(true);
-		try
-		{
-			g.addLineTrackingIcon(0, new ImageIcon("resources/images/Error16.png"),
-					"Error in line 1, end of file");
-		}
-		catch (BadLocationException ble)
-		{
-			ble.printStackTrace();
-		}
 
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
@@ -115,25 +132,7 @@ public class MainWindowView
 		{
 		  public void actionPerformed(ActionEvent e) 
 		  {
-			int returnVal = fileChooser.showOpenDialog(frame);
-			
-			if (returnVal == JFileChooser.APPROVE_OPTION)
-			{
-			  Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
-			  filePath = path;
-			  String ext = path.getFileName().toString();
-			  
-			  if (loader.checker(ext))
-			  {
-				String pathContents = loader.loadFile(path);
-				editorPane.setText(pathContents);
-			  }
-			  
-			  else
-			  {
-				JOptionPane.showMessageDialog(null, "Not a C source code.", "Error", JOptionPane.ERROR_MESSAGE);
-			  }
-			}
+			filePath = eventController.openFile(frame, editorPane);
 		  }
 		});
 		
@@ -146,13 +145,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-			  int returnVal = fileChooser.showSaveDialog(frame);
-			  
-			  if (returnVal == JFileChooser.APPROVE_OPTION)
-			  {
-				Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());			
-				saveFile.writeFile(path, editorPane.getText());
-			  }
+			  eventController.saveAsFile(frame, editorPane);
 			}
 		});
 		
@@ -222,6 +215,7 @@ public class MainWindowView
 			  
 			}
 		});
+		
 		compileBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
 		JMenuItem debugBuildItem = new JMenuItem("Debug", KeyEvent.VK_D);
 		debugBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
