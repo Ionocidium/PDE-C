@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -11,6 +12,7 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
+import view.CompileLog;
 
 public class EventController
 {
@@ -76,5 +78,46 @@ public class EventController
   public void saveFile(JFrame frame, RSyntaxTextArea editorPane, Path filePath)
   {
 	saveFile.writeFile(filePath, editorPane.getText());
+  }
+  
+  public void compile(JFrame frame, RSyntaxTextArea editorPane, Path filePath)
+  {
+	try
+	  {
+		if (filePath != null)
+		{
+		  CompileLog log = new CompileLog(filePath);
+		}
+		
+		else
+		{
+		  int returnVal = fileChooser.showOpenDialog(frame);
+			
+			if (returnVal == JFileChooser.APPROVE_OPTION)
+			{
+			  Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+			  filePath = path;
+			  String ext = path.getFileName().toString();
+			  
+			  if (loader.checker(ext))
+			  {
+				String pathContents = loader.loadFile(path);
+				editorPane.setText(pathContents);
+				CompileLog log = new CompileLog(filePath);
+			  }
+			  
+			  else
+			  {
+				JOptionPane.showMessageDialog(null, "Not a C source code.", "Error", JOptionPane.ERROR_MESSAGE);
+			  }
+			}			
+		}
+	  }
+	  
+	  catch (IOException e1)
+	  {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	  }
   }
 }

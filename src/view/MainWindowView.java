@@ -85,8 +85,6 @@ public class MainWindowView
 		     "C Source (*.c)", "c");
 		fileChooser.setFileFilter(cFilter);
 		
-		FileSave saveFile = new FileSave();
-		FileLoad loader = new FileLoad();
 		EventController eventController = EventController.getEventController();
 
 		RSyntaxTextArea editorPane = new RSyntaxTextArea();
@@ -113,6 +111,11 @@ public class MainWindowView
 				{
 				  eventController.openFile(frame, editorPane);
 				}
+			  }
+			  
+			  else if (e.getKeyCode() == e.VK_F8)
+			  {
+				eventController.compile(frame, editorPane, filePath);
 			  }
 			}
 		});
@@ -175,44 +178,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-			  try
-			  {
-				if (filePath != null)
-				{
-				  CompileLog log = new CompileLog(filePath);
-				}
-				
-				else
-				{
-				  int returnVal = fileChooser.showOpenDialog(frame);
-					
-					if (returnVal == JFileChooser.APPROVE_OPTION)
-					{
-					  Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
-					  filePath = path;
-					  String ext = path.getFileName().toString();
-					  
-					  if (loader.checker(ext))
-					  {
-						String pathContents = loader.loadFile(path);
-						editorPane.setText(pathContents);
-						CompileLog log = new CompileLog(filePath);
-					  }
-					  
-					  else
-					  {
-						JOptionPane.showMessageDialog(null, "Not a C source code.", "Error", JOptionPane.ERROR_MESSAGE);
-					  }
-					}			
-				}
-			  }
-			  
-			  catch (IOException e1)
-			  {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			  }
-			  
+			  eventController.compile(frame, editorPane, filePath); 
 			}
 		});
 		

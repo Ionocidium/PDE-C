@@ -9,15 +9,20 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import java.awt.Color;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.SwingConstants;
 
 public class StudentProfile {
 
 	private JFrame studentProfileFrame;
 	private JTextField txtIDNum;
 	private JTextField txtName;
-	private JTextField txtRoom;
 	private JTextField txtSection;
-	private JTextField txtRemarks;
+	private JTable activityList;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -48,109 +53,110 @@ public class StudentProfile {
 	private void initialize() {
 		studentProfileFrame = new JFrame();
 		studentProfileFrame.setResizable(false);
-		studentProfileFrame.setSize(720, 480);
+		studentProfileFrame.setSize(640, 360);
 		studentProfileFrame.setTitle("Student Profile");
 		studentProfileFrame.getContentPane().setLayout(null);
 		
 		JPanel generalInfoPanel = new JPanel();
-		generalInfoPanel.setBounds(215, 10, 489, 187);
+		generalInfoPanel.setBounds(0, 0, 634, 72);
 		studentProfileFrame.getContentPane().add(generalInfoPanel);
 		generalInfoPanel.setLayout(null);
 		
 		JLabel lblIDNum = new JLabel("ID Number");
-		lblIDNum.setBounds(10, 11, 128, 24);
+		lblIDNum.setBounds(10, 11, 86, 24);
 		generalInfoPanel.add(lblIDNum);
 		
 		txtIDNum = new JTextField();
 		txtIDNum.setEditable(false);
-		txtIDNum.setBounds(158, 11, 320, 24);
+		txtIDNum.setBounds(106, 11, 86, 24);
 		txtIDNum.setText("10987654");
 		generalInfoPanel.add(txtIDNum);
 		txtIDNum.setColumns(10);
 		
 		JLabel lblName = new JLabel("Name");
-		lblName.setBounds(10, 46, 128, 24);
+		lblName.setBounds(202, 11, 36, 24);
 		generalInfoPanel.add(lblName);
 		
 		txtName = new JTextField();
 		txtName.setEditable(false);
-		txtName.setBounds(158, 46, 320, 24);
+		txtName.setBounds(248, 11, 240, 24);
 		txtName.setText("Nielson, Niels");
 		txtName.setColumns(10);
 		generalInfoPanel.add(txtName);
 		
-		JLabel lblRoomNo = new JLabel("Room No.");
-		lblRoomNo.setBounds(10, 81, 64, 24);
-		generalInfoPanel.add(lblRoomNo);
-		
-		txtRoom = new JTextField();
-		txtRoom.setEditable(false);
-		txtRoom.setBounds(84, 81, 64, 24);
-		txtRoom.setText("GK302A");
-		txtRoom.setColumns(10);
-		generalInfoPanel.add(txtRoom);
-		
 		JLabel lblSection = new JLabel("Section");
-		lblSection.setBounds(158, 81, 48, 24);
+		lblSection.setBounds(498, 11, 48, 24);
 		generalInfoPanel.add(lblSection);
 		
 		txtSection = new JTextField();
 		txtSection.setEditable(false);
-		txtSection.setBounds(219, 81, 48, 24);
+		txtSection.setBounds(556, 11, 48, 24);
 		txtSection.setText("S11A");
 		txtSection.setColumns(10);
 		generalInfoPanel.add(txtSection);
 		
 		JLabel lblActivities = new JLabel("Activities:");
-		lblActivities.setBounds(277, 81, 64, 24);
+		lblActivities.setBounds(10, 46, 64, 24);
 		generalInfoPanel.add(lblActivities);
 		
-		JButton btnCheckMyActivities = new JButton("Check Activities");
-		btnCheckMyActivities.setBounds(351, 82, 128, 23);
-		generalInfoPanel.add(btnCheckMyActivities);
+		textField = new JTextField();
+		textField.setToolTipText("Activities Done");
+		textField.setHorizontalAlignment(SwingConstants.RIGHT);
+		textField.setText("5");
+		textField.setEditable(false);
+		textField.setColumns(10);
+		textField.setBounds(106, 46, 26, 24);
+		generalInfoPanel.add(textField);
 		
-		JLabel lblRemarks = new JLabel("Remarks");
-		lblRemarks.setBounds(10, 151, 64, 24);
-		generalInfoPanel.add(lblRemarks);
+		textField_1 = new JTextField();
+		textField_1.setToolTipText("Total Activities");
+		textField_1.setText("10");
+		textField_1.setHorizontalAlignment(SwingConstants.LEFT);
+		textField_1.setEditable(false);
+		textField_1.setColumns(10);
+		textField_1.setBounds(156, 46, 26, 24);
+		generalInfoPanel.add(textField_1);
 		
-		txtRemarks = new JTextField();
-		txtRemarks.setEditable(false);
-		txtRemarks.setText("A very diligent student. Passes requirements on time");
-		txtRemarks.setColumns(10);
-		txtRemarks.setBounds(158, 151, 320, 24);
-		generalInfoPanel.add(txtRemarks);
+		JLabel label = new JLabel("/");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setBounds(106, 46, 76, 24);
+		generalInfoPanel.add(label);
 		
-		JPanel aboutMePanel = new JPanel();
-		aboutMePanel.setBounds(10, 213, 694, 227);
-		studentProfileFrame.getContentPane().add(aboutMePanel);
-		aboutMePanel.setLayout(null);
+		JScrollPane activityPane = new JScrollPane();
+		activityPane.setBounds(10, 83, 614, 237);
+		studentProfileFrame.getContentPane().add(activityPane);
 		
-		JLabel lblAboutMe = new JLabel("About Me");
-		lblAboutMe.setBounds(10, 11, 64, 24);
-		aboutMePanel.add(lblAboutMe);
-		
-		JTextPane txtpnProgrammerAndLearner = new JTextPane();
-		txtpnProgrammerAndLearner.setText("Programmer and learner here.");
-		txtpnProgrammerAndLearner.setBounds(10, 46, 674, 170);
-		aboutMePanel.add(txtpnProgrammerAndLearner);
-		
-		JButton btnSave = new JButton("Save");
-		btnSave.setBounds(620, 11, 64, 24);
-		aboutMePanel.add(btnSave);
-		
-		JPanel imgPanel = new JPanel();
-		imgPanel.setBounds(10, 10, 146, 187);
-		studentProfileFrame.getContentPane().add(imgPanel);
-		imgPanel.setLayout(null);
-		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(30, 144, 255));
-		panel.setBounds(10, 10, 128, 128);
-		imgPanel.add(panel);
-		panel.setLayout(null);
-		
-		JButton btnBrowse = new JButton("Browse...");
-		btnBrowse.setBounds(10, 139, 128, 23);
-		imgPanel.add(btnBrowse);
+		activityList = new JTable();
+		activityList.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"Basic Functions", "Nielson_Niels_BasicFunctions.c", "1/4/2016 1:56:29 PM UTC+0800", "NGS"},
+				{"Conditional Statements", "Nielson_Niels_ConditionalStatements.c", "1/11/2016 2:29:56 PM UTC+0800", "83"},
+				{"Loops", "Nielson_Niels_Loops.c", "1/18/2016 1:37:48 PM UTC+0800", "91"},
+				{"Functions", "Nielson_Niels_Functions.c", "1/25/2016 1:08:35 PM UTC+0800", "82"},
+				{"ASCII Art I", "Nielson_Niels_ASCIIArtI.c", "2/1/2016 2:10:10 PM UTC+0800", "60"},
+				{null, null, "", null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+			},
+			new String[] {
+				"Activity Name", "Source Code", "Date Submitted", "Grade"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		activityList.getColumnModel().getColumn(0).setPreferredWidth(129);
+		activityList.getColumnModel().getColumn(1).setPreferredWidth(226);
+		activityList.getColumnModel().getColumn(2).setPreferredWidth(188);
+		activityList.getColumnModel().getColumn(3).setPreferredWidth(40);
+		activityPane.setViewportView(activityList);
 	}
 }
