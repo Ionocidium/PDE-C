@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -119,5 +121,21 @@ public class EventController
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	  }
+  }
+  
+  public void debugToggler(JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton){
+	  	newButton.setEnabled(!newButton.isEnabled());
+		newFileItem.setEnabled(!newFileItem.isEnabled());
+		openButton.setEnabled(!openButton.isEnabled());
+		openFileItem.setEnabled(!openFileItem.isEnabled());
+		saveButton.setEnabled(!saveButton.isEnabled());
+		saveFileItem.setEnabled(!saveFileItem.isEnabled());
+		saveAsFileItem.setEnabled(!saveAsFileItem.isEnabled());
+		compileButton.setEnabled(!compileButton.isEnabled());
+		compileBuildItem.setEnabled(!compileBuildItem.isEnabled());
+		debugButton.setEnabled(!debugButton.isEnabled());
+		debugBuildItem.setEnabled(!debugBuildItem.isEnabled());
+		stepOverButton.setEnabled(!stepOverButton.isEnabled());
+		resumeButton.setEnabled(!resumeButton.isEnabled());
   }
 }
