@@ -28,6 +28,7 @@ import java.awt.event.ActionListener;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import controller.CommandLineDebugging;
 import controller.EventController;
 import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
@@ -126,6 +127,43 @@ public class MainWindowView
 		scrollPane.setIconRowHeaderEnabled(true);
 		scrollPane.setBounds(0, 48, 614, 326);
 
+
+		JToolBar coreToolbar = new JToolBar();
+		coreToolbar.setFloatable(false);
+		coreToolbar.setRollover(true);
+		JButton newButton = new JButton("");
+		newButton.setToolTipText("New");
+		newButton.setIcon(new ImageIcon("resources/images/newFile.png"));
+		JButton openButton = new JButton("");
+		openButton.setIcon(new ImageIcon("resources/images/openFile.png"));
+		openButton.setToolTipText("Open");
+		JButton saveButton = new JButton("");
+		saveButton.setIcon(new ImageIcon("resources/images/saveFile.png"));
+		saveButton.setToolTipText("Save");
+		JButton compileButton = new JButton("");
+		compileButton.setIcon(new ImageIcon("resources/images/buildCompile.png"));
+		compileButton.setToolTipText("Compile");
+		JButton debugButton = new JButton("");
+		debugButton.setIcon(new ImageIcon("resources/images/debugCompile.png"));
+		debugButton.setToolTipText("Debug");
+		JButton stepOverButton = new JButton("");
+		stepOverButton.setIcon(new ImageIcon("resources/images/buildCompile.png"));
+		stepOverButton.setToolTipText("Step Over");
+		stepOverButton.setEnabled(false);
+		JButton resumeButton = new JButton("");
+		resumeButton.setIcon(new ImageIcon("resources/images/debugCompile.png"));
+		resumeButton.setToolTipText("Resume");
+		resumeButton.setEnabled(false);
+		coreToolbar.setBounds(0, 0, 620, 48);
+		coreToolbar.add(newButton);
+		coreToolbar.add(openButton);
+		coreToolbar.add(saveButton);
+		coreToolbar.addSeparator();
+		coreToolbar.add(compileButton);
+		coreToolbar.add(debugButton);
+		coreToolbar.addSeparator();
+		coreToolbar.add(stepOverButton);
+		coreToolbar.add(resumeButton);
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);
@@ -185,6 +223,46 @@ public class MainWindowView
 		
 		compileBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
 		JMenuItem debugBuildItem = new JMenuItem("Debug", KeyEvent.VK_D);
+		
+		debugBuildItem.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				eventController.debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton);
+				final CommandLineDebugging cld = new CommandLineDebugging("C:\\Users\\inyongthegr8\\Documents\\GitHub\\PDE-C\\resources\\testcodes\\a.exe");
+				Thread stdout = new Thread(new Runnable()
+				{
+					public void run()
+					{
+						try
+						{
+							System.out.println(cld.getStdOut());
+						}
+						catch (IOException ioe)
+						{
+							System.out.println("DanEvo Project");
+						}
+					}
+				});
+				Thread stderr = new Thread(new Runnable()
+				{
+					public void run()
+					{
+						try
+						{
+							System.out.println(cld.getStdError());
+						}
+						catch (IOException ioe)
+						{
+							System.out.println("DanEvo Project");
+						}
+					}
+				});
+				stdout.start();
+				stderr.start();
+			}
+		});
+		
 		debugBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
 		JMenu helpMenu = new JMenu("Help");
 		helpMenu.setMnemonic(KeyEvent.VK_H);
@@ -214,31 +292,6 @@ public class MainWindowView
 		menuBar.add(helpMenu);
 		helpMenu.add(helpHelpItem);
 		helpMenu.add(aboutHelpItem);
-		JToolBar coreToolbar = new JToolBar();
-		coreToolbar.setFloatable(false);
-		coreToolbar.setRollover(true);
-		JButton newButton = new JButton("");
-		newButton.setToolTipText("New");
-		newButton.setIcon(new ImageIcon("resources/images/newFile.png"));
-		JButton openButton = new JButton("");
-		openButton.setIcon(new ImageIcon("resources/images/openFile.png"));
-		openButton.setToolTipText("Open");
-		JButton saveButton = new JButton("");
-		saveButton.setIcon(new ImageIcon("resources/images/saveFile.png"));
-		saveButton.setToolTipText("Save");
-		JButton compileButton = new JButton("");
-		compileButton.setIcon(new ImageIcon("resources/images/buildCompile.png"));
-		compileButton.setToolTipText("Compile");
-		JButton debugButton = new JButton("");
-		debugButton.setIcon(new ImageIcon("resources/images/debugCompile.png"));
-		debugButton.setToolTipText("Debug");
-		coreToolbar.setBounds(0, 0, 620, 48);
-		coreToolbar.add(newButton);
-		coreToolbar.add(openButton);
-		coreToolbar.add(saveButton);
-		coreToolbar.addSeparator();
-		coreToolbar.add(compileButton);
-		coreToolbar.add(debugButton);
 
 		frame.setJMenuBar(menuBar);
 		frame.getContentPane().add(coreToolbar);
