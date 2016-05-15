@@ -1,12 +1,16 @@
 package controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
@@ -20,12 +24,17 @@ public class EventController
   private final JFileChooser fileChooser;
   private FileLoad loader;
   private FileSave saveFile;
+  private FileNameExtensionFilter cFilter;
   
   private EventController()
   {
 	saveFile = new FileSave();
 	loader = new FileLoad();
 	fileChooser = new JFileChooser();
+	
+	cFilter = new FileNameExtensionFilter(
+	     "C Source (*.c)", "c");
+	fileChooser.setFileFilter(cFilter);
   }
   
   public static EventController getEventController()
@@ -120,4 +129,21 @@ public class EventController
 		e1.printStackTrace();
 	  }
   }
+  
+	public String runProgram()
+	{
+	  String res = null;
+	  
+	  try
+	  {
+	    Process process = new ProcessBuilder("resources/donttouch.bat").start();
+	  }
+	  
+	  catch(Exception ex)
+	  {
+		ex.printStackTrace();
+	  }
+	  
+	  return res;
+	}
 }

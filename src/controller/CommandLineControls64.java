@@ -3,6 +3,12 @@ package controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 
 public class CommandLineControls64
 {
@@ -23,6 +29,12 @@ public class CommandLineControls64
         this.commands[1] = this.fileToCompile;
         this.commands[2] = "-o";
         this.commands[3] = this.fileToCompile.substring(0, this.fileToCompile.lastIndexOf(".c"));
+        
+        System.out.println(this.commands[3]);
+        
+        List<String> lines = Arrays.asList("start " + this.commands[3] + ".exe");
+        Path file = Paths.get("resources/donttouch.bat");
+        Files.write(file, lines, Charset.forName("UTF-8"));
 	}
 	
 	public CommandLineControls64(String gccPath, String cFile) throws IOException

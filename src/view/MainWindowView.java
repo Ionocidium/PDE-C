@@ -86,7 +86,7 @@ public class MainWindowView
 		fileChooser.setFileFilter(cFilter);
 		
 		EventController eventController = EventController.getEventController();
-
+        
 		RSyntaxTextArea editorPane = new RSyntaxTextArea();
 		editorPane.addKeyListener(new KeyAdapter() {
 			@Override
@@ -109,13 +109,14 @@ public class MainWindowView
 				
 				else if (e.getKeyCode() == e.VK_O)
 				{
-				  eventController.openFile(frame, editorPane);
+				  filePath = eventController.openFile(frame, editorPane);
 				}
 			  }
 			  
 			  else if (e.getKeyCode() == e.VK_F8)
 			  {
 				eventController.compile(frame, editorPane, filePath);
+				eventController.runProgram();				
 			  }
 			}
 		});
@@ -130,7 +131,7 @@ public class MainWindowView
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 		JMenuItem newFileItem = new JMenuItem("New", KeyEvent.VK_N);
 		newFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
-		JMenuItem openFileItem = new JMenuItem("Open", KeyEvent.VK_O);
+		JMenuItem openFileItem = new JMenuItem("Open");
 		openFileItem.addActionListener(new ActionListener() 
 		{
 		  public void actionPerformed(ActionEvent e) 
@@ -139,10 +140,10 @@ public class MainWindowView
 		  }
 		});
 		
-		openFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-		JMenuItem saveFileItem = new JMenuItem("Save", KeyEvent.VK_S);
-		saveFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-		JMenuItem saveAsFileItem = new JMenuItem("Save As...", KeyEvent.VK_A);
+		
+		JMenuItem saveFileItem = new JMenuItem("Save");
+		
+		JMenuItem saveAsFileItem = new JMenuItem("Save As...");
 		
 		saveAsFileItem.addActionListener(new ActionListener() 
 		{
