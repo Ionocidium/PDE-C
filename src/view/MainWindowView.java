@@ -3,7 +3,12 @@ package view;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -27,6 +32,7 @@ import java.awt.event.ActionListener;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import controller.CommandLineDebugging;
 import controller.EventController;
@@ -154,6 +160,10 @@ public class MainWindowView
 		resumeButton.setIcon(new ImageIcon("resources/images/debugCompile.png"));
 		resumeButton.setToolTipText("Resume");
 		resumeButton.setEnabled(false);
+		JButton stopButton = new JButton("");
+		stopButton.setIcon(new ImageIcon("resources/images/debugCompile.png"));
+		stopButton.setToolTipText("Stop");
+		stopButton.setEnabled(false);
 		coreToolbar.setBounds(0, 0, 620, 48);
 		coreToolbar.add(newButton);
 		coreToolbar.add(openButton);
@@ -164,6 +174,7 @@ public class MainWindowView
 		coreToolbar.addSeparator();
 		coreToolbar.add(stepOverButton);
 		coreToolbar.add(resumeButton);
+		coreToolbar.add(stopButton);
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);
@@ -228,38 +239,93 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				eventController.debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton);
-				final CommandLineDebugging cld = new CommandLineDebugging("C:\\Users\\inyongthegr8\\Documents\\GitHub\\PDE-C\\resources\\testcodes\\a.exe");
-				Thread stdout = new Thread(new Runnable()
-				{
+				eventController.debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
+				Thread debug = new Thread(new Runnable(){
 					public void run()
 					{
 						try
 						{
-							System.out.println(cld.getStdOut());
-						}
-						catch (IOException ioe)
+							String line;
+							ArrayList<String> lines = new ArrayList<String>();
+							Process process = Runtime.getRuntime().exec("gdb \"C:\\Users\\InYong\\Documents\\GitHub\\PDE-C\\resources\\testcodes\\test.exe\"");
+
+			                if (process != null){
+			                    BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			                    PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(process.getOutputStream())),true);
+
+			                    out.flush();
+
+			                    out.flush();
+			                    
+			                    /*
+			                    // get breakpoint numbers from RScrollPane or RSyntaxTextArea, make a for loop out of it (store as arraylist, we will call it as al)
+			                    ArrayList<Integer> alBreakPt = new ArrayList<Integer>(); // initialise breakpoint numbers based on the user inputted breakpoints
+			                    for(i = 0; i < alBreakPt.size(); i++)
+			                    {
+			                    	out.println("break " + alBreakPt.get(i));
+			                    }
+			                     */
+			                    
+			                    out.println("break 12");
+			                    
+			                    /*
+			                    // Run the program to be debugged
+			                     */
+			                    
+			                    out.println("start");
+			                    
+			                    /*
+			                    // Capture user input through the use of continue and break buttons
+			                     */
+			                    stepOverButton.addActionListener(new ActionListener()
+			                    {
+			                    	public void actionPerformed(ActionEvent e)
+			                    	{
+			                    		out.println("s");
+			                    	}
+			                    }
+			                    );
+			                    
+			                    resumeButton.addActionListener(new ActionListener()
+			                    {
+			                    	public void actionPerformed(ActionEvent e)
+			                    	{
+			                    		out.println("c");
+			                    	}
+			                    }
+			                    );
+			                    
+			                    stopButton.addActionListener(new ActionListener()
+			                    {
+			                    	public void actionPerformed(ActionEvent e)
+			                    	{
+					                    out.close();
+			                    	}
+			                    }
+			                    );
+
+			                    while ((line = in.readLine()) != null){
+			                        lines.add(line);
+			                    }
+			                    String[] lineArray = new String[lines.size()];
+			                    lineArray  = lines.toArray(lineArray);
+
+			                    for (int i=0; i < lineArray.length; i++) {
+			                        System.out.println(lineArray[i].toString());
+			                    }
+			                    
+			                    process.destroy();
+			                    eventController.debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
+			                }
+			            }
+						catch (Exception ex)
 						{
-							System.out.println("DanEvo Project");
-						}
+			                ex.printStackTrace();
+			            }
 					}
 				});
-				Thread stderr = new Thread(new Runnable()
-				{
-					public void run()
-					{
-						try
-						{
-							System.out.println(cld.getStdError());
-						}
-						catch (IOException ioe)
-						{
-							System.out.println("DanEvo Project");
-						}
-					}
-				});
-				stdout.start();
-				stderr.start();
+				
+				debug.start();
 			}
 		});
 		

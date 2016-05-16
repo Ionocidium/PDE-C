@@ -150,7 +150,7 @@ public class EventController
 	  return res;
 	}
 
-  public void debugToggler(JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton){
+  public void debugToggler(JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton){
 	  	newButton.setEnabled(!newButton.isEnabled());
 		newFileItem.setEnabled(!newFileItem.isEnabled());
 		openButton.setEnabled(!openButton.isEnabled());
@@ -164,5 +164,6 @@ public class EventController
 		debugBuildItem.setEnabled(!debugBuildItem.isEnabled());
 		stepOverButton.setEnabled(!stepOverButton.isEnabled());
 		resumeButton.setEnabled(!resumeButton.isEnabled());
+		stopButton.setEnabled(!stopButton.isEnabled());
   }
 }
