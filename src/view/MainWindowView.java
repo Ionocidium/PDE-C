@@ -31,13 +31,10 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import controller.CommandLineDebugging;
 import controller.EventController;
-import controller.fileops.FileLoad;
-import controller.fileops.FileSave;
 import java.awt.event.KeyAdapter;
 
 public class MainWindowView
