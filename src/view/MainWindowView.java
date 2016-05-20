@@ -35,6 +35,8 @@ import java.util.ArrayList;
 
 import controller.CommandLineDebugging;
 import controller.EventController;
+import service.Parsers;
+
 import java.awt.event.KeyAdapter;
 
 public class MainWindowView
@@ -92,7 +94,9 @@ public class MainWindowView
 		EventController eventController = EventController.getEventController();
         
 		RSyntaxTextArea editorPane = new RSyntaxTextArea();
+		Parsers p = new Parsers();
 		
+		editorPane.addParser(p);
 		editorPane.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
