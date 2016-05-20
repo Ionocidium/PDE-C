@@ -32,7 +32,7 @@ public class CommandLineControls64
         
         System.out.println(this.commands[3]);
         
-        List<String> lines = Arrays.asList("start " + this.commands[3] + ".exe");
+        List<String> lines = Arrays.asList("start \"\" \"" + this.commands[3] + ".exe\"");
         Path file = Paths.get("resources/donttouch.bat");
         Files.write(file, lines, Charset.forName("UTF-8"));
 	}
