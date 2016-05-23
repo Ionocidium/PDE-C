@@ -55,7 +55,7 @@ public class Parsers extends AbstractParser
 			
 			// COMPILE ME HERE
 			Runtime rt = Runtime.getRuntime();
-			String cmds[] = {"C:\\cygwin64\\bin\\gcc.exe", temporary.getAbsolutePath(), "-o", temporary.getAbsolutePath().substring(0, temporary.getAbsolutePath().lastIndexOf(".c")) + ".exe"};
+			String cmds[] = {"C:\\cygwin64\\bin\\gcc.exe", temporary.getAbsolutePath()};
 		 	Process proc = rt.exec(cmds);
 			//eventC.compile(filePath);
 			Element root = doc.getDefaultRootElement();
