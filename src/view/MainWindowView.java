@@ -120,6 +120,12 @@ public class MainWindowView
 				{
 				  filePath = eventController.openFile(frame, editorPane);
 				}
+				
+				else if (e.getKeyCode() == e.VK_N)
+				{
+				  filePath = null;
+				  editorPane.setText("");
+				}
 			  }
 			  
 			  else if (e.getKeyCode() == e.VK_F6)

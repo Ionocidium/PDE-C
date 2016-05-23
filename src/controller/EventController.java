@@ -91,18 +91,19 @@ public class EventController
 			if (path.toString().contains(".c"))
 			{
 			  saveFile.writeFile(path, editorPane.getText());
+			  returnedPath = path;
 			}
 			
 			else
 			{
 			  String pathsss = path.toString().concat(".c");
+			  
+			  System.out.println(pathsss);
 			  Path newPath = Paths.get(pathsss);
 			  
 			  saveFile.writeFile(newPath, editorPane.getText());
+			  returnedPath = newPath;
 			}
-			
-			returnedPath = path;
-			
 		}
 		
 		return returnedPath;
