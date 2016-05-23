@@ -10,6 +10,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Element;
 
+import org.fife.rsta.ac.OutputCollector;
 import org.fife.ui.rsyntaxtextarea.RSyntaxDocument;
 import org.fife.ui.rsyntaxtextarea.parser.AbstractParser;
 import org.fife.ui.rsyntaxtextarea.parser.DefaultParseResult;
@@ -22,7 +23,8 @@ public class Parsers extends AbstractParser
 
 	private DefaultParseResult res;
 	
-	public Parsers(){
+	public Parsers()
+	{
 		res = new DefaultParseResult(this);
 	}
 	
@@ -40,22 +42,49 @@ public class Parsers extends AbstractParser
 		{
 			File temporary = File.createTempFile("CTempFile", ".tmp");
 			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(temporary));
-			try {
+			try
+			{
 				new DefaultEditorKit().write(out, doc, 0, doc.getLength());
-			} catch (BadLocationException ble) {
+			}
+			catch (BadLocationException ble)
+			{
 				ble.printStackTrace();
 				throw new IOException(ble.getMessage());
 			}
 			out.close();
 			
-			// COMPILE ME HERE using donttouch.bat
-			
+			// COMPILE ME HERE
+			Runtime rt = Runtime.getRuntime();
+			String cmds[] = {"C:\\cygwin64\\bin\\gcc.exe", temporary.getAbsolutePath(), "-o", temporary.getAbsolutePath().substring(0, temporary.getAbsolutePath().lastIndexOf(".c")) + ".exe"};
+		 	Process proc = rt.exec(cmds);
 			//eventC.compile(filePath);
 			Element root = doc.getDefaultRootElement();
+			OutputCollector stdout = new OutputCollector(proc.getInputStream(), false);
+			Thread t_oc = new Thread(stdout);
+			t_oc.start();
 			COutputCollector stderr = new COutputCollector(
-					p.getErrorStream(), this, res, root);
+					proc.getErrorStream(), this, res, root);
+			Thread t_coc = new Thread(stderr);
+			t_coc.start();
+			try
+			{
+				t_coc.join(10000);
+				t_oc.join(10000);
+				if (t_oc.isAlive())
+				{
+					t_oc.interrupt();
+				}
+				else
+				{
+					proc.waitFor();
+				}
+			}
+			catch (InterruptedException ie)
+			{
+				ie.printStackTrace();
+			}
 			long compileTime = System.currentTimeMillis() - compileStart;
-			res.setParseTime(compileStart);
+			res.setParseTime(compileTime);
 			//System.out.println(time + "ms");
 		}
 		catch (IOException ioe)
@@ -64,8 +93,7 @@ public class Parsers extends AbstractParser
 			ioe.printStackTrace();
 		}
 		
-		return null;
+		return res;
 	}
 
-  
 }
