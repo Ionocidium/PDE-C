@@ -15,6 +15,8 @@ import org.fife.ui.rsyntaxtextarea.parser.AbstractParser;
 import org.fife.ui.rsyntaxtextarea.parser.DefaultParseResult;
 import org.fife.ui.rsyntaxtextarea.parser.ParseResult;
 
+import controller.EventController;
+
 public class Parsers extends AbstractParser
 {
 
@@ -27,6 +29,7 @@ public class Parsers extends AbstractParser
 	@Override
 	public ParseResult parse(RSyntaxDocument doc, String style)
 	{
+	    EventController eventC = EventController.getEventController();
 		res.clearNotices();
 		
 		int lineCount = doc.getDefaultRootElement().getElementCount();
@@ -46,6 +49,8 @@ public class Parsers extends AbstractParser
 			out.close();
 			
 			// COMPILE ME HERE using donttouch.bat
+			
+			//eventC.compile(filePath);
 			Element root = doc.getDefaultRootElement();
 			COutputCollector stderr = new COutputCollector(
 					p.getErrorStream(), this, res, root);

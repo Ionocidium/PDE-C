@@ -132,6 +132,19 @@ public class EventController
 			e1.printStackTrace();
 		}
 	}
+	
+	public void compile(Path filePath)
+	{
+	  try
+	  {
+		CompileLog log = new CompileLog(filePath);
+	  }
+	  
+	  catch (Exception ex)
+	  {
+		ex.printStackTrace();
+	  }
+	}
 
 	public String runProgram()
 	{
