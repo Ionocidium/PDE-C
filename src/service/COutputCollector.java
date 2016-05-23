@@ -16,7 +16,7 @@ public class COutputCollector extends OutputCollector{
 	private DefaultParseResult result;
 	private Element root;
 
-	private static final Pattern ERROR_PATTERN = Pattern.compile("INSERT YOUR REGEX HERE");
+	private static final Pattern ERROR_PATTERN = Pattern.compile("((?!.c:)[0-9]+(?=:\\d))");
 	
 	public COutputCollector(InputStream in, Parsers cParser,
 								DefaultParseResult res, Element root) {
