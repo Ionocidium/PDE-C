@@ -78,15 +78,34 @@ public class EventController
 		return filePath;
 	}
   
-	public void saveAsFile(JFrame frame, RSyntaxTextArea editorPane)
+	public Path saveAsFile(JFrame frame, RSyntaxTextArea editorPane)
 	{
 		int returnVal = fileChooser.showSaveDialog(frame);
+		
+		Path returnedPath = null;
 	  
 		if (returnVal == JFileChooser.APPROVE_OPTION)
 		{
-			Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());			
-			saveFile.writeFile(path, editorPane.getText());
+			Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());		
+			
+			if (path.toString().contains(".c"))
+			{
+			  saveFile.writeFile(path, editorPane.getText());
+			}
+			
+			else
+			{
+			  String pathsss = path.toString().concat(".c");
+			  Path newPath = Paths.get(pathsss);
+			  
+			  saveFile.writeFile(newPath, editorPane.getText());
+			}
+			
+			returnedPath = path;
+			
 		}
+		
+		return returnedPath;
 	}
   
 	public void saveFile(JFrame frame, RSyntaxTextArea editorPane, Path filePath)

@@ -112,7 +112,7 @@ public class MainWindowView
 				  
 				  else
 				  {
-					eventController.saveAsFile(frame, editorPane);
+					filePath = eventController.saveAsFile(frame, editorPane);
 				  }	  
 				}
 				
@@ -120,6 +120,11 @@ public class MainWindowView
 				{
 				  filePath = eventController.openFile(frame, editorPane);
 				}
+			  }
+			  
+			  else if (e.getKeyCode() == e.VK_F6)
+			  {
+				eventController.compile(frame, editorPane, filePath);
 			  }
 			  
 			  else if (e.getKeyCode() == e.VK_F8)
@@ -193,6 +198,12 @@ public class MainWindowView
 		
 		
 		JMenuItem saveFileItem = new JMenuItem("Save");
+		saveFileItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+			  eventController.saveFile(frame, editorPane, filePath);
+			}
+		});
 		
 		JMenuItem saveAsFileItem = new JMenuItem("Save As...");
 		
@@ -234,7 +245,6 @@ public class MainWindowView
 			}
 		});
 		
-		compileBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
 		JMenuItem debugBuildItem = new JMenuItem("Debug", KeyEvent.VK_D);
 		
 		debugBuildItem.addActionListener(new ActionListener() 
