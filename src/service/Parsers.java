@@ -40,7 +40,7 @@ public class Parsers extends AbstractParser
 		long compileStart = System.currentTimeMillis();
 		try
 		{
-			File temporary = File.createTempFile("CTempFile", ".tmp");
+			File temporary = File.createTempFile("CTempFile", ".c");
 			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(temporary));
 			try
 			{
@@ -85,6 +85,7 @@ public class Parsers extends AbstractParser
 			}
 			long compileTime = System.currentTimeMillis() - compileStart;
 			res.setParseTime(compileTime);
+			temporary.deleteOnExit();
 			//System.out.println(time + "ms");
 		}
 		catch (IOException ioe)
