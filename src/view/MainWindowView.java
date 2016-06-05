@@ -165,12 +165,27 @@ public class MainWindowView
 		newButton.setToolTipText("New");
 		newButton.setIcon(new ImageIcon("resources/images/newFile.png"));
 		JButton openButton = new JButton("");
+		openButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				filePath = eventController.openFile(frame, editorPane);
+			}
+		});
 		openButton.setIcon(new ImageIcon("resources/images/openFile.png"));
 		openButton.setToolTipText("Open");
 		JButton saveButton = new JButton("");
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				 eventController.saveFile(frame, editorPane, filePath);
+			}
+		});
 		saveButton.setIcon(new ImageIcon("resources/images/saveFile.png"));
 		saveButton.setToolTipText("Save");
 		JButton compileButton = new JButton("");
+		compileButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				eventController.compile(frame, editorPane, filePath); 
+			}
+		});
 		compileButton.setIcon(new ImageIcon("resources/images/buildCompile.png"));
 		compileButton.setToolTipText("Compile");
 		JButton debugButton = new JButton("");
@@ -303,16 +318,15 @@ public class MainWindowView
 		helpMenu.add(aboutHelpItem);
 
 		frame.setJMenuBar(menuBar);
-		frame.setLayout(new BorderLayout());
-		frame.add(scrollPane, BorderLayout.CENTER);
+		frame.getContentPane().setLayout(new BorderLayout());
+		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 	
-		
 		SpringLayout springLayout = new SpringLayout();
 		springLayout.putConstraint(SpringLayout.NORTH, coreToolbar, 0, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, coreToolbar, 0, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, coreToolbar, 48, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, coreToolbar, 2500, SpringLayout.WEST, frame.getContentPane());
-		frame.add(coreToolbar, BorderLayout.NORTH);
+		frame.getContentPane().add(coreToolbar, BorderLayout.NORTH);
 		frame.setVisible(true);
 	}
 }
