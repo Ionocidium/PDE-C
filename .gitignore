@@ -61,3 +61,6 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+# Batch files
+.bat
