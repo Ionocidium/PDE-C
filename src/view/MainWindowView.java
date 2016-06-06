@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import controller.CommandLineDebugging;
 import controller.EventController;
 import service.Parsers;
+import service.ClientService;
 
 import java.awt.event.KeyAdapter;
 import javax.swing.SpringLayout;
@@ -83,7 +84,8 @@ public class MainWindowView
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize()
-	{
+	{x
+	  	ClientService client = ClientService.getClientService();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 650, 425);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
