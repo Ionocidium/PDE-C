@@ -1,6 +1,11 @@
 package view;
 
+
+import java.awt.BorderLayout;
+import java.awt.ComponentOrientation;
 import java.awt.EventQueue;
+import java.awt.LayoutManager;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
@@ -22,7 +27,6 @@ import javax.swing.text.BadLocationException;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.JButton;
@@ -38,6 +42,7 @@ import controller.EventController;
 import service.Parsers;
 
 import java.awt.event.KeyAdapter;
+import javax.swing.SpringLayout;
 
 public class MainWindowView
 {
@@ -80,10 +85,9 @@ public class MainWindowView
 	private void initialize()
 	{
 		frame = new JFrame();
-		frame.setBounds(100, 100, 620, 425);
+		frame.setBounds(100, 100, 650, 425);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		frame.setResizable(false);
+		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		
 		final JFileChooser fileChooser = new JFileChooser();
@@ -143,8 +147,15 @@ public class MainWindowView
 		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
 		editorPane.setCodeFoldingEnabled(true);
 		RTextScrollPane scrollPane = new RTextScrollPane(editorPane);
+		
+
+		
 		scrollPane.setIconRowHeaderEnabled(true);
-		scrollPane.setBounds(0, 48, 614, 326);
+		scrollPane.setDefaultLocale(null);
+		scrollPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		scrollPane.setWheelScrollingEnabled(true);
+		scrollPane.revalidate();
+
 
 
 		JToolBar coreToolbar = new JToolBar();
@@ -154,12 +165,27 @@ public class MainWindowView
 		newButton.setToolTipText("New");
 		newButton.setIcon(new ImageIcon("resources/images/newFile.png"));
 		JButton openButton = new JButton("");
+		openButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				filePath = eventController.openFile(frame, editorPane);
+			}
+		});
 		openButton.setIcon(new ImageIcon("resources/images/openFile.png"));
 		openButton.setToolTipText("Open");
 		JButton saveButton = new JButton("");
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				 eventController.saveFile(frame, editorPane, filePath);
+			}
+		});
 		saveButton.setIcon(new ImageIcon("resources/images/saveFile.png"));
 		saveButton.setToolTipText("Save");
 		JButton compileButton = new JButton("");
+		compileButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				eventController.compile(frame, editorPane, filePath); 
+			}
+		});
 		compileButton.setIcon(new ImageIcon("resources/images/buildCompile.png"));
 		compileButton.setToolTipText("Compile");
 		JButton debugButton = new JButton("");
@@ -177,7 +203,6 @@ public class MainWindowView
 		stopButton.setIcon(new ImageIcon("resources/images/debugCompile.png"));
 		stopButton.setToolTipText("Stop");
 		stopButton.setEnabled(false);
-		coreToolbar.setBounds(0, 0, 620, 48);
 		coreToolbar.add(newButton);
 		coreToolbar.add(openButton);
 		coreToolbar.add(saveButton);
@@ -293,7 +318,15 @@ public class MainWindowView
 		helpMenu.add(aboutHelpItem);
 
 		frame.setJMenuBar(menuBar);
-		frame.getContentPane().add(coreToolbar);
-		frame.getContentPane().add(scrollPane);
+		frame.getContentPane().setLayout(new BorderLayout());
+		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+	
+		SpringLayout springLayout = new SpringLayout();
+		springLayout.putConstraint(SpringLayout.NORTH, coreToolbar, 0, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, coreToolbar, 0, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, coreToolbar, 48, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, coreToolbar, 2500, SpringLayout.WEST, frame.getContentPane());
+		frame.getContentPane().add(coreToolbar, BorderLayout.NORTH);
+		frame.setVisible(true);
 	}
 }
