@@ -10,12 +10,11 @@ import java.net.Socket;
 public class ClientService
 {
   private static ClientService instance = null;
-  private static String serverName;
   private final static int port = 2021;
   
   private ClientService()
   {
-	serverName = "PDE-C";
+
   }
   
   public static ClientService getClientService()

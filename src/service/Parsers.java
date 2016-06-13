@@ -16,16 +16,19 @@ import org.fife.ui.rsyntaxtextarea.parser.AbstractParser;
 import org.fife.ui.rsyntaxtextarea.parser.DefaultParseResult;
 import org.fife.ui.rsyntaxtextarea.parser.ParseResult;
 
+import configuration.LocalConfiguration;
 import controller.EventController;
 
 public class Parsers extends AbstractParser
 {
 
 	private DefaultParseResult res;
+	private LocalConfiguration local;
 	
 	public Parsers()
 	{
 		res = new DefaultParseResult(this);
+		local = new LocalConfiguration();
 	}
 	
 	@Override
@@ -55,7 +58,7 @@ public class Parsers extends AbstractParser
 			
 			// COMPILE ME HERE
 			Runtime rt = Runtime.getRuntime();
-			String cmds[] = {"C:\\cygwin64\\bin\\gcc.exe", temporary.getAbsolutePath()};
+			String cmds[] = {local.getGccPath(), temporary.getAbsolutePath()};
 		 	Process proc = rt.exec(cmds);
 			//eventC.compile(filePath);
 			Element root = doc.getDefaultRootElement();

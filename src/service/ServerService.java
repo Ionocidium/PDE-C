@@ -30,7 +30,7 @@ public class ServerService extends Thread
 		
 		DataOutputStream out = new DataOutputStream(server.getOutputStream());
 		out.writeUTF("You're connected to " + server.getLocalAddress());
-		
+		server.close();
 	  }
 	  
 	  catch(Exception ex)

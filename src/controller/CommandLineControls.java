@@ -3,6 +3,13 @@ package controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import configuration.LocalConfiguration;
 
 public class CommandLineControls
 {
@@ -13,25 +20,23 @@ public class CommandLineControls
     private Process proc;
 	private BufferedReader stdInput;
 	private BufferedReader stdError;
+	private LocalConfiguration local;
 
 	public CommandLineControls(String cFile) throws IOException
 	{
-		String path = "";
-		if(System.getProperty("os.arch").equals("amd64"))
-		{
-	        path = "C:\\cygwin64\\bin\\";
-		}
-		else if(System.getProperty("os.arch").equals("x86"))
-		{
-	        path = "C:\\cygwin\\bin\\";
-		}
+	  	local = new LocalConfiguration();
+	  	String path = local.getGccPath();
         this.gccPath = path;
         this.fileToCompile = cFile;
         this.rt = Runtime.getRuntime();
-        this.commands[0] = this.gccPath + "gcc.exe";
+        this.commands[0] = this.gccPath;
         this.commands[1] = this.fileToCompile;
         this.commands[2] = "-o";
         this.commands[3] = this.fileToCompile.substring(0, this.fileToCompile.lastIndexOf(".c"));
+        
+        List<String> lines = Arrays.asList("start \"\" \"" + this.commands[3] + ".exe\"");
+        Path file = Paths.get("resources/donttouch.bat");
+        Files.write(file, lines, Charset.forName("UTF-8"));
 	}
 	
 	public CommandLineControls(String gccPath, String cFile) throws IOException

@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import javax.swing.JTextPane;
 
 import controller.CommandLineControls;
-import controller.CommandLineControls64;
 import service.CBRCIntegration;
 
 import java.awt.Font;
@@ -63,7 +62,7 @@ public class CompileLog {
 		frmCompileLog.getContentPane().setLayout(new BorderLayout(0, 0));
 		frmCompileLog.setLocationRelativeTo(null);
 		frmCompileLog.setVisible(true);
-		CommandLineControls64 clc = new CommandLineControls64(cPath.toString());
+		CommandLineControls clc = new CommandLineControls(cPath.toString());
 		CBRCIntegration cbrc = new CBRCIntegration();
 		
 		JTextPane txtpnTest = new JTextPane();
