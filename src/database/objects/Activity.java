@@ -70,12 +70,12 @@ public class Activity
 		this.activityTimeStamp = activityTimeStamp;
 	}
 	
-	public Date getActivitDeadline() 
+	public Date getActivityDeadline() 
 	{
 		return activitDeadline;
 	}
 	
-	public void setActivitDeadline(Date activitDeadline) 
+	public void setActivityDeadline(Date activitDeadline) 
 	{
 		this.activitDeadline = activitDeadline;
 	}
