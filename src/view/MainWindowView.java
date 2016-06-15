@@ -44,6 +44,7 @@ import service.ClientService;
 
 import java.awt.event.KeyAdapter;
 import javax.swing.SpringLayout;
+import javax.swing.ScrollPaneConstants;
 
 public class MainWindowView
 {
@@ -149,6 +150,7 @@ public class MainWindowView
 		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
 		editorPane.setCodeFoldingEnabled(true);
 		RTextScrollPane scrollPane = new RTextScrollPane(editorPane);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		
 
 		
