@@ -28,7 +28,7 @@ public class Parsers extends AbstractParser
 	public Parsers()
 	{
 		res = new DefaultParseResult(this);
-		local = new LocalConfiguration();
+		local = LocalConfiguration.getInstance();
 	}
 	
 	@Override

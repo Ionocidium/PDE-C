@@ -3,8 +3,13 @@ package configuration;
 public class LocalConfiguration
 {
   private String gccPath;
+  private static LocalConfiguration instance = null;
   
-  public LocalConfiguration()
+  
+  // Edit your configuration files if you need to
+  // Please do not push your own config file to Git
+  
+  private LocalConfiguration()
   {
 	if(System.getProperty("os.arch").equals("amd64"))
 	{
@@ -15,6 +20,16 @@ public class LocalConfiguration
 	{
         gccPath = "C:\\cygwin\\bin\\gcc.exe";
 	}
+  }
+  
+  public static LocalConfiguration getInstance()
+  {
+	if (instance == null)
+	{
+	  instance = new LocalConfiguration();
+	}
+	
+	return instance;
   }
   
   public String getGccPath()

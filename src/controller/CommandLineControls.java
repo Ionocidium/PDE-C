@@ -24,7 +24,7 @@ public class CommandLineControls
 
 	public CommandLineControls(String cFile) throws IOException
 	{
-	  	local = new LocalConfiguration();
+	  	local = LocalConfiguration.getInstance();
 	  	String path = local.getGccPath();
         this.gccPath = path;
         this.fileToCompile = cFile;
