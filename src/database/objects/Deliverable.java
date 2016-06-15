@@ -11,7 +11,7 @@ public class Deliverable
 	private int activityID;
 	private File deliverableSourceCode;
 	private Timestamp dateSubmitted;
-	private String deliverableFileName;
+	private String deliverableSourceCodeFileName;
 	private float grade;
 	
 	public Deliverable() 
@@ -20,14 +20,14 @@ public class Deliverable
 	}
 
 	public Deliverable(int deliverableID, int studentID, int activityID, File deliverableSourceCode,
-			Timestamp dateSubmitted, String deliverableFileName, float grade) 
+			Timestamp dateSubmitted, String deliverableSourceCodeFileName, float grade) 
 	{
 		this.deliverableID = deliverableID;
 		this.studentID = studentID;
 		this.activityID = activityID;
 		this.deliverableSourceCode = deliverableSourceCode;
 		this.dateSubmitted = dateSubmitted;
-		this.deliverableFileName = deliverableFileName;
+		this.deliverableSourceCodeFileName = deliverableSourceCodeFileName;
 		this.grade = grade;
 	}
 	
@@ -81,14 +81,14 @@ public class Deliverable
 		this.dateSubmitted = dateSubmitted;
 	}
 	
-	public String getDeliverableFileName() 
+	public String getDeliverableSourceCodeFileName() 
 	{
-		return deliverableFileName;
+		return deliverableSourceCodeFileName;
 	}
 	
-	public void setDeliverableFileName(String deliverableFileName) 
+	public void setDeliverableSourceCodeFileName(String deliverableSourceCodeFileName) 
 	{
-		this.deliverableFileName = deliverableFileName;
+		this.deliverableSourceCodeFileName = deliverableSourceCodeFileName;
 	}
 	
 	public float getGrade() 
