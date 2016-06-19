@@ -10,10 +10,27 @@ import java.util.ArrayList;
 public class StudentDAO extends DAO{
 	
 	public void addStudent (Student smdl) throws SQLException{
-        int IDNumber = smdl.getStudentID();
+        int studentID = smdl.getStudentID();
+        String studentPassword = smdl.getStudentPassword();
+        String studentFirstName = smdl.getStudentFirstName();
+        String studentLastName = smdl.getStudentLastName();
+        String studentSection = smdl.getStudentSection();
         Connection connection = getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("insert into Student (StudentID) values(?)");
-        preparedStatement.setInt(1, IDNumber);
+        PreparedStatement preparedStatement = connection.prepareStatement("insert into Student (StudentID, StudentPasssword, StudentFirstName, StudentLastName, StudentSection) values(?, ?, ?, ?, ?)");
+        preparedStatement.setInt(1, studentID);
+        preparedStatement.setString(2, studentPassword);
+        preparedStatement.setString(3, studentFirstName);
+        preparedStatement.setString(4, studentLastName);
+        preparedStatement.setString(5, studentSection);
+        update(preparedStatement);
+        close(preparedStatement, connection);
+    }
+	
+	public void changePassword (int studentID, String newpwd) throws SQLException{
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("update Student set StudentPassword = ? where StudentID = ?");
+        preparedStatement.setString(1, newpwd);
+        preparedStatement.setInt(2, studentID);
         update(preparedStatement);
         close(preparedStatement, connection);
     }
@@ -26,33 +43,49 @@ public class StudentDAO extends DAO{
         close(preparedStatement, connection);
     }
     
-    public Student getStudent (int studentID) throws SQLException{
+    public Student getStudent (int idNumber) throws SQLException{
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("select * from Student where StudentID = ?");
-        preparedStatement.setInt(1, studentID);
+        preparedStatement.setInt(1, idNumber);
         ResultSet resultSet = query(preparedStatement);
-        Student bmdl = new Student();
+        Student smdl = new Student();
         while (resultSet.next()) {
-            int IDNumber = resultSet.getInt("StudentID");
-            bmdl.setStudentID(IDNumber);
+            int studentID = resultSet.getInt("StudentID");
+            String studentPassword = resultSet.getString("StudentPassword");
+            String studentFirstName = resultSet.getString("StudentFirstName");
+            String studentLastName = resultSet.getString("StudentLastName");
+            String studentSection = resultSet.getString("StudentSection");
+            smdl.setStudentID(studentID);
+            smdl.setStudentPassword(studentPassword);
+            smdl.setStudentFirstName(studentFirstName);
+            smdl.setStudentLastName(studentLastName);
+            smdl.setStudentSection(studentSection);
         }
         close(preparedStatement, connection);
-        return bmdl;
+        return smdl;
     }
     
     public ArrayList<Student> getStudents () throws SQLException{
-        ArrayList<Student> activities = new ArrayList<Student>();
+        ArrayList<Student> students = new ArrayList<Student>();
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("select * from Student order by StudentID");
         ResultSet resultSet = query(preparedStatement);
         while (resultSet.next()) {
         	Student smdl = new Student();
-            int IDNumber = resultSet.getInt("IDnumber");
-            smdl.setStudentID(IDNumber);
-            activities.add(smdl);
+            int studentID = resultSet.getInt("IDnumber");
+            String studentPassword = resultSet.getString("StudentPassword");
+            String studentFirstName = resultSet.getString("StudentFirstName");
+            String studentLastName = resultSet.getString("StudentLastName");
+            String studentSection = resultSet.getString("StudentSection");
+            smdl.setStudentID(studentID);
+            smdl.setStudentPassword(studentPassword);
+            smdl.setStudentFirstName(studentFirstName);
+            smdl.setStudentLastName(studentLastName);
+            smdl.setStudentSection(studentSection);
+            students.add(smdl);
         }
         close(preparedStatement, connection);
-        return activities;
+        return students;
     }
 
 }
