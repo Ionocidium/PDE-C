@@ -39,6 +39,7 @@ import java.util.ArrayList;
 
 import controller.CommandLineDebugging;
 import controller.EventController;
+import model.Student;
 import service.Parsers;
 import service.ClientService;
 
@@ -86,12 +87,21 @@ public class MainWindowView
 	 */
 	private void initialize()
 	{
-	  	ClientService client = ClientService.getClientService();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 650, 425);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
+		
+		Student student = new Student(11140631, "aaa", "aljon", "jose", "s18");
+		try
+		{
+		  student.sendData();
+		} catch (IOException e1)
+		{
+		  // TODO Auto-generated catch block
+		  e1.printStackTrace();
+		}
 		
 		final JFileChooser fileChooser = new JFileChooser();
 		FileNameExtensionFilter cFilter = new FileNameExtensionFilter(
