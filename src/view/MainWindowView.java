@@ -93,15 +93,15 @@ public class MainWindowView
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		
-		Student student = new Student(11140631, "aaa", "aljon", "jose", "s18");
-		try
-		{
-		  student.sendData();
-		} catch (IOException e1)
-		{
-		  // TODO Auto-generated catch block
-		  e1.printStackTrace();
-		}
+//		Student student = new Student(11140631, "aaa", "aljon", "jose", "s18");
+//		try
+//		{
+//		  student.sendData();
+//		} catch (IOException e1)
+//		{
+//		  // TODO Auto-generated catch block
+//		  e1.printStackTrace();
+//		}
 		
 		final JFileChooser fileChooser = new JFileChooser();
 		FileNameExtensionFilter cFilter = new FileNameExtensionFilter(
