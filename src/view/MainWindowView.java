@@ -115,7 +115,8 @@ public class MainWindowView
 		Parsers p = new Parsers();
 		
 		editorPane.addParser(p);
-		editorPane.addKeyListener(new KeyAdapter() {
+		editorPane.addKeyListener(new KeyAdapter()
+		{
 			@Override
 			public void keyPressed(KeyEvent e) {
 			  
@@ -179,7 +180,8 @@ public class MainWindowView
 		newButton.setToolTipText("New");
 		newButton.setIcon(new ImageIcon("resources/images/newFile.png"));
 		JButton openButton = new JButton("");
-		openButton.addActionListener(new ActionListener() {
+		openButton.addActionListener(new ActionListener() 
+		{
 			public void actionPerformed(ActionEvent e) {
 				filePath = eventController.openFile(frame, editorPane);
 			}
@@ -187,7 +189,8 @@ public class MainWindowView
 		openButton.setIcon(new ImageIcon("resources/images/openFile.png"));
 		openButton.setToolTipText("Open");
 		JButton saveButton = new JButton("");
-		saveButton.addActionListener(new ActionListener() {
+		saveButton.addActionListener(new ActionListener() 
+		{
 			public void actionPerformed(ActionEvent arg0) {
 				 eventController.saveFile(frame, editorPane, filePath);
 			}
@@ -195,7 +198,8 @@ public class MainWindowView
 		saveButton.setIcon(new ImageIcon("resources/images/saveFile.png"));
 		saveButton.setToolTipText("Save");
 		JButton compileButton = new JButton("");
-		compileButton.addActionListener(new ActionListener() {
+		compileButton.addActionListener(new ActionListener() 
+		{
 			public void actionPerformed(ActionEvent e) {
 				eventController.compile(frame, editorPane, filePath); 
 			}
@@ -243,7 +247,8 @@ public class MainWindowView
 		
 		
 		JMenuItem saveFileItem = new JMenuItem("Save");
-		saveFileItem.addActionListener(new ActionListener() {
+		saveFileItem.addActionListener(new ActionListener() 
+		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
 			  eventController.saveFile(frame, editorPane, filePath);
