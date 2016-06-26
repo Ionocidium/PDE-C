@@ -21,6 +21,9 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rtextarea.Gutter;
+import org.fife.ui.rtextarea.GutterIconInfo;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
@@ -201,7 +204,7 @@ public class EventController
 		stopButton.setEnabled(!stopButton.isEnabled());
 	}
   
-	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton)
+	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp)
 	{
 		try
 		{
@@ -210,7 +213,7 @@ public class EventController
 				CompileLog log = new CompileLog(filePath);
 				String currentPath = filePath.toString();
 				String exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
-				debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
+				debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp);
 			}
 			else
 			{
@@ -227,7 +230,7 @@ public class EventController
 						CompileLog log = new CompileLog(filePath);
 						String currentPath = filePath.toString();
 						String exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
-						debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
+						debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp);
 					}
 	  				else
 	  				{
@@ -242,97 +245,8 @@ public class EventController
 			e1.printStackTrace();
 		}
 	}
-  	
-	public void debugHardCode(JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton)
-	{
-		Thread debug = new Thread(new Runnable(){
-			public void run()
-			{
-				try
-				{
-					String line;
-					ArrayList<String> lines = new ArrayList<String>();
-					Process process = Runtime.getRuntime().exec("gdb \"C:\\Users\\inyongthegr8\\Documents\\GitHub\\PDE-C\\resources\\testcodes\\a.exe\"");
 
-	                if (process != null){
-	                    BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
-	                    PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(process.getOutputStream())),true);
-
-	                    out.flush();
-
-	                    out.flush();
-	                    
-	                    /*
-	                    // get breakpoint numbers from RScrollPane or RSyntaxTextArea, make a for loop out of it (store as arraylist, we will call it as al)
-	                    ArrayList<Integer> alBreakPt = new ArrayList<Integer>(); // initialise breakpoint numbers based on the user inputted breakpoints
-	                    for(i = 0; i < alBreakPt.size(); i++)
-	                    {
-	                    	out.println("break " + alBreakPt.get(i));
-	                    }
-	                     */
-	                    
-	                    out.println("break 12");
-	                    
-	                    /*
-	                    // Run the program to be debugged
-	                     */
-	                    
-	                    out.println("start");
-	                    
-	                    /*
-	                    // Capture user input through the use of continue and break buttons
-	                     */
-	                    stepOverButton.addActionListener(new ActionListener()
-	                    {
-	                    	public void actionPerformed(ActionEvent e)
-	                    	{
-	                    		out.println("s");
-	                    	}
-	                    }
-	                    );
-	                    
-	                    resumeButton.addActionListener(new ActionListener()
-	                    {
-	                    	public void actionPerformed(ActionEvent e)
-	                    	{
-	                    		out.println("c");
-	                    	}
-	                    }
-	                    );
-	                    
-	                    stopButton.addActionListener(new ActionListener()
-	                    {
-	                    	public void actionPerformed(ActionEvent e)
-	                    	{
-			                    out.close();
-	                    	}
-	                    }
-	                    );
-
-	                    while ((line = in.readLine()) != null){
-	                        lines.add(line);
-	                    }
-	                    String[] lineArray = new String[lines.size()];
-	                    lineArray  = lines.toArray(lineArray);
-
-	                    for (int i=0; i < lineArray.length; i++) {
-	                        System.out.println(lineArray[i].toString());
-	                    }
-	                    
-	                    process.destroy();
-	                    debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
-	                }
-	            }
-				catch (Exception ex)
-				{
-	                ex.printStackTrace();
-	            }
-			}
-		});
-		debug.start();
-	}
-
-	public void debugActual(String exe, JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton)
+	public void debugActual(String exe, JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp)
 	{
 		Thread debug = new Thread(new Runnable(){
 			public void run()
@@ -351,16 +265,23 @@ public class EventController
 	
 	                    out.flush();
 	                    
-	                    /*
+	                    // get the gutter
+	                    Gutter gut = rtsp.getGutter();
+	                    GutterIconInfo[] gii = gut.getBookmarks();
+	                    
 	                    // get breakpoint numbers from RScrollPane or RSyntaxTextArea, make a for loop out of it (store as arraylist, we will call it as al)
 	                    ArrayList<Integer> alBreakPt = new ArrayList<Integer>(); // initialise breakpoint numbers based on the user inputted breakpoints
-	                    for(i = 0; i < alBreakPt.size(); i++)
+	                    for(int i = 0; i < gii.length; i++)
+	                    {
+	                    	alBreakPt.add(gii[i].getMarkedOffset());
+	                    }
+	                    
+	                    for(int i = 0; i < alBreakPt.size(); i++)
 	                    {
 	                    	out.println("break " + alBreakPt.get(i));
 	                    }
-	                     */
 	                    
-	                    out.println("break 12");
+	                    // out.println("break 12"); // forget hardcoding.
 	                    
 	                    /*
 	                    // Run the program to be debugged
