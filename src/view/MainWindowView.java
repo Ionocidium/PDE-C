@@ -27,6 +27,7 @@ import javax.swing.text.BadLocationException;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.JButton;
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 
 import controller.CommandLineDebugging;
 import controller.EventController;
-import model.Student;
+// import model.Student;
 import service.Parsers;
 import service.ClientService;
 
@@ -161,16 +162,15 @@ public class MainWindowView
 		editorPane.setCodeFoldingEnabled(true);
 		RTextScrollPane scrollPane = new RTextScrollPane(editorPane);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		
-
-		
 		scrollPane.setIconRowHeaderEnabled(true);
 		scrollPane.setDefaultLocale(null);
 		scrollPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		scrollPane.setWheelScrollingEnabled(true);
 		scrollPane.revalidate();
 
-
+		Gutter gut = scrollPane.getGutter();
+		gut.setBookmarkingEnabled(true);
+		gut.setBookmarkIcon(new ImageIcon("resources/images/Breakpoint16.png"));
 
 		JToolBar coreToolbar = new JToolBar();
 		coreToolbar.setFloatable(false);
@@ -297,7 +297,7 @@ public class MainWindowView
 			public void actionPerformed(ActionEvent e) 
 			{
 				eventController.debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
-				eventController.debugActual2(frame, editorPane, filePath, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
+				eventController.debugActual2(frame, editorPane, filePath, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, editorPane, scrollPane);
 			}
 		});
 		
