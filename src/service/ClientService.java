@@ -13,14 +13,13 @@ public class ClientService
   private Socket clientSocket = null;
   private DataOutputStream toServer;
   private DataInputStream fromServer;
-  private String ip;
+  private InetAddress addr;
   
   private ClientService()
   {
 	try
 	{
-	  InetAddress addr = InetAddress.getLocalHost();
-	  ip = addr.getHostAddress();
+	  addr = InetAddress.getByName("10.100.214.51");
 	}
 	
 	catch(Exception ex)
@@ -44,7 +43,7 @@ public class ClientService
   {
 	try
 	{
-	  clientSocket = new Socket(ip, port);
+	  clientSocket = new Socket(addr, port);
 	  toServer = new DataOutputStream(clientSocket.getOutputStream());
 	  fromServer = new DataInputStream(clientSocket.getInputStream());
 	  System.out.println("From client: Connection successful." + '\n');

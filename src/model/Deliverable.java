@@ -1,7 +1,11 @@
 package model;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
+
+import service.ClientService;
+import service.FileManipulation;
 
 public class Deliverable 
 {
@@ -99,6 +103,16 @@ public class Deliverable
 	public void setGrade(float grade) 
 	{
 		this.grade = grade;
+	}
+	
+	public void sendData() throws IOException
+	{
+	  FileManipulation file = new FileManipulation();
+	  String toBeSent = this.deliverableID + "," + this.studentID + "," + this.activityID + "," + file.convertToBinary(this.deliverableSourceCode) + "," + this.dateSubmitted + "," +
+		  				this.deliverableSourceCodeFileName + "," + this.grade;
+	  
+	  ClientService client = ClientService.getClientService();
+	  client.sendDataToServer(toBeSent);
 	}
 	
 }

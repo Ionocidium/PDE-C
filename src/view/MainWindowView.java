@@ -4,26 +4,19 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.EventQueue;
-import java.awt.LayoutManager;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.BadLocationException;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -36,13 +29,10 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-
-import controller.CommandLineDebugging;
 import controller.EventController;
+import model.Student;
 // import model.Student;
 import service.Parsers;
-import service.ClientService;
 
 import java.awt.event.KeyAdapter;
 import javax.swing.SpringLayout;
@@ -93,9 +83,8 @@ public class MainWindowView
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
-		
-<<<<<<< HEAD
-	/*	Student student = new Student(11140631, "aaa", "aljon", "jose", "s18");
+
+		Student student = new Student(11140631, "aaa", "yong", "yongers", "s18");
 		try
 		{
 		  student.sendData();
@@ -103,18 +92,7 @@ public class MainWindowView
 		{
 		  // TODO Auto-generated catch block
 		  e1.printStackTrace();
-		}*/
-=======
-//		Student student = new Student(11140631, "aaa", "aljon", "jose", "s18");
-//		try
-//		{
-//		  student.sendData();
-//		} catch (IOException e1)
-//		{
-//		  // TODO Auto-generated catch block
-//		  e1.printStackTrace();
-//		}
->>>>>>> origin/development-clean
+		}
 		
 		final JFileChooser fileChooser = new JFileChooser();
 		FileNameExtensionFilter cFilter = new FileNameExtensionFilter(
