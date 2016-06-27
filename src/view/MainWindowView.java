@@ -6,7 +6,7 @@ import java.awt.ComponentOrientation;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
+import java.io.File;
 import java.io.IOException;
 
 
@@ -29,9 +29,13 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 
 import java.nio.file.Path;
+import java.sql.Timestamp;
+import java.util.Date;
+
 import controller.EventController;
 import model.Student;
-// import model.Student;
+import model.Deliverable;
+import model.Activity;
 import service.Parsers;
 
 import java.awt.event.KeyAdapter;
@@ -85,6 +89,21 @@ public class MainWindowView
 		frame.setLocationRelativeTo(null);
 
 		Student student = new Student(11140631, "aaa", "yong", "yongers", "s18");
+		java.sql.Date data = new java.sql.Date(System.currentTimeMillis());
+		Deliverable deliver = new Deliverable(1, 11140631, 3, new File("C:\\Users\\Aljon Jose\\Documents\\DLSU\\THSST-1\\testing3.c"), new Timestamp(System.currentTimeMillis()), "hi5.c", 0.5f);
+		Activity active = new Activity(5, "Dimaunahan", new File("C:\\Users\\Aljon Jose\\Documents\\DLSU\\THSST-1\\testing3.c"), new Timestamp(System.currentTimeMillis()), data, "Dimaunahan3000.c");
+		
+		
+		try
+		{
+		  //deliver.sendData();
+		  active.sendData();
+		}
+		
+		catch (Exception ex)
+		{
+		  ex.printStackTrace();
+		}
 
 		final JFileChooser fileChooser = new JFileChooser();
 		FileNameExtensionFilter cFilter = new FileNameExtensionFilter(

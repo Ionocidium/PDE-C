@@ -78,7 +78,7 @@ public class Student
 	
 	public void sendData() throws IOException
 	{
-	  String toBeSent = this.studentID + "," + this.studentPassword + "," + this.studentFirstName + "," + this.studentLastName + "," + this.studentSection;
+	  String toBeSent = "student," + this.studentID + "," + this.studentPassword + "," + this.studentFirstName + "," + this.studentLastName + "," + this.studentSection;
 	  ClientService client = ClientService.getClientService();
 	  client.sendDataToServer(toBeSent);
 	}

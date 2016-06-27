@@ -1,8 +1,12 @@
 package model;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+
+import service.ClientService;
+import service.FileManipulation;
 
 public class Activity 
 {
@@ -87,5 +91,14 @@ public class Activity
 	public void setActivityFilename(String activityFilename) 
 	{
 		this.activityFilename = activityFilename;
+	}
+	
+	public void sendData() throws IOException
+	{
+	  FileManipulation fm = new FileManipulation();
+	  String toBeSent = "activity," + this.activityID + "," + this.activityName + "," + fm.convertToBinary(this.activityFile) + "," + this.activityTimeStamp + "," + this.activitDeadline + "," + this.activityFilename;
+	  
+	  ClientService client = ClientService.getClientService();
+	  client.sendDataToServer(toBeSent);
 	}
 }

@@ -17,11 +17,6 @@ public class Deliverable
 	private Timestamp dateSubmitted;
 	private String deliverableSourceCodeFileName;
 	private float grade;
-	
-	public Deliverable() 
-	{
-		
-	}
 
 	public Deliverable(int deliverableID, int studentID, int activityID, File deliverableSourceCode,
 			Timestamp dateSubmitted, String deliverableSourceCodeFileName, float grade) 
@@ -108,7 +103,7 @@ public class Deliverable
 	public void sendData() throws IOException
 	{
 	  FileManipulation file = new FileManipulation();
-	  String toBeSent = this.deliverableID + "," + this.studentID + "," + this.activityID + "," + file.convertToBinary(this.deliverableSourceCode) + "," + this.dateSubmitted + "," +
+	  String toBeSent = "deliverable," + this.deliverableID + "," + this.studentID + "," + this.activityID + "," + file.convertToBinary(this.deliverableSourceCode) + "," + this.dateSubmitted + "," +
 		  				this.deliverableSourceCodeFileName + "," + this.grade;
 	  
 	  ClientService client = ClientService.getClientService();
