@@ -23,6 +23,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.GutterIconInfo;
+import org.fife.ui.rtextarea.IconRowHeader;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import controller.fileops.FileLoad;
@@ -204,7 +205,7 @@ public class EventController
 		stopButton.setEnabled(!stopButton.isEnabled());
 	}
   
-	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp)
+	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp, ArrayList<Integer> bp)
 	{
 		try
 		{
@@ -213,7 +214,7 @@ public class EventController
 				CompileLog log = new CompileLog(filePath);
 				String currentPath = filePath.toString();
 				String exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
-				debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp);
+				debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp, bp);
 			}
 			else
 			{
@@ -230,7 +231,7 @@ public class EventController
 						CompileLog log = new CompileLog(filePath);
 						String currentPath = filePath.toString();
 						String exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
-						debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp);
+						debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp, bp);
 					}
 	  				else
 	  				{
@@ -246,7 +247,7 @@ public class EventController
 		}
 	}
 
-	public void debugActual(String exe, JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp)
+	public void debugActual(String exe, JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp, ArrayList<Integer> bp)
 	{
 		Thread debug = new Thread(new Runnable(){
 			public void run()
@@ -266,20 +267,26 @@ public class EventController
 	                    out.flush();
 	                    
 	                    // get the gutter
-	                    Gutter gut = rtsp.getGutter();
-	                    GutterIconInfo[] gii = gut.getBookmarks();
+	                    // Gutter gut = rtsp.getGutter();
+	                    // GutterIconInfo[] gii = gut.getBookmarks();
 	                    
 	                    // get breakpoint numbers from RScrollPane or RSyntaxTextArea, make a for loop out of it (store as arraylist, we will call it as al)
-	                    ArrayList<Integer> alBreakPt = new ArrayList<Integer>(); // initialise breakpoint numbers based on the user inputted breakpoints
+	                    // ArrayList<Integer> alBreakPt = new ArrayList<Integer>(); // initialise breakpoint numbers based on the user inputted breakpoints
+	                    /*
 	                    for(int i = 0; i < gii.length; i++)
 	                    {
 	                    	alBreakPt.add(gii[i].getMarkedOffset());
 	                    }
+	                    */
 	                    
-	                    for(int i = 0; i < alBreakPt.size(); i++)
+	                    for(int i = 0; i < bp.size(); i++)
 	                    {
-	                    	out.println("break " + alBreakPt.get(i));
+	                    	out.println("break " + bp.get(i));
 	                    }
+	                    
+	                    
+	                    
+	                    
 	                    
 	                    // out.println("break 12"); // forget hardcoding.
 	                    
