@@ -167,18 +167,21 @@ public class MainWindowView
 				{
 				  if (filePath != null)
 				  {
-					eventController.saveFile(frame, editorPane, filePath);
+					eventController.saveFile(frame, editorPane, filePath, fileModified);
+					fileName = filePath.getFileName().toString();
 				  }
 				  
 				  else
 				  {
-					filePath = eventController.saveAsFile(frame, editorPane);
+					filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+					fileName = filePath.getFileName().toString();
 				  }	  
 				}
 				
 				else if (e.getKeyCode() == e.VK_O)
 				{
 				  filePath = eventController.openFile(frame, editorPane);
+				  fileName = filePath.getFileName().toString();
 				}
 				
 				else if (e.getKeyCode() == e.VK_N)
@@ -222,6 +225,9 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) {
 				filePath = eventController.openFile(frame, editorPane);
+				if(filePath != null)
+					fileName = filePath.getFileName().toString();
+				fileModified = false;
 			}
 		});
 		openButton.setIcon(new ImageIcon("resources/images/openFile.png"));
@@ -230,7 +236,8 @@ public class MainWindowView
 		saveButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) {
-				 eventController.saveFile(frame, editorPane, filePath);
+				 eventController.saveFile(frame, editorPane, filePath, fileModified);
+				 fileModified = false;
 			}
 		});
 		saveButton.setIcon(new ImageIcon("resources/images/saveFile.png"));
@@ -280,6 +287,8 @@ public class MainWindowView
 		  public void actionPerformed(ActionEvent e) 
 		  {
 			filePath = eventController.openFile(frame, editorPane);
+			if(filePath != null)
+				fileName = filePath.getFileName().toString();
 		  }
 		});
 		
@@ -289,7 +298,9 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-			  eventController.saveFile(frame, editorPane, filePath);
+			  eventController.saveFile(frame, editorPane, filePath, fileModified);
+			  frame.setTitle(appName + " - " + fileName);
+			  fileModified = false;
 			}
 		});
 		
@@ -299,7 +310,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-			  eventController.saveAsFile(frame, editorPane);
+			  eventController.saveAsFile(frame, editorPane, fileModified);
 			}
 		});
 		

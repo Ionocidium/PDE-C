@@ -83,7 +83,7 @@ public class EventController
 		return filePath;
 	}
   
-	public Path saveAsFile(JFrame frame, RSyntaxTextArea editorPane)
+	public Path saveAsFile(JFrame frame, RSyntaxTextArea editorPane, boolean state)
 	{
 		int returnVal = fileChooser.showSaveDialog(frame);
 		
@@ -91,12 +91,13 @@ public class EventController
 	  
 		if (returnVal == JFileChooser.APPROVE_OPTION)
 		{
-			Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());		
+			Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());	
 			
 			if (path.toString().contains(".c"))
 			{
 			  saveFile.writeFile(path, editorPane.getText());
 			  returnedPath = path;
+			  frame.setTitle("PDE-C - " + path);
 			}
 			
 			else
@@ -108,15 +109,19 @@ public class EventController
 			  
 			  saveFile.writeFile(newPath, editorPane.getText());
 			  returnedPath = newPath;
+			  frame.setTitle("PDE-C - " + newPath);
 			}
+			state = false;
 		}
 		
 		return returnedPath;
 	}
   
-	public void saveFile(JFrame frame, RSyntaxTextArea editorPane, Path filePath)
+	public void saveFile(JFrame frame, RSyntaxTextArea editorPane, Path filePath, boolean state)
 	{
 		saveFile.writeFile(filePath, editorPane.getText());
+		frame.setTitle("PDE-C - " + filePath.toString());
+		state = false;
 	}
   
 	public void compile(JFrame frame, RSyntaxTextArea editorPane, Path filePath)
