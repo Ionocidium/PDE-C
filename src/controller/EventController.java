@@ -73,6 +73,7 @@ public class EventController
 			{
 				String pathContents = loader.loadFile(path);
 				editorPane.setText(pathContents);
+				frame.setTitle("PDE-C - " + ext);
 			}
 			else
 			{
