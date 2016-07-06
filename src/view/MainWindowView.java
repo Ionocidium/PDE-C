@@ -107,6 +107,7 @@ public class MainWindowView
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
+		frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 		
 //		Student student = new Student(11140631, "aaa", "aljon", "jose", "s18");
 //		try
