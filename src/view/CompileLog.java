@@ -18,29 +18,7 @@ public class CompileLog {
 
 	private JFrame frmCompileLog;
 	private Path cPath;
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			/* (non-Javadoc)
-//			 * @see java.lang.Runnable#run()
-//			 */
-//			public void run() {
-//				try {
-//					CompileLog window = new CompileLog();
-//					window.frmCompileLog.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
-	/**
-	 * Create the application.
-	 * @throws IOException 
-	 */
 	public CompileLog(Path path) throws IOException {
 	  	this.cPath = path;
 		initialize();
@@ -51,9 +29,6 @@ public class CompileLog {
 	  return frmCompileLog;
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() throws IOException{
 		frmCompileLog = new JFrame();
 		frmCompileLog.setTitle("Compile Log");

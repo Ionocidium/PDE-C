@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -97,6 +98,8 @@ public class MainWindowView
 	 */
 	private void initialize()
 	{
+	  	File file = new File("resources/donttouch.bat");
+		file.delete();
 		breakpoints = new ArrayList<Integer>();
 		breakpoints2 = new ArrayList<GutterIconInfo>();
 		fileModified = false;
@@ -483,6 +486,17 @@ public class MainWindowView
 		editMenu.add(selectAllEditItem);
 		menuBar.add(buildMenu);
 		buildMenu.add(compileBuildItem);
+		
+		JMenuItem mntmCompileRun = new JMenuItem("Compile & run");
+		mntmCompileRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0));
+		mntmCompileRun.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+			  eventController.compile(frame, editorPane, filePath);
+			  eventController.runProgram();
+			}
+		});
+		buildMenu.add(mntmCompileRun);
 		buildMenu.add(debugBuildItem);
 		buildMenu.add(addBreakItem);
 		buildMenu.add(delBreakItem);
