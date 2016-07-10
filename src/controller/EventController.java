@@ -124,8 +124,10 @@ public class EventController
 		state = false;
 	}
   
-	public void compile(JFrame frame, RSyntaxTextArea editorPane, Path filePath)
+	public Path compile(JFrame frame, RSyntaxTextArea editorPane, Path filePath)
 	{
+	  
+	  Path path = null;
 		try
 		{
 			if (filePath != null)
@@ -138,7 +140,7 @@ public class EventController
 				int returnVal = fileChooser.showOpenDialog(frame);
 				if (returnVal == JFileChooser.APPROVE_OPTION)
 				{
-					Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+					path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
 					filePath = path;
 					String ext = path.getFileName().toString();
 					  
@@ -161,6 +163,8 @@ public class EventController
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		return path;
 	}
 	
 	public void compile(Path filePath)
