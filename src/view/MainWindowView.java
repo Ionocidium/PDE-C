@@ -181,30 +181,7 @@ public class MainWindowView
 					fileName = filePath.getFileName().toString();
 				  }	  
 				}
-				
-				else if (e.getKeyCode() == e.VK_O)
-				{
-				  filePath = eventController.openFile(frame, editorPane);
-				  fileName = filePath.getFileName().toString();
-				}
-				
-				else if (e.getKeyCode() == e.VK_N)
-				{
-				  filePath = null;
-				  editorPane.setText("");
-				}
 			  }
-			  
-			  else if (e.getKeyCode() == e.VK_F6)
-			  {
-				eventController.compile(frame, editorPane, filePath);
-			  }
-			  
-//			  else if (e.getKeyCode() == e.VK_F8)
-//			  {
-//				eventController.compile(frame, editorPane, filePath);
-//				eventController.runProgram();				
-//			  }
 			}
 		});
 		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
@@ -228,10 +205,9 @@ public class MainWindowView
 		openButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
-				filePath = eventController.openFile(frame, editorPane);
-				if(filePath != null)
-					fileName = filePath.getFileName().toString();
-				fileModified = false;
+			  eventController.deleteDontTouch();
+			  filePath = eventController.openFile(frame, editorPane);
+			  fileName = filePath.getFileName().toString();
 			}
 		});
 		openButton.setIcon(new ImageIcon("resources/images/openFile.png"));
@@ -284,15 +260,45 @@ public class MainWindowView
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 		JMenuItem newFileItem = new JMenuItem("New", KeyEvent.VK_N);
+		newFileItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+			  filePath = null;
+			  
+			  if (editorPane.getText().equals(""))
+			  {
+				editorPane.setText("");
+				eventController.deleteDontTouch();
+			  }
+			  
+			  else
+			  {
+				int confirmed = JOptionPane.showConfirmDialog(null, "Create new file?", "", JOptionPane.YES_NO_OPTION);
+
+			    if (confirmed == JOptionPane.YES_OPTION) 
+			    {
+			      editorPane.setText("");
+				  eventController.deleteDontTouch();
+			    }
+			  }
+			  
+			}
+		});
 		newFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+		
 		JMenuItem openFileItem = new JMenuItem("Open");
+		openFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		openFileItem.addActionListener(new ActionListener() 
 		{
 		  public void actionPerformed(ActionEvent e) 
 		  {
-			filePath = eventController.openFile(frame, editorPane);
-			if(filePath != null)
-				fileName = filePath.getFileName().toString();
+			int confirmed = JOptionPane.showConfirmDialog(null, "Open new file?", "", JOptionPane.YES_NO_OPTION);
+
+		    if (confirmed == JOptionPane.YES_OPTION) 
+		    {
+		      filePath = eventController.openFile(frame, editorPane);
+			  fileName = filePath.getFileName().toString();
+		    }
 		  }
 		});
 		
@@ -338,15 +344,18 @@ public class MainWindowView
 		selectAllEditItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
 		JMenu buildMenu = new JMenu("Build");
 		buildMenu.setMnemonic(KeyEvent.VK_B);
-		JMenuItem compileBuildItem = new JMenuItem("Compile", KeyEvent.VK_C);
+		
+		JMenuItem compileBuildItem = new JMenuItem("Compile");
 		
 		compileBuildItem.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-			  eventController.compile(frame, editorPane, filePath); 
+			  filePath = eventController.compile(frame, editorPane, filePath);
 			}
 		});
+		
+		compileBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
 		
 		JMenuItem debugBuildItem = new JMenuItem("Debug", KeyEvent.VK_D);
 		

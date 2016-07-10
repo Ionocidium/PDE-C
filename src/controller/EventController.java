@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -132,6 +133,7 @@ public class EventController
 		{
 			if (filePath != null)
 			{
+			  	path = filePath;
 				CompileLog log = new CompileLog(filePath);
 			}
 			
@@ -156,6 +158,11 @@ public class EventController
 						JOptionPane.showMessageDialog(null, "Not a C source code.", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
+				
+				else if (returnVal == JFileChooser.CANCEL_OPTION)
+				{
+				  
+				}
 			}
 		}
 		catch (IOException e1)
@@ -167,7 +174,7 @@ public class EventController
 		return path;
 	}
 	
-	public void compile(Path filePath)
+	public Path compile(Path filePath)
 	{
 	  try
 	  {
@@ -178,6 +185,8 @@ public class EventController
 	  {
 		ex.printStackTrace();
 	  }
+	  
+	  return filePath;
 	}
 
 	public String runProgram()
@@ -186,15 +195,35 @@ public class EventController
 
 		try
 		{
-			Process process = new ProcessBuilder("resources/donttouch.bat").start();
+		  	File donttouchFile = new File("resources/donttouch.bat");
+		  	
+		  	if (donttouchFile.exists() && !donttouchFile.isDirectory())
+		  	{
+		  	  Process process = new ProcessBuilder("resources/donttouch.bat").start();
+		  	}
+		  	
+		  	else
+		  	{
+		  	  
+		  	}
 		}
 
 		catch(Exception ex)
 		{
-			ex.printStackTrace();
+			System.out.println("");
 		}
 
 		return res;
+	}
+	
+	public void deleteDontTouch()
+	{
+	  File file = new File("resources/donttouch.bat");
+	  
+	  if (file.exists() && !file.isDirectory())
+	  {
+		file.delete();
+	  }
 	}
 
 	public void debugToggler(JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton)
