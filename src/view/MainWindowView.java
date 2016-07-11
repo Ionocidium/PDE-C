@@ -52,6 +52,8 @@ import javax.swing.SpringLayout;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.ScrollPaneConstants;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MainWindowView
 {
@@ -106,21 +108,25 @@ public class MainWindowView
 		fileName = "new file";
 		
 		frame = new JFrame(appName + " - new file");
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) 
+			{
+			  int confirmed = JOptionPane.showConfirmDialog(null, 
+			        "Are you sure you want to exit the program?", "",
+			        JOptionPane.YES_NO_OPTION);
+
+			      if (confirmed == JOptionPane.YES_OPTION) 
+			      {
+			        frame.dispose();
+			      }
+			}
+		});
 		frame.setBounds(100, 100, 650, 425);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-		
-//		Student student = new Student(11140631, "aaa", "aljon", "jose", "s18");
-//		try
-//		{
-//		  student.sendData();
-//		} catch (IOException e1)
-//		{
-//		  // TODO Auto-generated catch block
-//		  e1.printStackTrace();
-//		}
 		
 		final JFileChooser fileChooser = new JFileChooser();
 		FileNameExtensionFilter cFilter = new FileNameExtensionFilter(
@@ -324,7 +330,7 @@ public class MainWindowView
 			}
 		});
 		
-		JMenuItem exitFileItem = new JMenuItem("Exit", KeyEvent.VK_X);
+		JMenuItem exitFileItem = new JMenuItem("Exit");
 		exitFileItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
