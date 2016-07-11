@@ -325,6 +325,19 @@ public class MainWindowView
 		});
 		
 		JMenuItem exitFileItem = new JMenuItem("Exit", KeyEvent.VK_X);
+		exitFileItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+			  int confirmed = JOptionPane.showConfirmDialog(null, 
+		        "Are you sure you want to exit the program?", "",
+		        JOptionPane.YES_NO_OPTION);
+
+		      if (confirmed == JOptionPane.YES_OPTION) 
+		      {
+		        frame.dispose();
+		      }
+			}
+		});
 		exitFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
 		JMenu editMenu = new JMenu("Edit");
 		editMenu.setMnemonic(KeyEvent.VK_E);
