@@ -16,6 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -51,6 +52,10 @@ import javax.swing.SpringLayout;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 
 public class MainWindowView
 {
@@ -494,13 +499,29 @@ public class MainWindowView
 		frame.setJMenuBar(menuBar);
 		frame.getContentPane().setLayout(new BorderLayout());
 		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+		
+	    JTextArea display = new JTextArea (1,30);
+	    display.setEditable ( false ); // set textArea non-editable
+	    display.setText("This is where \n CBR-C's feedback would be displayed");
+	    JScrollPane CBRC = new JScrollPane ( display );
+		frame.getContentPane().add(CBRC, BorderLayout.EAST);
+		frame.setVisible(true);
 	
+	    JTextArea consoleLog = new JTextArea (5,20);
+	    consoleLog.setEditable ( false ); // set textArea non-editable
+	    consoleLog.setText("This is where Console log would be placed");
+	    JScrollPane consoleLogScroll = new JScrollPane ( consoleLog );
+		frame.getContentPane().add(consoleLog, BorderLayout.SOUTH);
+		frame.setVisible(true);
+		
 		SpringLayout springLayout = new SpringLayout();
 		springLayout.putConstraint(SpringLayout.NORTH, coreToolbar, 0, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, coreToolbar, 0, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, coreToolbar, 48, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, coreToolbar, 2500, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(coreToolbar, BorderLayout.NORTH);
-		frame.setVisible(true);
+		
+
+
 	}
 }
