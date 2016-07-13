@@ -1,12 +1,59 @@
 package service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 //import com.cbrc.feedback.GenericFeedBack;
 
-public class CBRCIntegration {
+import com.cbrc.gdt.builder.CASTCodeAnnotator;
+import com.cbrc.nodes.TranslationUnitNode;
+
+public class CBRCIntegration 
+{
 	
-	public void test0(){
-		// test pushing
+	public CASTCodeAnnotator annotateFile(File f)
+	{
+		CASTCodeAnnotator castca = new CASTCodeAnnotator(f);
+		try 
+		{
+			castca.annotateCode();
+		} 
+		catch (ClassNotFoundException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (InstantiationException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (IllegalAccessException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (Exception e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return castca;
+	}
+	
+	public TranslationUnitNode getHeadNode(CASTCodeAnnotator castca)
+	{
+		return castca.getHeadNode();
+	}
+	
+	public void getStudentList()
+	{
+		// database
 	}
 
 	public String feedback0(){
