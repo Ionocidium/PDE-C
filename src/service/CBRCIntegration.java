@@ -55,6 +55,16 @@ public class CBRCIntegration
 	{
 		// database
 	}
+	
+	public void addTestCaseInput(File f)
+	{
+		// upload test case to specified input folder
+	}
+	
+	public void addTestCaseOutput(File f)
+	{
+		// upload test case to specified output folder
+	}
 
 	public String feedback0(){
 		Random r = new Random();
