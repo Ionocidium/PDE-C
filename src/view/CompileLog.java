@@ -63,12 +63,12 @@ public class CompileLog {
 		frmCompileLog.setLocationRelativeTo(null);
 		frmCompileLog.setVisible(true);
 		CommandLineControls clc = new CommandLineControls(cPath.toString());
-		CBRCIntegration cbrc = new CBRCIntegration();
+		//CBRCIntegration cbrc = new CBRCIntegration();
 		
 		JTextPane txtpnTest = new JTextPane();
 		txtpnTest.setEditable(false);
 		txtpnTest.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		txtpnTest.setText(clc.getStdOut() + "\n" + clc.getStdError() + "\n" + cbrc.feedback0());
+		//txtpnTest.setText(clc.getStdOut() + "\n" + clc.getStdError() + "\n" + cbrc.feedback0());
 		txtpnTest.setCaretPosition(0);
 		// frmCompileLog.getContentPane().add(txtpnTest, BorderLayout.CENTER);
 		
