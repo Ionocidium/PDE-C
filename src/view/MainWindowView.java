@@ -166,30 +166,7 @@ public class MainWindowView
 		Parsers p = new Parsers();
 		
 		editorPane.addParser(p);
-		editorPane.addKeyListener(new KeyAdapter()
-		{
-			@Override
-			public void keyPressed(KeyEvent e) {
-			  
-			  if (e.isControlDown())
-			  {
-				if (e.getKeyCode() == e.VK_S)
-				{
-				  if (filePath != null)
-				  {
-					eventController.saveFile(frame, editorPane, filePath, fileModified);
-					fileName = filePath.getFileName().toString();
-				  }
-				  
-				  else
-				  {
-					filePath = eventController.saveAsFile(frame, editorPane, fileModified);
-					fileName = filePath.getFileName().toString();
-				  }	  
-				}
-			  }
-			}
-		});
+
 		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
 		editorPane.setCodeFoldingEnabled(true);
 		RTextScrollPane scrollPane = new RTextScrollPane(editorPane);
@@ -314,11 +291,27 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-			  eventController.saveFile(frame, editorPane, filePath, fileModified);
-			  frame.setTitle(appName + " - " + fileName);
-			  fileModified = false;
+//			  eventController.saveFile(frame, editorPane, filePath, fileModified);
+//			  frame.setTitle(appName + " - " + fileName);
+//			  fileModified = false;
+			  
+			  if (filePath != null)
+			  {
+				eventController.saveFile(frame, editorPane, filePath, fileModified);
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+			  }
+			  
+			  else
+			  {
+				filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+			  }	  
 			}
 		});
+		
+		saveFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		
 		JMenuItem saveAsFileItem = new JMenuItem("Save As...");
 		

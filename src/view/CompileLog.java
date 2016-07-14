@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import javax.swing.JTextPane;
 
 import controller.CommandLineControls;
-import service.CBRCIntegration;
 
 import java.awt.Font;
 import java.io.IOException;
