@@ -190,7 +190,7 @@ public class MainWindowView
 		coreToolbar.setRollover(true);
 		JButton newButton = new JButton("");
 		newButton.setToolTipText("New");
-		newButton.setIcon(new ImageIcon("resources/images/newFile.png"));
+		newButton.setIcon(new ImageIcon("resources/images/new/newfile.png"));
 		JButton openButton = new JButton("");
 		openButton.addActionListener(new ActionListener() 
 		{
@@ -200,7 +200,7 @@ public class MainWindowView
 			  fileName = filePath.getFileName().toString();
 			}
 		});
-		openButton.setIcon(new ImageIcon("resources/images/openFile.png"));
+		openButton.setIcon(new ImageIcon("resources/images/new/openfile.png"));
 		openButton.setToolTipText("Open");
 		JButton saveButton = new JButton("");
 		saveButton.addActionListener(new ActionListener() 
@@ -210,7 +210,7 @@ public class MainWindowView
 				 fileModified = false;
 			}
 		});
-		saveButton.setIcon(new ImageIcon("resources/images/saveFile.png"));
+		saveButton.setIcon(new ImageIcon("resources/images/new/save.png"));
 		saveButton.setToolTipText("Save");
 		JButton compileButton = new JButton("");
 		compileButton.addActionListener(new ActionListener() 
@@ -219,10 +219,10 @@ public class MainWindowView
 				eventController.compile(frame, editorPane, filePath); 
 			}
 		});
-		compileButton.setIcon(new ImageIcon("resources/images/buildCompile.png"));
+		compileButton.setIcon(new ImageIcon("resources/images/new/compile.png"));
 		compileButton.setToolTipText("Compile");
 		JButton debugButton = new JButton("");
-		debugButton.setIcon(new ImageIcon("resources/images/debugCompile.png"));
+		debugButton.setIcon(new ImageIcon("resources/images/new/debug.png"));
 		debugButton.setToolTipText("Debug");
 		JButton stepOverButton = new JButton("");
 		stepOverButton.setIcon(new ImageIcon("resources/images/buildCompile.png"));
