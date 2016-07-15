@@ -66,4 +66,4 @@ local.properties
 *.bat
 
 # PDE-C files
-/LocalConfiguration.java
+src/configuration/LocalConfiguration.java
