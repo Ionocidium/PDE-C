@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -52,10 +53,15 @@ import javax.swing.SpringLayout;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.ScrollPaneConstants;
+<<<<<<< HEAD
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+=======
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+>>>>>>> origin/development-clean
 
 public class MainWindowView
 {
@@ -102,27 +108,33 @@ public class MainWindowView
 	 */
 	private void initialize()
 	{
+	  	File file = new File("resources/donttouch.bat");
+		file.delete();
 		breakpoints = new ArrayList<Integer>();
 		breakpoints2 = new ArrayList<GutterIconInfo>();
 		fileModified = false;
 		fileName = "new file";
 		
 		frame = new JFrame(appName + " - new file");
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) 
+			{
+			  int confirmed = JOptionPane.showConfirmDialog(null, 
+			        "Are you sure you want to exit the program?", "",
+			        JOptionPane.YES_NO_OPTION);
+
+			      if (confirmed == JOptionPane.YES_OPTION) 
+			      {
+			        frame.dispose();
+			      }
+			}
+		});
 		frame.setBounds(100, 100, 650, 425);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-		
-//		Student student = new Student(11140631, "aaa", "aljon", "jose", "s18");
-//		try
-//		{
-//		  student.sendData();
-//		} catch (IOException e1)
-//		{
-//		  // TODO Auto-generated catch block
-//		  e1.printStackTrace();
-//		}
 		
 		final JFileChooser fileChooser = new JFileChooser();
 		FileNameExtensionFilter cFilter = new FileNameExtensionFilter(
@@ -162,53 +174,7 @@ public class MainWindowView
 		Parsers p = new Parsers();
 		
 		editorPane.addParser(p);
-		editorPane.addKeyListener(new KeyAdapter()
-		{
-			@Override
-			public void keyPressed(KeyEvent e) {
-			  
-			  if (e.isControlDown())
-			  {
-				if (e.getKeyCode() == e.VK_S)
-				{
-				  if (filePath != null)
-				  {
-					eventController.saveFile(frame, editorPane, filePath, fileModified);
-					fileName = filePath.getFileName().toString();
-				  }
-				  
-				  else
-				  {
-					filePath = eventController.saveAsFile(frame, editorPane, fileModified);
-					fileName = filePath.getFileName().toString();
-				  }	  
-				}
-				
-				else if (e.getKeyCode() == e.VK_O)
-				{
-				  filePath = eventController.openFile(frame, editorPane);
-				  fileName = filePath.getFileName().toString();
-				}
-				
-				else if (e.getKeyCode() == e.VK_N)
-				{
-				  filePath = null;
-				  editorPane.setText("");
-				}
-			  }
-			  
-			  else if (e.getKeyCode() == e.VK_F6)
-			  {
-				eventController.compile(frame, editorPane, filePath);
-			  }
-			  
-			  else if (e.getKeyCode() == e.VK_F8)
-			  {
-				eventController.compile(frame, editorPane, filePath);
-				eventController.runProgram();				
-			  }
-			}
-		});
+
 		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
 		editorPane.setCodeFoldingEnabled(true);
 		RTextScrollPane scrollPane = new RTextScrollPane(editorPane);
@@ -230,10 +196,9 @@ public class MainWindowView
 		openButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
-				filePath = eventController.openFile(frame, editorPane);
-				if(filePath != null)
-					fileName = filePath.getFileName().toString();
-				fileModified = false;
+			  eventController.deleteDontTouch();
+			  filePath = eventController.openFile(frame, editorPane);
+			  fileName = filePath.getFileName().toString();
 			}
 		});
 		openButton.setIcon(new ImageIcon("resources/images/openFile.png"));
@@ -286,15 +251,45 @@ public class MainWindowView
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 		JMenuItem newFileItem = new JMenuItem("New", KeyEvent.VK_N);
+		newFileItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+			  filePath = null;
+			  
+			  if (editorPane.getText().equals(""))
+			  {
+				editorPane.setText("");
+				eventController.deleteDontTouch();
+			  }
+			  
+			  else
+			  {
+				int confirmed = JOptionPane.showConfirmDialog(null, "Create new file?", "", JOptionPane.YES_NO_OPTION);
+
+			    if (confirmed == JOptionPane.YES_OPTION) 
+			    {
+			      editorPane.setText("");
+				  eventController.deleteDontTouch();
+			    }
+			  }
+			  
+			}
+		});
 		newFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+		
 		JMenuItem openFileItem = new JMenuItem("Open");
+		openFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		openFileItem.addActionListener(new ActionListener() 
 		{
 		  public void actionPerformed(ActionEvent e) 
 		  {
-			filePath = eventController.openFile(frame, editorPane);
-			if(filePath != null)
-				fileName = filePath.getFileName().toString();
+			int confirmed = JOptionPane.showConfirmDialog(null, "Open new file?", "", JOptionPane.YES_NO_OPTION);
+
+		    if (confirmed == JOptionPane.YES_OPTION) 
+		    {
+		      filePath = eventController.openFile(frame, editorPane);
+			  fileName = filePath.getFileName().toString();
+		    }
 		  }
 		});
 		
@@ -304,11 +299,27 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-			  eventController.saveFile(frame, editorPane, filePath, fileModified);
-			  frame.setTitle(appName + " - " + fileName);
-			  fileModified = false;
+//			  eventController.saveFile(frame, editorPane, filePath, fileModified);
+//			  frame.setTitle(appName + " - " + fileName);
+//			  fileModified = false;
+			  
+			  if (filePath != null)
+			  {
+				eventController.saveFile(frame, editorPane, filePath, fileModified);
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+			  }
+			  
+			  else
+			  {
+				filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+			  }	  
 			}
 		});
+		
+		saveFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		
 		JMenuItem saveAsFileItem = new JMenuItem("Save As...");
 		
@@ -320,7 +331,20 @@ public class MainWindowView
 			}
 		});
 		
-		JMenuItem exitFileItem = new JMenuItem("Exit", KeyEvent.VK_X);
+		JMenuItem exitFileItem = new JMenuItem("Exit");
+		exitFileItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+			  int confirmed = JOptionPane.showConfirmDialog(null, 
+		        "Are you sure you want to exit the program?", "",
+		        JOptionPane.YES_NO_OPTION);
+
+		      if (confirmed == JOptionPane.YES_OPTION) 
+		      {
+		        frame.dispose();
+		      }
+			}
+		});
 		exitFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
 		JMenu editMenu = new JMenu("Edit");
 		editMenu.setMnemonic(KeyEvent.VK_E);
@@ -340,15 +364,18 @@ public class MainWindowView
 		selectAllEditItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
 		JMenu buildMenu = new JMenu("Build");
 		buildMenu.setMnemonic(KeyEvent.VK_B);
-		JMenuItem compileBuildItem = new JMenuItem("Compile", KeyEvent.VK_C);
+		
+		JMenuItem compileBuildItem = new JMenuItem("Compile");
 		
 		compileBuildItem.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-			  eventController.compile(frame, editorPane, filePath); 
+			  filePath = eventController.compile(frame, editorPane, filePath);
 			}
 		});
+		
+		compileBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
 		
 		JMenuItem debugBuildItem = new JMenuItem("Debug", KeyEvent.VK_D);
 		
@@ -462,6 +489,8 @@ public class MainWindowView
 				}
 			}
 		});
+		
+		
 		JMenuItem manageBreakpointItem = new JMenuItem("Manage Breakpoints...");
 		
 		JMenu helpMenu = new JMenu("Help");
@@ -488,6 +517,17 @@ public class MainWindowView
 		editMenu.add(selectAllEditItem);
 		menuBar.add(buildMenu);
 		buildMenu.add(compileBuildItem);
+		
+		JMenuItem mntmCompileRun = new JMenuItem("Compile & run");
+		mntmCompileRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0));
+		mntmCompileRun.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0)
+			{
+			  filePath = eventController.compile(frame, editorPane, filePath);
+			  eventController.runProgram();
+			}
+		});
+		buildMenu.add(mntmCompileRun);
 		buildMenu.add(debugBuildItem);
 		buildMenu.add(addBreakItem);
 		buildMenu.add(delBreakItem);
