@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -19,12 +18,10 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rtextarea.Gutter;
-import org.fife.ui.rtextarea.GutterIconInfo;
-import org.fife.ui.rtextarea.IconRowHeader;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import controller.fileops.FileLoad;
@@ -125,7 +122,7 @@ public class EventController
 		state = false;
 	}
   
-	public Path compile(JFrame frame, RSyntaxTextArea editorPane, Path filePath)
+	public Path compile(JFrame frame, RSyntaxTextArea editorPane, Path filePath, JTextArea compileLog)
 	{
 	  
 	  Path path = null;
@@ -134,7 +131,14 @@ public class EventController
 			if (filePath != null)
 			{
 			  	path = filePath;
-				CompileLog log = new CompileLog(filePath);
+			  	CommandLineControls clc = new CommandLineControls(filePath.toString());
+				
+				compileLog.setText(clc.getStdOut() + "\n" + clc.getStdError() + "\n");
+				
+				if (!clc.getStdError().equals(""))
+				{
+				  this.deleteDontTouch();
+				}
 			}
 			
 			else
@@ -150,7 +154,14 @@ public class EventController
 					{
 						String pathContents = loader.loadFile(path);
 						editorPane.setText(pathContents);
-						CompileLog log = new CompileLog(filePath);
+						CommandLineControls clc = new CommandLineControls(filePath.toString());
+						
+						compileLog.setText(clc.getStdOut() + "\n" + clc.getStdError() + "\n");
+						
+						if (!clc.getStdError().equals(""))
+						{
+						  this.deleteDontTouch();
+						}
 					}
 					  
 					else

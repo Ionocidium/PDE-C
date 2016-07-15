@@ -59,7 +59,7 @@ public class CommandLineControls
         {
             res += s + "\n";
         }
-        return "Here is the standard output of the command:\n" + res;
+        return res;
 	}
 	
 	public String getStdError() throws IOException{
@@ -71,7 +71,7 @@ public class CommandLineControls
         {
             res += s + "\n";
         }
-        return "Here is the standard error of the command:\n" + res;
+        return res;
 	}
 
 	public void sampler() throws IOException

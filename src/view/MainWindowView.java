@@ -4,25 +4,14 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.EventQueue;
-import java.awt.LayoutManager;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -42,13 +31,9 @@ import java.awt.event.ActionListener;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-import controller.CommandLineDebugging;
 import controller.EventController;
-// import model.Student;
 import service.Parsers;
-import service.ClientService;
 
-import java.awt.event.KeyAdapter;
 import javax.swing.SpringLayout;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -57,7 +42,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -107,8 +91,6 @@ public class MainWindowView
 	 */
 	private void initialize()
 	{
-	  	File file = new File("resources/donttouch.bat");
-		file.delete();
 		breakpoints = new ArrayList<Integer>();
 		breakpoints2 = new ArrayList<GutterIconInfo>();
 		fileModified = false;
@@ -210,13 +192,19 @@ public class MainWindowView
 				 fileModified = false;
 			}
 		});
+		
+	    JTextArea consoleLog = new JTextArea (5,20);
+	    consoleLog.setEditable ( false ); // set textArea non-editable
+	    JScrollPane cL = new JScrollPane ( consoleLog );
+		frame.setVisible(true);
+		
 		saveButton.setIcon(new ImageIcon("resources/images/new/save.png"));
 		saveButton.setToolTipText("Save");
 		JButton compileButton = new JButton("");
 		compileButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
-				eventController.compile(frame, editorPane, filePath); 
+				eventController.compile(frame, editorPane, filePath, consoleLog); 
 			}
 		});
 		compileButton.setIcon(new ImageIcon("resources/images/new/compile.png"));
@@ -370,7 +358,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-			  filePath = eventController.compile(frame, editorPane, filePath);
+			  filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
 			}
 		});
 		
@@ -522,7 +510,7 @@ public class MainWindowView
 		mntmCompileRun.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0)
 			{
-			  filePath = eventController.compile(frame, editorPane, filePath);
+			  filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
 			  eventController.runProgram();
 			}
 		});
@@ -546,12 +534,6 @@ public class MainWindowView
 		//frame.getContentPane().add(CBRC, BorderLayout.EAST);
 		frame.setVisible(true);
 	
-	    JTextArea consoleLog = new JTextArea (5,20);
-	    consoleLog.setEditable ( false ); // set textArea non-editable
-	    consoleLog.setText("This is where Console log would be placed \n hey \n hey");
-	    JScrollPane cL = new JScrollPane ( consoleLog );
-		frame.setVisible(true);
-		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
