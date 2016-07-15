@@ -53,15 +53,14 @@ import javax.swing.SpringLayout;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.ScrollPaneConstants;
-<<<<<<< HEAD
+
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-=======
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
->>>>>>> origin/development-clean
+
 
 public class MainWindowView
 {
@@ -538,21 +537,35 @@ public class MainWindowView
 
 		frame.setJMenuBar(menuBar);
 		frame.getContentPane().setLayout(new BorderLayout());
-		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+		//frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 	    JTextArea display = new JTextArea (1,30);
 	    display.setEditable ( false ); // set textArea non-editable
 	    display.setText("This is where \n CBR-C's feedback would be displayed");
 	    JScrollPane CBRC = new JScrollPane ( display );
-		frame.getContentPane().add(CBRC, BorderLayout.EAST);
+		//frame.getContentPane().add(CBRC, BorderLayout.EAST);
 		frame.setVisible(true);
 	
 	    JTextArea consoleLog = new JTextArea (5,20);
 	    consoleLog.setEditable ( false ); // set textArea non-editable
-	    consoleLog.setText("This is where Console log would be placed");
-	    JScrollPane consoleLogScroll = new JScrollPane ( consoleLog );
-		frame.getContentPane().add(consoleLog, BorderLayout.SOUTH);
+	    consoleLog.setText("This is where Console log would be placed \n hey \n hey");
+	    JScrollPane cL = new JScrollPane ( consoleLog );
 		frame.setVisible(true);
+		
+		JSplitPane splitPane = new JSplitPane();
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
+		
+		//for editor text and cbrc
+		JSplitPane nestedPane = new JSplitPane();
+		nestedPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+		nestedPane.setResizeWeight(1);
+		nestedPane.setLeftComponent(scrollPane);
+		nestedPane.setRightComponent(CBRC);
+		
+		splitPane.setTopComponent(nestedPane);
+		splitPane.setBottomComponent(cL);
+		splitPane.setResizeWeight(1);
 		
 		SpringLayout springLayout = new SpringLayout();
 		springLayout.putConstraint(SpringLayout.NORTH, coreToolbar, 0, SpringLayout.NORTH, frame.getContentPane());
@@ -560,7 +573,6 @@ public class MainWindowView
 		springLayout.putConstraint(SpringLayout.SOUTH, coreToolbar, 48, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, coreToolbar, 2500, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(coreToolbar, BorderLayout.NORTH);
-		
 
 
 	}
