@@ -13,7 +13,7 @@ public class LocalConfiguration
   {
 	if(System.getProperty("os.arch").equals("amd64"))
 	{
-        gccPath = "C:\\TDM-GCC-64\\bin\\gcc.exe";
+        gccPath = "C:\\cygwin64\\bin\\gcc.exe";
 	}
 	
 	else if(System.getProperty("os.arch").equals("x86"))
