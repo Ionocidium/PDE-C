@@ -17,6 +17,7 @@ public class COutputCollector extends OutputCollector{
 	private Element root;
 
 	private static final Pattern ERROR_PATTERN = Pattern.compile("((?!.c:)[0-9]+(?=:\\d))");
+	private static final Pattern ERROR_PATTERN2 = Pattern.compile("((error:)|(warning:)) (.*)");
 	
 	public COutputCollector(InputStream in, Parsers cParser,
 								DefaultParseResult res, Element root) {
@@ -32,7 +33,17 @@ public class COutputCollector extends OutputCollector{
 
 		if (m.find()) {
 
+			String errorDesc = line;
 			line = line.substring(0, line.length()-m.group().length());
+			//System.out.println(line);
+
+			Matcher m2 = ERROR_PATTERN2.matcher(errorDesc);
+			if (m2.find())
+			{
+				errorDesc = m2.group();
+				//System.out.println(errorDesc);
+				
+			}
 
 			int lineNumber = Integer.parseInt(m.group(1)) - 1;
 			Element elem = root.getElement(lineNumber);
@@ -40,7 +51,7 @@ public class COutputCollector extends OutputCollector{
 			int end = elem.getEndOffset();
 
 			DefaultParserNotice pn = new DefaultParserNotice(
-					parser, line, lineNumber, start, end-start);
+					parser, errorDesc, lineNumber, start, end-start);
 
 			result.addNotice(pn);
 
