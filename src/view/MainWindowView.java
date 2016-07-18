@@ -176,11 +176,16 @@ public class MainWindowView
 		JButton openButton = new JButton("");
 		openButton.addActionListener(new ActionListener() 
 		{
-			public void actionPerformed(ActionEvent e) {
-			  eventController.deleteDontTouch();
-			  filePath = eventController.openFile(frame, editorPane);
-			  fileName = filePath.getFileName().toString();
-			}
+			public void actionPerformed(ActionEvent e) 
+			  {
+				int confirmed = JOptionPane.showConfirmDialog(null, "Open new file?", "", JOptionPane.YES_NO_OPTION);
+
+			    if (confirmed == JOptionPane.YES_OPTION) 
+			    {
+			      filePath = eventController.openFile(frame, editorPane);
+				  fileName = filePath.getFileName().toString();
+			    }
+			  }
 		});
 		openButton.setIcon(new ImageIcon("resources/images/new/openfile.png"));
 		openButton.setToolTipText("Open");
