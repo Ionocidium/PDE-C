@@ -35,14 +35,11 @@ public class COutputCollector extends OutputCollector{
 
 			String errorDesc = line;
 			line = line.substring(0, line.length()-m.group().length());
-			//System.out.println(line);
 
 			Matcher m2 = ERROR_PATTERN2.matcher(errorDesc);
 			if (m2.find())
 			{
 				errorDesc = m2.group();
-				//System.out.println(errorDesc);
-				
 			}
 
 			int lineNumber = Integer.parseInt(m.group(1)) - 1;
