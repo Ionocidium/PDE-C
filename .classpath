@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="resources/libraries/rsyntaxtextarea-2.5.7.jar"/>
 	<classpathentry kind="lib" path="resources/libraries/languagesupport-2.5.8.jar"/>
 	<classpathentry kind="lib" path="resources/libraries/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Raymund Pua/Documents/GitHub/PDE-C-Server/resource/jPDFViewer.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
