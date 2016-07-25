@@ -25,6 +25,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 
@@ -172,7 +173,9 @@ public class MainWindowView
 		coreToolbar.setRollover(true);
 		JButton newButton = new JButton("");
 		newButton.setToolTipText("New");
-		newButton.setIcon(new ImageIcon("resources/images/new/newfile.png"));
+		newButton.setIcon(new ImageIcon("resources/images/materialSmall/newfile.png"));
+		newButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		JButton openButton = new JButton("");
 		openButton.addActionListener(new ActionListener() 
 		{
@@ -187,8 +190,10 @@ public class MainWindowView
 			    }
 			  }
 		});
-		openButton.setIcon(new ImageIcon("resources/images/new/openfile.png"));
+		openButton.setIcon(new ImageIcon("resources/images/materialSmall/openfile.png"));
 		openButton.setToolTipText("Open");
+		openButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		JButton saveButton = new JButton("");
 		saveButton.addActionListener(new ActionListener() 
 		{
@@ -197,14 +202,14 @@ public class MainWindowView
 				 fileModified = false;
 			}
 		});
+		saveButton.setBorder(null);
 		
 	    JTextArea consoleLog = new JTextArea (5,20);
 	    consoleLog.setEditable ( false ); // set textArea non-editable
 	    JScrollPane cL = new JScrollPane ( consoleLog );
 		frame.setVisible(true);
 		
-		saveButton.setIcon(new ImageIcon("resources/images/new/save.png"));
-		saveButton.setToolTipText("Save");
+		
 		JButton compileButton = new JButton("");
 		compileButton.addActionListener(new ActionListener() 
 		{
@@ -212,23 +217,38 @@ public class MainWindowView
 				eventController.compile(frame, editorPane, filePath, consoleLog); 
 			}
 		});
-		compileButton.setIcon(new ImageIcon("resources/images/new/compile.png"));
+		
+		saveButton.setIcon(new ImageIcon("resources/images/materialSmall/save.png"));
+		saveButton.setToolTipText("Save");
+		saveButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		compileButton.setIcon(new ImageIcon("resources/images/materialSmall/compile.png"));
 		compileButton.setToolTipText("Compile");
+		compileButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		JButton debugButton = new JButton("");
-		debugButton.setIcon(new ImageIcon("resources/images/new/debug.png"));
+		debugButton.setIcon(new ImageIcon("resources/images/materialSmall/debug.png"));
 		debugButton.setToolTipText("Debug");
+		debugButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		JButton stepOverButton = new JButton("");
-		stepOverButton.setIcon(new ImageIcon("resources/images/buildCompile.png"));
+		stepOverButton.setIcon(new ImageIcon("resources/images/materialSmall/stepOver.png"));
 		stepOverButton.setToolTipText("Step Over");
 		stepOverButton.setEnabled(false);
+		stepOverButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		JButton resumeButton = new JButton("");
-		resumeButton.setIcon(new ImageIcon("resources/images/debugCompile.png"));
+		resumeButton.setIcon(new ImageIcon("resources/images/materialSmall/resume.png"));
 		resumeButton.setToolTipText("Resume");
 		resumeButton.setEnabled(false);
+		resumeButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		JButton stopButton = new JButton("");
-		stopButton.setIcon(new ImageIcon("resources/images/debugCompile.png"));
+		stopButton.setIcon(new ImageIcon("resources/images/materialSmall/stop.png"));
 		stopButton.setToolTipText("Stop");
 		stopButton.setEnabled(false);
+		stopButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		coreToolbar.add(newButton);
 		coreToolbar.add(openButton);
 		coreToolbar.add(saveButton);
