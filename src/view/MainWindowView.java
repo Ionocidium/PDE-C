@@ -221,9 +221,22 @@ public class MainWindowView
 		JButton saveButton = new JButton("");
 		saveButton.addActionListener(new ActionListener() 
 		{
-			public void actionPerformed(ActionEvent arg0) {
-				 eventController.saveFile(frame, editorPane, filePath, fileModified);
-				 fileModified = false;
+			public void actionPerformed(ActionEvent arg0) 
+			{
+			  if (filePath != null)
+			  {
+				eventController.saveFile(frame, editorPane, filePath, fileModified);
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+			  }
+			  
+			  else
+			  {
+				filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+			  }	  
+		
 			}
 		});
 		saveButton.setBorder(null);
