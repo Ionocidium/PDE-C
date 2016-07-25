@@ -172,6 +172,30 @@ public class MainWindowView
 		coreToolbar.setFloatable(false);
 		coreToolbar.setRollover(true);
 		JButton newButton = new JButton("");
+		newButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+			  filePath = null;
+			  
+			  if (editorPane.getText().equals(""))
+			  {
+				editorPane.setText("");
+				eventController.deleteDontTouch();
+			  }
+			  
+			  else
+			  {
+				int confirmed = JOptionPane.showConfirmDialog(null, "Create new file?", "", JOptionPane.YES_NO_OPTION);
+
+			    if (confirmed == JOptionPane.YES_OPTION) 
+			    {
+			      editorPane.setText("");
+				  eventController.deleteDontTouch();
+			    }
+			  }
+			}
+		});
 		newButton.setToolTipText("New");
 		newButton.setIcon(new ImageIcon("resources/images/materialSmall/newfile.png"));
 		newButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -218,6 +242,11 @@ public class MainWindowView
 			}
 		});
 		
+		JButton settingsButton = new JButton("");
+		settingsButton.setToolTipText("Settings");
+		settingsButton.setIcon(new ImageIcon("resources/images/materialSmall/settings.png"));
+		settingsButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		saveButton.setIcon(new ImageIcon("resources/images/materialSmall/save.png"));
 		saveButton.setToolTipText("Save");
 		saveButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -259,6 +288,9 @@ public class MainWindowView
 		coreToolbar.add(stepOverButton);
 		coreToolbar.add(resumeButton);
 		coreToolbar.add(stopButton);
+		coreToolbar.addSeparator();
+		coreToolbar.add(settingsButton);
+		
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);
@@ -580,7 +612,6 @@ public class MainWindowView
 		springLayout.putConstraint(SpringLayout.SOUTH, coreToolbar, 48, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, coreToolbar, 2500, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(coreToolbar, BorderLayout.NORTH);
-
 
 	}
 }
