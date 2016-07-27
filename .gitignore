@@ -67,3 +67,6 @@ local.properties
 
 # PDE-C files
 src/configuration/LocalConfiguration.java
+
+# Executable files
+*.exe
