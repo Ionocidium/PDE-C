@@ -251,7 +251,7 @@ public class MainWindowView
 		compileButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
-				eventController.compile(frame, editorPane, filePath, consoleLog); 
+			  filePath = eventController.compile(frame, editorPane, filePath, consoleLog); 
 			}
 		});
 		
