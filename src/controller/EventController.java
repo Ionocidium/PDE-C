@@ -76,6 +76,7 @@ public class EventController
 			else
 			{
 				JOptionPane.showMessageDialog(null, "Not a C source code.", "Error", JOptionPane.ERROR_MESSAGE);
+				filePath = null;
 			}
 		}
 		return filePath;

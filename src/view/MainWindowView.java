@@ -233,6 +233,7 @@ public class MainWindowView
 			  else
 			  {
 				filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+				fileName = filePath.getFileName().toString();
 				frame.setTitle(appName + " - " + fileName);
 				fileModified = false;
 			  }	  
@@ -370,6 +371,7 @@ public class MainWindowView
 			  else
 			  {
 				filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+				fileName = filePath.getFileName().toString();
 				frame.setTitle(appName + " - " + fileName);
 				fileModified = false;
 			  }	  
@@ -384,7 +386,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-			  eventController.saveAsFile(frame, editorPane, fileModified);
+			  filePath = eventController.saveAsFile(frame, editorPane, fileModified);
 			}
 		});
 		
