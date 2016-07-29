@@ -1,12 +1,22 @@
 package view;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import controller.fileops.FileLoad;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 
 public class ActivityUploaderView {
@@ -14,7 +24,19 @@ public class ActivityUploaderView {
 	private JFrame frmActivityUpload;
 	private JTextField txtRecursion;
 	private JTextField txtCrecursionpdf;
+	private final JFileChooser fileChooser;
+	private FileLoad loader;
+	private FileNameExtensionFilter pdfFilter;
 
+	public ActivityUploaderView() {
+		loader = new FileLoad();
+		fileChooser = new JFileChooser();
+		pdfFilter = new FileNameExtensionFilter(
+					"PDF Documents", "pdf");
+		fileChooser.setFileFilter(pdfFilter);
+		initialize();
+	}
+	
 	/**
 	 * Launch the application.
 	 */
@@ -34,9 +56,6 @@ public class ActivityUploaderView {
 	/**
 	 * Create the application.
 	 */
-	public ActivityUploaderView() {
-		initialize();
-	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -72,6 +91,13 @@ public class ActivityUploaderView {
 		JButton btnUpload = new JButton("Browse...");
 		btnUpload.setBounds(335, 35, 89, 23);
 		frmActivityUpload.getContentPane().add(btnUpload);
+		btnUpload.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+			  chooseFile(frmActivityUpload); // Returns FilePath. Upload not yet implemented
+			}
+		});
 		
 		JLabel lblActivityDeadline = new JLabel("Activity Deadline:");
 		lblActivityDeadline.setBounds(10, 70, 100, 14);
@@ -117,4 +143,28 @@ public class ActivityUploaderView {
 		btnSubmit.setBounds(335, 66, 89, 23);
 		frmActivityUpload.getContentPane().add(btnSubmit);
 	}
+	
+	public Path chooseFile(JFrame frame)
+	{
+		int returnVal = fileChooser.showOpenDialog(frame);
+		Path filePath = null;
+	
+		if (returnVal == JFileChooser.APPROVE_OPTION)
+		{
+			Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+			filePath = path;
+			String ext = path.toString();
+			if (loader.checkerpdf(ext))
+			{
+				txtCrecursionpdf.setText(ext);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Not a PDF File.", "Error", JOptionPane.ERROR_MESSAGE);
+				filePath = null;
+			}
+		}
+		return filePath;
+	}
+	
 }
