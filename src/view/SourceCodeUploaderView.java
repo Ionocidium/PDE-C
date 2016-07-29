@@ -1,19 +1,41 @@
 package view;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import controller.fileops.FileLoad;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 
 public class SourceCodeUploaderView {
 
 	private JFrame frmActivityUpload;
 	private JTextField txtCrecursionpdf;
-
+	private final JFileChooser fileChooser;
+	private FileLoad loader;
+	private FileNameExtensionFilter cFilter;
+	
+	public SourceCodeUploaderView()
+	{
+		loader = new FileLoad();
+		fileChooser = new JFileChooser();
+		cFilter = new FileNameExtensionFilter(
+					"C Source (*.c)", "c");
+		fileChooser.setFileFilter(cFilter);
+		initialize();
+	}
 	/**
 	 * Launch the application.
 	 */
@@ -33,14 +55,11 @@ public class SourceCodeUploaderView {
 	/**
 	 * Create the application.
 	 */
-	public SourceCodeUploaderView() {
-		initialize();
-	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize() {			
 		frmActivityUpload = new JFrame();
 		frmActivityUpload.setTitle("Source Code Upload");
 		frmActivityUpload.setBounds(100, 100, 450, 135);
@@ -65,6 +84,13 @@ public class SourceCodeUploaderView {
 		JButton btnUpload = new JButton("Browse...");
 		btnUpload.setBounds(335, 35, 89, 23);
 		frmActivityUpload.getContentPane().add(btnUpload);
+		btnUpload.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+			  chooseFile(frmActivityUpload); // Returns FilePath. Upload not yet implemented
+			}
+		});
 		
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setBounds(335, 66, 89, 23);
@@ -75,5 +101,27 @@ public class SourceCodeUploaderView {
 		comboBox_6.setSelectedIndex(5);
 		comboBox_6.setBounds(120, 11, 304, 20);
 		frmActivityUpload.getContentPane().add(comboBox_6);
+	}
+	
+	public Path chooseFile(JFrame frame)
+	{
+		int returnVal = fileChooser.showOpenDialog(frame);
+		Path filePath = null;
+	
+		if (returnVal == JFileChooser.APPROVE_OPTION)
+		{
+			Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+			filePath = path;
+			String ext = path.toString();
+			if (loader.checker(ext))
+			{
+				txtCrecursionpdf.setText(ext);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Not a C source code.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		return filePath;
 	}
 }
