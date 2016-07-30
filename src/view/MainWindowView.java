@@ -24,6 +24,7 @@ import org.fife.ui.rtextarea.GutterIconInfo;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -162,7 +163,7 @@ public class MainWindowView
 		RTextScrollPane scrollPane = new RTextScrollPane(editorPane);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setIconRowHeaderEnabled(true);
-		scrollPane.setDefaultLocale(null);
+		JComponent.setDefaultLocale(null);
 		scrollPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		scrollPane.setWheelScrollingEnabled(true);
 		scrollPane.revalidate();
@@ -312,25 +313,26 @@ public class MainWindowView
 		JMenuItem newFileItem = new JMenuItem("New", KeyEvent.VK_N);
 		newFileItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
-			{
-			  filePath = null;
-			  
+			{ 
 			  if (editorPane.getText().equals(""))
-			  {
-				editorPane.setText("");
-				eventController.deleteDontTouch();
-			  }
-			  
-			  else
-			  {
-				int confirmed = JOptionPane.showConfirmDialog(null, "Create new file?", "", JOptionPane.YES_NO_OPTION);
-
-			    if (confirmed == JOptionPane.YES_OPTION) 
-			    {
-			      editorPane.setText("");
-				  eventController.deleteDontTouch();
-			    }
-			  }
+				{
+					editorPane.setText("");
+					eventController.deleteDontTouch();
+				}
+				
+				else
+				{
+					int confirmed = JOptionPane.showConfirmDialog(null, "Create new file?", "", JOptionPane.YES_NO_OPTION);
+				
+					if (confirmed == JOptionPane.YES_OPTION) 
+					{
+						editorPane.setText("");
+						eventController.deleteDontTouch();
+					}
+				}
+				filePath = null;
+				fileName = "new file";
+				frame.setTitle(appName + " - " + fileName);
 			  
 			}
 		});
