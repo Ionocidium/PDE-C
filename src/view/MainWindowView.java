@@ -176,24 +176,25 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-			  filePath = null;
-			  
-			  if (editorPane.getText().equals(""))
-			  {
-				editorPane.setText("");
-				eventController.deleteDontTouch();
-			  }
-			  
-			  else
-			  {
-				int confirmed = JOptionPane.showConfirmDialog(null, "Create new file?", "", JOptionPane.YES_NO_OPTION);
-
-			    if (confirmed == JOptionPane.YES_OPTION) 
-			    {
-			      editorPane.setText("");
-				  eventController.deleteDontTouch();
-			    }
-			  }
+				if (editorPane.getText().equals(""))
+				{
+					editorPane.setText("");
+					eventController.deleteDontTouch();
+				}
+				
+				else
+				{
+					int confirmed = JOptionPane.showConfirmDialog(null, "Create new file?", "", JOptionPane.YES_NO_OPTION);
+				
+					if (confirmed == JOptionPane.YES_OPTION) 
+					{
+						editorPane.setText("");
+						eventController.deleteDontTouch();
+					}
+				}
+				filePath = null;
+				fileName = "new file";
+				frame.setTitle(appName + " - " + fileName);
 			}
 		});
 		newButton.setToolTipText("New");
