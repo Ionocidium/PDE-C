@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 
 public class SourceCodeUploaderView {
@@ -78,16 +79,24 @@ public class SourceCodeUploaderView {
 			{
 			  java.sql.Date data = new java.sql.Date(System.currentTimeMillis());
 			  
-			  Deliverable deliver = new Deliverable(1, Integer.parseInt(idNumField.getText()), 1, new File(file.toUri()), new Timestamp(System.currentTimeMillis()), file.getFileName().toString(), 0.5f);
+			  Deliverable deliver = new Deliverable(1, Integer.parseInt(idNumField.getText()), 1, new File(file.toUri()), new Timestamp(System.currentTimeMillis()), file.getFileName().toString(), -1.0f);
 	
 			  try
 			  {
-			    deliver.sendData();	
+			    deliver.sendData();
+			    frmActivityUpload.setVisible(false);
 			  }
 			  catch(Exception ex)
 			  {
-			  	ex.printStackTrace();
-			  	frame.setText(ex.getStackTrace().toString());
+				StringBuilder sb = new StringBuilder(ex.toString());
+			    for (StackTraceElement ste : ex.getStackTrace()) {
+			        sb.append("\n\tat ");
+			        sb.append(ste);
+			    }
+			    String trace = sb.toString();
+			    
+			    frame.setForeground(Color.RED);
+			    frame.setText(trace);
 			  }
 			}
 		});
