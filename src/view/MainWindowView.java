@@ -58,6 +58,7 @@ public class MainWindowView
 	private boolean fileModified;
 	private final String appName = "PDE-C";
 	private String fileName;
+	private JTextArea consoleLog;
 	/**
 	 * Launch the application.
 	 */
@@ -244,7 +245,7 @@ public class MainWindowView
 		});
 		saveButton.setBorder(null);
 		
-	    JTextArea consoleLog = new JTextArea (5,20);
+	    consoleLog = new JTextArea (5,20);
 	    consoleLog.setEditable ( false ); // set textArea non-editable
 	    JScrollPane cL = new JScrollPane ( consoleLog );
 		frame.setVisible(true);
@@ -258,10 +259,17 @@ public class MainWindowView
 			}
 		});
 		
-		JButton settingsButton = new JButton("");
-		settingsButton.setToolTipText("Settings");
-		settingsButton.setIcon(new ImageIcon("resources/images/materialSmall/settings.png"));
-		settingsButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		JButton sendButton = new JButton("");
+		sendButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+			  eventController.sendSrcCode(consoleLog, filePath);
+			}
+		});
+		sendButton.setToolTipText("Send source code");
+		sendButton.setIcon(new ImageIcon("resources/images/materialSmall/send.png"));
+		sendButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		saveButton.setIcon(new ImageIcon("resources/images/materialSmall/save.png"));
 		saveButton.setToolTipText("Save");
@@ -305,7 +313,7 @@ public class MainWindowView
 		coreToolbar.add(resumeButton);
 		coreToolbar.add(stopButton);
 		coreToolbar.addSeparator();
-		coreToolbar.add(settingsButton);
+		coreToolbar.add(sendButton);
 		
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
@@ -631,5 +639,10 @@ public class MainWindowView
 		springLayout.putConstraint(SpringLayout.EAST, coreToolbar, 2500, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(coreToolbar, BorderLayout.NORTH);
 
+	}
+	
+	public JTextArea getConsoleLog()
+	{
+	  return consoleLog;
 	}
 }
