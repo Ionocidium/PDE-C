@@ -60,6 +60,7 @@ public class MainWindowView
 	private final String appName = "PDE-C";
 	private String fileName;
 	private JTextArea consoleLog;
+	
 	private int FontSize = 16;
 	private int minFont = 12;
 	private int maxFont = 72;
@@ -270,7 +271,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-			  eventController.sendSrcCode(consoleLog, filePath);
+				eventController.sendSrcCode(consoleLog, filePath);
 			}
 		});
 		sendButton.setToolTipText("Send source code");
@@ -319,7 +320,6 @@ public class MainWindowView
 		fontDownButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		fontUpButton.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (FontSize < maxFont) {
 					editorPane.setFont(new Font(FontStyle, Font.PLAIN, FontSize+=4));
@@ -332,15 +332,14 @@ public class MainWindowView
 		});
 		
 		fontDownButton.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (FontSize > minFont) {
 					editorPane.setFont(new Font(FontStyle, Font.PLAIN, FontSize-=4));
 					if (FontSize == minFont) {
 						fontDownButton.setEnabled(false);
 					}
-					fontUpButton.setEnabled(true);
 				}
+				fontUpButton.setEnabled(true);
 			}
 		});
 		
