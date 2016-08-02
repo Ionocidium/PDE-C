@@ -4,6 +4,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -59,6 +60,10 @@ public class MainWindowView
 	private final String appName = "PDE-C";
 	private String fileName;
 	private JTextArea consoleLog;
+	private int FontSize = 16;
+	private int minFont = 12;
+	private int maxFont = 72;
+	private String FontStyle = "Serif";
 	/**
 	 * Launch the application.
 	 */
@@ -161,6 +166,7 @@ public class MainWindowView
 
 		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
 		editorPane.setCodeFoldingEnabled(true);
+		editorPane.setFont(new Font(FontStyle, Font.PLAIN, FontSize));
 		RTextScrollPane scrollPane = new RTextScrollPane(editorPane);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setIconRowHeaderEnabled(true);
@@ -306,11 +312,37 @@ public class MainWindowView
 		fontUpButton.setIcon(new ImageIcon("resources/images/materialSmall/fontUp.png"));
 		fontUpButton.setToolTipText("Increase Font Size");
 		fontUpButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		
+				
 		JButton fontDownButton = new JButton("");
 		fontDownButton.setIcon(new ImageIcon("resources/images/materialSmall/fontDown.png"));
 		fontDownButton.setToolTipText("Decrease Font Size");
 		fontDownButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		fontUpButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (FontSize < maxFont) {
+					editorPane.setFont(new Font(FontStyle, Font.PLAIN, FontSize+=4));
+					if (FontSize == maxFont) {
+						fontUpButton.setEnabled(false);
+					}
+				}
+				fontDownButton.setEnabled(true);
+			}
+		});
+		
+		fontDownButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (FontSize > minFont) {
+					editorPane.setFont(new Font(FontStyle, Font.PLAIN, FontSize-=4));
+					if (FontSize == minFont) {
+						fontDownButton.setEnabled(false);
+					}
+					fontUpButton.setEnabled(true);
+				}
+			}
+		});
 		
 		coreToolbar.add(newButton);
 		coreToolbar.add(openButton);
@@ -323,10 +355,11 @@ public class MainWindowView
 		coreToolbar.add(resumeButton);
 		coreToolbar.add(stopButton);
 		coreToolbar.addSeparator();
-		coreToolbar.add(sendButton);
-		coreToolbar.addSeparator();
 		coreToolbar.add(fontUpButton);
 		coreToolbar.add(fontDownButton);
+		coreToolbar.addSeparator();
+		coreToolbar.add(sendButton);
+		
 		
 		
 		JMenuBar menuBar = new JMenuBar();
