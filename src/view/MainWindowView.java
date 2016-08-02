@@ -226,7 +226,8 @@ public class MainWindowView
 			    if (confirmed == JOptionPane.YES_OPTION) 
 			    {
 			      filePath = eventController.openFile(frame, editorPane);
-				  fileName = filePath.getFileName().toString();
+			      if (filePath != null)
+			    	  fileName = filePath.getFileName().toString();
 			    }
 			  }
 		});
@@ -446,9 +447,12 @@ public class MainWindowView
 			  else
 			  {
 				filePath = eventController.saveAsFile(frame, editorPane, fileModified);
-				fileName = filePath.getFileName().toString();
-				frame.setTitle(appName + " - " + fileName);
-				fileModified = false;
+				if (filePath != null)
+				{
+					fileName = filePath.getFileName().toString();
+					frame.setTitle(appName + " - " + fileName);
+					fileModified = false;
+				}
 			  }	  
 			}
 		});
