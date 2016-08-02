@@ -302,6 +302,16 @@ public class MainWindowView
 		stopButton.setEnabled(false);
 		stopButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
+		JButton fontUpButton = new JButton("");
+		fontUpButton.setIcon(new ImageIcon("resources/images/materialSmall/fontUp.png"));
+		fontUpButton.setToolTipText("Increase Font Size");
+		fontUpButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		JButton fontDownButton = new JButton("");
+		fontDownButton.setIcon(new ImageIcon("resources/images/materialSmall/fontDown.png"));
+		fontDownButton.setToolTipText("Decrease Font Size");
+		fontDownButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		coreToolbar.add(newButton);
 		coreToolbar.add(openButton);
 		coreToolbar.add(saveButton);
@@ -314,6 +324,10 @@ public class MainWindowView
 		coreToolbar.add(stopButton);
 		coreToolbar.addSeparator();
 		coreToolbar.add(sendButton);
+		coreToolbar.addSeparator();
+		coreToolbar.add(fontUpButton);
+		coreToolbar.add(fontDownButton);
+		
 		
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
