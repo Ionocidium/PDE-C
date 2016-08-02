@@ -61,10 +61,10 @@ public class MainWindowView
 	private String fileName;
 	private JTextArea consoleLog;
 	
-	private int FontSize = 16;
+	private int fontSize = 16;
 	private int minFont = 12;
 	private int maxFont = 72;
-	private String FontStyle = "Serif";
+	private String fontStyle;
 	/**
 	 * Launch the application.
 	 */
@@ -134,6 +134,7 @@ public class MainWindowView
 		EventController eventController = EventController.getEventController();
         
 		RSyntaxTextArea editorPane = new RSyntaxTextArea();
+		fontStyle = editorPane.getFont().getFamily();
 		editorPane.getDocument().addDocumentListener(new DocumentListener() {
 			
 			@Override
@@ -167,7 +168,7 @@ public class MainWindowView
 
 		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
 		editorPane.setCodeFoldingEnabled(true);
-		editorPane.setFont(new Font(FontStyle, Font.PLAIN, FontSize));
+		editorPane.setFont(new Font(fontStyle, Font.PLAIN, fontSize));
 		RTextScrollPane scrollPane = new RTextScrollPane(editorPane);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setIconRowHeaderEnabled(true);
@@ -176,6 +177,11 @@ public class MainWindowView
 		scrollPane.setWheelScrollingEnabled(true);
 		scrollPane.revalidate();
 		Gutter gut = scrollPane.getGutter();
+		Font monospace = new Font(fontStyle, Font.PLAIN, fontSize);
+		for(int i = 0; i < gut.getComponentCount(); i++)
+		{
+			gut.getComponent(i).setFont(monospace);
+		}
 		gut.setBookmarkingEnabled(true);
 		JToolBar coreToolbar = new JToolBar();
 		coreToolbar.setFloatable(false);
@@ -321,9 +327,15 @@ public class MainWindowView
 		
 		fontUpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (FontSize < maxFont) {
-					editorPane.setFont(new Font(FontStyle, Font.PLAIN, FontSize+=4));
-					if (FontSize == maxFont) {
+				if (fontSize < maxFont) {
+					Font f = new Font(fontStyle, Font.PLAIN, fontSize+=4);
+					scrollPane.setFont(f);
+					for(int i = 0; i < gut.getComponentCount(); i++)
+					{
+						gut.getComponent(i).setFont(f);
+					}
+					editorPane.setFont(f);
+					if (fontSize == maxFont) {
 						fontUpButton.setEnabled(false);
 					}
 				}
@@ -333,9 +345,15 @@ public class MainWindowView
 		
 		fontDownButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (FontSize > minFont) {
-					editorPane.setFont(new Font(FontStyle, Font.PLAIN, FontSize-=4));
-					if (FontSize == minFont) {
+				if (fontSize > minFont) {
+					Font f = new Font(fontStyle, Font.PLAIN, fontSize-=4);
+					scrollPane.setFont(f);
+					for(int i = 0; i < gut.getComponentCount(); i++)
+					{
+						gut.getComponent(i).setFont(f);
+					}
+					editorPane.setFont(f);
+					if (fontSize == minFont) {
 						fontDownButton.setEnabled(false);
 					}
 				}
