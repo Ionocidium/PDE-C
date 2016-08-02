@@ -1,17 +1,20 @@
 package view;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.Deliverable;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -24,9 +27,17 @@ public class SourceCodeUploaderView {
 	private JTextField txtCrecursionpdf;
 	private Path file;
 	private JTextField idNumField;
+	private JFileChooser fileChooser;
+	private FileNameExtensionFilter cFilter;
 
 	public SourceCodeUploaderView(Path filePath, JTextArea frame) {
 	  	file = filePath;
+	  	
+	  	fileChooser= new JFileChooser();
+	  	cFilter = new FileNameExtensionFilter(
+			"C Source (*.c)", "c");
+	  	fileChooser.setFileFilter(cFilter);
+	  	
 		initialize(frame);
 	}
 
@@ -54,6 +65,23 @@ public class SourceCodeUploaderView {
 		txtCrecursionpdf.setColumns(10);
 		
 		JButton btnUpload = new JButton("Browse...");
+		btnUpload.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{			  
+			  int returnVal = fileChooser.showOpenDialog(null);
+			  if (returnVal == JFileChooser.APPROVE_OPTION)
+			  {
+				file = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+				txtCrecursionpdf.setText(file.getFileName().toString());
+			  }
+			  
+			  else
+			  {
+				file = null;
+			  }
+			}
+		});
 		btnUpload.setBounds(335, 35, 89, 23);
 		frmActivityUpload.getContentPane().add(btnUpload);
 		
@@ -76,9 +104,7 @@ public class SourceCodeUploaderView {
 		btnSubmit.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
-			{
-			  java.sql.Date data = new java.sql.Date(System.currentTimeMillis());
-			  
+			{			  
 			  Deliverable deliver = new Deliverable(1, Integer.parseInt(idNumField.getText()), 1, new File(file.toUri()), new Timestamp(System.currentTimeMillis()), file.getFileName().toString(), -1.0f);
 	
 			  try
