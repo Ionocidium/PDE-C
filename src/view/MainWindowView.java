@@ -317,12 +317,12 @@ public class MainWindowView
 		stopButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		JButton fontUpButton = new JButton("");
-		fontUpButton.setIcon(new ImageIcon("resources/images/materialSmall/fontUp.png"));
+		fontUpButton.setIcon(new ImageIcon("resources/images/materialSmall/fontUp1.png"));
 		fontUpButton.setToolTipText("Increase Font Size");
 		fontUpButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 				
 		JButton fontDownButton = new JButton("");
-		fontDownButton.setIcon(new ImageIcon("resources/images/materialSmall/fontDown.png"));
+		fontDownButton.setIcon(new ImageIcon("resources/images/materialSmall/fontDown1.png"));
 		fontDownButton.setToolTipText("Decrease Font Size");
 		fontDownButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
@@ -658,7 +658,8 @@ public class MainWindowView
 		
 		JMenuItem mntmCompileRun = new JMenuItem("Compile & run");
 		mntmCompileRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0));
-		mntmCompileRun.addActionListener(new ActionListener() {
+		mntmCompileRun.addActionListener(new ActionListener() 
+		{
 			public void actionPerformed(ActionEvent arg0)
 			{
 			  filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
