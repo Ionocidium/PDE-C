@@ -27,6 +27,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
 import view.CompileLog;
+import view.SourceCodeUploaderView;
 
 public class EventController
 {
@@ -76,6 +77,7 @@ public class EventController
 			else
 			{
 				JOptionPane.showMessageDialog(null, "Not a C source code.", "Error", JOptionPane.ERROR_MESSAGE);
+				filePath = null;
 			}
 		}
 		return filePath;
@@ -113,6 +115,19 @@ public class EventController
 		}
 		
 		return returnedPath;
+	}
+	
+	public void sendSrcCode(JTextArea consoleLog, Path filePath)
+	{
+	  if (filePath == null)
+	  {
+		
+	  }
+	  
+	  else
+	  {
+		SourceCodeUploaderView upload = new SourceCodeUploaderView(filePath, consoleLog);
+	  }
 	}
   
 	public void saveFile(JFrame frame, RSyntaxTextArea editorPane, Path filePath, boolean state)
@@ -296,6 +311,7 @@ public class EventController
 			e1.printStackTrace();
 		}
 	}
+	
 
 	public void debugActual(String exe, JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp, ArrayList<Integer> bp)
 	{

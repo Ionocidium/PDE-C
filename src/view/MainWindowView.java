@@ -4,6 +4,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -24,7 +25,9 @@ import org.fife.ui.rtextarea.GutterIconInfo;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 
@@ -56,6 +59,12 @@ public class MainWindowView
 	private boolean fileModified;
 	private final String appName = "PDE-C";
 	private String fileName;
+	private JTextArea consoleLog;
+	
+	private int fontSize = 16;
+	private int minFont = 12;
+	private int maxFont = 72;
+	private String fontStyle;
 	/**
 	 * Launch the application.
 	 */
@@ -125,6 +134,7 @@ public class MainWindowView
 		EventController eventController = EventController.getEventController();
         
 		RSyntaxTextArea editorPane = new RSyntaxTextArea();
+		fontStyle = editorPane.getFont().getFamily();
 		editorPane.getDocument().addDocumentListener(new DocumentListener() {
 			
 			@Override
@@ -158,21 +168,54 @@ public class MainWindowView
 
 		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
 		editorPane.setCodeFoldingEnabled(true);
+		editorPane.setFont(new Font(fontStyle, Font.PLAIN, fontSize));
 		RTextScrollPane scrollPane = new RTextScrollPane(editorPane);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setIconRowHeaderEnabled(true);
-		scrollPane.setDefaultLocale(null);
+		JComponent.setDefaultLocale(null);
 		scrollPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		scrollPane.setWheelScrollingEnabled(true);
 		scrollPane.revalidate();
 		Gutter gut = scrollPane.getGutter();
+		Font monospace = new Font(fontStyle, Font.PLAIN, fontSize);
+		for(int i = 0; i < gut.getComponentCount(); i++)
+		{
+			gut.getComponent(i).setFont(monospace);
+		}
 		gut.setBookmarkingEnabled(true);
 		JToolBar coreToolbar = new JToolBar();
 		coreToolbar.setFloatable(false);
 		coreToolbar.setRollover(true);
 		JButton newButton = new JButton("");
+		newButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if (editorPane.getText().equals(""))
+				{
+					editorPane.setText("");
+					eventController.deleteDontTouch();
+				}
+				
+				else
+				{
+					int confirmed = JOptionPane.showConfirmDialog(null, "Create new file?", "", JOptionPane.YES_NO_OPTION);
+				
+					if (confirmed == JOptionPane.YES_OPTION) 
+					{
+						editorPane.setText("");
+						eventController.deleteDontTouch();
+					}
+				}
+				filePath = null;
+				fileName = "new file";
+				frame.setTitle(appName + " - " + fileName);
+			}
+		});
 		newButton.setToolTipText("New");
-		newButton.setIcon(new ImageIcon("resources/images/new/newfile.png"));
+		newButton.setIcon(new ImageIcon("resources/images/materialSmall/newfile.png"));
+		newButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		JButton openButton = new JButton("");
 		openButton.addActionListener(new ActionListener() 
 		{
@@ -183,52 +226,142 @@ public class MainWindowView
 			    if (confirmed == JOptionPane.YES_OPTION) 
 			    {
 			      filePath = eventController.openFile(frame, editorPane);
-				  fileName = filePath.getFileName().toString();
+			      if (filePath != null)
+			    	  fileName = filePath.getFileName().toString();
 			    }
 			  }
 		});
-		openButton.setIcon(new ImageIcon("resources/images/new/openfile.png"));
+		openButton.setIcon(new ImageIcon("resources/images/materialSmall/openfile.png"));
 		openButton.setToolTipText("Open");
+		openButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		JButton saveButton = new JButton("");
 		saveButton.addActionListener(new ActionListener() 
 		{
-			public void actionPerformed(ActionEvent arg0) {
-				 eventController.saveFile(frame, editorPane, filePath, fileModified);
-				 fileModified = false;
+			public void actionPerformed(ActionEvent arg0) 
+			{
+			  if (filePath != null)
+			  {
+				eventController.saveFile(frame, editorPane, filePath, fileModified);
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+			  }
+			  
+			  else
+			  {
+				filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+				fileName = filePath.getFileName().toString();
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+			  }	  
+		
 			}
 		});
+		saveButton.setBorder(null);
 		
-	    JTextArea consoleLog = new JTextArea (5,20);
+	    consoleLog = new JTextArea (5,20);
 	    consoleLog.setEditable ( false ); // set textArea non-editable
 	    JScrollPane cL = new JScrollPane ( consoleLog );
 		frame.setVisible(true);
 		
-		saveButton.setIcon(new ImageIcon("resources/images/new/save.png"));
-		saveButton.setToolTipText("Save");
+		
 		JButton compileButton = new JButton("");
 		compileButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
-				eventController.compile(frame, editorPane, filePath, consoleLog); 
+			  filePath = eventController.compile(frame, editorPane, filePath, consoleLog); 
 			}
 		});
-		compileButton.setIcon(new ImageIcon("resources/images/new/compile.png"));
+		
+		JButton sendButton = new JButton("");
+		sendButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				eventController.sendSrcCode(consoleLog, filePath);
+			}
+		});
+		sendButton.setToolTipText("Send source code");
+		sendButton.setIcon(new ImageIcon("resources/images/materialSmall/send.png"));
+		sendButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		saveButton.setIcon(new ImageIcon("resources/images/materialSmall/save.png"));
+		saveButton.setToolTipText("Save");
+		saveButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		compileButton.setIcon(new ImageIcon("resources/images/materialSmall/compile.png"));
 		compileButton.setToolTipText("Compile");
+		compileButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		JButton debugButton = new JButton("");
-		debugButton.setIcon(new ImageIcon("resources/images/new/debug.png"));
+		debugButton.setIcon(new ImageIcon("resources/images/materialSmall/debug.png"));
 		debugButton.setToolTipText("Debug");
+		debugButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		JButton stepOverButton = new JButton("");
-		stepOverButton.setIcon(new ImageIcon("resources/images/buildCompile.png"));
+		stepOverButton.setIcon(new ImageIcon("resources/images/materialSmall/stepOver.png"));
 		stepOverButton.setToolTipText("Step Over");
 		stepOverButton.setEnabled(false);
+		stepOverButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		JButton resumeButton = new JButton("");
-		resumeButton.setIcon(new ImageIcon("resources/images/debugCompile.png"));
+		resumeButton.setIcon(new ImageIcon("resources/images/materialSmall/resume.png"));
 		resumeButton.setToolTipText("Resume");
 		resumeButton.setEnabled(false);
+		resumeButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		JButton stopButton = new JButton("");
-		stopButton.setIcon(new ImageIcon("resources/images/debugCompile.png"));
+		stopButton.setIcon(new ImageIcon("resources/images/materialSmall/stop.png"));
 		stopButton.setToolTipText("Stop");
 		stopButton.setEnabled(false);
+		stopButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		JButton fontUpButton = new JButton("");
+		fontUpButton.setIcon(new ImageIcon("resources/images/materialSmall/fontUp1.png"));
+		fontUpButton.setToolTipText("Increase Font Size");
+		fontUpButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+				
+		JButton fontDownButton = new JButton("");
+		fontDownButton.setIcon(new ImageIcon("resources/images/materialSmall/fontDown1.png"));
+		fontDownButton.setToolTipText("Decrease Font Size");
+		fontDownButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		fontUpButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fontSize < maxFont) {
+					Font f = new Font(fontStyle, Font.PLAIN, fontSize+=4);
+					scrollPane.setFont(f);
+					for(int i = 0; i < gut.getComponentCount(); i++)
+					{
+						gut.getComponent(i).setFont(f);
+					}
+					editorPane.setFont(f);
+					if (fontSize == maxFont) {
+						fontUpButton.setEnabled(false);
+					}
+				}
+				fontDownButton.setEnabled(true);
+			}
+		});
+		
+		fontDownButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fontSize > minFont) {
+					Font f = new Font(fontStyle, Font.PLAIN, fontSize-=4);
+					scrollPane.setFont(f);
+					for(int i = 0; i < gut.getComponentCount(); i++)
+					{
+						gut.getComponent(i).setFont(f);
+					}
+					editorPane.setFont(f);
+					if (fontSize == minFont) {
+						fontDownButton.setEnabled(false);
+					}
+				}
+				fontUpButton.setEnabled(true);
+			}
+		});
+		
 		coreToolbar.add(newButton);
 		coreToolbar.add(openButton);
 		coreToolbar.add(saveButton);
@@ -239,31 +372,40 @@ public class MainWindowView
 		coreToolbar.add(stepOverButton);
 		coreToolbar.add(resumeButton);
 		coreToolbar.add(stopButton);
+		coreToolbar.addSeparator();
+		coreToolbar.add(fontUpButton);
+		coreToolbar.add(fontDownButton);
+		coreToolbar.addSeparator();
+		coreToolbar.add(sendButton);
+		
+		
+		
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 		JMenuItem newFileItem = new JMenuItem("New", KeyEvent.VK_N);
 		newFileItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
-			{
-			  filePath = null;
-			  
+			{ 
 			  if (editorPane.getText().equals(""))
-			  {
-				editorPane.setText("");
-				eventController.deleteDontTouch();
-			  }
-			  
-			  else
-			  {
-				int confirmed = JOptionPane.showConfirmDialog(null, "Create new file?", "", JOptionPane.YES_NO_OPTION);
-
-			    if (confirmed == JOptionPane.YES_OPTION) 
-			    {
-			      editorPane.setText("");
-				  eventController.deleteDontTouch();
-			    }
-			  }
+				{
+					editorPane.setText("");
+					eventController.deleteDontTouch();
+				}
+				
+				else
+				{
+					int confirmed = JOptionPane.showConfirmDialog(null, "Create new file?", "", JOptionPane.YES_NO_OPTION);
+				
+					if (confirmed == JOptionPane.YES_OPTION) 
+					{
+						editorPane.setText("");
+						eventController.deleteDontTouch();
+					}
+				}
+				filePath = null;
+				fileName = "new file";
+				frame.setTitle(appName + " - " + fileName);
 			  
 			}
 		});
@@ -305,8 +447,12 @@ public class MainWindowView
 			  else
 			  {
 				filePath = eventController.saveAsFile(frame, editorPane, fileModified);
-				frame.setTitle(appName + " - " + fileName);
-				fileModified = false;
+				if (filePath != null)
+				{
+					fileName = filePath.getFileName().toString();
+					frame.setTitle(appName + " - " + fileName);
+					fileModified = false;
+				}
 			  }	  
 			}
 		});
@@ -319,7 +465,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-			  eventController.saveAsFile(frame, editorPane, fileModified);
+			  filePath = eventController.saveAsFile(frame, editorPane, fileModified);
 			}
 		});
 		
@@ -512,7 +658,8 @@ public class MainWindowView
 		
 		JMenuItem mntmCompileRun = new JMenuItem("Compile & run");
 		mntmCompileRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0));
-		mntmCompileRun.addActionListener(new ActionListener() {
+		mntmCompileRun.addActionListener(new ActionListener() 
+		{
 			public void actionPerformed(ActionEvent arg0)
 			{
 			  filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
@@ -561,6 +708,10 @@ public class MainWindowView
 		springLayout.putConstraint(SpringLayout.EAST, coreToolbar, 2500, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(coreToolbar, BorderLayout.NORTH);
 
-
+	}
+	
+	public JTextArea getConsoleLog()
+	{
+	  return consoleLog;
 	}
 }

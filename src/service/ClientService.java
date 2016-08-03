@@ -19,7 +19,7 @@ public class ClientService
   {
 	try
 	{
-	  addr = InetAddress.getByName("10.100.214.51");
+	  addr = InetAddress.getByName("127.0.0.1");
 	}
 	
 	catch(Exception ex)

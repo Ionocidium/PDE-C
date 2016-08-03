@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import configuration.LocalConfiguration;
+
 public class CommandLineDebugging
 {
 	private String gccPath;
@@ -13,6 +15,7 @@ public class CommandLineDebugging
     private Process proc;
 	private BufferedReader stdInput;
 	private BufferedReader stdError;
+	private LocalConfiguration local;
 	
 	public CommandLineDebugging(){
 		
@@ -20,6 +23,8 @@ public class CommandLineDebugging
 
 	public CommandLineDebugging(String cFile)
 	{
+		
+		local = LocalConfiguration.getInstance();
 		String path = "";
 		if(System.getProperty("os.arch").equals("amd64"))
 		{
@@ -29,7 +34,7 @@ public class CommandLineDebugging
 		{
 	        path = "C:\\cygwin\\bin\\";
 		}
-        this.gccPath = path;
+        this.gccPath = local.getGccPath();
         this.fileToDebug = cFile;
         this.rt = Runtime.getRuntime();
         this.commands[0] = this.gccPath + "gdb.exe";
@@ -38,7 +43,7 @@ public class CommandLineDebugging
 	
 	public CommandLineDebugging(String gccPath, String cFile)
 	{
-        this.gccPath = gccPath;
+        this.gccPath = local.getGccPath();
         this.fileToDebug = cFile;
         this.rt = Runtime.getRuntime();
         this.commands[0] = this.gccPath + "gdb.exe";
