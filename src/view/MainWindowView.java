@@ -283,7 +283,7 @@ public class MainWindowView
 			}
 		});
 		
-		JButton sendButton = new JButton("");
+		JButton sendButton = new JButton("Send C File");
 		sendButton.setToolTipText("Send source code");
 		sendButton.setIcon(new ImageIcon("resources/images/materialSmall/send.png"));
 		sendButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -295,17 +295,22 @@ public class MainWindowView
 			}
 		});
 		
+		JButton downloadButton = new JButton("Download");
+		downloadButton.setToolTipText("Download Activities");
+		downloadButton.setIcon(new ImageIcon("resources/images/materialSmall/download.png"));
+		downloadButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		saveButton.setIcon(new ImageIcon("resources/images/materialSmall/save.png"));
 		saveButton.setToolTipText("Save");
 		saveButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		compileButton.setIcon(new ImageIcon("resources/images/materialSmall/compile.png"));
 		compileButton.setToolTipText("Compile");
-		compileButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		compileButton.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		
 		compilerunButton.setIcon(new ImageIcon("resources/images/materialSmall/compileandrun.png"));
 		compilerunButton.setToolTipText("Compile and Run");
-		compilerunButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		compilerunButton.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		
 		JButton debugButton = new JButton("");
 		debugButton.setIcon(new ImageIcon("resources/images/materialSmall/debug.png"));
@@ -323,6 +328,12 @@ public class MainWindowView
 		delbreakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		delbreakpointButton.setEnabled(false);
 		
+		JButton delallbreakpointButton = new JButton("");
+		delallbreakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/delallbreakpoint.png"));
+		delallbreakpointButton.setToolTipText("Delete All Breakpoints");
+		delallbreakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		delallbreakpointButton.setEnabled(false);
+		
 		breakpointButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -330,6 +341,7 @@ public class MainWindowView
 				addbreakpoint(gut);
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
+					delallbreakpointButton.setEnabled(true);
 				}
 			}
 		});
@@ -341,6 +353,19 @@ public class MainWindowView
 				deletebreakpoint(gut);
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
+					delallbreakpointButton.setEnabled(false);
+				}
+			}
+		});
+		
+		delallbreakpointButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				deleteallbreakpoint(gut);
+				if(breakpoints.size() == 0) {
+					delbreakpointButton.setEnabled(false);
+					delallbreakpointButton.setEnabled(false);
 				}
 			}
 		});
@@ -424,6 +449,7 @@ public class MainWindowView
 		coreToolbar.addSeparator();
 		coreToolbar.add(breakpointButton);
 		coreToolbar.add(delbreakpointButton);
+		coreToolbar.add(delallbreakpointButton);
 		coreToolbar.addSeparator();
 		coreToolbar.addSeparator();
 		coreToolbar.add(fontUpButton);
@@ -432,6 +458,9 @@ public class MainWindowView
 		coreToolbar.addSeparator();
 		coreToolbar.addSeparator();
 		coreToolbar.add(sendButton);
+		coreToolbar.addSeparator();
+		coreToolbar.add(downloadButton);
+		coreToolbar.addSeparator();
 		
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -600,6 +629,7 @@ public class MainWindowView
 				addbreakpoint(gut);		
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
+					delallbreakpointButton.setEnabled(true);
 				}
 			}
 		});
@@ -611,6 +641,19 @@ public class MainWindowView
 				deletebreakpoint(gut);
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
+					delallbreakpointButton.setEnabled(false);
+				}
+			}
+		});
+		JMenuItem delallBreakItem = new JMenuItem("Remove all Breakpoint...");
+		delallBreakItem.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				deleteallbreakpoint(gut);
+				if(breakpoints.size() == 0) {
+					delbreakpointButton.setEnabled(false);
+					delallbreakpointButton.setEnabled(false);
 				}
 			}
 		});
@@ -657,11 +700,12 @@ public class MainWindowView
 		buildMenu.add(debugBuildItem);
 		buildMenu.add(addBreakItem);
 		buildMenu.add(delBreakItem);
+		buildMenu.add(delallBreakItem);
 		buildMenu.add(manageBreakpointItem);
 		menuBar.add(helpMenu);
 		helpMenu.add(helpHelpItem);
 		helpMenu.add(aboutHelpItem);
-
+		
 		frame.setJMenuBar(menuBar);
 		frame.getContentPane().setLayout(new BorderLayout());
 		//frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
@@ -675,7 +719,7 @@ public class MainWindowView
 		
 		JTabbedPane feedbacklog = new JTabbedPane();
 		feedbacklog.add("Feedback History", CBRC);
-	
+		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);		
 		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
@@ -692,7 +736,7 @@ public class MainWindowView
 		splitPane.setTopComponent(nestedPane);
 		
 		JTabbedPane consolelog = new JTabbedPane();
-		consolelog.add("Console Log", cL);
+		consolelog.add("Error Log", cL);
 		
 		splitPane.setBottomComponent(consolelog);
 		splitPane.setResizeWeight(1);
@@ -703,7 +747,7 @@ public class MainWindowView
 		springLayout.putConstraint(SpringLayout.SOUTH, coreToolbar, 48, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, coreToolbar, 2500, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(coreToolbar, BorderLayout.NORTH);
-		
+
 
 	}
 	
@@ -783,7 +827,7 @@ public class MainWindowView
 					gut.removeTrackingIcon(gii);
 					breakpoints.remove(target);
 					breakpoints2.remove(target);
-					JOptionPane.showMessageDialog(null, "Line " + input + " removed successfully.", "Added!", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Line " + input + " removed successfully.", "Removed", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 			catch (NumberFormatException nfe)
@@ -797,7 +841,12 @@ public class MainWindowView
 		}
 	}
 	
-	
+	public void deleteallbreakpoint(Gutter gut){				
+			gut.removeAllTrackingIcons();
+			breakpoints.clear();
+			breakpoints2.clear();
+			JOptionPane.showMessageDialog(null, "All breakpoints removed successfully.", "Removed", JOptionPane.INFORMATION_MESSAGE);
+	}
 	
 	public JTextArea getConsoleLog()
 	{

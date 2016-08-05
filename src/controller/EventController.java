@@ -147,7 +147,6 @@ public class EventController
 			{
 			  	path = filePath;
 			  	CommandLineControls clc = new CommandLineControls(filePath.toString());
-			  	compileLog.setText(clc.getStdOut() + "\n");
 				compileLog.setText(clc.getStdOut() + "\n" + clc.getStdError() + "\n");
 				
 				if (!clc.getStdError().equals(""))
