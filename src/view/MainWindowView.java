@@ -298,6 +298,39 @@ public class MainWindowView
 		debugButton.setToolTipText("Debug");
 		debugButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
+		JButton breakpointButton = new JButton("");
+		breakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/breakpoint.png"));
+		breakpointButton.setToolTipText("Add Breakpoints");
+		breakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+			
+		JButton delbreakpointButton = new JButton("");
+		delbreakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/delbreakpoint.png"));
+		delbreakpointButton.setToolTipText("Delete Breakpoints");
+		delbreakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		delbreakpointButton.setEnabled(false);
+		
+		breakpointButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				addbreakpoint(gut);
+				if(breakpoints.size() > 0) {
+					delbreakpointButton.setEnabled(true);
+				}
+			}
+		});
+		
+		delbreakpointButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				deletebreakpoint(gut);
+				if(breakpoints.size() == 0) {
+					delbreakpointButton.setEnabled(false);
+				}
+			}
+		});
+		
 		JButton stepOverButton = new JButton("");
 		stepOverButton.setIcon(new ImageIcon("resources/images/materialSmall/stepOver.png"));
 		stepOverButton.setToolTipText("Step Over");
@@ -317,12 +350,12 @@ public class MainWindowView
 		stopButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		JButton fontUpButton = new JButton("");
-		fontUpButton.setIcon(new ImageIcon("resources/images/materialSmall/fontUp1.png"));
+		fontUpButton.setIcon(new ImageIcon("resources/images/materialSmall/fontUp.png"));
 		fontUpButton.setToolTipText("Increase Font Size");
 		fontUpButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 				
 		JButton fontDownButton = new JButton("");
-		fontDownButton.setIcon(new ImageIcon("resources/images/materialSmall/fontDown1.png"));
+		fontDownButton.setIcon(new ImageIcon("resources/images/materialSmall/fontDown.png"));
 		fontDownButton.setToolTipText("Decrease Font Size");
 		fontDownButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
@@ -367,6 +400,8 @@ public class MainWindowView
 		coreToolbar.add(saveButton);
 		coreToolbar.addSeparator();
 		coreToolbar.add(compileButton);
+		coreToolbar.add(breakpointButton);
+		coreToolbar.add(delbreakpointButton);
 		coreToolbar.add(debugButton);
 		coreToolbar.addSeparator();
 		coreToolbar.add(stepOverButton);
@@ -534,49 +569,10 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				String input = JOptionPane.showInputDialog(
-	                    frame,
-	                    "Insert a breakpoint, enter a line number (must not exceed the end of file):");
-				if(input == null || input.isEmpty())
-				{
-					// do nothing
+				addbreakpoint(gut);		
+				if(breakpoints.size() > 0) {
+					delbreakpointButton.setEnabled(true);
 				}
-				else
-				{
-					try
-					{
-						int bpnum = Integer.parseInt(input) - 1;
-						boolean existing = false;
-						for(int i = 0; i < breakpoints.size(); i++)
-						{
-							if(breakpoints.get(i) == bpnum)
-							{
-								existing = true;
-							}
-						}
-						if(!existing)
-						{
-							GutterIconInfo gii = gut.addLineTrackingIcon(bpnum, new ImageIcon("resources/images/Breakpoint16.png"));
-							breakpoints.add(bpnum);
-							breakpoints2.add(gii);
-							JOptionPane.showMessageDialog(null, "Line " + input + " added successfully.", "Added!", JOptionPane.INFORMATION_MESSAGE);
-						}
-						else
-							JOptionPane.showMessageDialog(null, "Line " + input + " already exists.", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-					catch (BadLocationException ble)
-					{
-						JOptionPane.showMessageDialog(null, "The line specified is not found. Discontinuing adding breakpoints...", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-					catch (NumberFormatException nfe)
-					{
-						JOptionPane.showMessageDialog(null, "You entered a non-integer number!", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-					catch (NullPointerException npe)
-					{
-						
-					}
-				}				
 			}
 		});
 		JMenuItem delBreakItem = new JMenuItem("Remove Breakpoint...");
@@ -584,46 +580,9 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				String input = JOptionPane.showInputDialog(
-	                    frame,
-	                    "Remove a breakpoint, enter a line number (must not exceed the end of file):");
-				if(input == null || input.isEmpty())
-				{
-					// do nothing
-				}
-				else
-				{
-					try
-					{
-						int bpnum = Integer.parseInt(input) - 1;
-						int target = -1;
-						GutterIconInfo gii = null;
-						for(int i = 0; i < breakpoints.size(); i++)
-						{
-							if(breakpoints.get(i) == bpnum)
-							{
-								gii = breakpoints2.get(i);
-								target = i;
-							}
-						}
-						if(target == -1)
-							JOptionPane.showMessageDialog(null, "Line " + input + " does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
-						else
-						{
-							gut.removeTrackingIcon(gii);
-							breakpoints.remove(target);
-							breakpoints2.remove(target);
-							JOptionPane.showMessageDialog(null, "Line " + input + " removed successfully.", "Added!", JOptionPane.INFORMATION_MESSAGE);
-						}
-					}
-					catch (NumberFormatException nfe)
-					{
-						JOptionPane.showMessageDialog(null, "You entered a non-integer number!", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-					catch (NullPointerException npe)
-					{
-						
-					}
+				deletebreakpoint(gut);
+				if(breakpoints.size() == 0) {
+					delbreakpointButton.setEnabled(false);
 				}
 			}
 		});
@@ -710,6 +669,96 @@ public class MainWindowView
 		springLayout.putConstraint(SpringLayout.EAST, coreToolbar, 2500, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(coreToolbar, BorderLayout.NORTH);
 
+	}
+	
+	public void addbreakpoint(Gutter gut){
+		String input = JOptionPane.showInputDialog(
+                frame,
+                "Insert a breakpoint, enter a line number (must not exceed the end of file):");
+		if(input == null || input.isEmpty())
+		{
+			// do nothing
+		}
+		else
+		{
+			try
+			{
+				int bpnum = Integer.parseInt(input) - 1;
+				boolean existing = false;
+				for(int i = 0; i < breakpoints.size(); i++)
+				{
+					if(breakpoints.get(i) == bpnum)
+					{
+						existing = true;
+					}
+				}
+				if(!existing)
+				{
+					GutterIconInfo gii = gut.addLineTrackingIcon(bpnum, new ImageIcon("resources/images/materialsmall/breakpointeditor.png"));
+					breakpoints.add(bpnum);
+					breakpoints2.add(gii);
+					JOptionPane.showMessageDialog(null, "Line " + input + " added successfully.", "Added!", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Line " + input + " already exists.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (BadLocationException ble)
+			{
+				JOptionPane.showMessageDialog(null, "The line specified is not found. Discontinuing adding breakpoints...", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (NumberFormatException nfe)
+			{
+				JOptionPane.showMessageDialog(null, "You entered a non-integer number!", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (NullPointerException npe)
+			{
+				
+			}
+		}
+	}
+	
+	public void deletebreakpoint(Gutter gut){
+		String input = JOptionPane.showInputDialog(
+                frame,
+                "Remove a breakpoint, enter a line number (must not exceed the end of file):");
+		if(input == null || input.isEmpty())
+		{
+			// do nothing
+		}
+		else
+		{
+			try
+			{
+				int bpnum = Integer.parseInt(input) - 1;
+				int target = -1;
+				GutterIconInfo gii = null;
+				for(int i = 0; i < breakpoints.size(); i++)
+				{
+					if(breakpoints.get(i) == bpnum)
+					{
+						gii = breakpoints2.get(i);
+						target = i;
+					}
+				}
+				if(target == -1)
+					JOptionPane.showMessageDialog(null, "Line " + input + " does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+				else
+				{
+					gut.removeTrackingIcon(gii);
+					breakpoints.remove(target);
+					breakpoints2.remove(target);
+					JOptionPane.showMessageDialog(null, "Line " + input + " removed successfully.", "Added!", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+			catch (NumberFormatException nfe)
+			{
+				JOptionPane.showMessageDialog(null, "You entered a non-integer number!", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (NullPointerException npe)
+			{
+				
+			}
+		}
 	}
 	
 	public JTextArea getConsoleLog()
