@@ -273,7 +273,19 @@ public class MainWindowView
 			}
 		});
 		
+		JButton compilerunButton = new JButton("");
+		compilerunButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) {
+				filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
+				eventController.runProgram();
+			}
+		});
+		
 		JButton sendButton = new JButton("");
+		sendButton.setToolTipText("Send source code");
+		sendButton.setIcon(new ImageIcon("resources/images/materialSmall/send.png"));
+		sendButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		sendButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -281,9 +293,6 @@ public class MainWindowView
 				eventController.sendSrcCode(consoleLog, filePath);
 			}
 		});
-		sendButton.setToolTipText("Send source code");
-		sendButton.setIcon(new ImageIcon("resources/images/materialSmall/send.png"));
-		sendButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		saveButton.setIcon(new ImageIcon("resources/images/materialSmall/save.png"));
 		saveButton.setToolTipText("Save");
@@ -292,6 +301,10 @@ public class MainWindowView
 		compileButton.setIcon(new ImageIcon("resources/images/materialSmall/compile.png"));
 		compileButton.setToolTipText("Compile");
 		compileButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		compilerunButton.setIcon(new ImageIcon("resources/images/materialSmall/compileandrun.png"));
+		compilerunButton.setToolTipText("Compile and Run");
+		compilerunButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		JButton debugButton = new JButton("");
 		debugButton.setIcon(new ImageIcon("resources/images/materialSmall/debug.png"));
@@ -345,7 +358,7 @@ public class MainWindowView
 		
 		JButton stopButton = new JButton("");
 		stopButton.setIcon(new ImageIcon("resources/images/materialSmall/stop.png"));
-		stopButton.setToolTipText("Stop");
+		stopButton.setToolTipText("Stop Debugging");
 		stopButton.setEnabled(false);
 		stopButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
@@ -399,20 +412,24 @@ public class MainWindowView
 		coreToolbar.add(openButton);
 		coreToolbar.add(saveButton);
 		coreToolbar.addSeparator();
-		coreToolbar.add(compileButton);
-		coreToolbar.add(breakpointButton);
-		coreToolbar.add(delbreakpointButton);
-		coreToolbar.add(debugButton);
 		coreToolbar.addSeparator();
+		coreToolbar.add(compileButton);
+		coreToolbar.add(compilerunButton);
+		coreToolbar.addSeparator();
+		coreToolbar.add(debugButton);
 		coreToolbar.add(stepOverButton);
 		coreToolbar.add(resumeButton);
 		coreToolbar.add(stopButton);
+		coreToolbar.add(breakpointButton);
+		coreToolbar.add(delbreakpointButton);
+		coreToolbar.addSeparator();
 		coreToolbar.addSeparator();
 		coreToolbar.add(fontUpButton);
 		coreToolbar.add(fontDownButton);
 		coreToolbar.addSeparator();
+		coreToolbar.addSeparator();
+		coreToolbar.addSeparator();
 		coreToolbar.add(sendButton);
-		
 		
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -556,8 +573,17 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				eventController.debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
-				eventController.debugActual2(frame, editorPane, filePath, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, editorPane, scrollPane, breakpoints);
+				eventController.debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
+				eventController.debugActual2(frame, editorPane, filePath, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, editorPane, scrollPane, breakpoints);
+			}
+		});
+		
+		debugButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				eventController.debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
+				eventController.debugActual2(frame, editorPane, filePath, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, editorPane, scrollPane, breakpoints);
 			}
 		});
 		

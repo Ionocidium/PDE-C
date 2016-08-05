@@ -252,7 +252,7 @@ public class EventController
 	  }
 	}
 
-	public void debugToggler(JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton)
+	public void debugToggler(JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JButton compilerunButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton)
 	{
 	  	newButton.setEnabled(!newButton.isEnabled());
 		newFileItem.setEnabled(!newFileItem.isEnabled());
@@ -262,6 +262,7 @@ public class EventController
 		saveFileItem.setEnabled(!saveFileItem.isEnabled());
 		saveAsFileItem.setEnabled(!saveAsFileItem.isEnabled());
 		compileButton.setEnabled(!compileButton.isEnabled());
+		compilerunButton.setEnabled(!compilerunButton.isEnabled());
 		compileBuildItem.setEnabled(!compileBuildItem.isEnabled());
 		debugButton.setEnabled(!debugButton.isEnabled());
 		debugBuildItem.setEnabled(!debugBuildItem.isEnabled());
@@ -270,7 +271,7 @@ public class EventController
 		stopButton.setEnabled(!stopButton.isEnabled());
 	}
   
-	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp, ArrayList<Integer> bp)
+	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JButton compilerunButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp, ArrayList<Integer> bp)
 	{
 		try
 		{
@@ -279,7 +280,7 @@ public class EventController
 				CompileLog log = new CompileLog(filePath);
 				String currentPath = filePath.toString();
 				String exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
-				debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp, bp);
+				debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp, bp);
 			}
 			else
 			{
@@ -296,7 +297,7 @@ public class EventController
 						CompileLog log = new CompileLog(filePath);
 						String currentPath = filePath.toString();
 						String exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
-						debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp, bp);
+						debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp, bp);
 					}
 	  				else
 	  				{
@@ -313,7 +314,7 @@ public class EventController
 	}
 	
 
-	public void debugActual(String exe, JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp, ArrayList<Integer> bp)
+	public void debugActual(String exe, JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JButton compilerunButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp, ArrayList<Integer> bp)
 	{
 		Thread debug = new Thread(new Runnable(){
 			public void run()
@@ -403,7 +404,7 @@ public class EventController
 	                    }
 	                    
 	                    process.destroy();
-	                    debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
+	                    debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
 	                }
 	            }
 				catch (Exception ex)
