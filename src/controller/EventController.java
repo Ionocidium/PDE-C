@@ -147,7 +147,7 @@ public class EventController
 			{
 			  	path = filePath;
 			  	CommandLineControls clc = new CommandLineControls(filePath.toString());
-				
+			  	compileLog.setText(clc.getStdOut() + "\n");
 				compileLog.setText(clc.getStdOut() + "\n" + clc.getStdError() + "\n");
 				
 				if (!clc.getStdError().equals(""))
@@ -273,43 +273,33 @@ public class EventController
   
 	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JButton compilerunButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp, ArrayList<Integer> bp)
 	{
-		try
+		if (filePath != null)
 		{
-			if (filePath != null)
-	  		{
-				CompileLog log = new CompileLog(filePath);
-				String currentPath = filePath.toString();
-				String exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
-				debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp, bp);
-			}
-			else
+			String currentPath = filePath.toString();
+			String exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
+			debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp, bp);
+		}
+		else
+		{
+			int returnVal = fileChooser.showOpenDialog(frame);
+			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
-				int returnVal = fileChooser.showOpenDialog(frame);
-				if (returnVal == JFileChooser.APPROVE_OPTION)
+				Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+				filePath = path;
+				String ext = path.getFileName().toString();
+				if (loader.checker(ext))
 				{
-					Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
-					filePath = path;
-					String ext = path.getFileName().toString();
-					if (loader.checker(ext))
-					{
-						String pathContents = loader.loadFile(path);
-						editorPane.setText(pathContents);
-						CompileLog log = new CompileLog(filePath);
-						String currentPath = filePath.toString();
-						String exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
-						debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp, bp);
-					}
-	  				else
-	  				{
-	  					JOptionPane.showMessageDialog(null, "Not a C source code.", "Error", JOptionPane.ERROR_MESSAGE);
-	  				}
-	  			}
-	  		}
-  	  	}
-		catch (IOException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+					String pathContents = loader.loadFile(path);
+					editorPane.setText(pathContents);
+					String currentPath = filePath.toString();
+					String exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
+					debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp, bp);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Not a C source code.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
 		}
 	}
 	

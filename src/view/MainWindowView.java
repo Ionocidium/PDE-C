@@ -43,6 +43,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.ScrollPaneConstants;
 
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.event.WindowAdapter;
@@ -420,6 +421,7 @@ public class MainWindowView
 		coreToolbar.add(stepOverButton);
 		coreToolbar.add(resumeButton);
 		coreToolbar.add(stopButton);
+		coreToolbar.addSeparator();
 		coreToolbar.add(breakpointButton);
 		coreToolbar.add(delbreakpointButton);
 		coreToolbar.addSeparator();
@@ -666,13 +668,16 @@ public class MainWindowView
 		
 	    JTextArea display = new JTextArea (1,30);
 	    display.setEditable ( false ); // set textArea non-editable
-	    display.setText("This is where \n CBR-C's feedback would be displayed");
+	    display.setText("");
 	    JScrollPane CBRC = new JScrollPane ( display );
 		//frame.getContentPane().add(CBRC, BorderLayout.EAST);
 		frame.setVisible(true);
+		
+		JTabbedPane feedbacklog = new JTabbedPane();
+		feedbacklog.add("Feedback History", CBRC);
 	
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);		
 		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
 		splitPane.setOneTouchExpandable(true);	
 		
@@ -681,19 +686,24 @@ public class MainWindowView
 		nestedPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		nestedPane.setResizeWeight(1);
 		nestedPane.setLeftComponent(scrollPane);
-		nestedPane.setRightComponent(CBRC);
+		nestedPane.setRightComponent(feedbacklog);
 		nestedPane.setOneTouchExpandable(true);
 		
 		splitPane.setTopComponent(nestedPane);
-		splitPane.setBottomComponent(cL);
-		splitPane.setResizeWeight(1);
 		
+		JTabbedPane consolelog = new JTabbedPane();
+		consolelog.add("Console Log", cL);
+		
+		splitPane.setBottomComponent(consolelog);
+		splitPane.setResizeWeight(1);
+	
 		SpringLayout springLayout = new SpringLayout();
 		springLayout.putConstraint(SpringLayout.NORTH, coreToolbar, 0, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, coreToolbar, 0, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, coreToolbar, 48, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, coreToolbar, 2500, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(coreToolbar, BorderLayout.NORTH);
+		
 
 	}
 	
@@ -786,6 +796,8 @@ public class MainWindowView
 			}
 		}
 	}
+	
+	
 	
 	public JTextArea getConsoleLog()
 	{
