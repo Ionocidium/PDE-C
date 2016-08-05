@@ -689,6 +689,7 @@ public class MainWindowView
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
+		splitPane.setOneTouchExpandable(true);	
 		
 		//for editor text and cbrc
 		JSplitPane nestedPane = new JSplitPane();
@@ -696,6 +697,7 @@ public class MainWindowView
 		nestedPane.setResizeWeight(1);
 		nestedPane.setLeftComponent(scrollPane);
 		nestedPane.setRightComponent(CBRC);
+		nestedPane.setOneTouchExpandable(true);
 		
 		splitPane.setTopComponent(nestedPane);
 		splitPane.setBottomComponent(cL);
