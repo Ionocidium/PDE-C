@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.Deliverable;
+import service.ClientService;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -42,11 +43,44 @@ public class SourceCodeUploaderView {
 	}
 
 	private void initialize(JTextArea frame) {
+	  	
+	  	
+//	  	try
+//	  	{
+//	  	  client.getActivity();
+//	  	}
+//	  	
+//	  	catch(Exception ex)
+//	  	{
+//	  	  ex.printStackTrace();
+//	  	}
+		
 		frmActivityUpload = new JFrame();
 		frmActivityUpload.setVisible(true);
-		frmActivityUpload.setTitle("Source Code Upload");
+		ClientService client = ClientService.getClientService();
+	  	try
+	  	{
+	  	  client.requestActivityFromServer();
+	  	}
+	  	
+	  	catch(Exception ex)
+	  	{
+	  	  ex.printStackTrace();
+	  	}
+		
+	  	try
+	  	{
+	  	  client.getActivity();
+	  	}
+	  	
+	  	catch(Exception ex)
+	  	{
+	  	  ex.printStackTrace();
+	  	}
+	  	
+	  	frmActivityUpload.setTitle("Source Code Upload");
 		frmActivityUpload.setBounds(100, 100, 450, 177);
-		frmActivityUpload.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmActivityUpload.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmActivityUpload.getContentPane().setLayout(null);
 		
 		JLabel lblActivityName = new JLabel("Select Activity:");

@@ -1,8 +1,10 @@
 package service;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -19,7 +21,7 @@ public class ClientService
   {
 	try
 	{
-	  addr = InetAddress.getByName("10.100.214.51");
+	  addr = InetAddress.getByName("127.0.0.1");
 	}
 	
 	catch(Exception ex)
@@ -45,7 +47,7 @@ public class ClientService
 	{
 	  clientSocket = new Socket(addr, port);
 	  toServer = new DataOutputStream(clientSocket.getOutputStream());
-	  fromServer = new DataInputStream(clientSocket.getInputStream());
+	  //fromServer = new DataInputStream(clientSocket.getInputStream());
 	  System.out.println("From client: Connection successful." + '\n');
 	}
 	
@@ -65,6 +67,29 @@ public class ClientService
 	}
 	 
 	 toServer.writeBytes(data);
-	 clientSocket.close();
+  }
+  
+  public void requestActivityFromServer() throws IOException
+  {
+	if (clientSocket == null)
+	{
+	  initSocket();
+	}
+	
+	toServer.writeBytes("get,Activity,");
+  }
+  
+  public void getActivity() throws IOException
+  {
+	if (clientSocket == null)
+	{
+	  initSocket();
+	}
+	
+	BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+	
+	FileDecoder decode = new FileDecoder();
+	decode.convertToFile(reader.readLine(), "activity.txt");
+	clientSocket.close();
   }
 }
