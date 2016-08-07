@@ -398,10 +398,14 @@ public class EventController
 	                    }
 	                    String[] lineArray = new String[lines.size()];
 	                    lineArray  = lines.toArray(lineArray);
-	
+	                    
+	                    /*
 	                    for (int i=0; i < lineArray.length; i++) {
 	                        writeInErrorLog(lineArray[i].toString());
 	                    }
+	                    */
+	                    
+	                    writeInErrorLog(lineArray[lineArray.length - 1]);
 	                    
 	                    process.destroy();
 	                    debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
