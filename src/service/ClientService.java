@@ -6,7 +6,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+
+import view.MainWindowView;
 
 public class ClientService
 {
@@ -49,11 +53,13 @@ public class ClientService
 	  toServer = new DataOutputStream(clientSocket.getOutputStream());
 	  //fromServer = new DataInputStream(clientSocket.getInputStream());
 	  System.out.println("From client: Connection successful." + '\n');
+	  MainWindowView.connected = true;
 	}
 	
 	catch(Exception ex)
 	{
-	  ex.printStackTrace();
+		MainWindowView.connected = false;
+		ex.printStackTrace();
 	}
 	
   }
@@ -67,6 +73,25 @@ public class ClientService
 	}
 	 
 	 toServer.writeBytes(data);
+  }
+  
+  public void listenServer(){
+	  Thread serverListener = new Thread(new Runnable() 
+	  {
+			@Override
+			public void run() 
+			{
+				if(MainWindowView.connected)
+				{
+					
+				}
+				else
+				{
+					initSocket();
+				}
+			}
+	  });
+	  serverListener.run();
   }
   
   public void requestActivityFromServer() throws IOException
