@@ -60,7 +60,7 @@ public class MainWindowView
 	private boolean fileModified;
 	private final String appName = "PDE-C";
 	private String fileName;
-	private JTextArea consoleLog;
+	public static JTextArea consoleLog;
 	
 	private int fontSize = 16;
 	private int minFont = 12;

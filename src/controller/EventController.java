@@ -27,6 +27,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
 import view.CompileLog;
+import view.MainWindowView;
 import view.SourceCodeUploaderView;
 
 public class EventController
@@ -269,6 +270,11 @@ public class EventController
 		resumeButton.setEnabled(!resumeButton.isEnabled());
 		stopButton.setEnabled(!stopButton.isEnabled());
 	}
+	
+	public void writeInErrorLog(String s)
+	{
+		MainWindowView.consoleLog.setText(s);
+	}
   
 	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JButton compilerunButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp, ArrayList<Integer> bp)
 	{
@@ -305,6 +311,7 @@ public class EventController
 
 	public void debugActual(String exe, JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JButton compilerunButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp, ArrayList<Integer> bp)
 	{
+		writeInErrorLog("");
 		Thread debug = new Thread(new Runnable(){
 			public void run()
 			{
@@ -381,15 +388,19 @@ public class EventController
 	                    	}
 	                    }
 	                    );
-	
-	                    while ((line = in.readLine()) != null){
-	                        lines.add(line);
+	                    boolean notYet = true;
+	                    while ((line = in.readLine()) != null && notYet){
+	                    	if (line.indexOf("exited with") > 0)
+	                    	{
+	                    		notYet = false;
+	                    	}
+	                    	lines.add(line);
 	                    }
 	                    String[] lineArray = new String[lines.size()];
 	                    lineArray  = lines.toArray(lineArray);
 	
 	                    for (int i=0; i < lineArray.length; i++) {
-	                        System.out.println(lineArray[i].toString());
+	                        writeInErrorLog(lineArray[i].toString());
 	                    }
 	                    
 	                    process.destroy();
