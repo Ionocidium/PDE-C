@@ -35,7 +35,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 import controller.EventController;
-import service.ClientService;
 import service.Parsers;
 
 import javax.swing.SpringLayout;
@@ -49,7 +48,6 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JLabel;
 
 
 public class MainWindowView
@@ -63,14 +61,11 @@ public class MainWindowView
 	private final String appName = "PDE-C";
 	private String fileName;
 	private JTextArea consoleLog;
-	private JLabel lblConnectionStatus;
 	
 	private int fontSize = 16;
 	private int minFont = 12;
 	private int maxFont = 72;
 	private String fontStyle;
-	public static boolean connected = false; // localMode
-	
 	/**
 	 * Launch the application.
 	 */
@@ -106,8 +101,6 @@ public class MainWindowView
 	 */
 	private void initialize()
 	{
-		ClientService cs = ClientService.getClientService();
-		cs.listenServer();
 		breakpoints = new ArrayList<Integer>();
 		breakpoints2 = new ArrayList<GutterIconInfo>();
 		fileModified = false;
@@ -754,29 +747,8 @@ public class MainWindowView
 		springLayout.putConstraint(SpringLayout.SOUTH, coreToolbar, 48, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, coreToolbar, 2500, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(coreToolbar, BorderLayout.NORTH);
-		
-		lblConnectionStatus = new JLabel("Connection Status\r\n");
-		coreToolbar.add(lblConnectionStatus);
 
 
-		Thread serverCheck = new Thread(new Runnable()
-		{
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				if(connected)
-				{
-					lblConnectionStatus.setText("Online Mode");
-				}
-				else
-				{
-					lblConnectionStatus.setText("Local Mode");
-				}
-			}
-		});
-		
-		serverCheck.run();
 	}
 	
 	public void addbreakpoint(Gutter gut){
