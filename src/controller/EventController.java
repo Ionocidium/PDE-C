@@ -152,7 +152,8 @@ public class EventController
 				
 				if (!clc.getStdError().equals(""))
 				{
-				  this.deleteDontTouch();
+				  // this.deleteDontTouch();
+					clc.runMyCompiler();
 				}
 			}
 			
@@ -175,7 +176,8 @@ public class EventController
 						
 						if (!clc.getStdError().equals(""))
 						{
-						  this.deleteDontTouch();
+						  //b this.deleteDontTouch();
+							clc.runMyCompiler();
 						}
 					}
 					  
@@ -215,6 +217,8 @@ public class EventController
 	  return filePath;
 	}
 
+	/*
+	@unused
 	public String runProgram()
 	{
 		String res = null;
@@ -241,7 +245,50 @@ public class EventController
 
 		return res;
 	}
+	*/
 	
+	public String runProgram(Path p)
+	{
+		String res = null;
+
+		try
+		{
+			File f = new File(p.toString());
+			String dir = f.getParent();
+			String filename = f.getName();
+			String currentOS = System.getProperty("os.name").toLowerCase();
+		  	if (currentOS.indexOf("win") >= 0)
+		  	{
+		  		String compiled = dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")).concat(".exe"));
+	  			ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", compiled, "/b", compiled);
+	  			Process proc = pb.start();
+		  	}
+		  	else if(currentOS.indexOf("mac") >= 0)
+		  	{
+		  		String compiled = dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")).concat(".out"));
+	  			Runtime rt = Runtime.getRuntime();
+	  			Process proc = rt.exec(compiled);
+	  			proc.waitFor();
+		  	}
+		  	else if(currentOS.indexOf("nix") >= 0 || currentOS.indexOf("nux") >= 0)
+		  	{
+		  		String compiled = dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")));
+	  			Runtime rt = Runtime.getRuntime();
+	  			Process proc = rt.exec(compiled);
+	  			proc.waitFor();
+		  	}
+		}
+
+		catch(Exception ex)
+		{
+			System.out.println("");
+		}
+
+		return res;
+	}
+	
+	/*
+	@unused
 	public void deleteDontTouch()
 	{
 	  File file = new File("resources/donttouch.bat");
@@ -251,6 +298,7 @@ public class EventController
 		file.delete();
 	  }
 	}
+	*/
 
 	public void debugToggler(JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JButton compilerunButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton)
 	{

@@ -195,7 +195,7 @@ public class MainWindowView
 				if (editorPane.getText().equals(""))
 				{
 					editorPane.setText("");
-					eventController.deleteDontTouch();
+					//eventController.deleteDontTouch();
 				}
 				
 				else
@@ -205,7 +205,7 @@ public class MainWindowView
 					if (confirmed == JOptionPane.YES_OPTION) 
 					{
 						editorPane.setText("");
-						eventController.deleteDontTouch();
+						//eventController.deleteDontTouch();
 					}
 				}
 				filePath = null;
@@ -279,7 +279,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) {
 				filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
-				eventController.runProgram();
+				eventController.runProgram(filePath);
 			}
 		});
 		
@@ -473,7 +473,7 @@ public class MainWindowView
 			  if (editorPane.getText().equals(""))
 				{
 					editorPane.setText("");
-					eventController.deleteDontTouch();
+					//eventController.deleteDontTouch();
 				}
 				
 				else
@@ -483,7 +483,7 @@ public class MainWindowView
 					if (confirmed == JOptionPane.YES_OPTION) 
 					{
 						editorPane.setText("");
-						eventController.deleteDontTouch();
+						//eventController.deleteDontTouch();
 					}
 				}
 				filePath = null;
@@ -693,7 +693,7 @@ public class MainWindowView
 			public void actionPerformed(ActionEvent arg0)
 			{
 			  filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
-			  eventController.runProgram();
+			  eventController.runProgram(filePath);
 			}
 		});
 		buildMenu.add(mntmCompileRun);
