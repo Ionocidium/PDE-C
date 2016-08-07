@@ -107,7 +107,7 @@ public class MainWindowView
 	private void initialize()
 	{
 		ClientService cs = ClientService.getClientService();
-		cs.listenServer();
+		cs.listenServer().start();
 		breakpoints = new ArrayList<Integer>();
 		breakpoints2 = new ArrayList<GutterIconInfo>();
 		fileModified = false;

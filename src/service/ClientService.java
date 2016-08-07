@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -75,8 +76,8 @@ public class ClientService
 	 toServer.writeBytes(data);
   }
   
-  public void listenServer(){
-	  Thread serverListener = new Thread(new Runnable() 
+  public Thread listenServer(){
+	  return new Thread(new Runnable() 
 	  {
 			@Override
 			public void run() 
@@ -87,20 +88,20 @@ public class ClientService
 				}
 				else
 				{
-					//initSocket();
-					ServerSocket serverSocket;
+					initSocket();
 					try {
-						serverSocket = new ServerSocket(port);
-						System.out.println("Waiting for server ");
-						Socket listenserver = serverSocket.accept();
-						System.out.println("Just connected to " + listenserver.getRemoteSocketAddress());
-						BufferedReader inFromClient = new BufferedReader(new InputStreamReader(listenserver.getInputStream()));
-						DataOutputStream writer = new DataOutputStream(listenserver.getOutputStream());
-						String clientSentence = inFromClient.readLine();
-					    System.out.println("From client: "+clientSentence+"\n");
-					    ArrayList<String> info = new ArrayList<String>();
-					    String type = clientSentence.substring(0, clientSentence.indexOf(","));
-					    clientSentence = clientSentence.substring(clientSentence.indexOf(",") + 1);
+						while(MainWindowView.connected)
+						{
+							ServerSocket serverSocket;
+							serverSocket = new ServerSocket(2022);
+							System.out.println("Waiting for server ");
+							Socket listenserver = new Socket("127.0.0.1", 2021);
+							System.out.println("Just connected to " + listenserver.getRemoteSocketAddress());
+							BufferedReader inFromServer = new BufferedReader(new InputStreamReader(listenserver.getInputStream()));
+							DataOutputStream writer = new DataOutputStream(listenserver.getOutputStream());
+							String serverSentence = inFromServer.readLine();
+						    System.out.println("From server: "+serverSentence+"\n");
+						}
 					} catch (IOException ioe) {
 						// TODO Auto-generated catch block
 						ioe.printStackTrace();
@@ -108,7 +109,6 @@ public class ClientService
 				}
 			}
 	  });
-	  serverListener.run();
   }
   
   public void requestActivityFromServer() throws IOException
