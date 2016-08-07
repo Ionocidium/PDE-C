@@ -6,7 +6,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+
+import view.MainWindowView;
 
 public class ClientService
 {
@@ -49,11 +53,13 @@ public class ClientService
 	  toServer = new DataOutputStream(clientSocket.getOutputStream());
 	  //fromServer = new DataInputStream(clientSocket.getInputStream());
 	  System.out.println("From client: Connection successful." + '\n');
+	  MainWindowView.connected = true;
 	}
 	
 	catch(Exception ex)
 	{
-	  ex.printStackTrace();
+		MainWindowView.connected = false;
+		ex.printStackTrace();
 	}
 	
   }
@@ -67,6 +73,42 @@ public class ClientService
 	}
 	 
 	 toServer.writeBytes(data);
+  }
+  
+  public void listenServer(){
+	  Thread serverListener = new Thread(new Runnable() 
+	  {
+			@Override
+			public void run() 
+			{
+				if(MainWindowView.connected)
+				{
+					
+				}
+				else
+				{
+					//initSocket();
+					ServerSocket serverSocket;
+					try {
+						serverSocket = new ServerSocket(port);
+						System.out.println("Waiting for server ");
+						Socket listenserver = serverSocket.accept();
+						System.out.println("Just connected to " + listenserver.getRemoteSocketAddress());
+						BufferedReader inFromClient = new BufferedReader(new InputStreamReader(listenserver.getInputStream()));
+						DataOutputStream writer = new DataOutputStream(listenserver.getOutputStream());
+						String clientSentence = inFromClient.readLine();
+					    System.out.println("From client: "+clientSentence+"\n");
+					    ArrayList<String> info = new ArrayList<String>();
+					    String type = clientSentence.substring(0, clientSentence.indexOf(","));
+					    clientSentence = clientSentence.substring(clientSentence.indexOf(",") + 1);
+					} catch (IOException ioe) {
+						// TODO Auto-generated catch block
+						ioe.printStackTrace();
+					}
+				}
+			}
+	  });
+	  serverListener.run();
   }
   
   public void requestActivityFromServer() throws IOException
