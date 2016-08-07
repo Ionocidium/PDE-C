@@ -14,7 +14,7 @@ public class ClientService
   private final static int port = 2021;
   private Socket clientSocket = null;
   private DataOutputStream toServer;
-  private DataInputStream fromServer;
+  private BufferedReader reader;
   private InetAddress addr;
   
   private ClientService()
@@ -47,6 +47,10 @@ public class ClientService
 	{
 	  clientSocket = new Socket(addr, port);
 	  toServer = new DataOutputStream(clientSocket.getOutputStream());
+	  reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//	  DataInputStream test = new DataInputStream(clientSocket.getInputStream());
+//	  System.out.println("Server says: " + test.readUTF());
+	  //reader = new DataInputStream(clientSocket.getInputStream());
 	  //fromServer = new DataInputStream(clientSocket.getInputStream());
 	  System.out.println("From client: Connection successful." + '\n');
 	}
@@ -67,16 +71,9 @@ public class ClientService
 	}
 	 
 	 toServer.writeBytes(data);
-  }
-  
-  public void requestActivityFromServer() throws IOException
-  {
-	if (clientSocket == null)
-	{
-	  initSocket();
-	}
-	
-	toServer.writeBytes("get,Activity,");
+	 toServer.close();
+	 clientSocket.close();
+	 clientSocket = null;
   }
   
   public void getActivity() throws IOException
@@ -86,10 +83,13 @@ public class ClientService
 	  initSocket();
 	}
 	
-	BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+	DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
+	String message = dis.readUTF();
 	
 	FileDecoder decode = new FileDecoder();
-	decode.convertToFile(reader.readLine(), "activity.txt");
+	decode.convertToFile(message, "activity.txt");
+	reader.close();
 	clientSocket.close();
+	clientSocket = null;
   }
 }

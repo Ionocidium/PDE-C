@@ -1,8 +1,11 @@
 package view;
 
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,7 +21,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 
@@ -43,40 +48,24 @@ public class SourceCodeUploaderView {
 	}
 
 	private void initialize(JTextArea frame) {
+	  	ArrayList<String> actList = new ArrayList<String>();
+	  	ClientService client = ClientService.getClientService();
 	  	
+	  	try
+	  	{
+	  	  client.initSocket();
+	  	  client.getActivity();
+	  	  actList = this.readFile(Paths.get("resources/activity.txt"));
+	  	  
+	  	}
 	  	
-//	  	try
-//	  	{
-//	  	  client.getActivity();
-//	  	}
-//	  	
-//	  	catch(Exception ex)
-//	  	{
-//	  	  ex.printStackTrace();
-//	  	}
-		
+	  	catch(Exception ex)
+	  	{
+	  	  ex.printStackTrace();
+	  	}
+	  	
 		frmActivityUpload = new JFrame();
 		frmActivityUpload.setVisible(true);
-		ClientService client = ClientService.getClientService();
-	  	try
-	  	{
-	  	  client.requestActivityFromServer();
-	  	}
-	  	
-	  	catch(Exception ex)
-	  	{
-	  	  ex.printStackTrace();
-	  	}
-		
-	  	try
-	  	{
-	  	  client.getActivity();
-	  	}
-	  	
-	  	catch(Exception ex)
-	  	{
-	  	  ex.printStackTrace();
-	  	}
 	  	
 	  	frmActivityUpload.setTitle("Source Code Upload");
 		frmActivityUpload.setBounds(100, 100, 450, 177);
@@ -129,8 +118,8 @@ public class SourceCodeUploaderView {
 		idNumField.setColumns(10);
 		
 		JComboBox comboBox_6 = new JComboBox();
-		comboBox_6.setModel(new DefaultComboBoxModel(new String[] {"Basic Functions", "Conditional Satements", "Functions", "Loops", "ASCII Art I", "Recursion"}));
-		comboBox_6.setSelectedIndex(5);
+		comboBox_6.setModel(new DefaultComboBoxModel(actList.toArray()));
+		comboBox_6.setSelectedIndex(0);
 		comboBox_6.setBounds(120, 11, 304, 20);
 		frmActivityUpload.getContentPane().add(comboBox_6);
 		
@@ -163,7 +152,29 @@ public class SourceCodeUploaderView {
 		btnSubmit.setBounds(335, 105, 89, 23);
 		frmActivityUpload.getContentPane().add(btnSubmit);
 		
-		
-		
+	}
+	
+	private ArrayList<String> readFile(Path path)
+	{
+	  Charset charset = Charset.forName("UTF-8");
+	  String line = null;
+	  String cCode = new String();
+	  ArrayList<String> res = new ArrayList<String>();
+		  
+	  try (BufferedReader reader = Files.newBufferedReader(path, charset))
+	  {		
+	    while ((line = reader.readLine()) != null)
+		{
+		  res.add(line);
+		  System.out.println(line);
+		}
+	  }
+		  
+	  catch (IOException ex)
+	  {
+		ex.printStackTrace();
+	  }
+		  
+	  return res;
 	}
 }
