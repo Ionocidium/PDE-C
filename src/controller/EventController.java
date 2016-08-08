@@ -550,11 +550,9 @@ public class EventController
 	                    String[] lineArray = new String[lines.size()];
 	                    lineArray  = lines.toArray(lineArray);
 	                    
-	                    /*
 	                    for (int i=0; i < lineArray.length; i++) {
-	                        writeInErrorLog(lineArray[i].toString());
+	                        System.out.println(lineArray[i].toString());
 	                    }
-	                    */
 	                    
 	                    writeInErrorLog(lineArray[lineArray.length - 1]);
 	                    
