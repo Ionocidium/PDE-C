@@ -400,7 +400,8 @@ public class EventController
 							openFileItem, saveButton, saveFileItem, saveAsFileItem, 
 							compileButton, compilerunButton, compileBuildItem, debugButton, 
 							debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, 
-							rtsp, addBreakItem, delBreakItem, delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, bp);
+							rtsp, addBreakItem, delBreakItem, delallBreakItem, breakpointButton, 
+							delbreakpointButton, delallbreakpointButton, bp);
 				}
 				else
 				{
@@ -565,7 +566,10 @@ public class EventController
 	                    addBreakItem.addActionListener(abListener);
 	                    delBreakItem.addActionListener(dbListener);
 	                    delallBreakItem.addActionListener(dabListener);
-	                    debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
+	                    debugToggler(frame, newButton, newFileItem, openButton, openFileItem, 
+	                    		saveButton, saveFileItem, saveAsFileItem, compileButton, 
+	                    		compilerunButton, compileBuildItem, debugButton, debugBuildItem,
+	                    		stepOverButton, resumeButton, stopButton);
 	                }
 	            }
 				catch (Exception ex)
@@ -604,19 +608,23 @@ public class EventController
 					GutterIconInfo gii = g.addLineTrackingIcon(bpnum, new ImageIcon("resources/images/materialsmall/breakpointeditor.png"));
 					b.add(bpnum);
 					MainWindowView.breakpoints2.add(gii);
-					JOptionPane.showMessageDialog(null, "Line " + input + " added successfully.", "Added!", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Line " + input + " added successfully.", 
+							"Added!", JOptionPane.INFORMATION_MESSAGE);
 					res = bpnum;
 				}
 				else
-					JOptionPane.showMessageDialog(null, "Line " + input + " already exists.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Line " + input + " already exists.", 
+							"Error", JOptionPane.ERROR_MESSAGE);
 			}
 			catch (BadLocationException ble)
 			{
-				JOptionPane.showMessageDialog(null, "The line specified is not found. Discontinuing adding breakpoints...", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "The line specified is not found. Discontinuing adding breakpoints...", 
+						"Error", JOptionPane.ERROR_MESSAGE);
 			}
 			catch (NumberFormatException nfe)
 			{
-				JOptionPane.showMessageDialog(null, "You entered a non-integer number!", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "You entered a non-integer number!", 
+						"Error", JOptionPane.ERROR_MESSAGE);
 			}
 			catch (NullPointerException npe)
 			{
@@ -651,19 +659,22 @@ public class EventController
 						}
 					}
 					if(target == -1)
-						JOptionPane.showMessageDialog(null, "Line " + input + " does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Line " + input + " does not exist.", 
+								"Error", JOptionPane.ERROR_MESSAGE);
 					else
 					{
 						g.removeTrackingIcon(gii);
 						b.remove(target);
 						MainWindowView.breakpoints2.remove(target);
-						JOptionPane.showMessageDialog(null, "Line " + input + " removed successfully.", "Removed", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Line " + input + " removed successfully.", 
+								"Removed", JOptionPane.INFORMATION_MESSAGE);
 						res = bpnum;
 					}
 				}
 				catch (NumberFormatException nfe)
 				{
-					JOptionPane.showMessageDialog(null, "You entered a non-integer number!", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "You entered a non-integer number!", 
+							"Error", JOptionPane.ERROR_MESSAGE);
 				}
 				catch (NullPointerException npe)
 				{
@@ -677,6 +688,7 @@ public class EventController
 			g.removeAllTrackingIcons();
 			b.clear();
 			MainWindowView.breakpoints2.clear();
-			JOptionPane.showMessageDialog(null, "All breakpoints removed successfully.", "Removed", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "All breakpoints removed successfully.", 
+					"Removed", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
