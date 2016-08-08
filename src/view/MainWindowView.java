@@ -55,12 +55,14 @@ public class MainWindowView
 
 	private JFrame frame;
 	private ArrayList<Integer> breakpoints;
-	private ArrayList<GutterIconInfo> breakpoints2;
+	public static ArrayList<GutterIconInfo> breakpoints2;
 	private Path filePath;
 	private boolean fileModified;
 	private final String appName = "PDE-C";
 	private String fileName;
 	public static JTextArea consoleLog;
+	private JMenuItem addBreakItem, delBreakItem, delallBreakItem;
+	private JButton breakpointButton, delbreakpointButton, delallbreakpointButton;
 	
 	private int fontSize = 16;
 	private int minFont = 12;
@@ -317,18 +319,18 @@ public class MainWindowView
 		debugButton.setToolTipText("Debug");
 		debugButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		JButton breakpointButton = new JButton("");
+		breakpointButton = new JButton("");
 		breakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/breakpoint.png"));
 		breakpointButton.setToolTipText("Add Breakpoints");
 		breakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 			
-		JButton delbreakpointButton = new JButton("");
+		delbreakpointButton = new JButton("");
 		delbreakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/delbreakpoint.png"));
 		delbreakpointButton.setToolTipText("Delete Breakpoints");
 		delbreakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		delbreakpointButton.setEnabled(false);
 		
-		JButton delallbreakpointButton = new JButton("");
+		delallbreakpointButton = new JButton("");
 		delallbreakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/delallbreakpoint.png"));
 		delallbreakpointButton.setToolTipText("Delete All Breakpoints");
 		delallbreakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -338,7 +340,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				addbreakpoint(gut);
+				eventController.addbreakpoint(frame, gut, breakpoints);
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
 					delallbreakpointButton.setEnabled(true);
@@ -350,7 +352,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				deletebreakpoint(gut);
+				eventController.deletebreakpoint(frame, gut, breakpoints);
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
@@ -362,7 +364,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				deleteallbreakpoint(gut);
+				eventController.deleteallbreakpoint(gut, breakpoints);
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
@@ -604,8 +606,16 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				eventController.debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
-				eventController.debugActual2(frame, editorPane, filePath, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, editorPane, scrollPane, breakpoints);
+				eventController.debugToggler(frame, newButton, newFileItem, openButton, 
+						openFileItem, saveButton, saveFileItem, saveAsFileItem, 
+						compileButton, compilerunButton, compileBuildItem, debugButton, 
+						debugBuildItem, stepOverButton, resumeButton, stopButton);
+				eventController.debugActual2(frame, editorPane, filePath, newButton, 
+						newFileItem, openButton, openFileItem, saveButton, saveFileItem, 
+						saveAsFileItem, compileButton, compilerunButton, compileBuildItem, 
+						debugButton, debugBuildItem, stepOverButton, resumeButton, 
+						stopButton, editorPane, scrollPane, addBreakItem, delBreakItem, 
+						delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, breakpoints);
 			}
 		});
 		
@@ -613,44 +623,52 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				eventController.debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
-				eventController.debugActual2(frame, editorPane, filePath, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, editorPane, scrollPane, breakpoints);
+				eventController.debugToggler(frame, newButton, newFileItem, openButton, 
+						openFileItem, saveButton, saveFileItem, saveAsFileItem, 
+						compileButton, compilerunButton, compileBuildItem, debugButton,
+						debugBuildItem, stepOverButton, resumeButton, stopButton);
+				eventController.debugActual2(frame, editorPane, filePath, newButton, 
+						newFileItem, openButton, openFileItem, saveButton, saveFileItem, 
+						saveAsFileItem, compileButton, compilerunButton, compileBuildItem, 
+						debugButton, debugBuildItem, stepOverButton, resumeButton, 
+						stopButton, editorPane, scrollPane, addBreakItem, delBreakItem, 
+						delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, breakpoints);
 			}
 		});
 		
 		debugBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
 		
-		JMenuItem addBreakItem = new JMenuItem("Add Breakpoint...");
+		addBreakItem = new JMenuItem("Add Breakpoint...");
 		
 		addBreakItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				addbreakpoint(gut);		
+				eventController.addbreakpoint(frame, gut, breakpoints);	
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
 					delallbreakpointButton.setEnabled(true);
 				}
 			}
 		});
-		JMenuItem delBreakItem = new JMenuItem("Remove Breakpoint...");
+		delBreakItem = new JMenuItem("Remove Breakpoint...");
 		delBreakItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				deletebreakpoint(gut);
+				eventController.deletebreakpoint(frame, gut, breakpoints);
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
 				}
 			}
 		});
-		JMenuItem delallBreakItem = new JMenuItem("Remove all Breakpoint...");
+		delallBreakItem = new JMenuItem("Remove all Breakpoint...");
 		delallBreakItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				deleteallbreakpoint(gut);
+				eventController.deleteallbreakpoint(gut, breakpoints);
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
@@ -751,6 +769,8 @@ public class MainWindowView
 
 	}
 	
+	/*
+	
 	public void addbreakpoint(Gutter gut){
 		String input = JOptionPane.showInputDialog(
                 frame,
@@ -847,6 +867,7 @@ public class MainWindowView
 			breakpoints2.clear();
 			JOptionPane.showMessageDialog(null, "All breakpoints removed successfully.", "Removed", JOptionPane.INFORMATION_MESSAGE);
 	}
+	*/
 	
 	public JTextArea getConsoleLog()
 	{
