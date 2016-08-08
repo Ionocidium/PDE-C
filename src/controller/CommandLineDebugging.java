@@ -28,16 +28,16 @@ public class CommandLineDebugging
 		String path = "";
 		if(System.getProperty("os.arch").equals("amd64"))
 		{
-	        path = "C:\\cygwin64\\bin\\";
+	        path = "/usr/bin/";
 		}
 		else if(System.getProperty("os.arch").equals("x86"))
 		{
 	        path = "C:\\cygwin\\bin\\";
 		}
-        this.gccPath = local.getGccPath();
+        this.gccPath = path;
         this.fileToDebug = cFile;
         this.rt = Runtime.getRuntime();
-        this.commands[0] = this.gccPath + "gdb.exe";
+        this.commands[0] = this.gccPath + "gdb";
         this.commands[1] = this.fileToDebug;
 	}
 	

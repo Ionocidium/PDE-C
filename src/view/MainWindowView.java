@@ -35,6 +35,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 import controller.EventController;
+import service.ClientService;
 import service.Parsers;
 
 import javax.swing.SpringLayout;

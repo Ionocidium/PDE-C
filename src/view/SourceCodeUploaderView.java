@@ -56,7 +56,6 @@ public class SourceCodeUploaderView {
 	  	  client.initSocket();
 	  	  client.getActivity();
 	  	  actList = this.readFile(Paths.get("resources/activity.txt"));
-	  	  
 	  	}
 	  	
 	  	catch(Exception ex)

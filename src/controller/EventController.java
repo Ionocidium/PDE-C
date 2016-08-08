@@ -69,6 +69,7 @@ public class EventController
 			Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
 			filePath = path;
 			String ext = path.getFileName().toString();
+			System.out.println(ext);
 			if (loader.checker(ext))
 			{
 				String pathContents = loader.loadFile(path);
