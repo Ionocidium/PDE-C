@@ -30,7 +30,8 @@ import javax.swing.JFileChooser;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
@@ -107,6 +108,17 @@ public class MainWindowView
 		breakpoints2 = new ArrayList<GutterIconInfo>();
 		fileModified = false;
 		fileName = "new file";
+		
+		try
+		{
+		  Files.delete(Paths.get("resources/activity.txt"));
+		}
+		
+		catch(Exception ex)
+		{
+		  ex.printStackTrace();
+		}
+		
 		
 		frame = new JFrame(appName + " - new file");
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

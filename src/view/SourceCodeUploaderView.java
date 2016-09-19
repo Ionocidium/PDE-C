@@ -52,11 +52,15 @@ public class SourceCodeUploaderView {
 	  	ClientService client = ClientService.getClientService();
 	  	
 	  	try
-	  	{
-	  	  client.initSocket();
-	  	  client.getActivity();
-	  	  actList = this.readFile(Paths.get("resources/activity.txt"));
+	  	{ 
+	  	  if (!Files.exists(Paths.get("resources/activity.txt")));
+	  	  {
+	  		client.initSocket();
+		  	client.getActivity();	  		
+	  	  }
 	  	  
+	  	  actList = this.readFile(Paths.get("resources/activity.txt"));
+
 	  	}
 	  	
 	  	catch(Exception ex)

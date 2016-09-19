@@ -88,8 +88,5 @@ public class ClientService
 	
 	FileDecoder decode = new FileDecoder();
 	decode.convertToFile(message, "activity.txt");
-	reader.close();
-	clientSocket.close();
-	clientSocket = null;
   }
 }
