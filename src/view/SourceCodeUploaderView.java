@@ -132,7 +132,7 @@ public class SourceCodeUploaderView {
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{			  
-			  Deliverable deliver = new Deliverable(1, Integer.parseInt(idNumField.getText()), 1, new File(file.toUri()), new Timestamp(System.currentTimeMillis()), file.getFileName().toString(), -1.0f);
+			  Deliverable deliver = new Deliverable(1, Integer.parseInt(idNumField.getText()), comboBox_6.getSelectedIndex() + 1, new File(file.toUri()), new Timestamp(System.currentTimeMillis()), file.getFileName().toString(), -1.0f);
 	
 			  try
 			  {

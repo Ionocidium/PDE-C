@@ -72,8 +72,6 @@ public class ClientService
 	 
 	 toServer.writeBytes(data);
 	 toServer.close();
-	 clientSocket.close();
-	 clientSocket = null;
   }
   
   public void getActivity() throws IOException
@@ -83,10 +81,25 @@ public class ClientService
 	  initSocket();
 	}
 	
+	toServer.writeBytes("get,Activity\n");
+	
 	DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
 	String message = dis.readUTF();
 	
 	FileDecoder decode = new FileDecoder();
 	decode.convertToFile(message, "activity.txt");
+	
+	dis.close();
+	clientSocket = null;
+  }
+  
+  public void getActivityFiles() throws IOException
+  {
+	if (clientSocket == null)
+	{
+	  initSocket();
+	}
+	
+	toServer.writeBytes("get,ActivityFiles");
   }
 }
