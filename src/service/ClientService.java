@@ -93,13 +93,20 @@ public class ClientService
 	clientSocket = null;
   }
   
-  public void getActivityFiles() throws IOException
+  public void getActivityFile(int idNum) throws IOException
   {
 	if (clientSocket == null)
 	{
 	  initSocket();
 	}
 	
-	toServer.writeBytes("get,ActivityFiles");
+	int properIdNum = idNum + 1;
+	toServer.writeBytes("get,ActivityFiles," + (properIdNum) + "\n");
+	BufferedReader downloadedFile = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+	String message = downloadedFile.readLine();
+	FileDecoder decode = new FileDecoder();
+	decode.convertToFile(message, "activity.pdf");
+	downloadedFile.close();
+	clientSocket = null;
   }
 }

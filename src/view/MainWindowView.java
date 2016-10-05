@@ -310,6 +310,12 @@ public class MainWindowView
 		});
 		
 		JButton downloadButton = new JButton("Download");
+		downloadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+			  eventController.downloadActivity();
+			}
+		});
 		downloadButton.setToolTipText("Download Activities");
 		downloadButton.setIcon(new ImageIcon("resources/images/materialSmall/download.png"));
 		downloadButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));

@@ -31,6 +31,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
 import view.CompileLog;
+import view.DownloadWindow;
 import view.MainWindowView;
 import view.SourceCodeUploaderView;
 
@@ -133,6 +134,11 @@ public class EventController
 	  {
 		SourceCodeUploaderView upload = new SourceCodeUploaderView(filePath, consoleLog);
 	  }
+	}
+	
+	public void downloadActivity()
+	{
+	  DownloadWindow download = new DownloadWindow();
 	}
   
 	public void saveFile(JFrame frame, RSyntaxTextArea editorPane, Path filePath, boolean state)
