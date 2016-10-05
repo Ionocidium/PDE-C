@@ -1,7 +1,5 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -17,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import service.ClientService;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -50,8 +49,8 @@ public class DownloadWindow extends JFrame
   	{ 
   	  if (!Files.exists(Paths.get("resources/activity.txt")));
   	  {
-//  		client.initSocket();
-//	  	client.getActivity();	  		
+  		client.initSocket();
+	  	client.getActivity();	  	
   	  }
   	  
   	  actListArray = this.readFile(Paths.get("resources/activity.txt"));
@@ -63,6 +62,7 @@ public class DownloadWindow extends JFrame
   	  ex.printStackTrace();
   	}
   	
+  	setLocationRelativeTo(null);
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(100, 100, 328, 159);
 	contentPane = new JPanel();
@@ -87,7 +87,10 @@ public class DownloadWindow extends JFrame
 		  try
 		  {
 			client.getActivityFile(actList.getSelectedIndex());
-		  } catch (IOException e)
+			JOptionPane.showMessageDialog(null, "File download complete.", "", JOptionPane.INFORMATION_MESSAGE);
+		
+		  }
+		  catch (Exception e)
 		  {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,7 +105,6 @@ public class DownloadWindow extends JFrame
 	{
 	  Charset charset = Charset.forName("UTF-8");
 	  String line = null;
-	  String cCode = new String();
 	  ArrayList<String> res = new ArrayList<String>();
 		  
 	  try (BufferedReader reader = Files.newBufferedReader(path, charset))
