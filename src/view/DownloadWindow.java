@@ -1,6 +1,7 @@
 package view;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -20,6 +21,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 
 public class DownloadWindow extends JFrame
@@ -88,6 +90,16 @@ public class DownloadWindow extends JFrame
 		  {
 			client.getActivityFile(actList.getSelectedIndex());
 			JOptionPane.showMessageDialog(null, "File download complete.", "", JOptionPane.INFORMATION_MESSAGE);
+			
+			if (Desktop.isDesktopSupported()) {
+			    try {
+			        File myFile = new File("resources/activity.pdf");
+			        Desktop.getDesktop().open(myFile);
+			    } catch (IOException ex) {
+					JOptionPane.showMessageDialog(null, "Nothing to open here.", "", JOptionPane.INFORMATION_MESSAGE);
+			    }
+			}
+			
 		
 		  }
 		  catch (Exception e)
