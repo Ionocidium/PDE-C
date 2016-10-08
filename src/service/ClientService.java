@@ -1,8 +1,10 @@
 package service;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -12,7 +14,7 @@ public class ClientService
   private final static int port = 2021;
   private Socket clientSocket = null;
   private DataOutputStream toServer;
-  private DataInputStream fromServer;
+  private BufferedReader reader;
   private InetAddress addr;
   
   private ClientService()
@@ -45,7 +47,11 @@ public class ClientService
 	{
 	  clientSocket = new Socket(addr, port);
 	  toServer = new DataOutputStream(clientSocket.getOutputStream());
-	  fromServer = new DataInputStream(clientSocket.getInputStream());
+	  reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//	  DataInputStream test = new DataInputStream(clientSocket.getInputStream());
+//	  System.out.println("Server says: " + test.readUTF());
+	  //reader = new DataInputStream(clientSocket.getInputStream());
+	  //fromServer = new DataInputStream(clientSocket.getInputStream());
 	  System.out.println("From client: Connection successful." + '\n');
 	}
 	
@@ -65,6 +71,42 @@ public class ClientService
 	}
 	 
 	 toServer.writeBytes(data);
-	 clientSocket.close();
+	 toServer.close();
+  }
+  
+  public void getActivity() throws IOException
+  {
+	if (clientSocket == null)
+	{
+	  initSocket();
+	}
+	
+	toServer.writeBytes("get,Activity\n");
+	
+	DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
+	String message = dis.readUTF();
+	
+	FileDecoder decode = new FileDecoder();
+	decode.convertToFile(message, "activity.txt");
+	
+	dis.close();
+	clientSocket = null;
+  }
+  
+  public void getActivityFile(int idNum) throws IOException
+  {
+	if (clientSocket == null)
+	{
+	  initSocket();
+	}
+	
+	int properIdNum = idNum + 1;
+	toServer.writeBytes("get,ActivityFiles," + (properIdNum) + "\n");
+	BufferedReader downloadedFile = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+	String message = downloadedFile.readLine();
+	FileDecoder decode = new FileDecoder();
+	decode.convertToFile(message, "activity.pdf");
+	downloadedFile.close();
+	clientSocket = null;
   }
 }

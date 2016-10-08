@@ -30,7 +30,8 @@ import javax.swing.JFileChooser;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
@@ -43,6 +44,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.ScrollPaneConstants;
 
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.event.WindowAdapter;
@@ -54,12 +56,14 @@ public class MainWindowView
 
 	private JFrame frame;
 	private ArrayList<Integer> breakpoints;
-	private ArrayList<GutterIconInfo> breakpoints2;
+	public static ArrayList<GutterIconInfo> breakpoints2;
 	private Path filePath;
 	private boolean fileModified;
 	private final String appName = "PDE-C";
 	private String fileName;
-	private JTextArea consoleLog;
+	public static JTextArea consoleLog;
+	private JMenuItem addBreakItem, delBreakItem, delallBreakItem;
+	private JButton breakpointButton, delbreakpointButton, delallbreakpointButton;
 	
 	private int fontSize = 16;
 	private int minFont = 12;
@@ -104,6 +108,17 @@ public class MainWindowView
 		breakpoints2 = new ArrayList<GutterIconInfo>();
 		fileModified = false;
 		fileName = "new file";
+		
+		try
+		{
+		  Files.delete(Paths.get("resources/activity.txt"));
+		}
+		
+		catch(Exception ex)
+		{
+		  ex.printStackTrace();
+		}
+		
 		
 		frame = new JFrame(appName + " - new file");
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -194,7 +209,7 @@ public class MainWindowView
 				if (editorPane.getText().equals(""))
 				{
 					editorPane.setText("");
-					eventController.deleteDontTouch();
+					//eventController.deleteDontTouch();
 				}
 				
 				else
@@ -204,7 +219,7 @@ public class MainWindowView
 					if (confirmed == JOptionPane.YES_OPTION) 
 					{
 						editorPane.setText("");
-						eventController.deleteDontTouch();
+						//eventController.deleteDontTouch();
 					}
 				}
 				filePath = null;
@@ -273,7 +288,19 @@ public class MainWindowView
 			}
 		});
 		
-		JButton sendButton = new JButton("");
+		JButton compilerunButton = new JButton("");
+		compilerunButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) {
+				filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
+				eventController.runProgram(filePath);
+			}
+		});
+		
+		JButton sendButton = new JButton("Send C File");
+		sendButton.setToolTipText("Send source code");
+		sendButton.setIcon(new ImageIcon("resources/images/materialSmall/send.png"));
+		sendButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		sendButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -281,9 +308,17 @@ public class MainWindowView
 				eventController.sendSrcCode(consoleLog, filePath);
 			}
 		});
-		sendButton.setToolTipText("Send source code");
-		sendButton.setIcon(new ImageIcon("resources/images/materialSmall/send.png"));
-		sendButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		JButton downloadButton = new JButton("Download");
+		downloadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+			  eventController.downloadActivity();
+			}
+		});
+		downloadButton.setToolTipText("Download Activities");
+		downloadButton.setIcon(new ImageIcon("resources/images/materialSmall/download.png"));
+		downloadButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		saveButton.setIcon(new ImageIcon("resources/images/materialSmall/save.png"));
 		saveButton.setToolTipText("Save");
@@ -291,12 +326,69 @@ public class MainWindowView
 		
 		compileButton.setIcon(new ImageIcon("resources/images/materialSmall/compile.png"));
 		compileButton.setToolTipText("Compile");
-		compileButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		compileButton.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+		
+		compilerunButton.setIcon(new ImageIcon("resources/images/materialSmall/compileandrun.png"));
+		compilerunButton.setToolTipText("Compile and Run");
+		compilerunButton.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		
 		JButton debugButton = new JButton("");
 		debugButton.setIcon(new ImageIcon("resources/images/materialSmall/debug.png"));
 		debugButton.setToolTipText("Debug");
 		debugButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		breakpointButton = new JButton("");
+		breakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/breakpoint.png"));
+		breakpointButton.setToolTipText("Add Breakpoints");
+		breakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+			
+		delbreakpointButton = new JButton("");
+		delbreakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/delbreakpoint.png"));
+		delbreakpointButton.setToolTipText("Delete Breakpoints");
+		delbreakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		delbreakpointButton.setEnabled(false);
+		
+		delallbreakpointButton = new JButton("");
+		delallbreakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/delallbreakpoint.png"));
+		delallbreakpointButton.setToolTipText("Delete All Breakpoints");
+		delallbreakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		delallbreakpointButton.setEnabled(false);
+		
+		breakpointButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				eventController.addbreakpoint(frame, gut, breakpoints);
+				if(breakpoints.size() > 0) {
+					delbreakpointButton.setEnabled(true);
+					delallbreakpointButton.setEnabled(true);
+				}
+			}
+		});
+		
+		delbreakpointButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				eventController.deletebreakpoint(frame, gut, breakpoints);
+				if(breakpoints.size() == 0) {
+					delbreakpointButton.setEnabled(false);
+					delallbreakpointButton.setEnabled(false);
+				}
+			}
+		});
+		
+		delallbreakpointButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				eventController.deleteallbreakpoint(gut, breakpoints);
+				if(breakpoints.size() == 0) {
+					delbreakpointButton.setEnabled(false);
+					delallbreakpointButton.setEnabled(false);
+				}
+			}
+		});
 		
 		JButton stepOverButton = new JButton("");
 		stepOverButton.setIcon(new ImageIcon("resources/images/materialSmall/stepOver.png"));
@@ -312,17 +404,17 @@ public class MainWindowView
 		
 		JButton stopButton = new JButton("");
 		stopButton.setIcon(new ImageIcon("resources/images/materialSmall/stop.png"));
-		stopButton.setToolTipText("Stop");
+		stopButton.setToolTipText("Stop Debugging");
 		stopButton.setEnabled(false);
 		stopButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		JButton fontUpButton = new JButton("");
-		fontUpButton.setIcon(new ImageIcon("resources/images/materialSmall/fontUp1.png"));
+		fontUpButton.setIcon(new ImageIcon("resources/images/materialSmall/fontUp.png"));
 		fontUpButton.setToolTipText("Increase Font Size");
 		fontUpButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 				
 		JButton fontDownButton = new JButton("");
-		fontDownButton.setIcon(new ImageIcon("resources/images/materialSmall/fontDown1.png"));
+		fontDownButton.setIcon(new ImageIcon("resources/images/materialSmall/fontDown.png"));
 		fontDownButton.setToolTipText("Decrease Font Size");
 		fontDownButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
@@ -366,18 +458,29 @@ public class MainWindowView
 		coreToolbar.add(openButton);
 		coreToolbar.add(saveButton);
 		coreToolbar.addSeparator();
-		coreToolbar.add(compileButton);
-		coreToolbar.add(debugButton);
 		coreToolbar.addSeparator();
+		coreToolbar.add(compileButton);
+		coreToolbar.add(compilerunButton);
+		coreToolbar.addSeparator();
+		coreToolbar.add(debugButton);
 		coreToolbar.add(stepOverButton);
 		coreToolbar.add(resumeButton);
 		coreToolbar.add(stopButton);
 		coreToolbar.addSeparator();
+		coreToolbar.add(breakpointButton);
+		coreToolbar.add(delbreakpointButton);
+		coreToolbar.add(delallbreakpointButton);
+		coreToolbar.addSeparator();
+		coreToolbar.addSeparator();
 		coreToolbar.add(fontUpButton);
 		coreToolbar.add(fontDownButton);
 		coreToolbar.addSeparator();
+		coreToolbar.addSeparator();
+		coreToolbar.addSeparator();
 		coreToolbar.add(sendButton);
-		
+		coreToolbar.addSeparator();
+		coreToolbar.add(downloadButton);
+		coreToolbar.addSeparator();
 		
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -390,7 +493,7 @@ public class MainWindowView
 			  if (editorPane.getText().equals(""))
 				{
 					editorPane.setText("");
-					eventController.deleteDontTouch();
+					//eventController.deleteDontTouch();
 				}
 				
 				else
@@ -400,7 +503,7 @@ public class MainWindowView
 					if (confirmed == JOptionPane.YES_OPTION) 
 					{
 						editorPane.setText("");
-						eventController.deleteDontTouch();
+						//eventController.deleteDontTouch();
 					}
 				}
 				filePath = null;
@@ -521,109 +624,72 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				eventController.debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
-				eventController.debugActual2(frame, editorPane, filePath, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, editorPane, scrollPane, breakpoints);
+				eventController.debugToggler(frame, newButton, newFileItem, openButton, 
+						openFileItem, saveButton, saveFileItem, saveAsFileItem, 
+						compileButton, compilerunButton, compileBuildItem, debugButton, 
+						debugBuildItem, stepOverButton, resumeButton, stopButton);
+				eventController.debugActual2(frame, editorPane, filePath, newButton, 
+						newFileItem, openButton, openFileItem, saveButton, saveFileItem, 
+						saveAsFileItem, compileButton, compilerunButton, compileBuildItem, 
+						debugButton, debugBuildItem, stepOverButton, resumeButton, 
+						stopButton, editorPane, scrollPane, addBreakItem, delBreakItem, 
+						delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, breakpoints);
+			}
+		});
+		
+		debugButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				eventController.debugToggler(frame, newButton, newFileItem, openButton, 
+						openFileItem, saveButton, saveFileItem, saveAsFileItem, 
+						compileButton, compilerunButton, compileBuildItem, debugButton,
+						debugBuildItem, stepOverButton, resumeButton, stopButton);
+				eventController.debugActual2(frame, editorPane, filePath, newButton, 
+						newFileItem, openButton, openFileItem, saveButton, saveFileItem, 
+						saveAsFileItem, compileButton, compilerunButton, compileBuildItem, 
+						debugButton, debugBuildItem, stepOverButton, resumeButton, 
+						stopButton, editorPane, scrollPane, addBreakItem, delBreakItem, 
+						delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, breakpoints);
 			}
 		});
 		
 		debugBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
 		
-		JMenuItem addBreakItem = new JMenuItem("Add Breakpoint...");
+		addBreakItem = new JMenuItem("Add Breakpoint...");
 		
 		addBreakItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				String input = JOptionPane.showInputDialog(
-	                    frame,
-	                    "Insert a breakpoint, enter a line number (must not exceed the end of file):");
-				if(input == null || input.isEmpty())
-				{
-					// do nothing
+				eventController.addbreakpoint(frame, gut, breakpoints);	
+				if(breakpoints.size() > 0) {
+					delbreakpointButton.setEnabled(true);
+					delallbreakpointButton.setEnabled(true);
 				}
-				else
-				{
-					try
-					{
-						int bpnum = Integer.parseInt(input) - 1;
-						boolean existing = false;
-						for(int i = 0; i < breakpoints.size(); i++)
-						{
-							if(breakpoints.get(i) == bpnum)
-							{
-								existing = true;
-							}
-						}
-						if(!existing)
-						{
-							GutterIconInfo gii = gut.addLineTrackingIcon(bpnum, new ImageIcon("resources/images/Breakpoint16.png"));
-							breakpoints.add(bpnum);
-							breakpoints2.add(gii);
-							JOptionPane.showMessageDialog(null, "Line " + input + " added successfully.", "Added!", JOptionPane.INFORMATION_MESSAGE);
-						}
-						else
-							JOptionPane.showMessageDialog(null, "Line " + input + " already exists.", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-					catch (BadLocationException ble)
-					{
-						JOptionPane.showMessageDialog(null, "The line specified is not found. Discontinuing adding breakpoints...", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-					catch (NumberFormatException nfe)
-					{
-						JOptionPane.showMessageDialog(null, "You entered a non-integer number!", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-					catch (NullPointerException npe)
-					{
-						
-					}
-				}				
 			}
 		});
-		JMenuItem delBreakItem = new JMenuItem("Remove Breakpoint...");
+		delBreakItem = new JMenuItem("Remove Breakpoint...");
 		delBreakItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				String input = JOptionPane.showInputDialog(
-	                    frame,
-	                    "Remove a breakpoint, enter a line number (must not exceed the end of file):");
-				if(input == null || input.isEmpty())
-				{
-					// do nothing
+				eventController.deletebreakpoint(frame, gut, breakpoints);
+				if(breakpoints.size() == 0) {
+					delbreakpointButton.setEnabled(false);
+					delallbreakpointButton.setEnabled(false);
 				}
-				else
-				{
-					try
-					{
-						int bpnum = Integer.parseInt(input) - 1;
-						int target = -1;
-						GutterIconInfo gii = null;
-						for(int i = 0; i < breakpoints.size(); i++)
-						{
-							if(breakpoints.get(i) == bpnum)
-							{
-								gii = breakpoints2.get(i);
-								target = i;
-							}
-						}
-						if(target == -1)
-							JOptionPane.showMessageDialog(null, "Line " + input + " does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
-						else
-						{
-							gut.removeTrackingIcon(gii);
-							breakpoints.remove(target);
-							breakpoints2.remove(target);
-							JOptionPane.showMessageDialog(null, "Line " + input + " removed successfully.", "Added!", JOptionPane.INFORMATION_MESSAGE);
-						}
-					}
-					catch (NumberFormatException nfe)
-					{
-						JOptionPane.showMessageDialog(null, "You entered a non-integer number!", "Error", JOptionPane.ERROR_MESSAGE);
-					}
-					catch (NullPointerException npe)
-					{
-						
-					}
+			}
+		});
+		delallBreakItem = new JMenuItem("Remove all Breakpoint...");
+		delallBreakItem.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				eventController.deleteallbreakpoint(gut, breakpoints);
+				if(breakpoints.size() == 0) {
+					delbreakpointButton.setEnabled(false);
+					delallbreakpointButton.setEnabled(false);
 				}
 			}
 		});
@@ -663,44 +729,54 @@ public class MainWindowView
 			public void actionPerformed(ActionEvent arg0)
 			{
 			  filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
-			  eventController.runProgram();
+			  eventController.runProgram(filePath);
 			}
 		});
 		buildMenu.add(mntmCompileRun);
 		buildMenu.add(debugBuildItem);
 		buildMenu.add(addBreakItem);
 		buildMenu.add(delBreakItem);
+		buildMenu.add(delallBreakItem);
 		buildMenu.add(manageBreakpointItem);
 		menuBar.add(helpMenu);
 		helpMenu.add(helpHelpItem);
 		helpMenu.add(aboutHelpItem);
-
+		
 		frame.setJMenuBar(menuBar);
 		frame.getContentPane().setLayout(new BorderLayout());
 		//frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 	    JTextArea display = new JTextArea (1,30);
 	    display.setEditable ( false ); // set textArea non-editable
-	    display.setText("This is where \n CBR-C's feedback would be displayed");
+	    display.setText("");
 	    JScrollPane CBRC = new JScrollPane ( display );
 		//frame.getContentPane().add(CBRC, BorderLayout.EAST);
 		frame.setVisible(true);
-	
+		
+		JTabbedPane feedbacklog = new JTabbedPane();
+		feedbacklog.add("Feedback History", CBRC);
+		
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);		
 		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
+		splitPane.setOneTouchExpandable(true);	
 		
 		//for editor text and cbrc
 		JSplitPane nestedPane = new JSplitPane();
 		nestedPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		nestedPane.setResizeWeight(1);
 		nestedPane.setLeftComponent(scrollPane);
-		nestedPane.setRightComponent(CBRC);
+		nestedPane.setRightComponent(feedbacklog);
+		nestedPane.setOneTouchExpandable(true);
 		
 		splitPane.setTopComponent(nestedPane);
-		splitPane.setBottomComponent(cL);
-		splitPane.setResizeWeight(1);
 		
+		JTabbedPane consolelog = new JTabbedPane();
+		consolelog.add("Error Log", cL);
+		
+		splitPane.setBottomComponent(consolelog);
+		splitPane.setResizeWeight(1);
+	
 		SpringLayout springLayout = new SpringLayout();
 		springLayout.putConstraint(SpringLayout.NORTH, coreToolbar, 0, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, coreToolbar, 0, SpringLayout.WEST, frame.getContentPane());
@@ -708,7 +784,108 @@ public class MainWindowView
 		springLayout.putConstraint(SpringLayout.EAST, coreToolbar, 2500, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(coreToolbar, BorderLayout.NORTH);
 
+
 	}
+	
+	/*
+	
+	public void addbreakpoint(Gutter gut){
+		String input = JOptionPane.showInputDialog(
+                frame,
+                "Insert a breakpoint, enter a line number (must not exceed the end of file):");
+		if(input == null || input.isEmpty())
+		{
+			// do nothing
+		}
+		else
+		{
+			try
+			{
+				int bpnum = Integer.parseInt(input) - 1;
+				boolean existing = false;
+				for(int i = 0; i < breakpoints.size(); i++)
+				{
+					if(breakpoints.get(i) == bpnum)
+					{
+						existing = true;
+					}
+				}
+				if(!existing)
+				{
+					GutterIconInfo gii = gut.addLineTrackingIcon(bpnum, new ImageIcon("resources/images/materialsmall/breakpointeditor.png"));
+					breakpoints.add(bpnum);
+					breakpoints2.add(gii);
+					JOptionPane.showMessageDialog(null, "Line " + input + " added successfully.", "Added!", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Line " + input + " already exists.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (BadLocationException ble)
+			{
+				JOptionPane.showMessageDialog(null, "The line specified is not found. Discontinuing adding breakpoints...", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (NumberFormatException nfe)
+			{
+				JOptionPane.showMessageDialog(null, "You entered a non-integer number!", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (NullPointerException npe)
+			{
+				
+			}
+		}
+	}
+	
+	public void deletebreakpoint(Gutter gut){
+		String input = JOptionPane.showInputDialog(
+                frame,
+                "Remove a breakpoint, enter a line number (must not exceed the end of file):");
+		if(input == null || input.isEmpty())
+		{
+			// do nothing
+		}
+		else
+		{
+			try
+			{
+				int bpnum = Integer.parseInt(input) - 1;
+				int target = -1;
+				GutterIconInfo gii = null;
+				for(int i = 0; i < breakpoints.size(); i++)
+				{
+					if(breakpoints.get(i) == bpnum)
+					{
+						gii = breakpoints2.get(i);
+						target = i;
+					}
+				}
+				if(target == -1)
+					JOptionPane.showMessageDialog(null, "Line " + input + " does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+				else
+				{
+					gut.removeTrackingIcon(gii);
+					breakpoints.remove(target);
+					breakpoints2.remove(target);
+					JOptionPane.showMessageDialog(null, "Line " + input + " removed successfully.", "Removed", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+			catch (NumberFormatException nfe)
+			{
+				JOptionPane.showMessageDialog(null, "You entered a non-integer number!", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (NullPointerException npe)
+			{
+				
+			}
+		}
+	}
+	
+	public void deleteallbreakpoint(Gutter gut){				
+			gut.removeAllTrackingIcons();
+			breakpoints.clear();
+			breakpoints2.clear();
+			JOptionPane.showMessageDialog(null, "All breakpoints removed successfully.", "Removed", JOptionPane.INFORMATION_MESSAGE);
+	}
+	*/
 	
 	public JTextArea getConsoleLog()
 	{
