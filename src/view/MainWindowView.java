@@ -65,10 +65,16 @@ public class MainWindowView
 	private JMenuItem addBreakItem, delBreakItem, delallBreakItem;
 	private JButton breakpointButton, delbreakpointButton, delallbreakpointButton;
 	
+	// for api purposes
+	
+	private JToolBar coreToolbar;
+	private JMenuBar menuBar;
+	
 	private int fontSize = 16;
 	private int minFont = 12;
 	private int maxFont = 72;
 	private String fontStyle;
+	private static MainWindowView instance = null;
 	/**
 	 * Launch the application.
 	 */
@@ -80,7 +86,7 @@ public class MainWindowView
 			{
 				try
 				{
-					MainWindowView window = new MainWindowView();
+					MainWindowView window = getInstance();
 					window.frame.setVisible(true);
 				} catch (Exception e)
 				{
@@ -93,10 +99,20 @@ public class MainWindowView
 	/**
 	 * Create the application.
 	 */
-	public MainWindowView()
+	private MainWindowView()
 	{
 	  	filePath = null;
 		initialize();
+	}
+	
+	public static MainWindowView getInstance()
+	{
+	  if (instance == null)
+	  {
+		instance = new MainWindowView();
+	  }
+	  
+	  return instance;
 	}
 
 	/**
@@ -198,7 +214,8 @@ public class MainWindowView
 			gut.getComponent(i).setFont(monospace);
 		}
 		gut.setBookmarkingEnabled(true);
-		JToolBar coreToolbar = new JToolBar();
+		
+		coreToolbar = new JToolBar();
 		coreToolbar.setFloatable(false);
 		coreToolbar.setRollover(true);
 		JButton newButton = new JButton("");
@@ -483,7 +500,7 @@ public class MainWindowView
 		coreToolbar.addSeparator();
 		
 		
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 		JMenuItem newFileItem = new JMenuItem("New", KeyEvent.VK_N);
@@ -887,6 +904,16 @@ public class MainWindowView
 	}
 	*/
 	
+	public JToolBar getCoreToolbar()
+	{
+	  return coreToolbar;
+	}
+
+	public JMenuBar getMenuBar()
+	{
+	  return menuBar;
+	}
+
 	public JTextArea getConsoleLog()
 	{
 	  return consoleLog;
