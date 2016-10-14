@@ -18,6 +18,7 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 
+import org.fife.rsta.ac.java.rjc.parser.Main;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.Gutter;
@@ -49,6 +50,7 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 
 
 public class MainWindowView
@@ -228,7 +230,8 @@ public class MainWindowView
 			}
 		});
 		newButton.setToolTipText("New");
-		newButton.setIcon(new ImageIcon("resources/images/materialSmall/newfile.png"));
+		URL newfile = Main.class.getResource("/newfile.png");
+		newButton.setIcon(new ImageIcon(newfile));
 		newButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		JButton openButton = new JButton("");
@@ -246,7 +249,8 @@ public class MainWindowView
 			    }
 			  }
 		});
-		openButton.setIcon(new ImageIcon("resources/images/materialSmall/openfile.png"));
+		URL openfile = Main.class.getResource("/openfile.png");
+		openButton.setIcon(new ImageIcon(openfile));
 		openButton.setToolTipText("Open");
 		openButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
@@ -299,7 +303,8 @@ public class MainWindowView
 		
 		JButton sendButton = new JButton("Send C File");
 		sendButton.setToolTipText("Send source code");
-		sendButton.setIcon(new ImageIcon("resources/images/materialSmall/send.png"));
+		URL send = Main.class.getResource("/send.png");
+		sendButton.setIcon(new ImageIcon(send));
 		sendButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		sendButton.addActionListener(new ActionListener() 
 		{
@@ -316,40 +321,50 @@ public class MainWindowView
 			  eventController.downloadActivity();
 			}
 		});
+		URL download = Main.class.getResource("/download.png");
 		downloadButton.setToolTipText("Download Activities");
-		downloadButton.setIcon(new ImageIcon("resources/images/materialSmall/download.png"));
+		downloadButton.setIcon(new ImageIcon(download));
 		downloadButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		saveButton.setIcon(new ImageIcon("resources/images/materialSmall/save.png"));
+		URL save = Main.class.getResource("/save.png");
+		saveButton.setIcon(new ImageIcon(save));
 		saveButton.setToolTipText("Save");
 		saveButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		compileButton.setIcon(new ImageIcon("resources/images/materialSmall/compile.png"));
+		URL compile = Main.class.getResource("/compile.png");
+		compileButton.setIcon(new ImageIcon(compile));
 		compileButton.setToolTipText("Compile");
 		compileButton.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		
-		compilerunButton.setIcon(new ImageIcon("resources/images/materialSmall/compileandrun.png"));
+		URL compileandrun = Main.class.getResource("/compileandrun.png");
+		compilerunButton.setIcon(new ImageIcon(compileandrun));
 		compilerunButton.setToolTipText("Compile and Run");
 		compilerunButton.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		
 		JButton debugButton = new JButton("");
-		debugButton.setIcon(new ImageIcon("resources/images/materialSmall/debug.png"));
+		URL debug = Main.class.getResource("/debug.png");
+		debugButton.setIcon(new ImageIcon(debug));
 		debugButton.setToolTipText("Debug");
 		debugButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		breakpointButton = new JButton("");
-		breakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/breakpoint.png"));
+		URL breakpoint = Main.class.getResource("/breakpoint.png");
+		breakpointButton.setIcon(new ImageIcon(breakpoint));
 		breakpointButton.setToolTipText("Add Breakpoints");
 		breakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 			
 		delbreakpointButton = new JButton("");
-		delbreakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/delbreakpoint.png"));
+		URL delbreakpoint = Main.class.getResource("/delbreakpoint.png");
+		delbreakpointButton.setIcon(new ImageIcon(delbreakpoint));
+
+		
 		delbreakpointButton.setToolTipText("Delete Breakpoints");
 		delbreakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		delbreakpointButton.setEnabled(false);
 		
 		delallbreakpointButton = new JButton("");
-		delallbreakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/delallbreakpoint.png"));
+		URL delallbreakpoint = Main.class.getResource("/delallbreakpoint.png");
+		delallbreakpointButton.setIcon(new ImageIcon(delallbreakpoint));
 		delallbreakpointButton.setToolTipText("Delete All Breakpoints");
 		delallbreakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		delallbreakpointButton.setEnabled(false);
@@ -391,30 +406,35 @@ public class MainWindowView
 		});
 		
 		JButton stepOverButton = new JButton("");
-		stepOverButton.setIcon(new ImageIcon("resources/images/materialSmall/stepOver.png"));
+		URL stepOver = Main.class.getResource("/stepOver.png");
+		stepOverButton.setIcon(new ImageIcon(stepOver));
 		stepOverButton.setToolTipText("Step Over");
 		stepOverButton.setEnabled(false);
 		stepOverButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		JButton resumeButton = new JButton("");
-		resumeButton.setIcon(new ImageIcon("resources/images/materialSmall/resume.png"));
+		URL resume = Main.class.getResource("/resume.png");
+		resumeButton.setIcon(new ImageIcon(resume));
 		resumeButton.setToolTipText("Resume");
 		resumeButton.setEnabled(false);
 		resumeButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		JButton stopButton = new JButton("");
-		stopButton.setIcon(new ImageIcon("resources/images/materialSmall/stop.png"));
+		URL stop = Main.class.getResource("/stop.png");
+		stopButton.setIcon(new ImageIcon(stop));
 		stopButton.setToolTipText("Stop Debugging");
 		stopButton.setEnabled(false);
 		stopButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		JButton fontUpButton = new JButton("");
-		fontUpButton.setIcon(new ImageIcon("resources/images/materialSmall/fontUp.png"));
+		URL fontUp = Main.class.getResource("/fontUp.png");
+		fontUpButton.setIcon(new ImageIcon(fontUp));
 		fontUpButton.setToolTipText("Increase Font Size");
 		fontUpButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 				
 		JButton fontDownButton = new JButton("");
-		fontDownButton.setIcon(new ImageIcon("resources/images/materialSmall/fontDown.png"));
+		URL fontDown = Main.class.getResource("/fontDown.png");
+		fontDownButton.setIcon(new ImageIcon(fontDown));
 		fontDownButton.setToolTipText("Decrease Font Size");
 		fontDownButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
