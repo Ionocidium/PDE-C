@@ -127,7 +127,10 @@ public class MainWindowView
 		
 		try
 		{
-		  Files.delete(Paths.get("resources/activity.txt"));
+		  if (Files.exists(Paths.get("resources/activity.txt")))
+		  {
+			Files.delete(Paths.get("resources/activity.txt"));
+		  }
 		}
 		
 		catch(Exception ex)
