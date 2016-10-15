@@ -55,17 +55,15 @@ public class ToolBar implements APIInterface
   
   public void setConsoleText(String message)
   {
-	String consoleCurrentText = consoleLog.getText().toString();
-	
-	if (consoleCurrentText.isEmpty())
+	if (consoleLog.getText().toString().equals(""))
 	{
 	  consoleLog.setText(message);
 	}
 	
 	else
 	{
-	  String newMessage = consoleLog.getText().toString() + "\n\n" + message;
-	  consoleLog.setText(newMessage);
+	  String lastMessage = consoleLog.getText().toString();
+	  consoleLog.setText(lastMessage + "\n" + message);
 	}
   }
 }
