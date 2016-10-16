@@ -60,4 +60,9 @@ public class MenuBar implements APIInterface
 	  consoleLog.setText(lastMessage + "\n" + message);
 	}
   }
+  
+  public void setVisible(boolean isVisible)
+  {
+	menuBar.setVisible(isVisible);
+  }
 }
