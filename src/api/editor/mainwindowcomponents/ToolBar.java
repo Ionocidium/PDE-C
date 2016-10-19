@@ -1,34 +1,35 @@
-package api.editor.main.menubar;
+package api.editor.mainwindowcomponents;
 
 import java.awt.Component;
 import java.util.HashMap;
-import javax.swing.JMenuBar;
+
 import javax.swing.JTextArea;
+import javax.swing.JToolBar;
 
 import model.APIInterface;
 import view.MainWindowView;
 
-public class MenuBar implements APIInterface
+public class ToolBar implements APIInterface
 {
-  private static MenuBar instance = null;
-  private MainWindowView main;
-  private JMenuBar menuBar;
+  private static ToolBar instance = null;
+  private MainWindowView mainWindow;
+  private JToolBar toolBar;
   private HashMap<Integer, Component> listOfComponents;
   private JTextArea consoleLog;
   
-  private MenuBar()
+  private ToolBar()
   {
-	main = MainWindowView.getInstance();
-	menuBar = main.getMenuBar();
+	mainWindow = MainWindowView.getInstance();
 	listOfComponents = new HashMap<Integer, Component>();
-	consoleLog = main.getConsoleLog();
+	toolBar = mainWindow.getCoreToolbar();
+	consoleLog = mainWindow.getConsoleLog();
   }
   
-  public static MenuBar getMenuBar()
+  public static ToolBar getToolbar()
   {
 	if (instance == null)
 	{
-	  instance = new MenuBar();
+	  instance = new ToolBar();
 	}
 	
 	return instance;
@@ -36,20 +37,25 @@ public class MenuBar implements APIInterface
   
   public void addComponent(int id, Component comp)
   {
-	menuBar.add(comp);
+	toolBar.add(comp);
 	listOfComponents.put(id, comp);
   }
   
   public void removeComponent(int id)
   {
-	Component temp = listOfComponents.get(id);
-	menuBar.remove(temp);
+	Component comp = listOfComponents.get(id);
+	toolBar.remove(comp);
 	listOfComponents.remove(id);
+  }
+  
+  public void addSeparator()
+  {
+	toolBar.addSeparator();
   }
   
   public void setConsoleText(String message)
   {
-	if (consoleLog.getText().equals(""))
+	if (consoleLog.getText().toString().equals(""))
 	{
 	  consoleLog.setText(message);
 	}
@@ -63,6 +69,6 @@ public class MenuBar implements APIInterface
   
   public void setVisible(boolean isVisible)
   {
-	menuBar.setVisible(isVisible);
+	toolBar.setVisible(isVisible);
   }
 }
