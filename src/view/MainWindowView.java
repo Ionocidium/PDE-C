@@ -60,8 +60,8 @@ public class MainWindowView
 	private boolean fileModified;
 	private final String appName = "PDE-C";
 	private String fileName;
-	public static JTextArea horizontalTextArea;
-	public static JTextArea verticalTextArea;
+	public static JTextArea errorLog;
+	public static JTextArea feedbackLog;
 	private JMenuItem addBreakItem, delBreakItem, delallBreakItem;
 	private JButton breakpointButton, delbreakpointButton, delallbreakpointButton;
 	
@@ -296,9 +296,9 @@ public class MainWindowView
 		});
 		saveButton.setBorder(null);
 		
-	    horizontalTextArea = new JTextArea (5,20);
-	    horizontalTextArea.setEditable ( false ); // set textArea non-editable
-	    JScrollPane cL = new JScrollPane ( horizontalTextArea );
+	    errorLog = new JTextArea (5,20);
+	    errorLog.setEditable ( false ); // set textArea non-editable
+	    JScrollPane cL = new JScrollPane ( errorLog );
 		frame.setVisible(true);
 		
 		
@@ -306,7 +306,7 @@ public class MainWindowView
 		compileButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
-			  filePath = eventController.compile(frame, editorPane, filePath, horizontalTextArea); 
+			  filePath = eventController.compile(frame, editorPane, filePath, errorLog); 
 			}
 		});
 		
@@ -314,7 +314,7 @@ public class MainWindowView
 		compilerunButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
-				filePath = eventController.compile(frame, editorPane, filePath, horizontalTextArea);
+				filePath = eventController.compile(frame, editorPane, filePath, errorLog);
 				eventController.runProgram(filePath);
 			}
 		});
@@ -327,7 +327,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				eventController.sendSrcCode(horizontalTextArea, filePath);
+				eventController.sendSrcCode(errorLog, filePath);
 			}
 		});
 		
@@ -634,7 +634,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-			  filePath = eventController.compile(frame, editorPane, filePath, horizontalTextArea);
+			  filePath = eventController.compile(frame, editorPane, filePath, errorLog);
 			}
 		});
 		
@@ -750,7 +750,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-			  filePath = eventController.compile(frame, editorPane, filePath, horizontalTextArea);
+			  filePath = eventController.compile(frame, editorPane, filePath, errorLog);
 			  eventController.runProgram(filePath);
 			}
 		});
@@ -768,15 +768,17 @@ public class MainWindowView
 		frame.getContentPane().setLayout(new BorderLayout());
 		//frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
-	    verticalTextArea = new JTextArea (1,30);
-	    verticalTextArea.setEditable ( false ); // set textArea non-editable
-	    verticalTextArea.setText("");
-	    JScrollPane CBRC = new JScrollPane ( verticalTextArea );
+		///////////////////////////////////////////////////////////////////LOGS
+		
+	    feedbackLog = new JTextArea (1,30);
+	    feedbackLog.setEditable ( false ); // set textArea non-editable
+	    feedbackLog.setText("");
+	    JScrollPane CBRC = new JScrollPane ( feedbackLog );
 		//frame.getContentPane().add(CBRC, BorderLayout.EAST);
 		frame.setVisible(true);
 		
-		JTabbedPane feedbacklog = new JTabbedPane();
-		feedbacklog.add("Feedback History", CBRC);
+		JTabbedPane tabbedVerticalPane = new JTabbedPane();
+		tabbedVerticalPane.add("Feedback History", CBRC);
 		
 		horizontalPane = new JSplitPane();
 		horizontalPane.setOrientation(JSplitPane.VERTICAL_SPLIT);		
@@ -788,15 +790,16 @@ public class MainWindowView
 		verticalPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		verticalPane.setResizeWeight(1);
 		verticalPane.setLeftComponent(scrollPane);
-		verticalPane.setRightComponent(feedbacklog);
+		verticalPane.setRightComponent(tabbedVerticalPane);
 		verticalPane.setOneTouchExpandable(true);
 		
 		horizontalPane.setTopComponent(verticalPane);
 		
-		JTabbedPane consolelog = new JTabbedPane();
-		consolelog.add("Error Log", cL);
+		JTabbedPane tabbedHorizontalPane = new JTabbedPane();
+		tabbedHorizontalPane.add("Error Log", cL);
+		//tabbedHorizontalPane.add("Test Log", cL);
 		
-		horizontalPane.setBottomComponent(consolelog);
+		horizontalPane.setBottomComponent(tabbedHorizontalPane);
 		horizontalPane.setResizeWeight(1);
 	
 		SpringLayout springLayout = new SpringLayout();
@@ -929,13 +932,13 @@ public class MainWindowView
 	  return menuBar;
 	}
 
-	public JTextArea getHorizontalLog()
+	public JTextArea getErrorLog()
 	{
-	  return horizontalTextArea;
+	  return errorLog;
 	}
 	
-	public JTextArea getVerticalLog()
+	public JTextArea getfeedbackLog()
 	{
-	  return verticalTextArea;
+	  return feedbackLog;
 	}
 }

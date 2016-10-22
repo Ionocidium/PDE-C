@@ -334,7 +334,7 @@ public class EventController
 	
 	public void writeInErrorLog(String s)
 	{
-		MainWindowView.horizontalTextArea.setText(s);
+		MainWindowView.errorLog.setText(s);
 	}
   
 	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, 
