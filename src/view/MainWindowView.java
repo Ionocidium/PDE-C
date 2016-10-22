@@ -60,7 +60,8 @@ public class MainWindowView
 	private boolean fileModified;
 	private final String appName = "PDE-C";
 	private String fileName;
-	public static JTextArea consoleLog;
+	public static JTextArea horizontalTextArea;
+	public static JTextArea verticalTextArea;
 	private JMenuItem addBreakItem, delBreakItem, delallBreakItem;
 	private JButton breakpointButton, delbreakpointButton, delallbreakpointButton;
 	
@@ -68,6 +69,8 @@ public class MainWindowView
 	
 	private JToolBar coreToolbar;
 	private JMenuBar menuBar;
+	private JSplitPane horizontalPane;
+	private JSplitPane verticalPane;
 	
 	private int fontSize = 16;
 	private int minFont = 12;
@@ -293,9 +296,9 @@ public class MainWindowView
 		});
 		saveButton.setBorder(null);
 		
-	    consoleLog = new JTextArea (5,20);
-	    consoleLog.setEditable ( false ); // set textArea non-editable
-	    JScrollPane cL = new JScrollPane ( consoleLog );
+	    horizontalTextArea = new JTextArea (5,20);
+	    horizontalTextArea.setEditable ( false ); // set textArea non-editable
+	    JScrollPane cL = new JScrollPane ( horizontalTextArea );
 		frame.setVisible(true);
 		
 		
@@ -303,7 +306,7 @@ public class MainWindowView
 		compileButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
-			  filePath = eventController.compile(frame, editorPane, filePath, consoleLog); 
+			  filePath = eventController.compile(frame, editorPane, filePath, horizontalTextArea); 
 			}
 		});
 		
@@ -311,7 +314,7 @@ public class MainWindowView
 		compilerunButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
-				filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
+				filePath = eventController.compile(frame, editorPane, filePath, horizontalTextArea);
 				eventController.runProgram(filePath);
 			}
 		});
@@ -324,7 +327,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				eventController.sendSrcCode(consoleLog, filePath);
+				eventController.sendSrcCode(horizontalTextArea, filePath);
 			}
 		});
 		
@@ -631,7 +634,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-			  filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
+			  filePath = eventController.compile(frame, editorPane, filePath, horizontalTextArea);
 			}
 		});
 		
@@ -747,7 +750,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-			  filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
+			  filePath = eventController.compile(frame, editorPane, filePath, horizontalTextArea);
 			  eventController.runProgram(filePath);
 			}
 		});
@@ -765,36 +768,36 @@ public class MainWindowView
 		frame.getContentPane().setLayout(new BorderLayout());
 		//frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
-	    JTextArea display = new JTextArea (1,30);
-	    display.setEditable ( false ); // set textArea non-editable
-	    display.setText("");
-	    JScrollPane CBRC = new JScrollPane ( display );
+	    verticalTextArea = new JTextArea (1,30);
+	    verticalTextArea.setEditable ( false ); // set textArea non-editable
+	    verticalTextArea.setText("");
+	    JScrollPane CBRC = new JScrollPane ( verticalTextArea );
 		//frame.getContentPane().add(CBRC, BorderLayout.EAST);
 		frame.setVisible(true);
 		
 		JTabbedPane feedbacklog = new JTabbedPane();
 		feedbacklog.add("Feedback History", CBRC);
 		
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);		
-		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
-		splitPane.setOneTouchExpandable(true);	
+		horizontalPane = new JSplitPane();
+		horizontalPane.setOrientation(JSplitPane.VERTICAL_SPLIT);		
+		frame.getContentPane().add(horizontalPane, BorderLayout.CENTER);
+		horizontalPane.setOneTouchExpandable(true);	
 		
 		//for editor text and cbrc
-		JSplitPane nestedPane = new JSplitPane();
-		nestedPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		nestedPane.setResizeWeight(1);
-		nestedPane.setLeftComponent(scrollPane);
-		nestedPane.setRightComponent(feedbacklog);
-		nestedPane.setOneTouchExpandable(true);
+		verticalPane = new JSplitPane();
+		verticalPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+		verticalPane.setResizeWeight(1);
+		verticalPane.setLeftComponent(scrollPane);
+		verticalPane.setRightComponent(feedbacklog);
+		verticalPane.setOneTouchExpandable(true);
 		
-		splitPane.setTopComponent(nestedPane);
+		horizontalPane.setTopComponent(verticalPane);
 		
 		JTabbedPane consolelog = new JTabbedPane();
 		consolelog.add("Error Log", cL);
 		
-		splitPane.setBottomComponent(consolelog);
-		splitPane.setResizeWeight(1);
+		horizontalPane.setBottomComponent(consolelog);
+		horizontalPane.setResizeWeight(1);
 	
 		SpringLayout springLayout = new SpringLayout();
 		springLayout.putConstraint(SpringLayout.NORTH, coreToolbar, 0, SpringLayout.NORTH, frame.getContentPane());
@@ -906,6 +909,16 @@ public class MainWindowView
 	}
 	*/
 	
+	public JSplitPane getHorizontalPane()
+	{
+		return horizontalPane;
+	}
+	
+	public JSplitPane getVerticalPane()
+	{
+		return verticalPane;
+	}
+	
 	public JToolBar getCoreToolbar()
 	{
 	  return coreToolbar;
@@ -916,8 +929,13 @@ public class MainWindowView
 	  return menuBar;
 	}
 
-	public JTextArea getConsoleLog()
+	public JTextArea getHorizontalLog()
 	{
-	  return consoleLog;
+	  return horizontalTextArea;
+	}
+	
+	public JTextArea getVerticalLog()
+	{
+	  return verticalTextArea;
 	}
 }
