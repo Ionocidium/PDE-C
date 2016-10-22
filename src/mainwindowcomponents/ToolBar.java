@@ -22,7 +22,7 @@ public class ToolBar implements APIInterface
 	mainWindow = MainWindowView.getInstance();
 	listOfComponents = new HashMap<Integer, Component>();
 	toolBar = mainWindow.getCoreToolbar();
-	consoleLog = mainWindow.getConsoleLog();
+	consoleLog = mainWindow.getErrorLog();
   }
   
   public static ToolBar getToolbar()

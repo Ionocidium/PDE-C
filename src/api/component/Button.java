@@ -11,21 +11,27 @@ public class Button extends JButton
    */
   private static final long serialVersionUID = 1L;
   private String bName;
+  private int id;
   
-  public Button(String name)
+  public Button(String name, int id)
   {
 	bName = name;
 	this.setText(bName);
+	this.id = id;
   }
   
-  public Button()
-  {
-	
-  }
-  
-  public void addToToolbar(int id)
+  public void addToToolbar()
   {
 	ToolBar bar = ToolBar.getToolbar();
-	bar.addComponent(id, this);
+	
+	if (this != null)
+	{
+	  bar.addComponent(this.id, this);
+	}	
+  }
+  
+  public int getId()
+  {
+	return this.id;
   }
 }

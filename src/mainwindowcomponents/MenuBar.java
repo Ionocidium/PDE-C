@@ -21,7 +21,7 @@ public class MenuBar implements APIInterface
 	main = MainWindowView.getInstance();
 	menuBar = main.getMenuBar();
 	listOfComponents = new HashMap<Integer, Component>();
-	consoleLog = main.getConsoleLog();
+	consoleLog = main.getErrorLog();
   }
   
   public static MenuBar getMenuBar()
