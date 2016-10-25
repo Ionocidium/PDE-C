@@ -13,14 +13,12 @@ public class MenuBar implements APIInterface
   private static MenuBar instance = null;
   private MainWindowView main;
   private JMenuBar menuBar;
-  private HashMap<Integer, Component> listOfComponents;
   private JTextArea consoleLog;
   
   private MenuBar()
   {
 	main = MainWindowView.getInstance();
 	menuBar = main.getMenuBar();
-	listOfComponents = new HashMap<Integer, Component>();
 	consoleLog = main.getErrorLog();
   }
   
@@ -34,17 +32,16 @@ public class MenuBar implements APIInterface
 	return instance;
   }
   
-  public void addComponent(int id, Component comp)
+  public void addComponent(Component comp)
   {
 	menuBar.add(comp);
-	listOfComponents.put(id, comp);
   }
   
-  public void removeComponent(int id)
+  public void removeComponent(Component temp)
   {
-	Component temp = listOfComponents.get(id);
 	menuBar.remove(temp);
-	listOfComponents.remove(id);
+	menuBar.revalidate();
+	menuBar.repaint();
   }
   
   public void setConsoleText(String message)

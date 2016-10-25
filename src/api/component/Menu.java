@@ -21,18 +21,23 @@ public class Menu extends JMenu
 	
   }
   
-  public void addToMenuBar(int id)
+  public void addToMenuBar()
   {
 	MenuBar bar = MenuBar.getMenuBar();
 	
 	if (this != null)
 	{
-	  bar.addComponent(id, this);
+	  bar.addComponent(this);
 	}
   }
   
   public void addMenuItem(MenuItem menuItem)
   {
 	this.add(menuItem);
+  }
+  
+  public void addSubMenuItem(Menu menu)
+  {
+	this.add(menu);
   }
 }

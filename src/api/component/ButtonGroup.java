@@ -28,7 +28,7 @@ public class ButtonGroup
 	for (int i = 0; i < this.button.size(); i++)
 	{
 	  Button temp = this.button.get(i);
-	  bar.addComponent(temp.getId(), this.button.get(i));
+	  bar.addComponent(this.button.get(i));
 	}
 	
 	bar.addSeparator();

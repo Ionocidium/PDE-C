@@ -14,13 +14,11 @@ public class ToolBar implements APIInterface
   private static ToolBar instance = null;
   private MainWindowView mainWindow;
   private JToolBar toolBar;
-  private HashMap<Integer, Component> listOfComponents;
   private JTextArea consoleLog;
   
   private ToolBar()
   {
 	mainWindow = MainWindowView.getInstance();
-	listOfComponents = new HashMap<Integer, Component>();
 	toolBar = mainWindow.getCoreToolbar();
 	consoleLog = mainWindow.getErrorLog();
   }
@@ -35,17 +33,16 @@ public class ToolBar implements APIInterface
 	return instance;
   }
   
-  public void addComponent(int id, Component comp)
+  public void addComponent(Component comp)
   {
 	toolBar.add(comp);
-	listOfComponents.put(id, comp);
   }
   
-  public void removeComponent(int id)
+  public void removeComponent(Component comp)
   {
-	Component comp = listOfComponents.get(id);
 	toolBar.remove(comp);
-	listOfComponents.remove(id);
+	toolBar.revalidate();
+	toolBar.repaint();
   }
   
   public void addSeparator()
