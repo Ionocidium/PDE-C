@@ -71,6 +71,8 @@ public class MainWindowView
 	private JMenuBar menuBar;
 	private JSplitPane horizontalPane;
 	private JSplitPane verticalPane;
+	private JTabbedPane tabbedHorizontalPane;
+	private JTabbedPane tabbedVerticalPane;
 	
 	private int fontSize = 16;
 	private int minFont = 12;
@@ -777,7 +779,7 @@ public class MainWindowView
 		//frame.getContentPane().add(CBRC, BorderLayout.EAST);
 		frame.setVisible(true);
 		
-		JTabbedPane tabbedVerticalPane = new JTabbedPane();
+		tabbedVerticalPane = new JTabbedPane();
 		tabbedVerticalPane.add("Feedback History", CBRC);
 		
 		horizontalPane = new JSplitPane();
@@ -795,7 +797,7 @@ public class MainWindowView
 		
 		horizontalPane.setTopComponent(verticalPane);
 		
-		JTabbedPane tabbedHorizontalPane = new JTabbedPane();
+		tabbedHorizontalPane = new JTabbedPane();
 		tabbedHorizontalPane.add("Error Log", cL);
 		//tabbedHorizontalPane.add("Test Log", cL);
 		
@@ -920,6 +922,16 @@ public class MainWindowView
 	public JSplitPane getVerticalPane()
 	{
 		return verticalPane;
+	}
+	
+	public JTabbedPane getTabbedHorizontalPane()
+	{
+		return tabbedHorizontalPane;
+	}
+	
+	public JTabbedPane getTabbedVerticalPane()
+	{
+		return tabbedVerticalPane;
 	}
 	
 	public JToolBar getCoreToolbar()
