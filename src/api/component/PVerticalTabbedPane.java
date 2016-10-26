@@ -8,7 +8,7 @@ import javax.swing.JTextArea;
 
 import mainwindowcomponents.VerticalPane;
 
-public class VerticalTabbedPane extends JTabbedPane{
+public class PVerticalTabbedPane extends JTabbedPane{
 
 	/**
 	 * 
@@ -19,7 +19,7 @@ public class VerticalTabbedPane extends JTabbedPane{
 	
 	private VerticalPane pane = VerticalPane.getVerticalPane();
 	
-	public VerticalTabbedPane (String tabTitle)
+	public PVerticalTabbedPane (String tabTitle)
 	{
 		this.tabName = tabTitle;
 		JTextArea log = new JTextArea (1,30);

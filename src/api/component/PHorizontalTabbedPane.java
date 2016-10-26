@@ -8,7 +8,7 @@ import javax.swing.JTextArea;
 
 import mainwindowcomponents.HorizontalPane;
 
-public class HorizontalTabbedPane extends JTabbedPane{
+public class PHorizontalTabbedPane extends JTabbedPane{
 
 	/**
 	 * 
@@ -19,7 +19,7 @@ public class HorizontalTabbedPane extends JTabbedPane{
 	
 	private HorizontalPane pane = HorizontalPane.getHorizontalPane();
 	
-	public HorizontalTabbedPane (String tabTitle)
+	public PHorizontalTabbedPane (String tabTitle)
 	{
 		this.tabName = tabTitle;
 		JTextArea log = new JTextArea (5,20);
