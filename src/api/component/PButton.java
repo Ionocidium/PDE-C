@@ -29,10 +29,9 @@ public class PButton extends JButton
 	}	
   }
   
-
-  
   public void remove()
   {
 	bar.removeComponent(this);
   }
+  
 }
