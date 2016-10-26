@@ -4,7 +4,7 @@ import javax.swing.JButton;
 
 import mainwindowcomponents.ToolBar;
 
-public class Button extends JButton
+public class PButton extends JButton
 {
   /**
    * 
@@ -14,7 +14,7 @@ public class Button extends JButton
   
   private ToolBar bar = ToolBar.getToolbar();
   
-  public Button(String name)
+  public PButton(String name)
   {
 	bName = name;
 	this.setText(bName);

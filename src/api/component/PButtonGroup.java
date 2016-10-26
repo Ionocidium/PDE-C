@@ -4,19 +4,19 @@ import java.util.ArrayList;
 
 import mainwindowcomponents.ToolBar;
 
-public class ButtonGroup
+public class PButtonGroup
 {
   
-  private ArrayList<Button> button;
+  private ArrayList<PButton> button;
   private ToolBar bar;
   
-  public ButtonGroup()
+  public PButtonGroup()
   {
-	button = new ArrayList<Button>();
+	button = new ArrayList<PButton>();
 	bar = ToolBar.getToolbar();
   }
   
-  public void addButton(Button button)
+  public void addButton(PButton button)
   {
 	this.button.add(button);
   }
@@ -27,7 +27,7 @@ public class ButtonGroup
 	
 	for (int i = 0; i < this.button.size(); i++)
 	{
-	  Button temp = this.button.get(i);
+	  PButton temp = this.button.get(i);
 	  bar.addComponent(this.button.get(i));
 	}
 	

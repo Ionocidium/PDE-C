@@ -2,19 +2,19 @@ package api.component;
 
 import javax.swing.JFrame;
 
-public class Window extends JFrame
+public class PWindow extends JFrame
 {
   /**
    * 
    */
   private static final long serialVersionUID = 1L;
   
-  public Window(String title)
+  public PWindow(String title)
   {
 	this.setTitle(title);
   }
   
-  public Window(int x, int y, int width, int height)
+  public PWindow(int x, int y, int width, int height)
   {
 	this.setBounds(x, y, width, height);
   }

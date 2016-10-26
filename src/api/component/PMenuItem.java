@@ -3,17 +3,17 @@ package api.component;
 import javax.swing.JMenuItem;
 
 
-public class MenuItem extends JMenuItem
+public class PMenuItem extends JMenuItem
 {
   private String initialText;
   
-  public MenuItem(String text)
+  public PMenuItem(String text)
   {
 	initialText = text;
 	this.setText(initialText);
   }
   
-  public void addToMenu(Menu menu)
+  public void addToMenu(PMenu menu)
   {
 	if (this != null)
 	{
@@ -21,7 +21,7 @@ public class MenuItem extends JMenuItem
 	}
   }
   
-  public void addSubMenu(Menu menu)
+  public void addSubMenu(PMenu menu)
   {
 	this.add(menu);
   }
