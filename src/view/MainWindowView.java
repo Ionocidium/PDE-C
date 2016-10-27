@@ -311,6 +311,24 @@ public class MainWindowView
 	    JScrollPane cL = new JScrollPane ( errorLog );
 		frame.setVisible(true);
 		
+		JButton recoverCode = new JButton("");
+		recoverCode.setText("Recover Code");
+		recoverCode.setToolTipText("Recovers Code Based on Selected Compile History");
+		recoverCode.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		recoverCode.setEnabled(false);
+		
+		JButton removeHistory = new JButton("");
+		removeHistory.setText("Remove History");
+		removeHistory.setToolTipText("Removes Selected Compilation History");
+		removeHistory.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		removeHistory.setEnabled(false);
+		
+		JButton clearHistory = new JButton("");
+		clearHistory.setText("Clear History");
+		clearHistory.setToolTipText("Clears all Compilation History");
+		clearHistory.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		clearHistory.setEnabled(false);
+		
 		
 		JButton compileButton = new JButton("");
 		compileButton.addActionListener(new ActionListener() 
@@ -364,6 +382,10 @@ public class MainWindowView
 				
 				tabbedVerticalPane.setSelectedIndex(tabbedVerticalPane.getTabCount()-1);
 				compilation_counter++;
+				
+				recoverCode.setEnabled(true);
+				removeHistory.setEnabled(true);
+				clearHistory.setEnabled(true);
 				
 				/////////////////////////////////////////////////////////////////
 			}
@@ -490,21 +512,6 @@ public class MainWindowView
 		fontDownButton.setToolTipText("Decrease Font Size");
 		fontDownButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		JButton recoverCode = new JButton("");
-		recoverCode.setText("Recover Code");
-		recoverCode.setToolTipText("Recovers Code Based on Selected Compile History");
-		recoverCode.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		
-		JButton removeHistory = new JButton("");
-		removeHistory.setText("Remove History");
-		removeHistory.setToolTipText("Removes Selected Compilation History");
-		removeHistory.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		
-		JButton clearHistory = new JButton("");
-		clearHistory.setText("Clear History");
-		clearHistory.setToolTipText("Clears all Compilation History");
-		clearHistory.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		
 		fontUpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (fontSize < maxFont) {
@@ -558,6 +565,12 @@ public class MainWindowView
 			    {
 					codeHistory.remove(tabbedVerticalPane.getSelectedIndex());
 					tabbedVerticalPane.removeTabAt(tabbedVerticalPane.getSelectedIndex());
+					if (tabbedVerticalPane.getTabCount() == 0)
+					{
+						recoverCode.setEnabled(false);
+						removeHistory.setEnabled(false);
+						clearHistory.setEnabled(false);
+					}
 			    }		
 			}
 		});
@@ -569,6 +582,9 @@ public class MainWindowView
 			    {
 					codeHistory.clear();
 					tabbedVerticalPane.removeAll();
+					recoverCode.setEnabled(false);
+					removeHistory.setEnabled(false);
+					clearHistory.setEnabled(false);
 			    }	
 			}
 		});
