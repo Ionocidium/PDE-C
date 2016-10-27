@@ -2,6 +2,7 @@ package view;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -9,10 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -65,6 +68,8 @@ public class MainWindowView
 	private JMenuItem addBreakItem, delBreakItem, delallBreakItem;
 	private JButton breakpointButton, delbreakpointButton, delallbreakpointButton;
 	
+	private ArrayList<String> codeHistory = new ArrayList<String>();
+	private int compilation_counter = 1; //Feedback History counter
 	// for api purposes
 	
 	private JToolBar coreToolbar;
@@ -129,6 +134,8 @@ public class MainWindowView
 		fileModified = false;
 		fileName = "new file";
 		
+		tabbedVerticalPane = new JTabbedPane();
+			
 		try
 		{
 		  if (Files.exists(Paths.get("resources/activity.txt")))
@@ -215,6 +222,7 @@ public class MainWindowView
 		scrollPane.setWheelScrollingEnabled(true);
 		scrollPane.revalidate();
 		Gutter gut = scrollPane.getGutter();
+		
 		Font monospace = new Font(fontStyle, Font.PLAIN, fontSize);
 		for(int i = 0; i < gut.getComponentCount(); i++)
 		{
@@ -309,6 +317,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) {
 			  filePath = eventController.compile(frame, editorPane, filePath, errorLog); 
+			  JOptionPane.showMessageDialog(null, "Compilation complete", "Compile Code", JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 		
@@ -316,8 +325,47 @@ public class MainWindowView
 		compilerunButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
+				
+				if (filePath != null)
+				  {
+					eventController.saveFile(frame, editorPane, filePath, fileModified);
+					frame.setTitle(appName + " - " + fileName);
+					fileModified = false;
+				  }
+				  
+				  else
+				  {
+					filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+					fileName = filePath.getFileName().toString();
+					frame.setTitle(appName + " - " + fileName);
+					fileModified = false;
+				  }	  
+				
 				filePath = eventController.compile(frame, editorPane, filePath, errorLog);
 				eventController.runProgram(filePath);
+				///////////////////////Feedback History Prototype////////////////
+
+				codeHistory.add(editorPane.getText());
+				JTextArea compileLog = new JTextArea (1, 30);
+				compileLog.setText(
+						"--------------------\nSource Code:\n--------------------\n"
+						+ editorPane.getText()
+						+ "\n--------------------\nErrors:\n--------------------"
+						+ errorLog.getText()
+						);
+				
+				compileLog.setEditable ( false );
+				
+			    JScrollPane feedbackHistory = new JScrollPane ( compileLog );
+				tabbedVerticalPane.add("Compile " + compilation_counter, feedbackHistory);
+				
+				if (errorLog.getText() != null)
+				tabbedVerticalPane.setForegroundAt(tabbedVerticalPane.getTabCount()-1, Color.RED);
+				
+				tabbedVerticalPane.setSelectedIndex(tabbedVerticalPane.getTabCount()-1);
+				compilation_counter++;
+				
+				/////////////////////////////////////////////////////////////////
 			}
 		});
 		
@@ -442,6 +490,21 @@ public class MainWindowView
 		fontDownButton.setToolTipText("Decrease Font Size");
 		fontDownButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
+		JButton recoverCode = new JButton("");
+		recoverCode.setText("Recover Code");
+		recoverCode.setToolTipText("Recovers Code Based on Selected Compile History");
+		recoverCode.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		JButton removeHistory = new JButton("");
+		removeHistory.setText("Remove History");
+		removeHistory.setToolTipText("Removes Selected Compilation History");
+		removeHistory.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		JButton clearHistory = new JButton("");
+		clearHistory.setText("Clear History");
+		clearHistory.setToolTipText("Clears all Compilation History");
+		clearHistory.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		fontUpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (fontSize < maxFont) {
@@ -478,6 +541,38 @@ public class MainWindowView
 			}
 		});
 		
+		recoverCode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {			
+				int confirmed = JOptionPane.showConfirmDialog(null, "Overwrite current code in editor?", "Recover Code", JOptionPane.YES_NO_OPTION);
+			    if (confirmed == JOptionPane.YES_OPTION) 
+			    {
+			    	editorPane.setText(codeHistory.get(tabbedVerticalPane.getSelectedIndex()));
+			    }
+			}
+		});
+		
+		removeHistory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int confirmed = JOptionPane.showConfirmDialog(null, "Are you sure you want to remove the selected History?", "Remove Code History", JOptionPane.YES_NO_OPTION);
+			    if (confirmed == JOptionPane.YES_OPTION) 
+			    {
+					codeHistory.remove(tabbedVerticalPane.getSelectedIndex());
+					tabbedVerticalPane.removeTabAt(tabbedVerticalPane.getSelectedIndex());
+			    }		
+			}
+		});
+		
+		clearHistory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int confirmed = JOptionPane.showConfirmDialog(null, "Are you sure you want to remove all History?", "Remove All Code History", JOptionPane.YES_NO_OPTION);
+			    if (confirmed == JOptionPane.YES_OPTION) 
+			    {
+					codeHistory.clear();
+					tabbedVerticalPane.removeAll();
+			    }	
+			}
+		});
+		
 		coreToolbar.add(newButton);
 		coreToolbar.add(openButton);
 		coreToolbar.add(saveButton);
@@ -505,8 +600,47 @@ public class MainWindowView
 		coreToolbar.addSeparator();
 		coreToolbar.add(downloadButton);
 		coreToolbar.addSeparator();
+		coreToolbar.addSeparator();
+		coreToolbar.addSeparator();
+		coreToolbar.addSeparator();
+		coreToolbar.addSeparator();
+		coreToolbar.add(recoverCode);
+		coreToolbar.addSeparator();
+		coreToolbar.add(removeHistory);
+		coreToolbar.addSeparator();
+		coreToolbar.add(clearHistory);
 		
-		
+		/////////////////////////////////////////////////////////////////////////
+		JSplitPane feedbackPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT){
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			private final int location = 40;
+		    {
+		        setDividerLocation( location );
+		    }
+		    @Override
+		    public int getDividerLocation() {
+		        return location ;
+		    }
+		    @Override
+		    public int getLastDividerLocation() {
+		        return location ;
+		    }
+		};
+		feedbackPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		feedbackPane.setBottomComponent(tabbedVerticalPane);
+	    JPanel historyPanel = new JPanel();
+	    historyPanel.setLayout( new BorderLayout() );
+		JPanel subPanel = new JPanel();
+		subPanel.add(new JLabel("Feedback History: "));
+		subPanel.add(recoverCode);
+		subPanel.add(removeHistory);
+		subPanel.add(clearHistory);
+		historyPanel.add(subPanel, BorderLayout.WEST);
+		feedbackPane.setTopComponent(historyPanel);
+		///////////////////////////////////////////////////////////////////////////
 		menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);
@@ -771,17 +905,7 @@ public class MainWindowView
 		//frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		///////////////////////////////////////////////////////////////////LOGS
-		
-	    feedbackLog = new JTextArea (1,30);
-	    feedbackLog.setEditable ( false ); // set textArea non-editable
-	    feedbackLog.setText("");
-	    JScrollPane CBRC = new JScrollPane ( feedbackLog );
-		//frame.getContentPane().add(CBRC, BorderLayout.EAST);
 		frame.setVisible(true);
-		
-		tabbedVerticalPane = new JTabbedPane();
-		tabbedVerticalPane.add("Feedback History", CBRC);
-		
 		horizontalPane = new JSplitPane();
 		horizontalPane.setOrientation(JSplitPane.VERTICAL_SPLIT);		
 		frame.getContentPane().add(horizontalPane, BorderLayout.CENTER);
@@ -789,11 +913,12 @@ public class MainWindowView
 		
 		//for editor text and cbrc
 		verticalPane = new JSplitPane();
+		verticalPane.setDividerLocation(900);
 		verticalPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		verticalPane.setResizeWeight(1);
 		verticalPane.setLeftComponent(scrollPane);
-		verticalPane.setRightComponent(tabbedVerticalPane);
-		verticalPane.setOneTouchExpandable(true);
+		verticalPane.setRightComponent(feedbackPane);
+		verticalPane.setOneTouchExpandable(true);	
 		
 		horizontalPane.setTopComponent(verticalPane);
 		
