@@ -28,6 +28,7 @@ import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.GutterIconInfo;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
+import configuration.LocalConfiguration;
 import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
 import view.CompileLog;
@@ -88,6 +89,32 @@ public class EventController
 			}
 		}
 		return filePath;
+	}
+	
+	public void changeSettings(JFrame frame)
+	{
+	  FileNameExtensionFilter exeFilter = new FileNameExtensionFilter(
+			"Executable file (*.exe)", "exe");
+	  
+	  JFileChooser exeFileChooser = new JFileChooser();
+	  
+	  exeFileChooser.setFileFilter(exeFilter);
+	  
+	  int returnVal = exeFileChooser.showOpenDialog(frame);
+	  LocalConfiguration local = LocalConfiguration.getInstance();
+	  
+	  if (returnVal == JFileChooser.APPROVE_OPTION)
+	  {
+		Path path = Paths.get(exeFileChooser.getSelectedFile().getAbsolutePath());
+		local.setGccPath(path.toAbsolutePath().toString());
+	  }
+	  
+	  else
+	  {
+		System.out.println("what");
+	  }
+	  
+	  System.out.println(local.getGccPath());
 	}
   
 	public Path saveAsFile(JFrame frame, RSyntaxTextArea editorPane, boolean state)

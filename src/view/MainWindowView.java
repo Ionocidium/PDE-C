@@ -263,7 +263,7 @@ public class MainWindowView
 			}
 		});
 		newButton.setToolTipText("New");
-		URL newfile = Main.class.getResource("/newfile.png");
+		URL newfile = Main.class.getResource("/newFile.png");
 		newButton.setIcon(new ImageIcon(newfile));
 		newButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
@@ -306,7 +306,6 @@ public class MainWindowView
 				frame.setTitle(appName + " - " + fileName);
 				fileModified = false;
 			  }	  
-		
 			}
 		});
 		saveButton.setBorder(null);
@@ -365,7 +364,7 @@ public class MainWindowView
 				  }	  
 				
 				filePath = eventController.compile(frame, editorPane, filePath, errorLog);
-				eventController.runProgram(filePath);
+				
 				///////////////////////Feedback History Prototype////////////////
 
 				codeHistory.add(editorPane.getText());
@@ -381,10 +380,17 @@ public class MainWindowView
 				
 			    JScrollPane feedbackHistory = new JScrollPane ( compileLog );
 				tabbedVerticalPane.add("Compile " + compilation_counter, feedbackHistory);
+				String test = errorLog.getText().trim();
 				
-				if (errorLog.getText() != null)
-				tabbedVerticalPane.setForegroundAt(tabbedVerticalPane.getTabCount()-1, Color.RED);
-				
+				if (!test.equals(""))		  
+				{
+				  tabbedVerticalPane.setForegroundAt(tabbedVerticalPane.getTabCount()-1, Color.RED);
+				}
+				  
+				else
+				{
+				  eventController.runProgram(filePath);
+				}
 				tabbedVerticalPane.setSelectedIndex(tabbedVerticalPane.getTabCount()-1);
 				compilation_counter++;
 				
@@ -409,6 +415,8 @@ public class MainWindowView
 			}
 		});
 		
+		sendButton.setVisible(false);
+		
 		JButton downloadButton = new JButton("Download");
 		downloadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
@@ -416,6 +424,8 @@ public class MainWindowView
 			  eventController.downloadActivity();
 			}
 		});
+		
+		downloadButton.setVisible(false);
 		URL download = Main.class.getResource("/download.png");
 		downloadButton.setToolTipText("Download Activities");
 		downloadButton.setIcon(new ImageIcon(download));
@@ -637,15 +647,6 @@ public class MainWindowView
 		coreToolbar.addSeparator();
 		coreToolbar.add(downloadButton);
 		coreToolbar.addSeparator();
-		coreToolbar.addSeparator();
-		coreToolbar.addSeparator();
-		coreToolbar.addSeparator();
-		coreToolbar.addSeparator();
-		coreToolbar.add(recoverCode);
-		coreToolbar.addSeparator();
-		coreToolbar.add(removeHistory);
-		coreToolbar.addSeparator();
-		coreToolbar.add(clearHistory);
 		
 		/////////////////////////////////////////////////////////////////////////
 		JSplitPane feedbackPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT){
@@ -781,6 +782,16 @@ public class MainWindowView
 		      }
 			}
 		});
+		
+		JMenuItem settingsFileItem = new JMenuItem("Settings");
+		
+		settingsFileItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{ 
+			  eventController.changeSettings(frame);
+			}
+		});
+		
 		exitFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
 		JMenu editMenu = new JMenu("Edit");
 		editMenu.setMnemonic(KeyEvent.VK_E);
@@ -902,6 +913,7 @@ public class MainWindowView
 		fileMenu.add(openFileItem);
 		fileMenu.add(saveFileItem);
 		fileMenu.add(saveAsFileItem);
+		fileMenu.add(settingsFileItem);
 		fileMenu.addSeparator();
 		fileMenu.add(exitFileItem);
 		menuBar.add(editMenu);

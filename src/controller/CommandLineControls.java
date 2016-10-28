@@ -33,10 +33,7 @@ public class CommandLineControls
         this.commands[1] = this.fileToCompile;
         this.commands[2] = "-o";
         this.commands[3] = this.fileToCompile.substring(0, this.fileToCompile.lastIndexOf(".c"));
-        
-        List<String> lines = Arrays.asList("start \"\" \"" + this.commands[3] + ".exe\"");
-        Path file = Paths.get("resources/donttouch.bat");
-        Files.write(file, lines, Charset.forName("UTF-8"));
+
 	}
 	
 	public CommandLineControls(String gccPath, String cFile) throws IOException
