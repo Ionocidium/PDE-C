@@ -58,4 +58,13 @@ public class FileLoad
 	
 	return matcher.matches();
   }
+  
+  public boolean checkerpdf(String fileName)
+  {
+	String codePattern = "([^\\s]+(\\.(?i)(pdf))$)";
+	pattern = Pattern.compile(codePattern);
+	matcher = pattern.matcher(fileName);
+	
+	return matcher.matches();
+  }
 }

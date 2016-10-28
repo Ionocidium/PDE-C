@@ -1,20 +1,35 @@
 package view;
 
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import controller.fileops.FileLoad;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Timestamp;
+
+
+import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.Deliverable;
 import service.ClientService;
+
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -31,6 +46,7 @@ public class SourceCodeUploaderView {
 
 	private JFrame frmActivityUpload;
 	private JTextField txtCrecursionpdf;
+	private FileLoad loader;
 	private Path file;
 	private JTextField idNumField;
 	private JFileChooser fileChooser;
@@ -38,7 +54,7 @@ public class SourceCodeUploaderView {
 
 	public SourceCodeUploaderView(Path filePath, JTextArea frame) {
 	  	file = filePath;
-	  	
+	  	loader = new FileLoad();
 	  	fileChooser= new JFileChooser();
 	  	cFilter = new FileNameExtensionFilter(
 			"C Source (*.c)", "c");
@@ -112,6 +128,13 @@ public class SourceCodeUploaderView {
 		});
 		btnUpload.setBounds(335, 35, 89, 23);
 		frmActivityUpload.getContentPane().add(btnUpload);
+//		btnUpload.addActionListener(new ActionListener() 
+//		{
+//			public void actionPerformed(ActionEvent e) 
+//			{
+//			  chooseFile(frmActivityUpload); // Returns FilePath. Upload not yet implemented
+//			}
+//		});
 		
 		JLabel lblIdNumber = new JLabel("ID Number:");
 		lblIdNumber.setBounds(10, 70, 100, 14);
@@ -181,5 +204,27 @@ public class SourceCodeUploaderView {
 	  }
 		  
 	  return res;
+	}
+	
+	public Path chooseFile(JFrame frame)
+	{
+		int returnVal = fileChooser.showOpenDialog(frame);
+		Path filePath = null;
+	
+		if (returnVal == JFileChooser.APPROVE_OPTION)
+		{
+			Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+			filePath = path;
+			String ext = path.toString();
+			if (loader.checker(ext))
+			{
+				txtCrecursionpdf.setText(ext);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "Not a C source code.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		return filePath;
 	}
 }
