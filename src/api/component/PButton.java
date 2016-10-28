@@ -1,11 +1,15 @@
 package api.component;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 
 import mainwindowcomponents.ToolBar;
 
-public class PButton extends JButton
+public class PButton extends JButton implements ActionListener
 {
+  // extendable
   /**
    * 
    */
@@ -22,7 +26,6 @@ public class PButton extends JButton
   
   public void addToToolbar()
   {
-	
 	if (this != null)
 	{
 	  bar.addComponent(this);
@@ -33,5 +36,11 @@ public class PButton extends JButton
   {
 	bar.removeComponent(this);
   }
-  
+
+  @Override
+  public void actionPerformed(ActionEvent arg0)
+  {
+	// TODO Auto-generated method stub
+	
+  }
 }
