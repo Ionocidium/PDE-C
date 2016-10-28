@@ -50,6 +50,10 @@ public class CommandLineControls
         this.commands[3] = this.fileToCompile.substring(0, this.fileToCompile.lastIndexOf(".c"));
 	}
 	
+	public void runMyCompiler() throws IOException{
+		rt.exec(this.commands);
+	}
+	
 	public String getStdOut() throws IOException{
         this.proc = rt.exec(this.commands);
         this.stdInput = new BufferedReader(new InputStreamReader(this.proc.getInputStream()));

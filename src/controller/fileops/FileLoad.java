@@ -51,7 +51,8 @@ public class FileLoad
   
   public boolean checker(String fileName)
   {
-	String codePattern = "([^\\s]+(\\.(?i)(c))$)";
+	//String codePattern = "([^\\s]+(\\.(?i)(c))$)";
+	String codePattern = "(^.*\\.(c)$)";
 	pattern = Pattern.compile(codePattern);
 	matcher = pattern.matcher(fileName);
 	

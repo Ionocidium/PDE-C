@@ -2,6 +2,7 @@ package view;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -9,14 +10,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.BadLocationException;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -30,7 +32,8 @@ import javax.swing.JFileChooser;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
@@ -56,17 +59,32 @@ public class MainWindowView
 
 	private JFrame frame;
 	private ArrayList<Integer> breakpoints;
-	private ArrayList<GutterIconInfo> breakpoints2;
+	public static ArrayList<GutterIconInfo> breakpoints2;
 	private Path filePath;
 	private boolean fileModified;
 	private final String appName = "PDE-C";
 	private String fileName;
-	public static JTextArea consoleLog;
+	public static JTextArea errorLog;
+	public static JTextArea feedbackLog;
+	private JMenuItem addBreakItem, delBreakItem, delallBreakItem;
+	private JButton breakpointButton, delbreakpointButton, delallbreakpointButton;
+	
+	private ArrayList<String> codeHistory = new ArrayList<String>();
+	private int compilation_counter = 1; //Feedback History counter
+	// for api purposes
+	
+	private JToolBar coreToolbar;
+	private JMenuBar menuBar;
+	private JSplitPane horizontalPane;
+	private JSplitPane verticalPane;
+	private JTabbedPane tabbedHorizontalPane;
+	private JTabbedPane tabbedVerticalPane;
 	
 	private int fontSize = 16;
 	private int minFont = 12;
 	private int maxFont = 72;
 	private String fontStyle;
+	private static MainWindowView instance = null;
 	/**
 	 * Launch the application.
 	 */
@@ -78,7 +96,7 @@ public class MainWindowView
 			{
 				try
 				{
-					MainWindowView window = new MainWindowView();
+					MainWindowView window = getInstance();
 					window.frame.setVisible(true);
 				} catch (Exception e)
 				{
@@ -91,10 +109,20 @@ public class MainWindowView
 	/**
 	 * Create the application.
 	 */
-	public MainWindowView()
+	private MainWindowView()
 	{
 	  	filePath = null;
 		initialize();
+	}
+	
+	public static MainWindowView getInstance()
+	{
+	  if (instance == null)
+	  {
+		instance = new MainWindowView();
+	  }
+	  
+	  return instance;
 	}
 
 	/**
@@ -106,6 +134,22 @@ public class MainWindowView
 		breakpoints2 = new ArrayList<GutterIconInfo>();
 		fileModified = false;
 		fileName = "new file";
+		
+		tabbedVerticalPane = new JTabbedPane();
+			
+		try
+		{
+		  if (Files.exists(Paths.get("resources/activity.txt")))
+		  {
+			Files.delete(Paths.get("resources/activity.txt"));
+		  }
+		}
+		
+		catch(Exception ex)
+		{
+		  ex.printStackTrace();
+		}
+		
 		
 		frame = new JFrame(appName + " - new file");
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -179,13 +223,15 @@ public class MainWindowView
 		scrollPane.setWheelScrollingEnabled(true);
 		scrollPane.revalidate();
 		Gutter gut = scrollPane.getGutter();
+		
 		Font monospace = new Font(fontStyle, Font.PLAIN, fontSize);
 		for(int i = 0; i < gut.getComponentCount(); i++)
 		{
 			gut.getComponent(i).setFont(monospace);
 		}
 		gut.setBookmarkingEnabled(true);
-		JToolBar coreToolbar = new JToolBar();
+		
+		coreToolbar = new JToolBar();
 		coreToolbar.setFloatable(false);
 		coreToolbar.setRollover(true);
 		JButton newButton = new JButton("");
@@ -196,7 +242,7 @@ public class MainWindowView
 				if (editorPane.getText().equals(""))
 				{
 					editorPane.setText("");
-					eventController.deleteDontTouch();
+					//eventController.deleteDontTouch();
 				}
 				
 				else
@@ -206,7 +252,7 @@ public class MainWindowView
 					if (confirmed == JOptionPane.YES_OPTION) 
 					{
 						editorPane.setText("");
-						eventController.deleteDontTouch();
+						//eventController.deleteDontTouch();
 					}
 				}
 				filePath = null;
@@ -261,17 +307,36 @@ public class MainWindowView
 		});
 		saveButton.setBorder(null);
 		
-	    consoleLog = new JTextArea (5,20);
-	    consoleLog.setEditable ( false ); // set textArea non-editable
-	    JScrollPane cL = new JScrollPane ( consoleLog );
+	    errorLog = new JTextArea (5,20);
+	    errorLog.setEditable ( false ); // set textArea non-editable
+	    JScrollPane cL = new JScrollPane ( errorLog );
 		frame.setVisible(true);
+		
+		JButton recoverCode = new JButton("");
+		recoverCode.setText("Recover Code");
+		recoverCode.setToolTipText("Recovers Code Based on Selected Compile History");
+		recoverCode.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		recoverCode.setEnabled(false);
+		
+		JButton removeHistory = new JButton("");
+		removeHistory.setText("Remove History");
+		removeHistory.setToolTipText("Removes Selected Compilation History");
+		removeHistory.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		removeHistory.setEnabled(false);
+		
+		JButton clearHistory = new JButton("");
+		clearHistory.setText("Clear History");
+		clearHistory.setToolTipText("Clears all Compilation History");
+		clearHistory.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		clearHistory.setEnabled(false);
 		
 		
 		JButton compileButton = new JButton("");
 		compileButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
-			  filePath = eventController.compile(frame, editorPane, filePath, consoleLog); 
+			  filePath = eventController.compile(frame, editorPane, filePath, errorLog); 
+			  JOptionPane.showMessageDialog(null, "Compilation complete", "Compile Code", JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 		
@@ -279,8 +344,51 @@ public class MainWindowView
 		compilerunButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
-				filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
-				eventController.runProgram();
+				
+				if (filePath != null)
+				  {
+					eventController.saveFile(frame, editorPane, filePath, fileModified);
+					frame.setTitle(appName + " - " + fileName);
+					fileModified = false;
+				  }
+				  
+				  else
+				  {
+					filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+					fileName = filePath.getFileName().toString();
+					frame.setTitle(appName + " - " + fileName);
+					fileModified = false;
+				  }	  
+				
+				filePath = eventController.compile(frame, editorPane, filePath, errorLog);
+				eventController.runProgram(filePath);
+				///////////////////////Feedback History Prototype////////////////
+
+				codeHistory.add(editorPane.getText());
+				JTextArea compileLog = new JTextArea (1, 30);
+				compileLog.setText(
+						"--------------------\nSource Code:\n--------------------\n"
+						+ editorPane.getText()
+						+ "\n--------------------\nErrors:\n--------------------"
+						+ errorLog.getText()
+						);
+				
+				compileLog.setEditable ( false );
+				
+			    JScrollPane feedbackHistory = new JScrollPane ( compileLog );
+				tabbedVerticalPane.add("Compile " + compilation_counter, feedbackHistory);
+				
+				if (errorLog.getText() != null)
+				tabbedVerticalPane.setForegroundAt(tabbedVerticalPane.getTabCount()-1, Color.RED);
+				
+				tabbedVerticalPane.setSelectedIndex(tabbedVerticalPane.getTabCount()-1);
+				compilation_counter++;
+				
+				recoverCode.setEnabled(true);
+				removeHistory.setEnabled(true);
+				clearHistory.setEnabled(true);
+				
+				/////////////////////////////////////////////////////////////////
 			}
 		});
 		
@@ -292,11 +400,17 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				eventController.sendSrcCode(consoleLog, filePath);
+				eventController.sendSrcCode(errorLog, filePath);
 			}
 		});
 		
 		JButton downloadButton = new JButton("Download");
+		downloadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+			  eventController.downloadActivity();
+			}
+		});
 		downloadButton.setToolTipText("Download Activities");
 		downloadButton.setIcon(new ImageIcon("resources/images/materialSmall/download.png"));
 		downloadButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -318,18 +432,18 @@ public class MainWindowView
 		debugButton.setToolTipText("Debug");
 		debugButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		JButton breakpointButton = new JButton("");
+		breakpointButton = new JButton("");
 		breakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/breakpoint.png"));
 		breakpointButton.setToolTipText("Add Breakpoints");
 		breakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 			
-		JButton delbreakpointButton = new JButton("");
+		delbreakpointButton = new JButton("");
 		delbreakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/delbreakpoint.png"));
 		delbreakpointButton.setToolTipText("Delete Breakpoints");
 		delbreakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		delbreakpointButton.setEnabled(false);
 		
-		JButton delallbreakpointButton = new JButton("");
+		delallbreakpointButton = new JButton("");
 		delallbreakpointButton.setIcon(new ImageIcon("resources/images/materialSmall/delallbreakpoint.png"));
 		delallbreakpointButton.setToolTipText("Delete All Breakpoints");
 		delallbreakpointButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -339,7 +453,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				addbreakpoint(gut);
+				eventController.addbreakpoint(frame, gut, breakpoints);
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
 					delallbreakpointButton.setEnabled(true);
@@ -351,7 +465,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				deletebreakpoint(gut);
+				eventController.deletebreakpoint(frame, gut, breakpoints);
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
@@ -363,7 +477,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				deleteallbreakpoint(gut);
+				eventController.deleteallbreakpoint(gut, breakpoints);
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
@@ -435,6 +549,47 @@ public class MainWindowView
 			}
 		});
 		
+		recoverCode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {			
+				int confirmed = JOptionPane.showConfirmDialog(null, "Overwrite current code in editor?", "Recover Code", JOptionPane.YES_NO_OPTION);
+			    if (confirmed == JOptionPane.YES_OPTION) 
+			    {
+			    	editorPane.setText(codeHistory.get(tabbedVerticalPane.getSelectedIndex()));
+			    }
+			}
+		});
+		
+		removeHistory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int confirmed = JOptionPane.showConfirmDialog(null, "Are you sure you want to remove the selected History?", "Remove Code History", JOptionPane.YES_NO_OPTION);
+			    if (confirmed == JOptionPane.YES_OPTION) 
+			    {
+					codeHistory.remove(tabbedVerticalPane.getSelectedIndex());
+					tabbedVerticalPane.removeTabAt(tabbedVerticalPane.getSelectedIndex());
+					if (tabbedVerticalPane.getTabCount() == 0)
+					{
+						recoverCode.setEnabled(false);
+						removeHistory.setEnabled(false);
+						clearHistory.setEnabled(false);
+					}
+			    }		
+			}
+		});
+		
+		clearHistory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int confirmed = JOptionPane.showConfirmDialog(null, "Are you sure you want to remove all History?", "Remove All Code History", JOptionPane.YES_NO_OPTION);
+			    if (confirmed == JOptionPane.YES_OPTION) 
+			    {
+					codeHistory.clear();
+					tabbedVerticalPane.removeAll();
+					recoverCode.setEnabled(false);
+					removeHistory.setEnabled(false);
+					clearHistory.setEnabled(false);
+			    }	
+			}
+		});
+		
 		coreToolbar.add(newButton);
 		coreToolbar.add(openButton);
 		coreToolbar.add(saveButton);
@@ -462,9 +617,48 @@ public class MainWindowView
 		coreToolbar.addSeparator();
 		coreToolbar.add(downloadButton);
 		coreToolbar.addSeparator();
+		coreToolbar.addSeparator();
+		coreToolbar.addSeparator();
+		coreToolbar.addSeparator();
+		coreToolbar.addSeparator();
+		coreToolbar.add(recoverCode);
+		coreToolbar.addSeparator();
+		coreToolbar.add(removeHistory);
+		coreToolbar.addSeparator();
+		coreToolbar.add(clearHistory);
 		
-		
-		JMenuBar menuBar = new JMenuBar();
+		/////////////////////////////////////////////////////////////////////////
+		JSplitPane feedbackPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT){
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			private final int location = 40;
+		    {
+		        setDividerLocation( location );
+		    }
+		    @Override
+		    public int getDividerLocation() {
+		        return location ;
+		    }
+		    @Override
+		    public int getLastDividerLocation() {
+		        return location ;
+		    }
+		};
+		feedbackPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		feedbackPane.setBottomComponent(tabbedVerticalPane);
+	    JPanel historyPanel = new JPanel();
+	    historyPanel.setLayout( new BorderLayout() );
+		JPanel subPanel = new JPanel();
+		subPanel.add(new JLabel("Feedback History: "));
+		subPanel.add(recoverCode);
+		subPanel.add(removeHistory);
+		subPanel.add(clearHistory);
+		historyPanel.add(subPanel, BorderLayout.WEST);
+		feedbackPane.setTopComponent(historyPanel);
+		///////////////////////////////////////////////////////////////////////////
+		menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 		JMenuItem newFileItem = new JMenuItem("New", KeyEvent.VK_N);
@@ -474,7 +668,7 @@ public class MainWindowView
 			  if (editorPane.getText().equals(""))
 				{
 					editorPane.setText("");
-					eventController.deleteDontTouch();
+					//eventController.deleteDontTouch();
 				}
 				
 				else
@@ -484,7 +678,7 @@ public class MainWindowView
 					if (confirmed == JOptionPane.YES_OPTION) 
 					{
 						editorPane.setText("");
-						eventController.deleteDontTouch();
+						//eventController.deleteDontTouch();
 					}
 				}
 				filePath = null;
@@ -593,7 +787,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-			  filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
+			  filePath = eventController.compile(frame, editorPane, filePath, errorLog);
 			}
 		});
 		
@@ -605,8 +799,16 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				eventController.debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
-				eventController.debugActual2(frame, editorPane, filePath, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, editorPane, scrollPane, breakpoints);
+				eventController.debugToggler(frame, newButton, newFileItem, openButton, 
+						openFileItem, saveButton, saveFileItem, saveAsFileItem, 
+						compileButton, compilerunButton, compileBuildItem, debugButton, 
+						debugBuildItem, stepOverButton, resumeButton, stopButton);
+				eventController.debugActual2(frame, editorPane, filePath, newButton, 
+						newFileItem, openButton, openFileItem, saveButton, saveFileItem, 
+						saveAsFileItem, compileButton, compilerunButton, compileBuildItem, 
+						debugButton, debugBuildItem, stepOverButton, resumeButton, 
+						stopButton, editorPane, scrollPane, addBreakItem, delBreakItem, 
+						delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, breakpoints);
 			}
 		});
 		
@@ -614,44 +816,52 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				eventController.debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
-				eventController.debugActual2(frame, editorPane, filePath, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, editorPane, scrollPane, breakpoints);
+				eventController.debugToggler(frame, newButton, newFileItem, openButton, 
+						openFileItem, saveButton, saveFileItem, saveAsFileItem, 
+						compileButton, compilerunButton, compileBuildItem, debugButton,
+						debugBuildItem, stepOverButton, resumeButton, stopButton);
+				eventController.debugActual2(frame, editorPane, filePath, newButton, 
+						newFileItem, openButton, openFileItem, saveButton, saveFileItem, 
+						saveAsFileItem, compileButton, compilerunButton, compileBuildItem, 
+						debugButton, debugBuildItem, stepOverButton, resumeButton, 
+						stopButton, editorPane, scrollPane, addBreakItem, delBreakItem, 
+						delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, breakpoints);
 			}
 		});
 		
 		debugBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
 		
-		JMenuItem addBreakItem = new JMenuItem("Add Breakpoint...");
+		addBreakItem = new JMenuItem("Add Breakpoint...");
 		
 		addBreakItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				addbreakpoint(gut);		
+				eventController.addbreakpoint(frame, gut, breakpoints);	
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
 					delallbreakpointButton.setEnabled(true);
 				}
 			}
 		});
-		JMenuItem delBreakItem = new JMenuItem("Remove Breakpoint...");
+		delBreakItem = new JMenuItem("Remove Breakpoint...");
 		delBreakItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				deletebreakpoint(gut);
+				eventController.deletebreakpoint(frame, gut, breakpoints);
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
 				}
 			}
 		});
-		JMenuItem delallBreakItem = new JMenuItem("Remove all Breakpoint...");
+		delallBreakItem = new JMenuItem("Remove all Breakpoint...");
 		delallBreakItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				deleteallbreakpoint(gut);
+				eventController.deleteallbreakpoint(gut, breakpoints);
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
@@ -693,8 +903,8 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-			  filePath = eventController.compile(frame, editorPane, filePath, consoleLog);
-			  eventController.runProgram();
+			  filePath = eventController.compile(frame, editorPane, filePath, errorLog);
+			  eventController.runProgram(filePath);
 			}
 		});
 		buildMenu.add(mntmCompileRun);
@@ -711,36 +921,30 @@ public class MainWindowView
 		frame.getContentPane().setLayout(new BorderLayout());
 		//frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
-	    JTextArea display = new JTextArea (1,30);
-	    display.setEditable ( false ); // set textArea non-editable
-	    display.setText("");
-	    JScrollPane CBRC = new JScrollPane ( display );
-		//frame.getContentPane().add(CBRC, BorderLayout.EAST);
+		///////////////////////////////////////////////////////////////////LOGS
 		frame.setVisible(true);
-		
-		JTabbedPane feedbacklog = new JTabbedPane();
-		feedbacklog.add("Feedback History", CBRC);
-		
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);		
-		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
-		splitPane.setOneTouchExpandable(true);	
+		horizontalPane = new JSplitPane();
+		horizontalPane.setOrientation(JSplitPane.VERTICAL_SPLIT);		
+		frame.getContentPane().add(horizontalPane, BorderLayout.CENTER);
+		horizontalPane.setOneTouchExpandable(true);	
 		
 		//for editor text and cbrc
-		JSplitPane nestedPane = new JSplitPane();
-		nestedPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		nestedPane.setResizeWeight(1);
-		nestedPane.setLeftComponent(scrollPane);
-		nestedPane.setRightComponent(feedbacklog);
-		nestedPane.setOneTouchExpandable(true);
+		verticalPane = new JSplitPane();
+		verticalPane.setDividerLocation(900);
+		verticalPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+		verticalPane.setResizeWeight(1);
+		verticalPane.setLeftComponent(scrollPane);
+		verticalPane.setRightComponent(feedbackPane);
+		verticalPane.setOneTouchExpandable(true);	
 		
-		splitPane.setTopComponent(nestedPane);
+		horizontalPane.setTopComponent(verticalPane);
 		
-		JTabbedPane consolelog = new JTabbedPane();
-		consolelog.add("Error Log", cL);
+		tabbedHorizontalPane = new JTabbedPane();
+		tabbedHorizontalPane.add("Error Log", cL);
+		//tabbedHorizontalPane.add("Test Log", cL);
 		
-		splitPane.setBottomComponent(consolelog);
-		splitPane.setResizeWeight(1);
+		horizontalPane.setBottomComponent(tabbedHorizontalPane);
+		horizontalPane.setResizeWeight(1);
 	
 		SpringLayout springLayout = new SpringLayout();
 		springLayout.putConstraint(SpringLayout.NORTH, coreToolbar, 0, SpringLayout.NORTH, frame.getContentPane());
@@ -751,6 +955,8 @@ public class MainWindowView
 
 
 	}
+	
+	/*
 	
 	public void addbreakpoint(Gutter gut){
 		String input = JOptionPane.showInputDialog(
@@ -848,9 +1054,45 @@ public class MainWindowView
 			breakpoints2.clear();
 			JOptionPane.showMessageDialog(null, "All breakpoints removed successfully.", "Removed", JOptionPane.INFORMATION_MESSAGE);
 	}
+	*/
 	
-	public JTextArea getConsoleLog()
+	public JSplitPane getHorizontalPane()
 	{
-	  return consoleLog;
+		return horizontalPane;
+	}
+	
+	public JSplitPane getVerticalPane()
+	{
+		return verticalPane;
+	}
+	
+	public JTabbedPane getTabbedHorizontalPane()
+	{
+		return tabbedHorizontalPane;
+	}
+	
+	public JTabbedPane getTabbedVerticalPane()
+	{
+		return tabbedVerticalPane;
+	}
+	
+	public JToolBar getCoreToolbar()
+	{
+	  return coreToolbar;
+	}
+
+	public JMenuBar getMenuBar()
+	{
+	  return menuBar;
+	}
+
+	public JTextArea getErrorLog()
+	{
+	  return errorLog;
+	}
+	
+	public JTextArea getfeedbackLog()
+	{
+	  return feedbackLog;
 	}
 }

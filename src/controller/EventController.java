@@ -15,18 +15,23 @@ import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.BadLocationException;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rtextarea.Gutter;
+import org.fife.ui.rtextarea.GutterIconInfo;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
 import view.CompileLog;
+import view.DownloadWindow;
 import view.MainWindowView;
 import view.SourceCodeUploaderView;
 
@@ -131,6 +136,11 @@ public class EventController
 		SourceCodeUploaderView upload = new SourceCodeUploaderView(filePath, consoleLog);
 	  }
 	}
+	
+	public void downloadActivity()
+	{
+	  DownloadWindow download = new DownloadWindow();
+	}
   
 	public void saveFile(JFrame frame, RSyntaxTextArea editorPane, Path filePath, boolean state)
 	{
@@ -153,7 +163,8 @@ public class EventController
 				
 				if (!clc.getStdError().equals(""))
 				{
-				  this.deleteDontTouch();
+				  // this.deleteDontTouch();
+					clc.runMyCompiler();
 				}
 			}
 			
@@ -176,7 +187,8 @@ public class EventController
 						
 						if (!clc.getStdError().equals(""))
 						{
-						  this.deleteDontTouch();
+						  //b this.deleteDontTouch();
+							clc.runMyCompiler();
 						}
 					}
 					  
@@ -216,6 +228,8 @@ public class EventController
 	  return filePath;
 	}
 
+	/*
+	@unused
 	public String runProgram()
 	{
 		String res = null;
@@ -242,7 +256,48 @@ public class EventController
 
 		return res;
 	}
+	*/
 	
+	public String runProgram(Path p)
+	{
+		String res = null;
+
+		try
+		{
+			File f = new File(p.toString());
+			String dir = f.getParent();
+			String filename = f.getName();
+			String currentOS = System.getProperty("os.name").toLowerCase();
+		  	if (currentOS.indexOf("win") >= 0)
+		  	{
+		  		String compiled = dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")).concat(".exe"));
+	  			ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", compiled, "/b", compiled);
+	  			Process proc = pb.start();
+		  	}
+		  	else if(currentOS.indexOf("mac") >= 0)
+		  	{
+		  		String compiled = dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")).concat(".out"));
+	  			Runtime rt = Runtime.getRuntime();
+	  			Process proc = rt.exec(compiled);
+		  	}
+		  	else if(currentOS.indexOf("nix") >= 0 || currentOS.indexOf("nux") >= 0)
+		  	{
+		  		String compiled = dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")));
+	  			Runtime rt = Runtime.getRuntime();
+	  			Process proc = rt.exec(compiled);
+		  	}
+		}
+
+		catch(Exception ex)
+		{
+			System.out.println("");
+		}
+
+		return res;
+	}
+	
+	/*
+	@unused
 	public void deleteDontTouch()
 	{
 	  File file = new File("resources/donttouch.bat");
@@ -252,8 +307,14 @@ public class EventController
 		file.delete();
 	  }
 	}
+	*/
 
-	public void debugToggler(JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JButton compilerunButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton)
+	public void debugToggler(JFrame frame, JButton newButton, JMenuItem newFileItem, 
+			JButton openButton, JMenuItem openFileItem, JButton saveButton, 
+			JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, 
+			JButton compilerunButton, JMenuItem compileBuildItem, JButton debugButton, 
+			JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, 
+			JButton stopButton)
 	{
 	  	newButton.setEnabled(!newButton.isEnabled());
 		newFileItem.setEnabled(!newFileItem.isEnabled());
@@ -274,16 +335,44 @@ public class EventController
 	
 	public void writeInErrorLog(String s)
 	{
-		MainWindowView.consoleLog.setText(s);
+		MainWindowView.errorLog.setText(s);
 	}
   
-	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JButton compilerunButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp, ArrayList<Integer> bp)
+	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, 
+			JButton newButton, JMenuItem newFileItem, JButton openButton, 
+			JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, 
+			JMenuItem saveAsFileItem, JButton compileButton, JButton compilerunButton, 
+			JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem,
+			JButton stepOverButton, JButton resumeButton, JButton stopButton, 
+			RSyntaxTextArea rsta, RTextScrollPane rtsp, JMenuItem addBreakItem, 
+			JMenuItem delBreakItem, JMenuItem delallBreakItem, JButton breakpointButton, 
+			JButton delbreakpointButton, JButton delallbreakpointButton,
+			ArrayList<Integer> bp)
 	{
 		if (filePath != null)
 		{
 			String currentPath = filePath.toString();
-			String exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
-			debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp, bp);
+			String exePath = new String();
+			String currentOS = System.getProperty("os.name").toLowerCase();
+		  	if (currentOS.indexOf("win") >= 0)
+		  	{
+				exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
+		  	}
+		  	else if(currentOS.indexOf("mac") >= 0)
+		  	{
+
+				exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".out";
+		  	}
+		  	else if(currentOS.indexOf("nix") >= 0 || currentOS.indexOf("nux") >= 0)
+		  	{
+
+				exePath = currentPath.substring(0, currentPath.lastIndexOf(".c"));
+		  	}
+			debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, 
+					saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, 
+					compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, 
+					stopButton, rsta, rtsp, addBreakItem, delBreakItem, 
+					delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, bp);
 		}
 		else
 		{
@@ -298,8 +387,28 @@ public class EventController
 					String pathContents = loader.loadFile(path);
 					editorPane.setText(pathContents);
 					String currentPath = filePath.toString();
-					String exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
-					debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, rtsp, bp);
+					String exePath = new String();
+					String currentOS = System.getProperty("os.name").toLowerCase();
+				  	if (currentOS.indexOf("win") >= 0)
+				  	{
+						exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
+				  	}
+				  	else if(currentOS.indexOf("mac") >= 0)
+				  	{
+
+						exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".out";
+				  	}
+				  	else if(currentOS.indexOf("nix") >= 0 || currentOS.indexOf("nux") >= 0)
+				  	{
+
+						exePath = currentPath.substring(0, currentPath.lastIndexOf(".c"));
+				  	}
+					debugActual(exePath, frame, newButton, newFileItem, openButton, 
+							openFileItem, saveButton, saveFileItem, saveAsFileItem, 
+							compileButton, compilerunButton, compileBuildItem, debugButton, 
+							debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, 
+							rtsp, addBreakItem, delBreakItem, delallBreakItem, breakpointButton, 
+							delbreakpointButton, delallbreakpointButton, bp);
 				}
 				else
 				{
@@ -310,7 +419,15 @@ public class EventController
 	}
 	
 
-	public void debugActual(String exe, JFrame frame, JButton newButton, JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, JButton compilerunButton, JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, RTextScrollPane rtsp, ArrayList<Integer> bp)
+	public void debugActual(String exe, JFrame frame, JButton newButton, 
+			JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, 
+			JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, 
+			JButton compileButton, JButton compilerunButton, JMenuItem compileBuildItem, 
+			JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, 
+			JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, 
+			RTextScrollPane rtsp, JMenuItem addBreakItem, JMenuItem delBreakItem, 
+			JMenuItem delallBreakItem, JButton breakpointButton, 
+			JButton delbreakpointButton, JButton delallbreakpointButton, ArrayList<Integer> bp)
 	{
 		writeInErrorLog("");
 		Thread debug = new Thread(new Runnable(){
@@ -363,6 +480,47 @@ public class EventController
 	                    /*
 	                    // Capture user input through the use of continue and break buttons
 	                     */
+	                    
+	                    ActionListener abListener = addBreakItem.getActionListeners()[0];
+	                    ActionListener dbListener = delBreakItem.getActionListeners()[0];
+	                    ActionListener dabListener = delallBreakItem.getActionListeners()[0];
+	                    addBreakItem.removeActionListener(abListener);
+	                    delBreakItem.removeActionListener(dbListener);
+	                    delallBreakItem.removeActionListener(dabListener);
+	                    
+	                    ActionListener abListener2 = new ActionListener()
+                		{
+	                    	public void actionPerformed(ActionEvent e)
+	                    	{
+	                    		int answer = addbreakpoint(frame, rtsp.getGutter(), bp);
+	                    		if(answer <= -1)
+	                    			out.println("break " + answer);
+	                    	}
+                		};
+	                    
+                		ActionListener dbListener2 = new ActionListener()
+                		{
+	                    	public void actionPerformed(ActionEvent e)
+	                    	{
+	                    		int answer = deletebreakpoint(frame, rtsp.getGutter(), bp);
+	                    		if(answer <= -1)
+	                    			out.println("delete " + answer);
+	                    	}
+                		};
+	                    
+                		ActionListener dabListener2 = new ActionListener()
+                		{
+	                    	public void actionPerformed(ActionEvent e)
+	                    	{
+	                    		deleteallbreakpoint(rtsp.getGutter(), bp);
+	                    		out.println("delete");
+	                    	}
+                		};
+
+	                    addBreakItem.addActionListener(abListener2);
+	                    delBreakItem.addActionListener(dbListener2);
+	                    delallBreakItem.addActionListener(dabListener2);
+	                    
 	                    stepOverButton.addActionListener(new ActionListener()
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
@@ -399,13 +557,26 @@ public class EventController
 	                    }
 	                    String[] lineArray = new String[lines.size()];
 	                    lineArray  = lines.toArray(lineArray);
-	
+	                    
 	                    for (int i=0; i < lineArray.length; i++) {
-	                        writeInErrorLog(lineArray[i].toString());
+	                        System.out.println(lineArray[i].toString());
 	                    }
 	                    
+	                    writeInErrorLog(lineArray[lineArray.length - 1]);
+	                    
 	                    process.destroy();
-	                    debugToggler(frame, newButton, newFileItem, openButton, openFileItem, saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, stopButton);
+	                    //stepOverButton.removeActionListener(arg0);
+	                    addBreakItem.removeActionListener(abListener2);
+	                    delBreakItem.removeActionListener(dbListener2);
+	                    delallBreakItem.removeActionListener(dabListener2);
+	                    
+	                    addBreakItem.addActionListener(abListener);
+	                    delBreakItem.addActionListener(dbListener);
+	                    delallBreakItem.addActionListener(dabListener);
+	                    debugToggler(frame, newButton, newFileItem, openButton, openFileItem, 
+	                    		saveButton, saveFileItem, saveAsFileItem, compileButton, 
+	                    		compilerunButton, compileBuildItem, debugButton, debugBuildItem,
+	                    		stepOverButton, resumeButton, stopButton);
 	                }
 	            }
 				catch (Exception ex)
@@ -415,5 +586,116 @@ public class EventController
 			}
 		});
 		debug.start();
+		}
+	
+	public int addbreakpoint(JFrame jf, Gutter g, ArrayList<Integer> b){
+		int res = -1;
+		String input = JOptionPane.showInputDialog(
+                jf,
+                "Insert a breakpoint, enter a line number (must not exceed the end of file):");
+		if(input == null || input.isEmpty())
+		{
+			// do nothing
+		}
+		else
+		{
+			try
+			{
+				int bpnum = Integer.parseInt(input) - 1;
+				boolean existing = false;
+				for(int i = 0; i < b.size(); i++)
+				{
+					if(b.get(i) == bpnum)
+					{
+						existing = true;
+					}
+				}
+				if(!existing)
+				{
+					GutterIconInfo gii = g.addLineTrackingIcon(bpnum, new ImageIcon("resources/images/materialsmall/breakpointeditor.png"));
+					b.add(bpnum);
+					MainWindowView.breakpoints2.add(gii);
+					JOptionPane.showMessageDialog(null, "Line " + input + " added successfully.", 
+							"Added!", JOptionPane.INFORMATION_MESSAGE);
+					res = bpnum;
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Line " + input + " already exists.", 
+							"Error", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (BadLocationException ble)
+			{
+				JOptionPane.showMessageDialog(null, "The line specified is not found. Discontinuing adding breakpoints...", 
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (NumberFormatException nfe)
+			{
+				JOptionPane.showMessageDialog(null, "You entered a non-integer number!", 
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (NullPointerException npe)
+			{
+				
+			}
+		}
+		return res;
+	}
+	
+		public int deletebreakpoint(JFrame jf, Gutter g, ArrayList<Integer> b){
+			int res = -1;
+			String input = JOptionPane.showInputDialog(
+	                jf,
+	                "Remove a breakpoint, enter a line number (must not exceed the end of file):");
+			if(input == null || input.isEmpty())
+			{
+				// do nothing
+			}
+			else
+			{
+				try
+				{
+					int bpnum = Integer.parseInt(input) - 1;
+					int target = -1;
+					GutterIconInfo gii = null;
+					for(int i = 0; i < b.size(); i++)
+					{
+						if(b.get(i) == bpnum)
+						{
+							gii = MainWindowView.breakpoints2.get(i);
+							target = i;
+						}
+					}
+					if(target == -1)
+						JOptionPane.showMessageDialog(null, "Line " + input + " does not exist.", 
+								"Error", JOptionPane.ERROR_MESSAGE);
+					else
+					{
+						g.removeTrackingIcon(gii);
+						b.remove(target);
+						MainWindowView.breakpoints2.remove(target);
+						JOptionPane.showMessageDialog(null, "Line " + input + " removed successfully.", 
+								"Removed", JOptionPane.INFORMATION_MESSAGE);
+						res = bpnum;
+					}
+				}
+				catch (NumberFormatException nfe)
+				{
+					JOptionPane.showMessageDialog(null, "You entered a non-integer number!", 
+							"Error", JOptionPane.ERROR_MESSAGE);
+				}
+				catch (NullPointerException npe)
+				{
+					
+				}
+			}
+			return res;
+		}
+	
+		public void deleteallbreakpoint(Gutter g, ArrayList<Integer> b){				
+			g.removeAllTrackingIcons();
+			b.clear();
+			MainWindowView.breakpoints2.clear();
+			JOptionPane.showMessageDialog(null, "All breakpoints removed successfully.", 
+					"Removed", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
