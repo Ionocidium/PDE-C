@@ -70,3 +70,6 @@ src/configuration/LocalConfiguration.java
 
 # Executable files
 *.exe
+
+# Out files
+*.out
