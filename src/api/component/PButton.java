@@ -5,15 +5,17 @@ import java.nio.file.Path;
 
 import javax.swing.JButton;
 
+import buttonactions.CompileAction;
+import buttonactions.DownloadAction;
+import buttonactions.SendAction;
 import mainwindowcomponents.ToolBar;
-import service.DownloadAction;
-import service.SendAction;
 import view.MainWindowView;
 
 public class PButton extends JButton
 {
   public static final int DOWNLOAD_ACTION = 0;
   public static final int SEND_ACTION = 1;
+  public static final int COMPILE_ACTION = 2;
   
   private static final long serialVersionUID = 1L;
   private String bName;
@@ -39,12 +41,13 @@ public class PButton extends JButton
 	bar.removeComponent(this);
   }
   
-  public void addAction(int action, Path filePath)
+  public void addAction(int action, Path filePath, int code)
   {
 	switch (action)
 	{
 	  case 0: this.addActionListener(new DownloadAction("Download"));
 	  case 1: this.addActionListener(new SendAction("Send", main.getErrorLog(), filePath));
+	  case 2: this.addActionListener(new CompileAction("Compile", filePath, code));
 	  default: System.out.println("Invalid");
 	}
   }

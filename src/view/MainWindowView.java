@@ -60,6 +60,7 @@ public class MainWindowView
 {
 
 	private JFrame frame;
+	private RSyntaxTextArea editorPane;
 	private ArrayList<Integer> breakpoints;
 	public static ArrayList<GutterIconInfo> breakpoints2;
 	private Path filePath;
@@ -181,7 +182,7 @@ public class MainWindowView
 		
 		EventController eventController = EventController.getEventController();
         
-		RSyntaxTextArea editorPane = new RSyntaxTextArea();
+		editorPane = new RSyntaxTextArea();
 		fontStyle = editorPane.getFont().getFamily();
 		editorPane.getDocument().addDocumentListener(new DocumentListener() {
 			
@@ -415,7 +416,6 @@ public class MainWindowView
 			}
 		});
 		
-		sendButton.setVisible(false);
 		
 		JButton downloadButton = new JButton("Download");
 		downloadButton.addActionListener(new ActionListener() {
@@ -425,7 +425,6 @@ public class MainWindowView
 			}
 		});
 		
-		downloadButton.setVisible(false);
 		URL download = Main.class.getResource("/download.png");
 		downloadButton.setToolTipText("Download Activities");
 		downloadButton.setIcon(new ImageIcon(download));
@@ -1126,5 +1125,15 @@ public class MainWindowView
 	public JTextArea getfeedbackLog()
 	{
 	  return feedbackLog;
+	}
+	
+	public JFrame getMainFrame()
+	{
+	  return frame;
+	}
+	
+	public RSyntaxTextArea getEditor()
+	{
+	  return editorPane;
 	}
 }
