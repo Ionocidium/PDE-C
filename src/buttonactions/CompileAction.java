@@ -12,6 +12,7 @@ public class CompileAction extends AbstractAction
 {
   public static final int COMPILE = 0;
   public static final int COMPILE_RUN = 1;
+  public static final int NO_ACTION = 2;
   
   private EventController event = EventController.getEventController();
   private Path filePath;

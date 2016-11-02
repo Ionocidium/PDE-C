@@ -254,36 +254,6 @@ public class EventController
 	  
 	  return filePath;
 	}
-
-	/*
-	@unused
-	public String runProgram()
-	{
-		String res = null;
-
-		try
-		{
-		  	File donttouchFile = new File("resources/donttouch.bat");
-		  	
-		  	if (donttouchFile.exists() && !donttouchFile.isDirectory())
-		  	{
-		  	  Process process = new ProcessBuilder("resources/donttouch.bat").start();
-		  	}
-		  	
-		  	else
-		  	{
-		  	  
-		  	}
-		}
-
-		catch(Exception ex)
-		{
-			System.out.println("");
-		}
-
-		return res;
-	}
-	*/
 	
 	public String runProgram(Path p)
 	{
