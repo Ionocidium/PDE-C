@@ -8,7 +8,7 @@ import configuration.LocalConfiguration;
 
 public class CommandLineDebugging
 {
-	private String gccPath;
+	private String gdbPath;
 	private String fileToDebug;
 	private final String[] commands = {"", ""};
     private Runtime rt = Runtime.getRuntime();
@@ -34,19 +34,10 @@ public class CommandLineDebugging
 		{
 	        path = "C:\\cygwin\\bin\\";
 		}
-        this.gccPath = path;
+        this.gdbPath = local.getGdbPath();
         this.fileToDebug = cFile;
         this.rt = Runtime.getRuntime();
-        this.commands[0] = this.gccPath + "gdb";
-        this.commands[1] = this.fileToDebug;
-	}
-	
-	public CommandLineDebugging(String gccPath, String cFile)
-	{
-        this.gccPath = local.getGccPath();
-        this.fileToDebug = cFile;
-        this.rt = Runtime.getRuntime();
-        this.commands[0] = this.gccPath + "gdb.exe";
+        this.commands[0] = this.gdbPath;
         this.commands[1] = this.fileToDebug;
 	}
 	

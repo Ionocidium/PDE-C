@@ -36,17 +36,6 @@ public class CommandLineControls
 
 	}
 	
-	public CommandLineControls(String gccPath, String cFile) throws IOException
-	{
-        this.gccPath = gccPath;
-        this.fileToCompile = cFile;
-        this.rt = Runtime.getRuntime();
-        this.commands[0] = this.gccPath + "gcc.exe";
-        this.commands[1] = this.fileToCompile;
-        this.commands[2] = "-o";
-        this.commands[3] = this.fileToCompile.substring(0, this.fileToCompile.lastIndexOf(".c"));
-	}
-	
 	public void runMyCompiler() throws IOException{
 		rt.exec(this.commands);
 	}
