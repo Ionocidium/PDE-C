@@ -3,6 +3,7 @@ package configuration;
 public class LocalConfiguration
 {
   private String gccPath;
+  private String gdbPath;
   private static LocalConfiguration instance = null;
   
   
@@ -14,11 +15,13 @@ public class LocalConfiguration
 	if(System.getProperty("os.arch").equals("amd64"))
 	{
         gccPath = "C:\\cygwin64\\bin\\gcc.exe";
+        gdbPath = "C:\\cygwin64\\bin\\gdb.exe";
 	}
 	
 	else if(System.getProperty("os.arch").equals("x86"))
 	{
         gccPath = "C:\\cygwin64\\bin\\gcc.exe";
+        gdbPath = "C:\\cygwin64\\bin\\gdb.exe";
 	}
   }
   
@@ -41,4 +44,15 @@ public class LocalConfiguration
   {
 	this.gccPath = gcc;
   }
+  
+  public String getGdbPath()
+  {
+	return gdbPath;
+  }
+  
+  public void setGdbPath(String gcc)
+  {
+	this.gdbPath = gcc;
+  }
+  
 }
