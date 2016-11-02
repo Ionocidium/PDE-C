@@ -3,6 +3,8 @@ package controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PipedInputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,6 +42,7 @@ public class CommandLineControls
 		rt.exec(this.commands);
 	}
 	
+	
 	public String getStdOut() throws IOException{
         this.proc = rt.exec(this.commands);
         this.stdInput = new BufferedReader(new InputStreamReader(this.proc.getInputStream()));
@@ -47,6 +50,7 @@ public class CommandLineControls
         String s = null;
         while ((s = this.stdInput.readLine()) != null)
         {
+        	System.out.println(this.proc.getInputStream().toString());
             res += s + "\n";
         }
         return res;

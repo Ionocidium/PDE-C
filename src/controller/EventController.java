@@ -37,7 +37,7 @@ import view.MainWindowView;
 import view.SourceCodeUploaderView;
 
 public class EventController
-{
+{	
 	private static EventController instance = null;
 	private final JFileChooser fileChooser;
 	private FileLoad loader;
@@ -186,8 +186,16 @@ public class EventController
 			{
 			  	path = filePath;
 			  	CommandLineControls clc = new CommandLineControls(filePath.toString());
-				compileLog.setText(clc.getStdOut() + "\n" + clc.getStdError() + "\n");
-				
+			  	
+			  	if (!clc.getStdOut().equals(""))
+			  	{
+			  		compileLog.setText(clc.getStdOut() + "\n" + clc.getStdError() + "\n");
+			  	}
+			  	else
+			  	{
+			  		compileLog.setText(clc.getStdError() + "\n");
+			  	}
+			  	
 				if (!clc.getStdError().equals(""))
 				{
 				  // this.deleteDontTouch();
@@ -210,7 +218,14 @@ public class EventController
 						editorPane.setText(pathContents);
 						CommandLineControls clc = new CommandLineControls(filePath.toString());
 						
-						compileLog.setText(clc.getStdOut() + "\n" + clc.getStdError() + "\n");
+					  	if (!clc.getStdOut().equals(""))
+					  	{
+					  		compileLog.setText(clc.getStdOut() + "\n" + clc.getStdError() + "\n");
+					  	}
+					  	else
+					  	{
+					  		compileLog.setText(clc.getStdError() + "\n");
+					  	}
 						
 						if (!clc.getStdError().equals(""))
 						{
@@ -230,6 +245,7 @@ public class EventController
 				  
 				}
 			}
+			
 		}
 		catch (IOException e1)
 		{

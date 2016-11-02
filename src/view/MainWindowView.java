@@ -373,7 +373,7 @@ public class MainWindowView
 				compileLog.setText(
 						"--------------------\nSource Code:\n--------------------\n"
 						+ editorPane.getText()
-						+ "\n--------------------\nErrors:\n--------------------"
+						+ "\n--------------------\nCompile Log:\n--------------------\n"
 						+ errorLog.getText()
 						);
 				
