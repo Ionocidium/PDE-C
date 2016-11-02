@@ -1,6 +1,5 @@
 package api.component;
 
-import java.awt.event.KeyEvent;
 import java.nio.file.Path;
 
 import javax.swing.JButton;
