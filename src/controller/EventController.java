@@ -64,7 +64,7 @@ public class EventController
 
 		return instance;
   	}
-  
+	
 	public Path openFile(JFrame frame, RSyntaxTextArea editorPane)
 	{
 		int returnVal = fileChooser.showOpenDialog(frame);
@@ -88,6 +88,31 @@ public class EventController
 				filePath = null;
 			}
 		}
+		return filePath;
+	}
+	
+	public Path getFeedbackFile(Path filePath)
+	{	
+		Path path = filePath;
+		
+		String filename = path.getFileName().toString();
+		filename = filename.substring(0, filename.lastIndexOf('.'));
+		filename = filename + ".pdec";
+		
+		
+		System.out.println(filename);
+//		if (loader.checkerpdec(ext))
+//		{
+//			//if feedback file exists
+//			String pathContents = loader.loadFile(path);
+//			editorPane.setText(pathContents);
+//			frame.setTitle("PDE-C - " + ext);
+//		}
+//		else
+//		{
+//			filePath = null;
+//		}
+
 		return filePath;
 	}
 	

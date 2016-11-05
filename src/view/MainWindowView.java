@@ -33,12 +33,15 @@ import javax.swing.JFileChooser;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
 import controller.EventController;
+import model.Feedback;
 import service.ClientService;
 import service.Parsers;
 
@@ -64,6 +67,7 @@ public class MainWindowView
 	private ArrayList<Integer> breakpoints;
 	public static ArrayList<GutterIconInfo> breakpoints2;
 	private Path filePath;
+	private Path feedbackFilePath;
 	private boolean fileModified;
 	private final String appName = "PDE-C";
 	private String fileName;
@@ -73,15 +77,17 @@ public class MainWindowView
 	private JButton breakpointButton, delbreakpointButton, delallbreakpointButton;
 	
 	private ArrayList<String> codeHistory = new ArrayList<String>();
-	private int compilation_counter = 1; //Feedback History counter
+	
 	// for api purposes
 	
 	private JToolBar coreToolbar;
 	private JMenuBar menuBar;
 	private JSplitPane horizontalPane;
 	private JSplitPane verticalPane;
+	private JScrollPane feedbackScroll;
 	private JTabbedPane tabbedHorizontalPane;
 	private JTabbedPane tabbedVerticalPane;
+	private FeedbackHistory feedbackHistory;
 	
 	private int fontSize = 16;
 	private int minFont = 12;
@@ -137,8 +143,11 @@ public class MainWindowView
 		breakpoints2 = new ArrayList<GutterIconInfo>();
 		fileModified = false;
 		fileName = "new file";
-		
+	  	feedbackFilePath = null;
+	  	
+	  	feedbackScroll = new JScrollPane();
 		tabbedVerticalPane = new JTabbedPane();
+		feedbackHistory = new FeedbackHistory();
 			
 		try
 		{
@@ -258,6 +267,7 @@ public class MainWindowView
 						//eventController.deleteDontTouch();
 					}
 				}
+				feedbackFilePath = null;
 				filePath = null;
 				fileName = "new file";
 				frame.setTitle(appName + " - " + fileName);
@@ -278,6 +288,8 @@ public class MainWindowView
 			    if (confirmed == JOptionPane.YES_OPTION) 
 			    {
 			      filePath = eventController.openFile(frame, editorPane);
+			      feedbackFilePath = eventController.getFeedbackFile(filePath);
+			      //feedbackHistory.readFile(feedbackFilePath);
 			      if (filePath != null)
 			    	  fileName = filePath.getFileName().toString();
 			    }
@@ -367,38 +379,11 @@ public class MainWindowView
 				filePath = eventController.compile(frame, editorPane, filePath, errorLog);
 				
 				///////////////////////Feedback History Prototype////////////////
+				Feedback feedback = new Feedback(errorLog.getText(), editorPane.getText());
+				feedbackHistory.addFeedback(feedback, filePath, editorPane);
+				feedbackHistory.updateUI();
 
-				codeHistory.add(editorPane.getText());
-				JTextArea compileLog = new JTextArea (1, 30);
-				compileLog.setText(
-						"--------------------\nSource Code:\n--------------------\n"
-						+ editorPane.getText()
-						+ "\n--------------------\nCompile Log:\n--------------------\n"
-						+ errorLog.getText()
-						);
-				
-				compileLog.setEditable ( false );
-				
-			    JScrollPane feedbackHistory = new JScrollPane ( compileLog );
-				tabbedVerticalPane.add("Compile " + compilation_counter, feedbackHistory);
-				String test = errorLog.getText().trim();
-				
-				if (!test.equals(""))		  
-				{
-				  tabbedVerticalPane.setForegroundAt(tabbedVerticalPane.getTabCount()-1, Color.RED);
-				}
-				  
-				else
-				{
-				  eventController.runProgram(filePath);
-				}
-				tabbedVerticalPane.setSelectedIndex(tabbedVerticalPane.getTabCount()-1);
-				compilation_counter++;
-				
-				recoverCode.setEnabled(true);
-				removeHistory.setEnabled(true);
-				clearHistory.setEnabled(true);
-				
+				//feedbackScroll.getVerticalScrollBar().setValue(feedbackScroll.getVerticalScrollBar().getMaximum());
 				/////////////////////////////////////////////////////////////////
 			}
 		});
@@ -648,35 +633,7 @@ public class MainWindowView
 		coreToolbar.addSeparator();
 		
 		/////////////////////////////////////////////////////////////////////////
-		JSplitPane feedbackPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT){
-		    /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			private final int location = 40;
-		    {
-		        setDividerLocation( location );
-		    }
-		    @Override
-		    public int getDividerLocation() {
-		        return location ;
-		    }
-		    @Override
-		    public int getLastDividerLocation() {
-		        return location ;
-		    }
-		};
-		feedbackPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		feedbackPane.setBottomComponent(tabbedVerticalPane);
-	    JPanel historyPanel = new JPanel();
-	    historyPanel.setLayout( new BorderLayout() );
-		JPanel subPanel = new JPanel();
-		subPanel.add(new JLabel("Feedback History: "));
-		subPanel.add(recoverCode);
-		subPanel.add(removeHistory);
-		subPanel.add(clearHistory);
-		historyPanel.add(subPanel, BorderLayout.WEST);
-		feedbackPane.setTopComponent(historyPanel);
+
 		///////////////////////////////////////////////////////////////////////////
 		menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
@@ -960,19 +917,35 @@ public class MainWindowView
 		horizontalPane.setOneTouchExpandable(true);	
 		
 		//for editor text and cbrc
-		verticalPane = new JSplitPane();
-		verticalPane.setDividerLocation(900);
-		verticalPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		verticalPane.setResizeWeight(1);
+		verticalPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT){
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			private final int location = 900;
+		    {
+		        setDividerLocation( location );
+		    }
+		    @Override
+		    public int getDividerLocation() {
+		        return location ;
+		    }
+		    @Override
+		    public int getLastDividerLocation() {
+		        return location ;
+		    }
+		};
 		verticalPane.setLeftComponent(scrollPane);
-		verticalPane.setRightComponent(feedbackPane);
-		verticalPane.setOneTouchExpandable(true);	
+		verticalPane.setRightComponent(tabbedVerticalPane);
+		verticalPane.setOneTouchExpandable(false);	
 		
 		horizontalPane.setTopComponent(verticalPane);
 		
 		tabbedHorizontalPane = new JTabbedPane();
 		tabbedHorizontalPane.add("Error Log", cL);
 		//tabbedHorizontalPane.add("Test Log", cL);
+		
+		tabbedVerticalPane.addTab("Feedback History", new JScrollPane(feedbackHistory));
 		
 		horizontalPane.setBottomComponent(tabbedHorizontalPane);
 		horizontalPane.setResizeWeight(1);
