@@ -493,25 +493,22 @@ public class EventController
 				{
 					String line;
 					StringBuilder sb = new StringBuilder();
+					/*
 					int breaknum = 0; // temp
 					GutterIconInfo gii = null; // temp
 					GutterIconInfo pointer = null;
+					*/
 					Process process = Runtime.getRuntime().exec(local.getGdbPath() + " \"" + exe + "\"");
 	                if (process != null){
 	                    BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
 	                    PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(process.getOutputStream())),true);
-	                    out.flush();
-	                    out.flush();
-	                    
 	                    for(int i = 0; i < bp.size(); i++)
 	                    {
-	                    	out.println("break " + bp.get(i));
+	                    	out.println("break " + (bp.get(i) + 1));
 	                    }
 	                    out.println("start");
 	                    
-	                    /*
 	                    // Capture user input through the use of continue and break buttons
-	                     */
 	                    
 	                    ActionListener abListener = addBreakItem.getActionListeners()[0];
 	                    ActionListener dbListener = delBreakItem.getActionListeners()[0];
