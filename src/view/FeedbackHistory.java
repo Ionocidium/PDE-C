@@ -163,7 +163,7 @@ public class FeedbackHistory extends JPanel{
 					}
 				});
 				
-				container.setTopComponent(editor);
+				container.setTopComponent(scrollPane);
 				JSplitPane bottomContainer = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT){
 				    /**
 					 * 
