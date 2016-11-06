@@ -5,6 +5,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -60,6 +61,21 @@ public class ClientService
 	  ex.printStackTrace();
 	}
 	
+  }
+  
+  public void sendObject(Object obj)
+  {
+	try
+	{
+	  ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+	  oos.writeObject(obj);
+	} 
+	
+	catch (IOException e)
+	{
+	  // TODO Auto-generated catch block
+	  e.printStackTrace();
+	}
   }
   
   public void sendDataToServer(String data) throws IOException
