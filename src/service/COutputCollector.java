@@ -10,6 +10,8 @@ import org.fife.rsta.ac.OutputCollector;
 import org.fife.ui.rsyntaxtextarea.parser.DefaultParseResult;
 import org.fife.ui.rsyntaxtextarea.parser.DefaultParserNotice;
 
+import controller.SimplifyError;
+
 public class COutputCollector extends OutputCollector{
 	
 	private Parsers parser;
@@ -32,9 +34,11 @@ public class COutputCollector extends OutputCollector{
 		Matcher m = ERROR_PATTERN.matcher(line);
 
 		if (m.find()) {
+			
 
 			String errorDesc = line;
 			line = line.substring(0, line.length()-m.group().length());
+			SimplifyError se = new SimplifyError(errorDesc);
 
 			Matcher m2 = ERROR_PATTERN2.matcher(errorDesc);
 			if (m2.find())
@@ -47,6 +51,7 @@ public class COutputCollector extends OutputCollector{
 			int start = elem.getStartOffset();
 			int end = elem.getEndOffset();
 
+			errorDesc = se.simplify();
 			DefaultParserNotice pn = new DefaultParserNotice(
 					parser, errorDesc, lineNumber, start, end-start);
 
