@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
@@ -492,6 +493,9 @@ public class EventController
 				{
 					String line;
 					StringBuilder sb = new StringBuilder();
+					int breaknum = 0; // temp
+					GutterIconInfo gii = null; // temp
+					GutterIconInfo pointer = null;
 					Process process = Runtime.getRuntime().exec(local.getGdbPath() + " \"" + exe + "\"");
 	                if (process != null){
 	                    BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -580,6 +584,52 @@ public class EventController
 	                    	
 	                    	//Regex: Breakpoint \d*, ([a-zA-Z_][a-zA-Z0-9_]*) (\(()\)) at (?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+:
 	                    	
+	                    	if(line.startsWith("Breakpoint"))
+	                    	{
+	                    		// check gutter
+	                    		/*
+	                    		Gutter g = rtsp.getGutter();
+	                    		if(gutterIconInfoIsEmpty(pointer))
+	                    		{
+		                    		String breakpointStringLine = line;
+		                    		breakpointStringLine = breakpointStringLine.substring(breakpointStringLine.lastIndexOf(":") + 1);
+		                    		breaknum = Integer.parseInt(breakpointStringLine);
+		                    		// find breakpoint
+		                    		int bArrIndex = bp.indexOf(breaknum);
+		                    		if(bArrIndex != -1)
+		                    		{
+			                    		// get guttericoninfo for that breakpoint
+			                    		gii = MainWindowView.breakpoints2.get(bArrIndex);
+			                    		// remove breakpoint temporarily
+			                    		g.removeTrackingIcon(gii);
+		                    		}
+		                    		// add breakpoint afterwards
+		        					pointer = g.addLineTrackingIcon(breaknum - 1, new ImageIcon("resources/images/materialsmall/pointright.png"));
+	                    		}
+	                    		else
+	                    		{
+	                    			// remove breakpoint pointer
+	                    			g.removeTrackingIcon(pointer);
+	                    			// add temporary breakpoint again whose line is touched
+	                    			g.addLineTrackingIcon(breaknum - 1, gii.getIcon());
+	                    			// follow through
+		                    		String breakpointStringLine = line;
+		                    		breakpointStringLine = breakpointStringLine.substring(breakpointStringLine.lastIndexOf(":") + 1);
+		                    		breaknum = Integer.parseInt(breakpointStringLine);
+		                    		// find breakpoint
+		                    		int bArrIndex = bp.indexOf(breaknum);
+		                    		if(bArrIndex != -1)
+		                    		{
+			                    		// get guttericoninfo for that breakpoint
+			                    		gii = MainWindowView.breakpoints2.get(bArrIndex);
+			                    		// remove breakpoint temporarily
+			                    		g.removeTrackingIcon(gii);
+		                    		}
+		                    		// add breakpoint afterwards
+		        					pointer = g.addLineTrackingIcon(breaknum - 1, new ImageIcon("resources/images/materialsmall/pointright.png"));
+	                    		}
+	                    		*/
+	                    	}
 	                    	if (line.startsWith("Temporary"))
 	                    	{
 	                    		out.println("c"); // prevent temporary breakpoints
@@ -731,5 +781,10 @@ public class EventController
 			g.removeAllTrackingIcons();
 			b.clear();
 			MainWindowView.breakpoints2.clear();
+		}
+		
+		public boolean gutterIconInfoIsEmpty(GutterIconInfo gii)
+		{
+			return gii == null?true:false;
 		}
 	}
