@@ -63,6 +63,7 @@ public class CommandLineControls
         String s = null;
         while ((s = this.stdError.readLine()) != null)
         {
+        	s = new SimplifyError(s).simplify();
             res += s + "\n";
         }
         return res;
