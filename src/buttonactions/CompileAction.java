@@ -39,12 +39,13 @@ public class CompileAction extends AbstractAction
   {
 	switch (code)
 	{
-	  case 0: event.compile(main.getMainFrame(), main.getEditor(), filePath, main.getErrorLog());
+	  case 0: event.compile(main.getMainFrame(), main.getEditor(), filePath, main.getErrorLog()); break;
 	  case 1: {
 		        filePath = event.compile(main.getMainFrame(), main.getEditor(), filePath, main.getErrorLog());
 		        event.runProgram(filePath);
+		        break;
 	  		  }
-	  default: event.compile(main.getMainFrame(), main.getEditor(), filePath, main.getErrorLog());
+	  default: event.compile(main.getMainFrame(), main.getEditor(), filePath, main.getErrorLog()); break;
 	}
   }
 }

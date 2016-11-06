@@ -9,6 +9,8 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import api.component.PObject;
+
 public class ClientService
 {
   private static ClientService instance = null;
@@ -56,7 +58,7 @@ public class ClientService
 	  System.out.println("From client: Connection successful." + '\n');
 	}
 	
-	catch(Exception ex)
+	catch(Exception ex)	
 	{
 	  ex.printStackTrace();
 	}
@@ -67,8 +69,13 @@ public class ClientService
   {
 	try
 	{
-	  ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
-	  oos.writeObject(obj);
+	  Socket objectSender = new Socket(addr, 2022);
+	  ObjectOutputStream oos = new ObjectOutputStream(objectSender.getOutputStream());
+	  Object ob = (java.lang.Object) obj;
+	  oos.writeObject(ob);
+	  oos.close();
+	  System.out.println(obj.hashCode());
+	  objectSender.close();
 	} 
 	
 	catch (IOException e)

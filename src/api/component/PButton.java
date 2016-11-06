@@ -44,10 +44,10 @@ public class PButton extends JButton
   {
 	switch (action)
 	{
-	  case 0: this.addActionListener(new DownloadAction("Download"));
-	  case 1: this.addActionListener(new SendAction("Send", main.getErrorLog(), filePath));
-	  case 2: this.addActionListener(new CompileAction("Compile", filePath, code));
-	  default: System.out.println("Invalid");
+	  case 0: this.addActionListener(new DownloadAction("Download")); break;
+	  case 1: this.addActionListener(new SendAction("Send", main.getErrorLog(), filePath)); break;
+	  case 2: this.addActionListener(new CompileAction("Compile", filePath, code)); break;
+	  default: System.out.println("Invalid"); break;
 	}
   }
 
