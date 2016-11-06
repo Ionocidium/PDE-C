@@ -271,6 +271,7 @@ public class MainWindowView
 				filePath = null;
 				fileName = "new file";
 				frame.setTitle(appName + " - " + fileName);
+		    	eventController.deletebreakpoint(frame, gut, breakpoints);
 			}
 		});
 		newButton.setToolTipText("New");
@@ -291,7 +292,10 @@ public class MainWindowView
 			      feedbackFilePath = eventController.getFeedbackFile(filePath);
 			      //feedbackHistory.readFile(feedbackFilePath);
 			      if (filePath != null)
+			      {
 			    	  fileName = filePath.getFileName().toString();
+			    	  eventController.deletebreakpoint(frame, gut, breakpoints);
+			      }
 			    }
 			  }
 		});
