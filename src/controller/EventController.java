@@ -385,8 +385,9 @@ public class EventController
 			RSyntaxTextArea rsta, RTextScrollPane rtsp, JMenuItem addBreakItem, 
 			JMenuItem delBreakItem, JMenuItem delallBreakItem, JButton breakpointButton, 
 			JButton delbreakpointButton, JButton delallbreakpointButton,
-			ArrayList<Integer> bp)
+			ArrayList<Integer> bp) throws IOException
 	{
+		LocalConfiguration local = LocalConfiguration.getInstance();
 		if (filePath != null)
 		{
 			String currentPath = filePath.toString();
@@ -406,11 +407,12 @@ public class EventController
 
 				exePath = currentPath.substring(0, currentPath.lastIndexOf(".c"));
 		  	}
+			Process process = Runtime.getRuntime().exec(local.getGccPath() + " \"" + currentPath + "\" -o " + exePath + " -g");
 			debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, 
 					saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, 
 					compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, 
 					stopButton, rsta, rtsp, addBreakItem, delBreakItem, 
-					delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, bp);
+					delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, bp, local);
 		}
 		else
 		{
@@ -441,12 +443,13 @@ public class EventController
 
 						exePath = currentPath.substring(0, currentPath.lastIndexOf(".c"));
 				  	}
+					Process process = Runtime.getRuntime().exec(local.getGccPath() + " \"" + currentPath + "\" -o " + exePath + " -g");
 					debugActual(exePath, frame, newButton, newFileItem, openButton, 
 							openFileItem, saveButton, saveFileItem, saveAsFileItem, 
 							compileButton, compilerunButton, compileBuildItem, debugButton, 
 							debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, 
 							rtsp, addBreakItem, delBreakItem, delallBreakItem, breakpointButton, 
-							delbreakpointButton, delallbreakpointButton, bp);
+							delbreakpointButton, delallbreakpointButton, bp, local);
 				}
 				else
 				{
@@ -465,7 +468,7 @@ public class EventController
 			JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, 
 			RTextScrollPane rtsp, JMenuItem addBreakItem, JMenuItem delBreakItem, 
 			JMenuItem delallBreakItem, JButton breakpointButton, 
-			JButton delbreakpointButton, JButton delallbreakpointButton, ArrayList<Integer> bp)
+			JButton delbreakpointButton, JButton delallbreakpointButton, ArrayList<Integer> bp, LocalConfiguration local)
 	{
 		writeInErrorLog("");
 		Thread debug = new Thread(new Runnable(){
@@ -475,8 +478,7 @@ public class EventController
 				{
 					String line;
 					ArrayList<String> lines = new ArrayList<String>();
-					Process process = Runtime.getRuntime().exec("gdb \"" + exe + "\"");
-	
+					Process process = Runtime.getRuntime().exec(local.getGdbPath() + " \"" + exe + "\"");
 	                if (process != null){
 	                    BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
 	                    PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(process.getOutputStream())),true);
