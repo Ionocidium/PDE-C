@@ -492,43 +492,17 @@ public class EventController
 				{
 					String line;
 					ArrayList<String> lines = new ArrayList<String>();
+					StringBuilder sb = new StringBuilder();
 					Process process = Runtime.getRuntime().exec(local.getGdbPath() + " \"" + exe + "\"");
 	                if (process != null){
 	                    BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
 	                    PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(process.getOutputStream())),true);
-	
 	                    out.flush();
-	
 	                    out.flush();
-	                    
-	                    // get the gutter
-	                    // Gutter gut = rtsp.getGutter();
-	                    // GutterIconInfo[] gii = gut.getBookmarks();
-	                    
-	                    // get breakpoint numbers from RScrollPane or RSyntaxTextArea, make a for loop out of it (store as arraylist, we will call it as al)
-	                    // ArrayList<Integer> alBreakPt = new ArrayList<Integer>(); // initialise breakpoint numbers based on the user inputted breakpoints
-	                    /*
-	                    for(int i = 0; i < gii.length; i++)
-	                    {
-	                    	alBreakPt.add(gii[i].getMarkedOffset());
-	                    }
-	                    */
-	                    
 	                    for(int i = 0; i < bp.size(); i++)
 	                    {
 	                    	out.println("break " + bp.get(i));
 	                    }
-	                    
-	                    
-	                    
-	                    
-	                    
-	                    // out.println("break 12"); // forget hardcoding.
-	                    
-	                    /*
-	                    // Run the program to be debugged
-	                     */
-	                    
 	                    out.println("start");
 	                    
 	                    /*
@@ -607,16 +581,10 @@ public class EventController
 	                    	{
 	                    		notYet = false;
 	                    	}
-	                    	lines.add(line);
-	                    }
-	                    String[] lineArray = new String[lines.size()];
-	                    lineArray  = lines.toArray(lineArray);
-	                    
-	                    for (int i=0; i < lineArray.length; i++) {
-	                        System.out.println(lineArray[i].toString());
+	                    	sb.append(line + "\n");
 	                    }
 	                    
-	                    writeInErrorLog(lineArray[lineArray.length - 1]);
+	                    writeInErrorLog(sb.toString());
 	                    
 	                    process.destroy();
 	                    //stepOverButton.removeActionListener(arg0);
@@ -751,5 +719,11 @@ public class EventController
 			MainWindowView.breakpoints2.clear();
 			JOptionPane.showMessageDialog(null, "All breakpoints removed successfully.", 
 					"Removed", JOptionPane.INFORMATION_MESSAGE);
+		}
+		
+		public void quietlydeleteallbreakpoint(Gutter g, ArrayList<Integer> b){				
+			g.removeAllTrackingIcons();
+			b.clear();
+			MainWindowView.breakpoints2.clear();
 		}
 	}
