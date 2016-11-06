@@ -491,7 +491,6 @@ public class EventController
 				try
 				{
 					String line;
-					ArrayList<String> lines = new ArrayList<String>();
 					StringBuilder sb = new StringBuilder();
 					Process process = Runtime.getRuntime().exec(local.getGdbPath() + " \"" + exe + "\"");
 	                if (process != null){
@@ -499,6 +498,7 @@ public class EventController
 	                    PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(process.getOutputStream())),true);
 	                    out.flush();
 	                    out.flush();
+	                    
 	                    for(int i = 0; i < bp.size(); i++)
 	                    {
 	                    	out.println("break " + bp.get(i));
@@ -577,14 +577,20 @@ public class EventController
 	                    );
 	                    boolean notYet = true;
 	                    while ((line = in.readLine()) != null && notYet){
+	                    	
+	                    	//Regex: Breakpoint \d*, ([a-zA-Z_][a-zA-Z0-9_]*) (\(()\)) at (?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+:
+	                    	
+	                    	if (line.startsWith("Temporary"))
+	                    	{
+	                    		out.println("c"); // prevent temporary breakpoints
+	                    	}
 	                    	if (line.indexOf("exited with") > 0)
 	                    	{
 	                    		notYet = false;
 	                    	}
 	                    	sb.append(line + "\n");
+		                    writeInErrorLog(sb.toString());
 	                    }
-	                    
-	                    writeInErrorLog(sb.toString());
 	                    
 	                    process.destroy();
 	                    //stepOverButton.removeActionListener(arg0);
