@@ -917,6 +917,7 @@ public class MainWindowView
 		frame.setVisible(true);
 		horizontalPane = new JSplitPane();
 		horizontalPane.setOrientation(JSplitPane.VERTICAL_SPLIT);		
+		horizontalPane.setDividerLocation(450);
 		frame.getContentPane().add(horizontalPane, BorderLayout.CENTER);
 		horizontalPane.setOneTouchExpandable(true);	
 		
