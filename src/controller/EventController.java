@@ -385,7 +385,7 @@ public class EventController
 			RSyntaxTextArea rsta, RTextScrollPane rtsp, JMenuItem addBreakItem, 
 			JMenuItem delBreakItem, JMenuItem delallBreakItem, JButton breakpointButton, 
 			JButton delbreakpointButton, JButton delallbreakpointButton,
-			ArrayList<Integer> bp) throws IOException
+			ArrayList<Integer> bp)
 	{
 		LocalConfiguration local = LocalConfiguration.getInstance();
 		if (filePath != null)
@@ -407,7 +407,14 @@ public class EventController
 
 				exePath = currentPath.substring(0, currentPath.lastIndexOf(".c"));
 		  	}
-			Process process = Runtime.getRuntime().exec(local.getGccPath() + " \"" + currentPath + "\" -o " + exePath + " -g");
+		  	try
+		  	{
+		  		Process process = Runtime.getRuntime().exec(local.getGccPath() + " \"" + currentPath + "\" -o " + exePath + " -g");
+		  	}
+		  	catch(IOException ioe)
+		  	{
+				JOptionPane.showMessageDialog(null, "The process may be in use.", "Error", JOptionPane.ERROR_MESSAGE);
+		  	}
 			debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, 
 					saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, 
 					compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, 
@@ -443,7 +450,14 @@ public class EventController
 
 						exePath = currentPath.substring(0, currentPath.lastIndexOf(".c"));
 				  	}
-					Process process = Runtime.getRuntime().exec(local.getGccPath() + " \"" + currentPath + "\" -o " + exePath + " -g");
+				  	try
+				  	{
+				  		Process process = Runtime.getRuntime().exec(local.getGccPath() + " \"" + currentPath + "\" -o " + exePath + " -g");
+				  	}
+				  	catch(IOException ioe)
+				  	{
+						JOptionPane.showMessageDialog(null, "The process may be in use.", "Error", JOptionPane.ERROR_MESSAGE);
+				  	}
 					debugActual(exePath, frame, newButton, newFileItem, openButton, 
 							openFileItem, saveButton, saveFileItem, saveAsFileItem, 
 							compileButton, compilerunButton, compileBuildItem, debugButton, 
