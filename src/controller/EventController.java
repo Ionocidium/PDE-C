@@ -121,26 +121,33 @@ public class EventController
 	{
 	  FileNameExtensionFilter exeFilter = new FileNameExtensionFilter(
 			"Executable file (*.exe)", "exe");
-	  
 	  JFileChooser exeFileChooser = new JFileChooser();
-	  
 	  exeFileChooser.setFileFilter(exeFilter);
-	  
 	  int returnVal = exeFileChooser.showOpenDialog(frame);
 	  LocalConfiguration local = LocalConfiguration.getInstance();
-	  
 	  if (returnVal == JFileChooser.APPROVE_OPTION)
 	  {
 		Path path = Paths.get(exeFileChooser.getSelectedFile().getAbsolutePath());
 		local.setGccPath(path.toAbsolutePath().toString());
 	  }
-	  
 	  else
 	  {
 		System.out.println("what");
 	  }
-	  
 	  System.out.println(local.getGccPath());
+	  exeFileChooser = new JFileChooser();
+	  exeFileChooser.setFileFilter(exeFilter);
+	  returnVal = exeFileChooser.showOpenDialog(frame);
+	  if (returnVal == JFileChooser.APPROVE_OPTION)
+	  {
+		Path path = Paths.get(exeFileChooser.getSelectedFile().getAbsolutePath());
+		local.setGdbPath(path.toAbsolutePath().toString());
+	  }
+	  else
+	  {
+		System.out.println("what");
+	  }
+	  System.out.println(local.getGdbPath());
 	}
   
 	public Path saveAsFile(JFrame frame, RSyntaxTextArea editorPane, boolean state)
@@ -309,8 +316,8 @@ public class EventController
 			String currentOS = System.getProperty("os.name").toLowerCase();
 		  	if (currentOS.indexOf("win") >= 0)
 		  	{
-		  		String compiled = dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")).concat(".exe"));
-	  			ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", compiled, "/b", compiled);
+		  		String compiled = "\"" + dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")).concat(".exe")) + "\"";
+		  		ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", compiled, "/b", compiled);
 	  			Process proc = pb.start();
 		  	}
 		  	else if(currentOS.indexOf("mac") >= 0)

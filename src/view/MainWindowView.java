@@ -743,7 +743,7 @@ public class MainWindowView
 			}
 		});
 		
-		JMenuItem settingsFileItem = new JMenuItem("Settings");
+		JMenuItem settingsFileItem = new JMenuItem("File Path Settings");
 		
 		settingsFileItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
