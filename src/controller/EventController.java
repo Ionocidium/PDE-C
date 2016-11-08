@@ -557,15 +557,12 @@ public class EventController
 					GutterIconInfo gii = null; // temp
 					GutterIconInfo pointer = null;
 					*/
+					long nowTime = System.currentTimeMillis();
+					while(System.currentTimeMillis() < nowTime + 100) ;
 					Process process = Runtime.getRuntime().exec(local.getGdbPath() + " \"" + exe + "\"");
 	                if (process != null){
 	                    BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
 	                    PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(process.getOutputStream())),true);
-	                    for(int i = 0; i < bp.size(); i++)
-	                    {
-	                    	out.println("break " + (bp.get(i) + 1));
-	                    }
-	                    out.println("start");
 	                    
 	                    // Capture user input through the use of continue and break buttons
 	                    
@@ -613,7 +610,7 @@ public class EventController
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
-	                    		out.println("s");
+	                    		out.println("step");
 	                    	}
 	                    }
 	                    );
@@ -622,7 +619,7 @@ public class EventController
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
-	                    		out.println("c");
+	                    		out.println("continue");
 	                    	}
 	                    }
 	                    );
@@ -637,9 +634,16 @@ public class EventController
 	                    );
 	                    boolean notYet = true;
 	                    while ((line = in.readLine()) != null && notYet){
-	                    	
 	                    	//Regex: Breakpoint \d*, ([a-zA-Z_][a-zA-Z0-9_]*) (\(()\)) at (?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+:
-	                    	
+	                    	if(line.startsWith("(gdb) ")) line = line.substring("(gdb) ".length()); 
+	                    	if(line.endsWith("Type \"apropos word\" to search for commands related to \"word\"..."))
+	                    	{
+	    	                    for(int i = 0; i < bp.size(); i++)
+	    	                    {
+	    	                    	out.println("break " + (bp.get(i) + 1));
+	    	                    }
+	    	                    out.println("start");
+	                    	}
 	                    	if(line.startsWith("Breakpoint"))
 	                    	{
 	                    		// check gutter
@@ -686,9 +690,9 @@ public class EventController
 	                    		}
 	                    		*/
 	                    	}
-	                    	if (line.startsWith("Temporary"))
+	                    	if (line.startsWith("Temporary") && line.contains("c:"))
 	                    	{
-	                    		out.println("c"); // prevent temporary breakpoints
+	                    		out.println("continue"); // prevent temporary breakpoints
 	                    	}
 	                    	if (line.indexOf("exited with") > 0)
 	                    	{
