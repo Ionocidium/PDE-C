@@ -20,10 +20,13 @@ public class SimplifyError {
 	private static String MISSING_STATEMENT = "There is a missing statement in line ";
 	private static String MISSING_IF_FROM_ELSE = "There is a missing 'if' statement for 'else' in line ";
 	private static String MISSING_TERMINATOR = "There is a missing terminating character in line ";
+	private static String UNKNOWN_TYPE = "There is an unknown data type in line ";
+	private static String CHARACTER_TOO_LONG = "The value for 'char' is too long in line ";
 	private static String UNDECLARED_VARIABLE = "There is an undeclared variable in line ";
 	
 	private static String FEW_PRINTF = "The function 'printf' is incomplete in line ";
 	private static String LEFT_VALUE_NOT_ASSIGNABLE = "You cannot assign the leftmost value in line ";
+	private static String INVALID_SUFFIX = "There is an invalid suffix for a data type in line ";
 	
 	private static final Pattern PATTERN_NOTE_UNDECLARED_IDENTIFIER = Pattern.compile("(note: each undeclared identifier is reported only once for each function it appears in)");
 	
@@ -42,7 +45,8 @@ public class SimplifyError {
 	private static final Pattern PATTERN_CHARACTER_TOO_LONG = Pattern.compile("(warning: character constant too long for its type)");
 	private static final Pattern PATTERN_FEW_PRINTF = Pattern.compile("(error: too few arguments to function 'printf')");
 	private static final Pattern PATTERN_LEFT_VALUE_NOT_ASSIGNABLE = Pattern.compile("(error: lvalue required as left operand of assignment)");
-	
+	private static final Pattern PATTERN_INVALID_SUFFIX = Pattern.compile("(error: invalid suffix)");
+
 	private static final Pattern PATTERN_PATH_MAIN = Pattern.compile("(?!.c:)(In function 'main':)");
 	private static final Pattern PATTERN_PATH = Pattern.compile("((?!.c:)[0-9]+(?=:\\d))"); //pattern for path
 	private static final Pattern PATTERN_ERROR = Pattern.compile("((error:)|(warning:)|(note:)) (.*)"); //pattern for error/note/warning
@@ -149,6 +153,16 @@ public class SimplifyError {
 			errorDesc = ERROR + MISSING_TERMINATOR + lineNumber;
 			return errorDesc;
 		}
+		m = PATTERN_UNKNOWN_TYPE.matcher(errorDesc);
+		if (m.find()) {
+			errorDesc = ERROR + UNKNOWN_TYPE + lineNumber;
+			return errorDesc;
+		}
+		m = PATTERN_CHARACTER_TOO_LONG.matcher(errorDesc);
+		if (m.find()) {
+			errorDesc = WARNING + CHARACTER_TOO_LONG + lineNumber;
+			return errorDesc;
+		}
 		m = PATTERN_FEW_PRINTF.matcher(errorDesc);
 		if (m.find()) {
 			errorDesc = ERROR + FEW_PRINTF + lineNumber;
@@ -157,6 +171,11 @@ public class SimplifyError {
 		m = PATTERN_LEFT_VALUE_NOT_ASSIGNABLE.matcher(errorDesc);
 		if (m.find()) {
 			errorDesc = ERROR + LEFT_VALUE_NOT_ASSIGNABLE + lineNumber;
+			return errorDesc;
+		}
+		m = PATTERN_INVALID_SUFFIX.matcher(errorDesc);
+		if (m.find()) {
+			errorDesc = ERROR + INVALID_SUFFIX + lineNumber;
 			return errorDesc;
 		}
 		//System.out.println(errorDesc);
