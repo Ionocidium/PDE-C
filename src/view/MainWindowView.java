@@ -743,14 +743,31 @@ public class MainWindowView
 			}
 		});
 		
-		JMenuItem settingsFileItem = new JMenuItem("File Path Settings");
+		JMenu paths = new JMenu("Setings");
 		
-		settingsFileItem.addActionListener(new ActionListener() {
+		JMenuItem settingsGccFileItem = new JMenuItem("GCC path");
+		
+		settingsGccFileItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{ 
-			  eventController.changeSettings(frame);
+			  eventController.changeSettingsGcc(frame);
+			  eventController.savePathSettings();
 			}
 		});
+		
+		paths.add(settingsGccFileItem);
+		
+		JMenuItem settingsGdbFileItem = new JMenuItem("GDB path");
+		
+		settingsGdbFileItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{ 
+			  eventController.changeSettingsGdb(frame);
+			  eventController.savePathSettings();
+			}
+		});
+		
+		paths.add(settingsGdbFileItem);
 		
 		exitFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
 		JMenu editMenu = new JMenu("Edit");
@@ -873,7 +890,7 @@ public class MainWindowView
 		fileMenu.add(openFileItem);
 		fileMenu.add(saveFileItem);
 		fileMenu.add(saveAsFileItem);
-		fileMenu.add(settingsFileItem);
+		fileMenu.add(paths);
 		fileMenu.addSeparator();
 		fileMenu.add(exitFileItem);
 		menuBar.add(editMenu);

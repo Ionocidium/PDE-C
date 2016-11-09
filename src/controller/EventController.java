@@ -5,12 +5,15 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -117,14 +120,15 @@ public class EventController
 		return filePath;
 	}
 	
-	public void changeSettings(JFrame frame)
-	{
+	public void changeSettingsGcc(JFrame frame)
+	{ 
 	  FileNameExtensionFilter exeFilter = new FileNameExtensionFilter(
 			"Executable file (*.exe)", "exe");
 	  JFileChooser exeFileChooser = new JFileChooser();
 	  exeFileChooser.setFileFilter(exeFilter);
 	  int returnVal = exeFileChooser.showOpenDialog(frame);
 	  LocalConfiguration local = LocalConfiguration.getInstance();
+	  
 	  if (returnVal == JFileChooser.APPROVE_OPTION)
 	  {
 		Path path = Paths.get(exeFileChooser.getSelectedFile().getAbsolutePath());
@@ -134,20 +138,49 @@ public class EventController
 	  {
 		System.out.println("what");
 	  }
-	  System.out.println(local.getGccPath());
+	}
+	
+	public void changeSettingsGdb(JFrame frame)
+	{
+	  FileNameExtensionFilter exeFilter = new FileNameExtensionFilter(
+			"Executable file (*.exe)", "exe");
+	  JFileChooser exeFileChooser = new JFileChooser();
+	  LocalConfiguration local = LocalConfiguration.getInstance();
+	  
 	  exeFileChooser = new JFileChooser();
 	  exeFileChooser.setFileFilter(exeFilter);
-	  returnVal = exeFileChooser.showOpenDialog(frame);
+	  int returnVal = exeFileChooser.showOpenDialog(frame);
+	  
 	  if (returnVal == JFileChooser.APPROVE_OPTION)
 	  {
 		Path path = Paths.get(exeFileChooser.getSelectedFile().getAbsolutePath());
 		local.setGdbPath(path.toAbsolutePath().toString());
 	  }
+	  
 	  else
 	  {
 		System.out.println("what");
 	  }
-	  System.out.println(local.getGdbPath());
+	}
+	
+	public void savePathSettings()
+	{
+	  LocalConfiguration local = LocalConfiguration.getInstance();
+	  
+	  try
+	  {
+		FileWriter fw = new FileWriter(new File("resources/settings.txt"));
+		BufferedWriter writer = new BufferedWriter(fw);
+		  
+		writer.write(local.getGccPath() + "\n" + local.getGdbPath());
+		writer.flush();
+		writer.close();
+	  }
+		
+	  catch(Exception ex)
+	  {
+	    ex.printStackTrace();
+	  }
 	}
   
 	public Path saveAsFile(JFrame frame, RSyntaxTextArea editorPane, boolean state)
