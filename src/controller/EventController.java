@@ -316,61 +316,9 @@ public class EventController
 			String currentOS = System.getProperty("os.name").toLowerCase();
 		  	if (currentOS.indexOf("win") >= 0)
 		  	{
-		  		String compiled = "\"" + dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")).concat(".exe")) + "\"";
-		  		if(compiled.contains(" "))
-		  		{
-		  			compiled.replaceAll(" ", "\\ ");
-		  			/*
-		  			// divide
-		  			String modified = compiled;
-		  			ArrayList<String> compiledX = new ArrayList<String>();
-		  			compiledX.add("cmd");
-		  			compiledX.add("/c");
-		  			compiledX.add("start");
-		  			while(!modified.isEmpty())
-		  			{
-		  				if(modified.indexOf(" ") != -1)
-		  				{
-		  					compiledX.add(modified.substring(0, modified.indexOf(" ")));
-		  					modified = modified.substring(modified.indexOf(" ") + 1);
-		  				}
-		  				else
-		  				{
-		  					compiledX.add(modified);
-		  					modified = "";
-		  				}
-		  			}
-		  			compiledX.add("/b");
-		  			modified = compiled;
-		  			while(!modified.isEmpty())
-		  			{
-		  				if(modified.indexOf(" ") != -1)
-		  				{
-		  					compiledX.add(modified.substring(0, modified.indexOf(" ")));
-		  					modified = modified.substring(modified.indexOf(" ") + 1);
-		  				}
-		  				else
-		  				{
-		  					compiledX.add(modified);
-		  					modified = "";
-		  				}
-		  			}
-		  			String[] compiledY = new String[compiledX.size()];
-		  			for(int i = 0; i < compiledX.size(); i++)
-		  				compiledY[i] = compiledX.get(i);
-		  			ProcessBuilder pb = new ProcessBuilder(compiledX);
-		  			Process proc = pb.start();
-		  			
-	  				*/
-		  			ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", compiled, "/b", compiled);
-		  			Process proc = pb.start();
-		  		}
-		  		
-		  		else
-		  		{
-		  			ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", compiled, "/b", compiled);
-		  			Process proc = pb.start();
-		  		}
+		  		String compiled = dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")).concat(".exe"));
+	  			ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", compiled, "/b", compiled);
+	  			Process proc = pb.start();
 		  	}
 		  	else if(currentOS.indexOf("mac") >= 0)
 		  	{
@@ -393,7 +341,7 @@ public class EventController
 
 		return res;
 	}
-	
+
 	/*
 	@unused
 	public void deleteDontTouch()
