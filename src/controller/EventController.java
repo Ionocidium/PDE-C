@@ -35,9 +35,11 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import configuration.LocalConfiguration;
 import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
+import service.ClientService;
 import view.CompileLog;
 import view.DownloadWindow;
 import view.MainWindowView;
+import view.SetIPAddress;
 import view.SourceCodeUploaderView;
 
 public class EventController
@@ -163,6 +165,11 @@ public class EventController
 	  }
 	}
 	
+	public void changeIPSettings()
+	{
+	  SetIPAddress set = new SetIPAddress();
+	}
+	
 	public void savePathSettings()
 	{
 	  LocalConfiguration local = LocalConfiguration.getInstance();
@@ -219,6 +226,8 @@ public class EventController
 	
 	public void sendSrcCode(JTextArea consoleLog, Path filePath)
 	{
+	  ClientService client = ClientService.getClientService();
+	  
 	  if (filePath == null)
 	  {
 		
@@ -226,13 +235,30 @@ public class EventController
 	  
 	  else
 	  {
-		SourceCodeUploaderView upload = new SourceCodeUploaderView(filePath, consoleLog);
+		if (client.getCurrIpAddr().equals("0.0.0.0"))
+		{
+		  this.changeIPSettings();
+		}
+		
+		else
+		{
+		  SourceCodeUploaderView upload = new SourceCodeUploaderView(filePath, consoleLog);
+		}
 	  }
 	}
 	
 	public void downloadActivity()
 	{
-	  DownloadWindow download = new DownloadWindow();
+	  ClientService client = ClientService.getClientService();
+	  if (client.getCurrIpAddr().equals("0.0.0.0"))
+	  {
+		this.changeIPSettings();
+	  }
+	  
+	  else
+	  {
+        DownloadWindow download = new DownloadWindow();
+	  }
 	}
   
 	public void saveFile(JFrame frame, RSyntaxTextArea editorPane, Path filePath, boolean state)

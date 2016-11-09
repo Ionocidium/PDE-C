@@ -769,6 +769,16 @@ public class MainWindowView
 		
 		paths.add(settingsGdbFileItem);
 		
+		JMenuItem settingsIpFileItem = new JMenuItem("IP Address of server");
+		
+		settingsIpFileItem.addActionListener(new ActionListener() {
+		  public void actionPerformed(ActionEvent e)
+		  {
+			eventController.changeIPSettings();
+		  }
+		});
+		
+		paths.add(settingsIpFileItem);
 		exitFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
 		JMenu editMenu = new JMenu("Edit");
 		editMenu.setMnemonic(KeyEvent.VK_E);
@@ -890,7 +900,6 @@ public class MainWindowView
 		fileMenu.add(openFileItem);
 		fileMenu.add(saveFileItem);
 		fileMenu.add(saveAsFileItem);
-		fileMenu.add(paths);
 		fileMenu.addSeparator();
 		fileMenu.add(exitFileItem);
 		menuBar.add(editMenu);
@@ -905,6 +914,7 @@ public class MainWindowView
 		editMenu.add(selectAllEditItem);
 		menuBar.add(buildMenu);
 		buildMenu.add(compileBuildItem);
+		menuBar.add(paths);
 		
 		JMenuItem mntmCompileRun = new JMenuItem("Compile & run");
 		mntmCompileRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0));

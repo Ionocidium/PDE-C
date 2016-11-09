@@ -179,6 +179,7 @@ public class SourceCodeUploaderView {
 		});
 		btnSubmit.setBounds(335, 105, 89, 23);
 		frmActivityUpload.getContentPane().add(btnSubmit);
+		frmActivityUpload.setLocationRelativeTo(null);
 		
 	}
 	

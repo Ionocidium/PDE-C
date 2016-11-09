@@ -64,7 +64,6 @@ public class DownloadWindow extends JFrame
   	  ex.printStackTrace();
   	}
   	
-  	setLocationRelativeTo(null);
 	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	setBounds(100, 100, 328, 159);
 	contentPane = new JPanel();
@@ -95,6 +94,7 @@ public class DownloadWindow extends JFrame
 			    try {
 			        File myFile = new File("resources/activity.pdf");
 			        Desktop.getDesktop().open(myFile);
+			        dispose();
 			    } catch (IOException ex) {
 					JOptionPane.showMessageDialog(null, "Nothing to open here.", "", JOptionPane.INFORMATION_MESSAGE);
 			    }
@@ -111,6 +111,7 @@ public class DownloadWindow extends JFrame
 	});
 	btnDownload.setBounds(198, 86, 89, 23);
 	contentPane.add(btnDownload);
+	setLocationRelativeTo(null);
   }
   
   private ArrayList<String> readFile(Path path)
