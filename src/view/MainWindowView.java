@@ -743,7 +743,7 @@ public class MainWindowView
 			}
 		});
 		
-		JMenu paths = new JMenu("Setings");
+		JMenu paths = new JMenu("Settings");
 		
 		JMenuItem settingsGccFileItem = new JMenuItem("GCC path");
 		

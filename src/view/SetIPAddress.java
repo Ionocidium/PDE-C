@@ -34,7 +34,7 @@ public class SetIPAddress extends JFrame
   private void initialize()
   {
 	setVisible(true);
-	setTitle("Change IP Adress");
+	setTitle("Change IP Address");
 	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	setBounds(100, 100, 320, 120);
 	contentPane = new JPanel();
