@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 public class SimplifyError {
 	
-	private static String ERROR = "error: ";
-	private static String WARNING = "warning: ";
+	private static String ERROR = "ERROR: ";
+	private static String WARNING = "WARNING: ";
 	
 	private static String NOTE_UNDECLARED_IDENTIFIER = "NOTE: Undeclared variables are reported once for every function";
 	
