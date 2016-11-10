@@ -46,6 +46,7 @@ import service.ClientService;
 import service.Parsers;
 
 import javax.swing.SpringLayout;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.ScrollPaneConstants;
@@ -105,6 +106,7 @@ public class MainWindowView
 			{
 				try
 				{
+				  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					MainWindowView window = getInstance();
 					window.frame.setVisible(true);
 				} catch (Exception e)
@@ -360,6 +362,8 @@ public class MainWindowView
 			}
 		});
 		
+		compileButton.setVisible(false);
+		
 		JButton compilerunButton = new JButton("");
 		compilerunButton.addActionListener(new ActionListener() 
 		{
@@ -612,7 +616,6 @@ public class MainWindowView
 		coreToolbar.add(openButton);
 		coreToolbar.add(saveButton);
 		coreToolbar.addSeparator();
-		coreToolbar.addSeparator();
 		coreToolbar.add(compileButton);
 		coreToolbar.add(compilerunButton);
 		coreToolbar.addSeparator();
@@ -625,11 +628,8 @@ public class MainWindowView
 		coreToolbar.add(delbreakpointButton);
 		coreToolbar.add(delallbreakpointButton);
 		coreToolbar.addSeparator();
-		coreToolbar.addSeparator();
 		coreToolbar.add(fontUpButton);
 		coreToolbar.add(fontDownButton);
-		coreToolbar.addSeparator();
-		coreToolbar.addSeparator();
 		coreToolbar.addSeparator();
 		coreToolbar.add(sendButton);
 		coreToolbar.addSeparator();
