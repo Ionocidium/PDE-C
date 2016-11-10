@@ -177,7 +177,6 @@ public class MainWindowView
 
 			      if (confirmed == JOptionPane.YES_OPTION) 
 			      {
-			        frame.dispose();
 			      }
 			}
 		});
