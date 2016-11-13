@@ -112,6 +112,36 @@ public class ActivityDAO extends DAO{
         return amdl;
     }
     
+    public Activity getActivity (String actName) throws SQLException, IOException{
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from Activity where ActivityName = ?");
+        preparedStatement.setString(1, actName);
+        ResultSet resultSet = query(preparedStatement);
+        Activity amdl = new Activity();
+       
+        while (resultSet.next()) {
+            int activityID = resultSet.getInt("ActivityID");
+            String activityName = resultSet.getString("ActivityName");
+            String activityFilename = resultSet.getString("ActivityFilename");
+        	Blob b = resultSet.getBlob("ActivityFile");
+       
+        	byte[] buffer = b.getBytes(1, (int)b.length());
+        	String blobContents = new String(buffer);     	
+            Timestamp activityTimeStamp = resultSet.getTimestamp("ActivityTimeStamp");
+            Timestamp activityDeadline = resultSet.getTimestamp("ActivityDeadline");
+            amdl.setActivityID(activityID);
+            amdl.setActivityName(activityName);
+            amdl.setActivityFile(blobContents);
+            amdl.setActivityTimeStamp(activityTimeStamp);
+            amdl.setActivityDeadline(activityDeadline);
+            amdl.setActivityFilename(activityFilename);
+            
+        }
+        
+        close(preparedStatement, connection);
+        return amdl;
+    }
+    
     public ArrayList<Activity> getActivities () throws SQLException, IOException{ // not yet updated to current edit
         ArrayList<Activity> activities = new ArrayList<Activity>();
         Connection connection = getConnection();

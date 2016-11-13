@@ -9,7 +9,7 @@ public class Activity
 	private String activityName;
 	private String activityFile;
 	private Timestamp activityTimeStamp;
-	private Timestamp activitDeadline;
+	private Timestamp activityDeadline;
 	private String activityFilename;
 	
 	public Activity() 
@@ -18,13 +18,13 @@ public class Activity
 	}
 
 	public Activity(int activityID, String activityName, String activityFile, Timestamp activityTimeStamp,
-			Timestamp activitDeadline, String activityFilename) 
+			Timestamp activityDeadline, String activityFilename) 
 	{
 		this.activityID = activityID;
 		this.activityName = activityName;
 		this.activityFile = activityFile;
 		this.activityTimeStamp = activityTimeStamp;
-		this.activitDeadline = activitDeadline;
+		this.activityDeadline = activityDeadline;
 		this.activityFilename = activityFilename;
 	}
 	
@@ -70,12 +70,12 @@ public class Activity
 	
 	public Timestamp getActivityDeadline() 
 	{
-		return activitDeadline;
+		return activityDeadline;
 	}
 	
-	public void setActivityDeadline(Timestamp activitDeadline) 
+	public void setActivityDeadline(Timestamp activityDeadline) 
 	{
-		this.activitDeadline = activitDeadline;
+		this.activityDeadline = activityDeadline;
 	}
 	
 	public String getActivityFilename() {
