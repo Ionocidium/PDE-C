@@ -357,12 +357,37 @@ public class MainWindowView
 		compileButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
-			  filePath = eventController.compile(frame, editorPane, filePath, errorLog); 
-			  JOptionPane.showMessageDialog(null, "Compilation complete", "Compile Code", JOptionPane.PLAIN_MESSAGE);
+			  
+			  if (filePath != null)
+			  {
+				filePath = eventController.compile(frame, editorPane, filePath, errorLog); 
+				JOptionPane.showMessageDialog(null, "Compilation complete", "Compile Code", JOptionPane.PLAIN_MESSAGE);
+			  }
+			  
+			  else if (editorPane.getText().trim().equals(("")))
+		      {
+				filePath = eventController.compile(frame, editorPane, filePath, errorLog); 
+				
+				if (filePath != null)
+				{
+				  JOptionPane.showMessageDialog(null, "Compilation complete", "Compile Code", JOptionPane.PLAIN_MESSAGE);
+				  fileName = filePath.getFileName().toString();
+				  frame.setTitle(appName + " - " + fileName);
+				  fileModified = false;
+				}
+			  }
+			  
+			  else
+			  {
+				filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+				fileName = filePath.getFileName().toString();
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+			  }
 			}
 		});
 		
-		compileButton.setVisible(false);
+//		compileButton.setVisible(false);
 		
 		JButton compilerunButton = new JButton("");
 		compilerunButton.addActionListener(new ActionListener() 
@@ -375,6 +400,11 @@ public class MainWindowView
 					frame.setTitle(appName + " - " + fileName);
 					fileModified = false;
 				  }
+				
+				else if (editorPane.getText().trim().equals(""))
+				{
+				  
+				}
 				  
 				  else
 				  {
@@ -805,7 +835,32 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-			  filePath = eventController.compile(frame, editorPane, filePath, errorLog);
+			  if (filePath != null)
+			  {
+				filePath = eventController.compile(frame, editorPane, filePath, errorLog); 
+				JOptionPane.showMessageDialog(null, "Compilation complete", "Compile Code", JOptionPane.PLAIN_MESSAGE);
+			  }
+			  
+			  else if (editorPane.getText().trim().equals(("")))
+		      {
+				filePath = eventController.compile(frame, editorPane, filePath, errorLog); 
+				
+				if (filePath != null)
+				{
+				  JOptionPane.showMessageDialog(null, "Compilation complete", "Compile Code", JOptionPane.PLAIN_MESSAGE);
+				  fileName = filePath.getFileName().toString();
+				  frame.setTitle(appName + " - " + fileName);
+				  fileModified = false;
+				}
+			  }
+			  
+			  else
+			  {
+				filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+				fileName = filePath.getFileName().toString();
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+			  }
 			}
 		});
 		
@@ -922,8 +977,40 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
+			  if (filePath != null)
+			  {
+				eventController.saveFile(frame, editorPane, filePath, fileModified);
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+				filePath = eventController.compile(frame, editorPane, filePath, errorLog);
+			  }
+			
+			else if (editorPane.getText().trim().equals(""))
+			{
 			  filePath = eventController.compile(frame, editorPane, filePath, errorLog);
-			  eventController.runProgram(filePath);
+			  fileModified = true;
+			  fileName = filePath.getFileName().toString();
+			  frame.setTitle(appName + " - " + fileName);
+			}
+			  
+			  else
+			  {
+				filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+				fileName = filePath.getFileName().toString();
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+				filePath = eventController.compile(frame, editorPane, filePath, errorLog);
+			  }	  
+			
+			
+			
+			///////////////////////Feedback History Prototype////////////////
+			Feedback feedback = new Feedback(errorLog.getText(), editorPane.getText());
+			feedbackHistory.addFeedback(feedback, filePath, editorPane);
+			feedbackHistory.updateUI();
+
+			//feedbackScroll.getVerticalScrollBar().setValue(feedbackScroll.getVerticalScrollBar().getMaximum());
+			/////////////////////////////////////////////////////////////////
 			}
 		});
 		buildMenu.add(mntmCompileRun);
