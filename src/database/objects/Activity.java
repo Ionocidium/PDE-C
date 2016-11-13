@@ -1,7 +1,5 @@
 package database.objects;
 
-import java.io.File;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Activity 
@@ -9,9 +7,9 @@ public class Activity
 
 	private int activityID;
 	private String activityName;
-	private File activityFile;
+	private String activityFile;
 	private Timestamp activityTimeStamp;
-	private Date activitDeadline;
+	private Timestamp activitDeadline;
 	private String activityFilename;
 	
 	public Activity() 
@@ -19,8 +17,8 @@ public class Activity
 		
 	}
 
-	public Activity(int activityID, String activityName, File activityFile, Timestamp activityTimeStamp,
-			Date activitDeadline, String activityFilename) 
+	public Activity(int activityID, String activityName, String activityFile, Timestamp activityTimeStamp,
+			Timestamp activitDeadline, String activityFilename) 
 	{
 		this.activityID = activityID;
 		this.activityName = activityName;
@@ -50,12 +48,12 @@ public class Activity
 		this.activityName = activityName;
 	}
 	
-	public File getActivityFile()
+	public String getActivityFile()
 	{
 		return activityFile;
 	}
 	
-	public void setActivityFile(File activityFile) 
+	public void setActivityFile(String activityFile) 
 	{
 		this.activityFile = activityFile;
 	}
@@ -70,12 +68,12 @@ public class Activity
 		this.activityTimeStamp = activityTimeStamp;
 	}
 	
-	public Date getActivityDeadline() 
+	public Timestamp getActivityDeadline() 
 	{
 		return activitDeadline;
 	}
 	
-	public void setActivityDeadline(Date activitDeadline) 
+	public void setActivityDeadline(Timestamp activitDeadline) 
 	{
 		this.activitDeadline = activitDeadline;
 	}
