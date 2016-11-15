@@ -11,16 +11,13 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URI;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -35,7 +32,6 @@ import javax.swing.WindowConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -43,8 +39,6 @@ import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import controller.EventController;
-import controller.fileops.FileLoad;
-import controller.fileops.FileSave;
 import model.Feedback;
 import service.Parsers;
 
@@ -58,9 +52,6 @@ public class FeedbackHistory extends JPanel{
 	private ArrayList<Feedback> feedback = new ArrayList<Feedback>();
 	private Path filePath;
 	private JPanel container;
-	private FileLoad loader;
-	private FileSave saveFile;
-	private FileNameExtensionFilter cFilter;
 	private EventController eventController;
 	private RSyntaxTextArea editor;
 	
@@ -68,10 +59,6 @@ public class FeedbackHistory extends JPanel{
 	private String fontStyle;
 
 	public FeedbackHistory() {
-		saveFile = new FileSave();
-		loader = new FileLoad();
-		cFilter = new FileNameExtensionFilter(
-					"PDE-C Feedback File (*.pdec)", ".pdec");
 		container = new JPanel();
 		filePath = null;
 		initialize();
@@ -85,27 +72,8 @@ public class FeedbackHistory extends JPanel{
 		add(container);
 	}
 	
-	public void readFile(Path feedbackFilePath, RSyntaxTextArea editorPane) {
-		String pathContents = loader.loadFile(feedbackFilePath);
-		String[] allFeedback = pathContents.split("\\*\\*\\*PDE-C\\*\\*\\*");
-		for(int i=0; i < allFeedback.length; i+=2){
-			Feedback f = new Feedback(allFeedback[i], allFeedback[i+1]);
-			addFeedback(f, eventController.getCFile(feedbackFilePath), editorPane);
-		}
-	}
-	
-	public void saveFile(ArrayList<Feedback> feedback, Path feedbackFilePath)
-	{
-		feedbackFilePath = eventController.getFeedbackFile(feedbackFilePath);
-	    String errorFile = "";
-	    for(int x=0; x < feedback.size(); x++) {
-	    	errorFile += feedback.get(x).getError() + "***PDE-C***" + feedback.get(x).getCode();
-	    	if (feedback.size() > x-1) {
-	    		errorFile += "***PDE-C***";
-	    	}
-	    }
-	    	
-	    saveFile.writeFile(feedbackFilePath, errorFile);
+	public void readFile(Path feedbackFilePath) {
+		
 	}
 	
 	public void addFeedback(Feedback feedback, Path filePath, RSyntaxTextArea editorPane) {
@@ -128,6 +96,7 @@ public class FeedbackHistory extends JPanel{
 		{
 			sub.setText("Compilation Complete!");
 			sub.setBackground(Color.GREEN);
+			eventController.runProgram(filePath);
 		}
 		
 		sub.addActionListener(new ActionListener() 
@@ -250,14 +219,6 @@ public class FeedbackHistory extends JPanel{
 	    s = s.replaceAll("(\r\n|\n)", "<br />");
 	    s = "<html>" + s + "</html>";
 		return s;
-	}
-
-	public JPanel getContainer() {
-		return container;
-	}
-
-	public void setContainer(JPanel container) {
-		this.container = container;
 	}
 
 	public ArrayList<Feedback> getFeedback() {

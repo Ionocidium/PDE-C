@@ -97,32 +97,29 @@ public class EventController
 		return filePath;
 	}
 	
-	public Path getFeedbackFile(Path feedbackFilePath)
+	public Path getFeedbackFile(Path filePath)
 	{	
-		System.out.println(feedbackFilePath.toString());
-		String pdecFile = "";
-		pdecFile = feedbackFilePath.toString();
-		pdecFile = pdecFile.replaceAll("(\\.c)", ".pdec");
-		pdecFile = pdecFile.replaceAll("(\\\\)", "\\\\");
-		//System.out.println(pdecFile);
-		feedbackFilePath = Paths.get(pdecFile);
-		System.out.println(feedbackFilePath.toString());
+		Path path = filePath;
+		
+		String filename = path.getFileName().toString();
+		filename = filename.substring(0, filename.lastIndexOf('.'));
+		filename = filename + ".pdec";
+		
+		
+		System.out.println(filename);
+//		if (loader.checkerpdec(ext))
+//		{
+//			//if feedback file exists
+//			String pathContents = loader.loadFile(path);
+//			editorPane.setText(pathContents);
+//			frame.setTitle("PDE-C - " + ext);
+//		}
+//		else
+//		{
+//			filePath = null;
+//		}
 
-		return feedbackFilePath;
-	}
-	
-	public Path getCFile(Path feedbackFilePath)
-	{	
-		//System.out.println(feedbackFilePath.toString());
-		String cFile = "";
-		cFile = feedbackFilePath.toString();
-		cFile = cFile.replaceAll("(\\.pdec)", ".c");
-		cFile = cFile.replaceAll("(\\\\)", "\\\\");
-		//System.out.println(pdecFile);
-		feedbackFilePath = Paths.get(cFile);
-		//System.out.println(feedbackFilePath.toString());
-
-		return feedbackFilePath;
+		return filePath;
 	}
 	
 	public void changeSettingsGcc(JFrame frame)
