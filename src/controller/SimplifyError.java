@@ -9,7 +9,7 @@ public class SimplifyError {
 	
 	private static String ERROR = " ERROR  :";
 	private static String WARNING = " WARNING:";
-	private static String NOTE = "NOTE :";
+	private static String NOTE = " NOTE   :";
 	
 	private static String NOTE_UNDECLARED_IDENTIFIER = "Undeclared variables are reported once for every function";
 	

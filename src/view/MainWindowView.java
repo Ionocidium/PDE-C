@@ -883,7 +883,7 @@ public class MainWindowView
 			}
 		});
 		
-		compileBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
+		compileBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
 		
 		JMenuItem debugBuildItem = new JMenuItem("Debug", KeyEvent.VK_D);
 		
@@ -921,7 +921,7 @@ public class MainWindowView
 			}
 		});
 		
-		debugBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
+		debugBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, 0));
 		
 		addBreakItem = new JMenuItem("Add Breakpoint...");
 		
@@ -991,7 +991,7 @@ public class MainWindowView
 		menuBar.add(paths);
 		
 		JMenuItem mntmCompileRun = new JMenuItem("Compile & run");
-		mntmCompileRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0));
+		mntmCompileRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F11, 0));
 		mntmCompileRun.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0)

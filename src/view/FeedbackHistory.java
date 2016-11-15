@@ -79,11 +79,17 @@ public class FeedbackHistory extends JPanel{
 	public void addFeedback(Feedback feedback, Path filePath, RSyntaxTextArea editorPane) {
 		JButton sub = new JButton();
 		sub.setHorizontalAlignment(SwingConstants.NORTH_EAST);
+		sub.setFont(new Font(fontStyle, Font.PLAIN, 12));
 		sub.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10), sub.getBorder()));
 		sub.setPreferredSize(new Dimension (this.getWidth()-30, 50));
 		if (!feedback.getError().trim().isEmpty())
 		{
-			sub.setText(htmlConvert(feedback.getError()));
+			if(countErrors(htmlConvert(feedback.getError())) > 1)
+			sub.setText("Compilation failed. " + countErrors(htmlConvert(feedback.getError())) + " errors are detected.");
+			
+			else if(countErrors(htmlConvert(feedback.getError())) == 1)
+			sub.setText("Compilation failed. An error is detected.");
+			
 			sub.setBackground(Color.RED);
 		}
 		else
@@ -201,9 +207,16 @@ public class FeedbackHistory extends JPanel{
 		container.add(sub);
 		this.feedback.add(feedback);
 	}
+	
+	private int countErrors(String s) {
+		int count = 0;
+		String[] c = s.split("<br />");
+		count = c.length - 2;
+		return count;
+	}
 
 	private String htmlConvert(String s) {
-	    s = s.replaceAll("(\r\n|\n)", "<br>");
+	    s = s.replaceAll("(\r\n|\n)", "<br />");
 	    s = "<html>" + s + "</html>";
 		return s;
 	}
