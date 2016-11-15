@@ -82,6 +82,12 @@ public class LoginScreen {
 								{
 								  window.setStudentIdNum(textField.getText());
 								}
+								
+								else
+								{
+								  window.setStudentIdNum("0");
+								  window.checkIfSendable();
+								}
 	
 								window.getMainFrame().setVisible(true);
 								frmLogin.dispose();
@@ -96,6 +102,7 @@ public class LoginScreen {
 		});
 		btnLogin.setBounds(171, 64, 90, 23);
 		frmLogin.getContentPane().add(btnLogin);
+		frmLogin.setLocationRelativeTo(null);
 	}
 
 }

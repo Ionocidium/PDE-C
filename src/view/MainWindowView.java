@@ -79,7 +79,7 @@ public class MainWindowView
 	private JMenuItem addBreakItem, delBreakItem, delallBreakItem;
 	private JButton breakpointButton, delbreakpointButton, delallbreakpointButton;
 	
-	private String studentIdNum;
+	private static String studentIdNum;
 	
 	private ArrayList<String> codeHistory = new ArrayList<String>();
 	
@@ -93,6 +93,7 @@ public class MainWindowView
 	private JTabbedPane tabbedHorizontalPane;
 	private JTabbedPane tabbedVerticalPane;
 	private FeedbackHistory feedbackHistory;
+	private static JButton sendButton;
 	
 	private int fontSize = 16;
 	private int minFont = 12;
@@ -154,7 +155,7 @@ public class MainWindowView
 	  	feedbackScroll = new JScrollPane();
 		tabbedVerticalPane = new JTabbedPane();
 		feedbackHistory = new FeedbackHistory();
-		studentIdNum = "0";
+		studentIdNum = "1";
 			
 		try
 		{
@@ -438,7 +439,7 @@ public class MainWindowView
 			}
 		});
 		
-		JButton sendButton = new JButton("Send C File");
+		sendButton = new JButton("Send C File");
 		sendButton.setToolTipText("Send source code");
 		URL send = Main.class.getResource("/send.png");
 		sendButton.setIcon(new ImageIcon(send));
@@ -1256,5 +1257,13 @@ public class MainWindowView
 	public void setStudentIdNum(String studentIdNum)
 	{
 	  this.studentIdNum = studentIdNum;
+	}
+	
+	public void checkIfSendable()
+	{
+	  if (studentIdNum.equals("0"))
+		{
+		  sendButton.setVisible(false);
+		}
 	}
 }
