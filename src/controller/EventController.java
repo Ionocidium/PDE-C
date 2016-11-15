@@ -440,7 +440,7 @@ public class EventController
 	
 	public void writeInErrorLog(String s)
 	{
-		MainWindowView.errorLog.setText(s);
+		//MainWindowView.debugLog.setText(s);
 	}
   
 	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, 

@@ -9,9 +9,11 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import configuration.LocalConfiguration;
+import model.ErrorMessage;
 
 public class CommandLineControls
 {
@@ -60,11 +62,14 @@ public class CommandLineControls
         this.proc = rt.exec(this.commands);
         this.stdError = new BufferedReader(new InputStreamReader(this.proc.getErrorStream()));
 		String res = "";
-        String s = null;
+        String s = "";
         while ((s = this.stdError.readLine()) != null)
         {
         	s = new SimplifyError(s).simplify();
-            res += s + "\n";
+        	if (!s.trim().isEmpty()) 
+        	{
+        		res += s + "\n";
+        	}
         }
         return res;
 	}
