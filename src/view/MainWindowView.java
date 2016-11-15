@@ -77,6 +77,8 @@ public class MainWindowView
 	private JMenuItem addBreakItem, delBreakItem, delallBreakItem;
 	private JButton breakpointButton, delbreakpointButton, delallbreakpointButton;
 	
+	private String studentIdNum;
+	
 	private ArrayList<String> codeHistory = new ArrayList<String>();
 	
 	// for api purposes
@@ -98,24 +100,24 @@ public class MainWindowView
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args)
-	{
-		EventQueue.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				try
-				{
-				  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-					MainWindowView window = getInstance();
-					window.frame.setVisible(true);
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args)
+//	{
+//		EventQueue.invokeLater(new Runnable()
+//		{
+//			public void run()
+//			{
+//				try
+//				{
+//				  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//					MainWindowView window = getInstance();
+//					window.frame.setVisible(true);
+//				} catch (Exception e)
+//				{
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
@@ -150,6 +152,7 @@ public class MainWindowView
 	  	feedbackScroll = new JScrollPane();
 		tabbedVerticalPane = new JTabbedPane();
 		feedbackHistory = new FeedbackHistory();
+		studentIdNum = "0";
 			
 		try
 		{
@@ -438,6 +441,11 @@ public class MainWindowView
 				eventController.sendSrcCode(errorLog, filePath);
 			}
 		});
+		
+		if (studentIdNum.equals("0"))
+		{
+		  sendButton.setVisible(false);
+		}
 		
 		
 		JButton downloadButton = new JButton("Download");
@@ -1227,5 +1235,15 @@ public class MainWindowView
 	public RSyntaxTextArea getEditor()
 	{
 	  return editorPane;
+	}
+
+	public String getStudentIdNum()
+	{
+	  return studentIdNum;
+	}
+
+	public void setStudentIdNum(String studentIdNum)
+	{
+	  this.studentIdNum = studentIdNum;
 	}
 }

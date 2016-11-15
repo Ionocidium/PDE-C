@@ -51,6 +51,8 @@ public class SourceCodeUploaderView {
 	private JTextField idNumField;
 	private JFileChooser fileChooser;
 	private FileNameExtensionFilter cFilter;
+	
+	private String studentId;
 
 	public SourceCodeUploaderView(Path filePath, JTextArea frame) {
 	  	file = filePath;
@@ -59,6 +61,8 @@ public class SourceCodeUploaderView {
 	  	cFilter = new FileNameExtensionFilter(
 			"C Source (*.c)", "c");
 	  	fileChooser.setFileFilter(cFilter);
+	  	
+	  	studentId = MainWindowView.getInstance().getStudentIdNum();
 	  	
 		initialize(frame);
 	}
@@ -142,6 +146,12 @@ public class SourceCodeUploaderView {
 		
 		idNumField = new JTextField();
 		idNumField.setBounds(120, 67, 212, 20);
+		
+
+		idNumField.setText(MainWindowView.getInstance().getStudentIdNum());
+		idNumField.setEditable(false);
+		
+		
 		frmActivityUpload.getContentPane().add(idNumField);
 		idNumField.setColumns(10);
 		
@@ -156,7 +166,7 @@ public class SourceCodeUploaderView {
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{			  
-			  Deliverable deliver = new Deliverable(1, Integer.parseInt(idNumField.getText()), comboBox_6.getSelectedIndex() + 1, new File(file.toUri()), new Timestamp(System.currentTimeMillis()), file.getFileName().toString(), -1.0f);
+			  Deliverable deliver = new Deliverable(1, Integer.parseInt(studentId), comboBox_6.getSelectedIndex() + 1, new File(file.toUri()), new Timestamp(System.currentTimeMillis()), file.getFileName().toString(), -1.0f);
 	
 			  try
 			  {
