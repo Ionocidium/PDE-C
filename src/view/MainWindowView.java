@@ -273,13 +273,16 @@ public class MainWindowView
 					{
 						editorPane.setText("");
 						//eventController.deleteDontTouch();
+						feedbackFilePath = null;
+						filePath = null;
+						fileName = "new file";
+						frame.setTitle(appName + " - " + fileName);
+				    	eventController.quietlydeleteallbreakpoint(gut, breakpoints);
+				    	errorLog.setText("");
+						feedbackHistory.getContainer().removeAll();
+						feedbackHistory.updateUI();
 					}
 				}
-				feedbackFilePath = null;
-				filePath = null;
-				fileName = "new file";
-				frame.setTitle(appName + " - " + fileName);
-		    	eventController.quietlydeleteallbreakpoint(gut, breakpoints);
 			}
 		});
 		newButton.setToolTipText("New");
@@ -297,10 +300,18 @@ public class MainWindowView
 			    if (confirmed == JOptionPane.YES_OPTION) 
 			    {
 			      filePath = eventController.openFile(frame, editorPane);
-			      feedbackFilePath = eventController.getFeedbackFile(filePath);
-			      //feedbackHistory.readFile(feedbackFilePath);
+			      System.out.println(filePath.toString());
+			
 			      if (filePath != null)
 			      {
+			    	  
+					  errorLog.setText("");
+			    	  //Open Feedback File/////////////////////
+				      feedbackFilePath = eventController.getFeedbackFile(filePath);
+				      feedbackHistory.getContainer().removeAll();
+					  feedbackHistory.readFile(feedbackFilePath, editorPane);
+					  feedbackHistory.updateUI();
+					  /////////////////////////////////////////;
 			    	  fileName = filePath.getFileName().toString();
 			    	  eventController.quietlydeleteallbreakpoint(gut, breakpoints);
 			      }
@@ -433,9 +444,12 @@ public class MainWindowView
 				Feedback feedback = new Feedback(errorLog.getText(), editorPane.getText());
 				feedbackHistory.addFeedback(feedback, filePath, editorPane);
 				feedbackHistory.updateUI();
-
+				//Save Feedback File///////////////////////
+				feedbackHistory.saveFile(feedbackHistory.getFeedback(), filePath);
+				///////////////////////////////////////////
 				//feedbackScroll.getVerticalScrollBar().setValue(feedbackScroll.getVerticalScrollBar().getMaximum());
 				/////////////////////////////////////////////////////////////////
+				eventController.runProgram(filePath);
 			}
 		});
 		
@@ -710,12 +724,16 @@ public class MainWindowView
 					{
 						editorPane.setText("");
 						//eventController.deleteDontTouch();
+						feedbackFilePath = null;
+						filePath = null;
+						fileName = "new file";
+						frame.setTitle(appName + " - " + fileName);
+				    	eventController.quietlydeleteallbreakpoint(gut, breakpoints);
+				    	errorLog.setText("");
+						feedbackHistory.getContainer().removeAll();
+						feedbackHistory.updateUI();
 					}
 				}
-				filePath = null;
-				fileName = "new file";
-				frame.setTitle(appName + " - " + fileName);
-			  
 			}
 		});
 		newFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
@@ -730,6 +748,13 @@ public class MainWindowView
 
 		    if (confirmed == JOptionPane.YES_OPTION) 
 		    {
+		      errorLog.setText("");
+		      //Open Feedback File/////////////////////
+		      feedbackFilePath = eventController.getFeedbackFile(filePath);
+		      feedbackHistory.getContainer().removeAll();
+			  feedbackHistory.readFile(feedbackFilePath, editorPane);
+			  feedbackHistory.updateUI();
+			  /////////////////////////////////////////
 		      filePath = eventController.openFile(frame, editorPane);
 			  fileName = filePath.getFileName().toString();
 		    }
@@ -1029,9 +1054,12 @@ public class MainWindowView
 			Feedback feedback = new Feedback(errorLog.getText(), editorPane.getText());
 			feedbackHistory.addFeedback(feedback, filePath, editorPane);
 			feedbackHistory.updateUI();
-
+			//Save Feedback File///////////////////////
+			feedbackHistory.saveFile(feedbackHistory.getFeedback(), filePath);
+			///////////////////////////////////////////
 			//feedbackScroll.getVerticalScrollBar().setValue(feedbackScroll.getVerticalScrollBar().getMaximum());
 			/////////////////////////////////////////////////////////////////
+			eventController.runProgram(filePath);
 			}
 		});
 		buildMenu.add(mntmCompileRun);
