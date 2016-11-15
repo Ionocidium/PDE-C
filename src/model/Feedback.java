@@ -9,7 +9,7 @@ public class Feedback {
 		this.error = error;
 		this.code = code;
 	}
-
+	
 	public String getError() {
 		return error;
 	}
@@ -25,9 +25,6 @@ public class Feedback {
 	public void setCode(String code) {
 		this.code = code;
 	}
-
-	public boolean isError() {
-		return !this.error.trim().equals("");
-	}
 	
+
 }

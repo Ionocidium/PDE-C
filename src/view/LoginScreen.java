@@ -28,6 +28,7 @@ public class LoginScreen {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+				  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					LoginScreen window = new LoginScreen();
 					window.frmLogin.setVisible(true);
 				} catch (Exception e) {
@@ -75,7 +76,6 @@ public class LoginScreen {
 						{
 							try
 							{
-							  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 								MainWindowView window = MainWindowView.getInstance();
 								
 								if (!textField.getText().trim().equals(""))

@@ -41,6 +41,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 import controller.EventController;
+import model.ErrorMessage;
 import model.Feedback;
 import service.ClientService;
 import service.Parsers;
@@ -73,6 +74,7 @@ public class MainWindowView
 	private final String appName = "PDE-C";
 	private String fileName;
 	public static JTextArea errorLog;
+	public static JTextArea debugLog;
 	public static JTextArea feedbackLog;
 	private JMenuItem addBreakItem, delBreakItem, delallBreakItem;
 	private JButton breakpointButton, delbreakpointButton, delallbreakpointButton;
@@ -333,8 +335,11 @@ public class MainWindowView
 		saveButton.setBorder(null);
 		
 	    errorLog = new JTextArea (5,20);
-	    errorLog.setEditable ( false ); // set textArea non-editable
-	    JScrollPane cL = new JScrollPane ( errorLog );
+	    debugLog = new JTextArea (5,20);
+	    errorLog.setEditable (false); // set textArea non-editable
+	    debugLog.setEditable(false);
+	    JScrollPane cL = new JScrollPane (errorLog);
+	    JScrollPane dL = new JScrollPane (debugLog);
 		frame.setVisible(true);
 		
 		JButton recoverCode = new JButton("");
@@ -387,6 +392,7 @@ public class MainWindowView
 				frame.setTitle(appName + " - " + fileName);
 				fileModified = false;
 			  }
+			  	
 			}
 		});
 		
@@ -406,7 +412,10 @@ public class MainWindowView
 				
 				else if (editorPane.getText().trim().equals(""))
 				{
-				  
+					  filePath = eventController.compile(frame, editorPane, filePath, errorLog);
+					  fileModified = true;
+					  fileName = filePath.getFileName().toString();
+					  frame.setTitle(appName + " - " + fileName);
 				}
 				  
 				  else
@@ -869,6 +878,7 @@ public class MainWindowView
 				frame.setTitle(appName + " - " + fileName);
 				fileModified = false;
 			  }
+			  	
 			}
 		});
 		
@@ -1070,6 +1080,7 @@ public class MainWindowView
 		
 		tabbedHorizontalPane = new JTabbedPane();
 		tabbedHorizontalPane.add("Error Log", cL);
+		//tabbedHorizontalPane.add("Debug Log", dL);
 		//tabbedHorizontalPane.add("Test Log", cL);
 		
 		tabbedVerticalPane.addTab("Feedback History", new JScrollPane(feedbackHistory));
