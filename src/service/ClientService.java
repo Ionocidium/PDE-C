@@ -18,13 +18,15 @@ public class ClientService
   private Socket clientSocket = null;
   private DataOutputStream toServer;
   private BufferedReader reader;
+  private String currIpAddr;
   private InetAddress addr;
   
   private ClientService()
   {
 	try
 	{
-	  addr = InetAddress.getByName("127.0.0.1");
+	  currIpAddr = "0.0.0.0";
+	  addr = InetAddress.getByName(currIpAddr);
 	}
 	
 	catch(Exception ex)
@@ -42,6 +44,22 @@ public class ClientService
 	}
 	
 	return instance;
+  }
+  
+  public void setIPAddress(String Ip)
+  {
+	
+	try
+	{
+	  this.currIpAddr = Ip;
+	  addr = InetAddress.getByName(this.currIpAddr);
+	}
+	
+	catch(Exception ex)
+	{
+	  ex.printStackTrace();
+	}
+	
   }
   
   public void initSocket()
@@ -131,5 +149,10 @@ public class ClientService
 	decode.convertToFile(message, "activity.pdf");
 	downloadedFile.close();
 	clientSocket = null;
+  }
+
+  public String getCurrIpAddr()
+  {
+    return currIpAddr;
   }
 }

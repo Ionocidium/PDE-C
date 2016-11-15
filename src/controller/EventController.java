@@ -5,12 +5,15 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -32,9 +35,11 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import configuration.LocalConfiguration;
 import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
+import service.ClientService;
 import view.CompileLog;
 import view.DownloadWindow;
 import view.MainWindowView;
+import view.SetIPAddress;
 import view.SourceCodeUploaderView;
 
 public class EventController
@@ -117,15 +122,12 @@ public class EventController
 		return filePath;
 	}
 	
-	public void changeSettings(JFrame frame)
-	{
+	public void changeSettingsGcc(JFrame frame)
+	{ 
 	  FileNameExtensionFilter exeFilter = new FileNameExtensionFilter(
 			"Executable file (*.exe)", "exe");
-	  
 	  JFileChooser exeFileChooser = new JFileChooser();
-	  
 	  exeFileChooser.setFileFilter(exeFilter);
-	  
 	  int returnVal = exeFileChooser.showOpenDialog(frame);
 	  LocalConfiguration local = LocalConfiguration.getInstance();
 	  
@@ -134,13 +136,58 @@ public class EventController
 		Path path = Paths.get(exeFileChooser.getSelectedFile().getAbsolutePath());
 		local.setGccPath(path.toAbsolutePath().toString());
 	  }
+	  else
+	  {
+		System.out.println("what");
+	  }
+	}
+	
+	public void changeSettingsGdb(JFrame frame)
+	{
+	  FileNameExtensionFilter exeFilter = new FileNameExtensionFilter(
+			"Executable file (*.exe)", "exe");
+	  JFileChooser exeFileChooser = new JFileChooser();
+	  LocalConfiguration local = LocalConfiguration.getInstance();
+	  
+	  exeFileChooser = new JFileChooser();
+	  exeFileChooser.setFileFilter(exeFilter);
+	  int returnVal = exeFileChooser.showOpenDialog(frame);
+	  
+	  if (returnVal == JFileChooser.APPROVE_OPTION)
+	  {
+		Path path = Paths.get(exeFileChooser.getSelectedFile().getAbsolutePath());
+		local.setGdbPath(path.toAbsolutePath().toString());
+	  }
 	  
 	  else
 	  {
 		System.out.println("what");
 	  }
+	}
+	
+	public void changeIPSettings()
+	{
+	  SetIPAddress set = new SetIPAddress();
+	}
+	
+	public void savePathSettings()
+	{
+	  LocalConfiguration local = LocalConfiguration.getInstance();
 	  
-	  System.out.println(local.getGccPath());
+	  try
+	  {
+		FileWriter fw = new FileWriter(new File("resources/settings.txt"));
+		BufferedWriter writer = new BufferedWriter(fw);
+		  
+		writer.write(local.getGccPath() + "\n" + local.getGdbPath());
+		writer.flush();
+		writer.close();
+	  }
+		
+	  catch(Exception ex)
+	  {
+	    ex.printStackTrace();
+	  }
 	}
   
 	public Path saveAsFile(JFrame frame, RSyntaxTextArea editorPane, boolean state)
@@ -179,6 +226,8 @@ public class EventController
 	
 	public void sendSrcCode(JTextArea consoleLog, Path filePath)
 	{
+	  ClientService client = ClientService.getClientService();
+	  
 	  if (filePath == null)
 	  {
 		
@@ -186,13 +235,30 @@ public class EventController
 	  
 	  else
 	  {
-		SourceCodeUploaderView upload = new SourceCodeUploaderView(filePath, consoleLog);
+		if (client.getCurrIpAddr().equals("0.0.0.0"))
+		{
+		  this.changeIPSettings();
+		}
+		
+		else
+		{
+		  SourceCodeUploaderView upload = new SourceCodeUploaderView(filePath, consoleLog);
+		}
 	  }
 	}
 	
 	public void downloadActivity()
 	{
-	  DownloadWindow download = new DownloadWindow();
+	  ClientService client = ClientService.getClientService();
+	  if (client.getCurrIpAddr().equals("0.0.0.0"))
+	  {
+		this.changeIPSettings();
+	  }
+	  
+	  else
+	  {
+        DownloadWindow download = new DownloadWindow();
+	  }
 	}
   
 	public void saveFile(JFrame frame, RSyntaxTextArea editorPane, Path filePath, boolean state)
@@ -334,7 +400,7 @@ public class EventController
 
 		return res;
 	}
-	
+
 	/*
 	@unused
 	public void deleteDontTouch()
@@ -498,15 +564,12 @@ public class EventController
 					GutterIconInfo gii = null; // temp
 					GutterIconInfo pointer = null;
 					*/
+					long nowTime = System.currentTimeMillis();
+					while(System.currentTimeMillis() < nowTime + 100) ;
 					Process process = Runtime.getRuntime().exec(local.getGdbPath() + " \"" + exe + "\"");
 	                if (process != null){
 	                    BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
 	                    PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(process.getOutputStream())),true);
-	                    for(int i = 0; i < bp.size(); i++)
-	                    {
-	                    	out.println("break " + (bp.get(i) + 1));
-	                    }
-	                    out.println("start");
 	                    
 	                    // Capture user input through the use of continue and break buttons
 	                    
@@ -554,7 +617,7 @@ public class EventController
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
-	                    		out.println("s");
+	                    		out.println("step");
 	                    	}
 	                    }
 	                    );
@@ -563,7 +626,7 @@ public class EventController
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
-	                    		out.println("c");
+	                    		out.println("continue");
 	                    	}
 	                    }
 	                    );
@@ -578,9 +641,16 @@ public class EventController
 	                    );
 	                    boolean notYet = true;
 	                    while ((line = in.readLine()) != null && notYet){
-	                    	
 	                    	//Regex: Breakpoint \d*, ([a-zA-Z_][a-zA-Z0-9_]*) (\(()\)) at (?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+:
-	                    	
+	                    	if(line.startsWith("(gdb) ")) line = line.substring("(gdb) ".length()); 
+	                    	if(line.endsWith("Type \"apropos word\" to search for commands related to \"word\"..."))
+	                    	{
+	    	                    for(int i = 0; i < bp.size(); i++)
+	    	                    {
+	    	                    	out.println("break " + (bp.get(i) + 1));
+	    	                    }
+	    	                    out.println("start");
+	                    	}
 	                    	if(line.startsWith("Breakpoint"))
 	                    	{
 	                    		// check gutter
@@ -627,9 +697,9 @@ public class EventController
 	                    		}
 	                    		*/
 	                    	}
-	                    	if (line.startsWith("Temporary"))
+	                    	if (line.startsWith("Temporary") && line.contains("c:"))
 	                    	{
-	                    		out.println("c"); // prevent temporary breakpoints
+	                    		out.println("continue"); // prevent temporary breakpoints
 	                    	}
 	                    	if (line.indexOf("exited with") > 0)
 	                    	{

@@ -46,6 +46,7 @@ import service.ClientService;
 import service.Parsers;
 
 import javax.swing.SpringLayout;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.ScrollPaneConstants;
@@ -105,6 +106,7 @@ public class MainWindowView
 			{
 				try
 				{
+				  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					MainWindowView window = getInstance();
 					window.frame.setVisible(true);
 				} catch (Exception e)
@@ -175,7 +177,7 @@ public class MainWindowView
 
 			      if (confirmed == JOptionPane.YES_OPTION) 
 			      {
-			        frame.dispose();
+			    	System.exit(0);
 			      }
 			}
 		});
@@ -355,10 +357,37 @@ public class MainWindowView
 		compileButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
-			  filePath = eventController.compile(frame, editorPane, filePath, errorLog); 
-			  JOptionPane.showMessageDialog(null, "Compilation complete", "Compile Code", JOptionPane.PLAIN_MESSAGE);
+			  
+			  if (filePath != null)
+			  {
+				filePath = eventController.compile(frame, editorPane, filePath, errorLog); 
+				JOptionPane.showMessageDialog(null, "Compilation complete", "Compile Code", JOptionPane.PLAIN_MESSAGE);
+			  }
+			  
+			  else if (editorPane.getText().trim().equals(("")))
+		      {
+				filePath = eventController.compile(frame, editorPane, filePath, errorLog); 
+				
+				if (filePath != null)
+				{
+				  JOptionPane.showMessageDialog(null, "Compilation complete", "Compile Code", JOptionPane.PLAIN_MESSAGE);
+				  fileName = filePath.getFileName().toString();
+				  frame.setTitle(appName + " - " + fileName);
+				  fileModified = false;
+				}
+			  }
+			  
+			  else
+			  {
+				filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+				fileName = filePath.getFileName().toString();
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+			  }
 			}
 		});
+		
+//		compileButton.setVisible(false);
 		
 		JButton compilerunButton = new JButton("");
 		compilerunButton.addActionListener(new ActionListener() 
@@ -371,6 +400,11 @@ public class MainWindowView
 					frame.setTitle(appName + " - " + fileName);
 					fileModified = false;
 				  }
+				
+				else if (editorPane.getText().trim().equals(""))
+				{
+				  
+				}
 				  
 				  else
 				  {
@@ -612,7 +646,6 @@ public class MainWindowView
 		coreToolbar.add(openButton);
 		coreToolbar.add(saveButton);
 		coreToolbar.addSeparator();
-		coreToolbar.addSeparator();
 		coreToolbar.add(compileButton);
 		coreToolbar.add(compilerunButton);
 		coreToolbar.addSeparator();
@@ -625,11 +658,8 @@ public class MainWindowView
 		coreToolbar.add(delbreakpointButton);
 		coreToolbar.add(delallbreakpointButton);
 		coreToolbar.addSeparator();
-		coreToolbar.addSeparator();
 		coreToolbar.add(fontUpButton);
 		coreToolbar.add(fontDownButton);
-		coreToolbar.addSeparator();
-		coreToolbar.addSeparator();
 		coreToolbar.addSeparator();
 		coreToolbar.add(sendButton);
 		coreToolbar.addSeparator();
@@ -743,15 +773,42 @@ public class MainWindowView
 			}
 		});
 		
-		JMenuItem settingsFileItem = new JMenuItem("Settings");
+		JMenu paths = new JMenu("Settings");
 		
-		settingsFileItem.addActionListener(new ActionListener() {
+		JMenuItem settingsGccFileItem = new JMenuItem("GCC path");
+		
+		settingsGccFileItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{ 
-			  eventController.changeSettings(frame);
+			  eventController.changeSettingsGcc(frame);
+			  eventController.savePathSettings();
 			}
 		});
 		
+		paths.add(settingsGccFileItem);
+		
+		JMenuItem settingsGdbFileItem = new JMenuItem("GDB path");
+		
+		settingsGdbFileItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{ 
+			  eventController.changeSettingsGdb(frame);
+			  eventController.savePathSettings();
+			}
+		});
+		
+		paths.add(settingsGdbFileItem);
+		
+		JMenuItem settingsIpFileItem = new JMenuItem("IP Address of server");
+		
+		settingsIpFileItem.addActionListener(new ActionListener() {
+		  public void actionPerformed(ActionEvent e)
+		  {
+			eventController.changeIPSettings();
+		  }
+		});
+		
+		paths.add(settingsIpFileItem);
 		exitFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
 		JMenu editMenu = new JMenu("Edit");
 		editMenu.setMnemonic(KeyEvent.VK_E);
@@ -778,7 +835,32 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-			  filePath = eventController.compile(frame, editorPane, filePath, errorLog);
+			  if (filePath != null)
+			  {
+				filePath = eventController.compile(frame, editorPane, filePath, errorLog); 
+				JOptionPane.showMessageDialog(null, "Compilation complete", "Compile Code", JOptionPane.PLAIN_MESSAGE);
+			  }
+			  
+			  else if (editorPane.getText().trim().equals(("")))
+		      {
+				filePath = eventController.compile(frame, editorPane, filePath, errorLog); 
+				
+				if (filePath != null)
+				{
+				  JOptionPane.showMessageDialog(null, "Compilation complete", "Compile Code", JOptionPane.PLAIN_MESSAGE);
+				  fileName = filePath.getFileName().toString();
+				  frame.setTitle(appName + " - " + fileName);
+				  fileModified = false;
+				}
+			  }
+			  
+			  else
+			  {
+				filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+				fileName = filePath.getFileName().toString();
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+			  }
 			}
 		});
 		
@@ -873,7 +955,6 @@ public class MainWindowView
 		fileMenu.add(openFileItem);
 		fileMenu.add(saveFileItem);
 		fileMenu.add(saveAsFileItem);
-		fileMenu.add(settingsFileItem);
 		fileMenu.addSeparator();
 		fileMenu.add(exitFileItem);
 		menuBar.add(editMenu);
@@ -888,6 +969,7 @@ public class MainWindowView
 		editMenu.add(selectAllEditItem);
 		menuBar.add(buildMenu);
 		buildMenu.add(compileBuildItem);
+		menuBar.add(paths);
 		
 		JMenuItem mntmCompileRun = new JMenuItem("Compile & run");
 		mntmCompileRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0));
@@ -895,8 +977,40 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
+			  if (filePath != null)
+			  {
+				eventController.saveFile(frame, editorPane, filePath, fileModified);
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+				filePath = eventController.compile(frame, editorPane, filePath, errorLog);
+			  }
+			
+			else if (editorPane.getText().trim().equals(""))
+			{
 			  filePath = eventController.compile(frame, editorPane, filePath, errorLog);
-			  eventController.runProgram(filePath);
+			  fileModified = true;
+			  fileName = filePath.getFileName().toString();
+			  frame.setTitle(appName + " - " + fileName);
+			}
+			  
+			  else
+			  {
+				filePath = eventController.saveAsFile(frame, editorPane, fileModified);
+				fileName = filePath.getFileName().toString();
+				frame.setTitle(appName + " - " + fileName);
+				fileModified = false;
+				filePath = eventController.compile(frame, editorPane, filePath, errorLog);
+			  }	  
+			
+			
+			
+			///////////////////////Feedback History Prototype////////////////
+			Feedback feedback = new Feedback(errorLog.getText(), editorPane.getText());
+			feedbackHistory.addFeedback(feedback, filePath, editorPane);
+			feedbackHistory.updateUI();
+
+			//feedbackScroll.getVerticalScrollBar().setValue(feedbackScroll.getVerticalScrollBar().getMaximum());
+			/////////////////////////////////////////////////////////////////
 			}
 		});
 		buildMenu.add(mntmCompileRun);

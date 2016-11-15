@@ -28,6 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -114,6 +115,7 @@ public class FeedbackHistory extends JPanel{
 				};
 				
 				JFrame feedbackWindow = new JFrame("Feedback");
+				feedbackWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 				feedbackWindow.setVisible(true);
 				feedbackWindow.setSize(700,550);
 				feedbackWindow.setResizable(true);

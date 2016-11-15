@@ -15,7 +15,7 @@ public class Activity
 	private String activityName;
 	private File activityFile;
 	private Timestamp activityTimeStamp;
-	private Date activitDeadline;
+	private Timestamp activityDeadline;
 	private String activityFilename;
 	
 	public Activity() 
@@ -24,13 +24,13 @@ public class Activity
 	}
 
 	public Activity(int activityID, String activityName, File activityFile, Timestamp activityTimeStamp,
-			Date activitDeadline, String activityFilename) 
+			Timestamp activityDeadline, String activityFilename) 
 	{
 		this.activityID = activityID;
 		this.activityName = activityName;
 		this.activityFile = activityFile;
 		this.activityTimeStamp = activityTimeStamp;
-		this.activitDeadline = activitDeadline;
+		this.activityDeadline = activityDeadline;
 		this.activityFilename = activityFilename;
 	}
 	
@@ -74,14 +74,14 @@ public class Activity
 		this.activityTimeStamp = activityTimeStamp;
 	}
 	
-	public Date getActivityDeadline() 
+	public Timestamp getActivityDeadline() 
 	{
-		return activitDeadline;
+		return activityDeadline;
 	}
 	
-	public void setActivityDeadline(Date activitDeadline) 
+	public void setActivityDeadline(Timestamp activityDeadline) 
 	{
-		this.activitDeadline = activitDeadline;
+		this.activityDeadline = activityDeadline;
 	}
 	
 	public String getActivityFilename() {
@@ -96,7 +96,7 @@ public class Activity
 	public void sendData() throws IOException
 	{
 	  FileManipulation fm = new FileManipulation();
-	  String toBeSent = "activity," + this.activityID + "," + this.activityName + "," + fm.convertToBinary(this.activityFile) + "," + this.activityTimeStamp + "," + this.activitDeadline + "," + this.activityFilename;
+	  String toBeSent = "activity," + this.activityID + "," + this.activityName + "," + fm.convertToBinary(this.activityFile) + "," + this.activityTimeStamp + "," + this.activityDeadline + "," + this.activityFilename;
 	  
 	  ClientService client = ClientService.getClientService();
 	  client.sendDataToServer(toBeSent);
