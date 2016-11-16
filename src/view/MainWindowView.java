@@ -449,7 +449,11 @@ public class MainWindowView
 				///////////////////////////////////////////
 				//feedbackScroll.getVerticalScrollBar().setValue(feedbackScroll.getVerticalScrollBar().getMaximum());
 				/////////////////////////////////////////////////////////////////
-				eventController.runProgram(filePath);
+				
+				if (errorLog.getText().trim().equals(""))
+				{
+				  eventController.runProgram(filePath);
+				}
 			}
 		});
 		
@@ -748,15 +752,22 @@ public class MainWindowView
 
 		    if (confirmed == JOptionPane.YES_OPTION) 
 		    {
-		      errorLog.setText("");
-		      //Open Feedback File/////////////////////
-		      feedbackFilePath = eventController.getFeedbackFile(filePath);
-		      feedbackHistory.getContainer().removeAll();
-			  feedbackHistory.readFile(feedbackFilePath, editorPane);
-			  feedbackHistory.updateUI();
-			  /////////////////////////////////////////
 		      filePath = eventController.openFile(frame, editorPane);
-			  fileName = filePath.getFileName().toString();
+		      System.out.println(filePath.toString());
+		
+		      if (filePath != null)
+		      {
+		    	  
+				  errorLog.setText("");
+		    	  //Open Feedback File/////////////////////
+			      feedbackFilePath = eventController.getFeedbackFile(filePath);
+			      feedbackHistory.getContainer().removeAll();
+				  feedbackHistory.readFile(feedbackFilePath, editorPane);
+				  feedbackHistory.updateUI();
+				  /////////////////////////////////////////;
+		    	  fileName = filePath.getFileName().toString();
+		    	  eventController.quietlydeleteallbreakpoint(gut, breakpoints);
+		      }
 		    }
 		  }
 		});
@@ -1059,7 +1070,11 @@ public class MainWindowView
 			///////////////////////////////////////////
 			//feedbackScroll.getVerticalScrollBar().setValue(feedbackScroll.getVerticalScrollBar().getMaximum());
 			/////////////////////////////////////////////////////////////////
-			eventController.runProgram(filePath);
+			
+			if (errorLog.getText().trim().equals(""))
+			{
+			  eventController.runProgram(filePath);
+			}
 			}
 		});
 		buildMenu.add(mntmCompileRun);
