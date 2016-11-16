@@ -41,6 +41,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 import controller.EventController;
+import model.ErrorMessage;
 import model.Feedback;
 import service.ClientService;
 import service.Parsers;
@@ -73,9 +74,12 @@ public class MainWindowView
 	private final String appName = "PDE-C";
 	private String fileName;
 	public static JTextArea errorLog;
+	public static JTextArea debugLog;
 	public static JTextArea feedbackLog;
 	private JMenuItem addBreakItem, delBreakItem, delallBreakItem;
 	private JButton breakpointButton, delbreakpointButton, delallbreakpointButton;
+	
+	private static String studentIdNum;
 	
 	private ArrayList<String> codeHistory = new ArrayList<String>();
 	
@@ -89,6 +93,7 @@ public class MainWindowView
 	private JTabbedPane tabbedHorizontalPane;
 	private JTabbedPane tabbedVerticalPane;
 	private FeedbackHistory feedbackHistory;
+	private static JButton sendButton;
 	
 	private int fontSize = 16;
 	private int minFont = 12;
@@ -98,24 +103,24 @@ public class MainWindowView
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args)
-	{
-		EventQueue.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				try
-				{
-				  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-					MainWindowView window = getInstance();
-					window.frame.setVisible(true);
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args)
+//	{
+//		EventQueue.invokeLater(new Runnable()
+//		{
+//			public void run()
+//			{
+//				try
+//				{
+//				  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//					MainWindowView window = getInstance();
+//					window.frame.setVisible(true);
+//				} catch (Exception e)
+//				{
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
@@ -150,6 +155,7 @@ public class MainWindowView
 	  	feedbackScroll = new JScrollPane();
 		tabbedVerticalPane = new JTabbedPane();
 		feedbackHistory = new FeedbackHistory();
+		studentIdNum = "1";
 			
 		try
 		{
@@ -267,13 +273,16 @@ public class MainWindowView
 					{
 						editorPane.setText("");
 						//eventController.deleteDontTouch();
+						feedbackFilePath = null;
+						filePath = null;
+						fileName = "new file";
+						frame.setTitle(appName + " - " + fileName);
+				    	eventController.quietlydeleteallbreakpoint(gut, breakpoints);
+				    	errorLog.setText("");
+						feedbackHistory.getContainer().removeAll();
+						feedbackHistory.updateUI();
 					}
 				}
-				feedbackFilePath = null;
-				filePath = null;
-				fileName = "new file";
-				frame.setTitle(appName + " - " + fileName);
-		    	eventController.quietlydeleteallbreakpoint(gut, breakpoints);
 			}
 		});
 		newButton.setToolTipText("New");
@@ -291,10 +300,18 @@ public class MainWindowView
 			    if (confirmed == JOptionPane.YES_OPTION) 
 			    {
 			      filePath = eventController.openFile(frame, editorPane);
-			      feedbackFilePath = eventController.getFeedbackFile(filePath);
-			      //feedbackHistory.readFile(feedbackFilePath);
+			      System.out.println(filePath.toString());
+			
 			      if (filePath != null)
 			      {
+			    	  
+					  errorLog.setText("");
+			    	  //Open Feedback File/////////////////////
+				      feedbackFilePath = eventController.getFeedbackFile(filePath);
+				      feedbackHistory.getContainer().removeAll();
+					  feedbackHistory.readFile(feedbackFilePath, editorPane);
+					  feedbackHistory.updateUI();
+					  /////////////////////////////////////////;
 			    	  fileName = filePath.getFileName().toString();
 			    	  eventController.quietlydeleteallbreakpoint(gut, breakpoints);
 			      }
@@ -330,8 +347,11 @@ public class MainWindowView
 		saveButton.setBorder(null);
 		
 	    errorLog = new JTextArea (5,20);
-	    errorLog.setEditable ( false ); // set textArea non-editable
-	    JScrollPane cL = new JScrollPane ( errorLog );
+	    debugLog = new JTextArea (5,20);
+	    errorLog.setEditable (false); // set textArea non-editable
+	    debugLog.setEditable(false);
+	    JScrollPane cL = new JScrollPane (errorLog);
+	    JScrollPane dL = new JScrollPane (debugLog);
 		frame.setVisible(true);
 		
 		JButton recoverCode = new JButton("");
@@ -384,6 +404,7 @@ public class MainWindowView
 				frame.setTitle(appName + " - " + fileName);
 				fileModified = false;
 			  }
+			  	
 			}
 		});
 		
@@ -403,7 +424,10 @@ public class MainWindowView
 				
 				else if (editorPane.getText().trim().equals(""))
 				{
-				  
+					  filePath = eventController.compile(frame, editorPane, filePath, errorLog);
+					  fileModified = true;
+					  fileName = filePath.getFileName().toString();
+					  frame.setTitle(appName + " - " + fileName);
 				}
 				  
 				  else
@@ -420,13 +444,20 @@ public class MainWindowView
 				Feedback feedback = new Feedback(errorLog.getText(), editorPane.getText());
 				feedbackHistory.addFeedback(feedback, filePath, editorPane);
 				feedbackHistory.updateUI();
-
+				//Save Feedback File///////////////////////
+				feedbackHistory.saveFile(feedbackHistory.getFeedback(), filePath);
+				///////////////////////////////////////////
 				//feedbackScroll.getVerticalScrollBar().setValue(feedbackScroll.getVerticalScrollBar().getMaximum());
 				/////////////////////////////////////////////////////////////////
+				
+				if (errorLog.getText().trim().equals(""))
+				{
+				  eventController.runProgram(filePath);
+				}
 			}
 		});
 		
-		JButton sendButton = new JButton("Send C File");
+		sendButton = new JButton("Send C File");
 		sendButton.setToolTipText("Send source code");
 		URL send = Main.class.getResource("/send.png");
 		sendButton.setIcon(new ImageIcon(send));
@@ -435,15 +466,22 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+			  eventController.checkIfResourceExists();
 				eventController.sendSrcCode(errorLog, filePath);
 			}
 		});
+		
+		if (studentIdNum.equals("0"))
+		{
+		  sendButton.setVisible(false);
+		}
 		
 		
 		JButton downloadButton = new JButton("Download");
 		downloadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
+			  eventController.checkIfResourceExists();
 			  eventController.downloadActivity();
 			}
 		});
@@ -690,12 +728,16 @@ public class MainWindowView
 					{
 						editorPane.setText("");
 						//eventController.deleteDontTouch();
+						feedbackFilePath = null;
+						filePath = null;
+						fileName = "new file";
+						frame.setTitle(appName + " - " + fileName);
+				    	eventController.quietlydeleteallbreakpoint(gut, breakpoints);
+				    	errorLog.setText("");
+						feedbackHistory.getContainer().removeAll();
+						feedbackHistory.updateUI();
 					}
 				}
-				filePath = null;
-				fileName = "new file";
-				frame.setTitle(appName + " - " + fileName);
-			  
 			}
 		});
 		newFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
@@ -711,7 +753,21 @@ public class MainWindowView
 		    if (confirmed == JOptionPane.YES_OPTION) 
 		    {
 		      filePath = eventController.openFile(frame, editorPane);
-			  fileName = filePath.getFileName().toString();
+		      System.out.println(filePath.toString());
+		
+		      if (filePath != null)
+		      {
+		    	  
+				  errorLog.setText("");
+		    	  //Open Feedback File/////////////////////
+			      feedbackFilePath = eventController.getFeedbackFile(filePath);
+			      feedbackHistory.getContainer().removeAll();
+				  feedbackHistory.readFile(feedbackFilePath, editorPane);
+				  feedbackHistory.updateUI();
+				  /////////////////////////////////////////;
+		    	  fileName = filePath.getFileName().toString();
+		    	  eventController.quietlydeleteallbreakpoint(gut, breakpoints);
+		      }
 		    }
 		  }
 		});
@@ -861,10 +917,11 @@ public class MainWindowView
 				frame.setTitle(appName + " - " + fileName);
 				fileModified = false;
 			  }
+			  	
 			}
 		});
 		
-		compileBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
+		compileBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
 		
 		JMenuItem debugBuildItem = new JMenuItem("Debug", KeyEvent.VK_D);
 		
@@ -902,7 +959,7 @@ public class MainWindowView
 			}
 		});
 		
-		debugBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
+		debugBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, 0));
 		
 		addBreakItem = new JMenuItem("Add Breakpoint...");
 		
@@ -972,7 +1029,7 @@ public class MainWindowView
 		menuBar.add(paths);
 		
 		JMenuItem mntmCompileRun = new JMenuItem("Compile & run");
-		mntmCompileRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0));
+		mntmCompileRun.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F11, 0));
 		mntmCompileRun.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0)
@@ -1008,9 +1065,16 @@ public class MainWindowView
 			Feedback feedback = new Feedback(errorLog.getText(), editorPane.getText());
 			feedbackHistory.addFeedback(feedback, filePath, editorPane);
 			feedbackHistory.updateUI();
-
+			//Save Feedback File///////////////////////
+			feedbackHistory.saveFile(feedbackHistory.getFeedback(), filePath);
+			///////////////////////////////////////////
 			//feedbackScroll.getVerticalScrollBar().setValue(feedbackScroll.getVerticalScrollBar().getMaximum());
 			/////////////////////////////////////////////////////////////////
+			
+			if (errorLog.getText().trim().equals(""))
+			{
+			  eventController.runProgram(filePath);
+			}
 			}
 		});
 		buildMenu.add(mntmCompileRun);
@@ -1062,6 +1126,7 @@ public class MainWindowView
 		
 		tabbedHorizontalPane = new JTabbedPane();
 		tabbedHorizontalPane.add("Error Log", cL);
+		//tabbedHorizontalPane.add("Debug Log", dL);
 		//tabbedHorizontalPane.add("Test Log", cL);
 		
 		tabbedVerticalPane.addTab("Feedback History", new JScrollPane(feedbackHistory));
@@ -1227,5 +1292,23 @@ public class MainWindowView
 	public RSyntaxTextArea getEditor()
 	{
 	  return editorPane;
+	}
+
+	public String getStudentIdNum()
+	{
+	  return studentIdNum;
+	}
+
+	public void setStudentIdNum(String studentIdNum)
+	{
+	  this.studentIdNum = studentIdNum;
+	}
+	
+	public void checkIfSendable()
+	{
+	  if (studentIdNum.equals("0"))
+		{
+		  sendButton.setVisible(false);
+		}
 	}
 }

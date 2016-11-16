@@ -11,6 +11,7 @@ import org.fife.ui.rsyntaxtextarea.parser.DefaultParseResult;
 import org.fife.ui.rsyntaxtextarea.parser.DefaultParserNotice;
 
 import controller.SimplifyError;
+import model.ErrorMessage;
 
 public class COutputCollector extends OutputCollector{
 	
@@ -34,8 +35,6 @@ public class COutputCollector extends OutputCollector{
 		Matcher m = ERROR_PATTERN.matcher(line);
 
 		if (m.find()) {
-			
-
 			String errorDesc = line;
 			line = line.substring(0, line.length()-m.group().length());
 			SimplifyError se = new SimplifyError(errorDesc);

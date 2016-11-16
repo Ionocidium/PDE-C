@@ -97,29 +97,34 @@ public class EventController
 		return filePath;
 	}
 	
-	public Path getFeedbackFile(Path filePath)
+	public Path getFeedbackFile(Path feedbackFilePath)
 	{	
-		Path path = filePath;
 		
-		String filename = path.getFileName().toString();
-		filename = filename.substring(0, filename.lastIndexOf('.'));
-		filename = filename + ".pdec";
+			System.out.println(feedbackFilePath.toString());
+			String pdecFile = "";
+			pdecFile = feedbackFilePath.toString();
+			pdecFile = pdecFile.replaceAll("(\\.c)", ".pdec");
+			pdecFile = pdecFile.replaceAll("(\\\\)", "\\\\");
+			//System.out.println(pdecFile);
+			feedbackFilePath = Paths.get(pdecFile);
+			System.out.println(feedbackFilePath.toString());
+	
+			return feedbackFilePath;
 		
+	}
+	
+	public Path getCFile(Path feedbackFilePath)
+	{	
+		//System.out.println(feedbackFilePath.toString());
+		String cFile = "";
+		cFile = feedbackFilePath.toString();
+		cFile = cFile.replaceAll("(\\.pdec)", ".c");
+		cFile = cFile.replaceAll("(\\\\)", "\\\\");
+		//System.out.println(pdecFile);
+		feedbackFilePath = Paths.get(cFile);
+		//System.out.println(feedbackFilePath.toString());
 		
-		System.out.println(filename);
-//		if (loader.checkerpdec(ext))
-//		{
-//			//if feedback file exists
-//			String pathContents = loader.loadFile(path);
-//			editorPane.setText(pathContents);
-//			frame.setTitle("PDE-C - " + ext);
-//		}
-//		else
-//		{
-//			filePath = null;
-//		}
-
-		return filePath;
+		return feedbackFilePath;
 	}
 	
 	public void changeSettingsGcc(JFrame frame)
@@ -440,7 +445,7 @@ public class EventController
 	
 	public void writeInErrorLog(String s)
 	{
-		MainWindowView.errorLog.setText(s);
+		//MainWindowView.debugLog.setText(s);
 	}
   
 	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, 
@@ -853,5 +858,24 @@ public class EventController
 		public boolean gutterIconInfoIsEmpty(GutterIconInfo gii)
 		{
 			return gii == null?true:false;
+		}
+		
+		public boolean checkIfResourceExists()
+		{
+		  boolean exists = false;
+		  
+		  if (!Files.exists(Paths.get("resources/")))
+		  {
+			try
+			{
+			  Files.createDirectories(Paths.get("resources/"));
+			} catch (IOException e)
+			{
+			  // TODO Auto-generated catch block
+			  e.printStackTrace();
+			}
+		  }
+		  
+		  return exists;
 		}
 	}

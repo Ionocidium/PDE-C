@@ -11,13 +11,15 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LoginScreen {
 
 	private JFrame frmLogin;
 	private JTextField textField;
-	private JPasswordField pwdAbcdfj;
-	private JButton btnRegister;
 
 	/**
 	 * Launch the application.
@@ -26,6 +28,7 @@ public class LoginScreen {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+				  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					LoginScreen window = new LoginScreen();
 					window.frmLogin.setVisible(true);
 				} catch (Exception e) {
@@ -50,7 +53,7 @@ public class LoginScreen {
 		frmLogin.setResizable(false);
 		frmLogin.setTitle("Login");
 		frmLogin.setBounds(100, 100, 278, 128);
-		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmLogin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmLogin.getContentPane().setLayout(null);
 		
 		JLabel lblStudentId = new JLabel("Student ID:");
@@ -60,27 +63,46 @@ public class LoginScreen {
 		
 		textField = new JTextField();
 		textField.setBounds(108, 11, 153, 20);
-		textField.setText("10987654");
+		textField.setText("");
 		frmLogin.getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPassword.setBounds(10, 39, 87, 14);
-		frmLogin.getContentPane().add(lblPassword);
-		
-		pwdAbcdfj = new JPasswordField();
-		pwdAbcdfj.setBounds(108, 36, 153, 20);
-		pwdAbcdfj.setText("AbCd3F6#!J<1");
-		frmLogin.getContentPane().add(pwdAbcdfj);
-		
-		btnRegister = new JButton("Register");
-		btnRegister.setBounds(10, 64, 90, 23);
-		frmLogin.getContentPane().add(btnRegister);
-		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			  EventQueue.invokeLater(new Runnable()
+					{
+						public void run()
+						{
+							try
+							{
+								MainWindowView window = MainWindowView.getInstance();
+								
+								if (!textField.getText().trim().equals(""))
+								{
+								  window.setStudentIdNum(textField.getText());
+								}
+								
+								else
+								{
+								  window.setStudentIdNum("0");
+								  window.checkIfSendable();
+								}
+	
+								window.getMainFrame().setVisible(true);
+								frmLogin.dispose();
+								
+							} catch (Exception e)
+							{
+								e.printStackTrace();
+							}
+						}
+					});
+			}
+		});
 		btnLogin.setBounds(171, 64, 90, 23);
 		frmLogin.getContentPane().add(btnLogin);
+		frmLogin.setLocationRelativeTo(null);
 	}
 
 }

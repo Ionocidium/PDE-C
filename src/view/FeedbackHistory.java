@@ -11,13 +11,17 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URI;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -29,7 +33,10 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -37,6 +44,8 @@ import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import controller.EventController;
+import controller.fileops.FileLoad;
+import controller.fileops.FileSave;
 import model.Feedback;
 import service.Parsers;
 
@@ -50,6 +59,9 @@ public class FeedbackHistory extends JPanel{
 	private ArrayList<Feedback> feedback = new ArrayList<Feedback>();
 	private Path filePath;
 	private JPanel container;
+	private FileLoad loader;
+	private FileSave saveFile;
+	private FileNameExtensionFilter cFilter;
 	private EventController eventController;
 	private RSyntaxTextArea editor;
 	
@@ -57,6 +69,10 @@ public class FeedbackHistory extends JPanel{
 	private String fontStyle;
 
 	public FeedbackHistory() {
+		saveFile = new FileSave();
+		loader = new FileLoad();
+		cFilter = new FileNameExtensionFilter(
+					"PDE-C Feedback File (*.pdec)", ".pdec");
 		container = new JPanel();
 		filePath = null;
 		initialize();
@@ -70,25 +86,51 @@ public class FeedbackHistory extends JPanel{
 		add(container);
 	}
 	
-	public void readFile(Path feedbackFilePath) {
-		
+	public void readFile(Path feedbackFilePath, RSyntaxTextArea editorPane) {
+		if(Files.exists(feedbackFilePath)){
+			String pathContents = loader.loadFile(feedbackFilePath);
+			String[] allFeedback = pathContents.split("\\*\\*\\*PDE-C\\*\\*\\*");
+			for(int i=0; i < allFeedback.length; i+=2){
+				Feedback f = new Feedback(allFeedback[i], allFeedback[i+1]);
+				addFeedback(f, eventController.getCFile(feedbackFilePath), editorPane);
+			}
+		}
+	}
+	
+	public void saveFile(ArrayList<Feedback> feedback, Path feedbackFilePath)
+	{
+		feedbackFilePath = eventController.getFeedbackFile(feedbackFilePath);
+	    String errorFile = "";
+	    for(int x=0; x < feedback.size(); x++) {
+	    	errorFile += feedback.get(x).getError() + "***PDE-C***" + feedback.get(x).getCode();
+	    	if (feedback.size() > x-1) {
+	    		errorFile += "***PDE-C***";
+	    	}
+	    }
+	    	
+	    saveFile.writeFile(feedbackFilePath, errorFile);
 	}
 	
 	public void addFeedback(Feedback feedback, Path filePath, RSyntaxTextArea editorPane) {
-		
 		JButton sub = new JButton();
-		sub.setHorizontalAlignment(SwingConstants.LEFT);
-		sub.setPreferredSize(new Dimension (400, 70));
-		if (feedback.isError())
+		sub.setHorizontalAlignment(SwingConstants.NORTH_EAST);
+		sub.setFont(new Font(fontStyle, Font.PLAIN, 12));
+		sub.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10), sub.getBorder()));
+		sub.setPreferredSize(new Dimension (this.getWidth()-30, 50));
+		if (!feedback.getError().trim().isEmpty())
 		{
-			sub.setText(feedback.getError());
+			if(countErrors(htmlConvert(feedback.getError())) > 1)
+			sub.setText("Compilation failed. " + countErrors(htmlConvert(feedback.getError())) + " errors are detected.");
+			
+			else if(countErrors(htmlConvert(feedback.getError())) == 1)
+			sub.setText("Compilation failed. An error is detected.");
+			
 			sub.setBackground(Color.RED);
 		}
 		else
 		{
 			sub.setText("Compilation Complete!");
 			sub.setBackground(Color.GREEN);
-			eventController.runProgram(filePath);
 		}
 		
 		sub.addActionListener(new ActionListener() 
@@ -115,10 +157,11 @@ public class FeedbackHistory extends JPanel{
 				};
 				
 				JFrame feedbackWindow = new JFrame("Feedback");
+				//feedbackWindow.setAlwaysOnTop(true);
 				feedbackWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 				feedbackWindow.setVisible(true);
 				feedbackWindow.setSize(700,550);
-				feedbackWindow.setResizable(true);
+				feedbackWindow.setResizable(false);
 				feedbackWindow.setLocationRelativeTo(null);
 				
 				Parsers p = new Parsers();
@@ -147,13 +190,17 @@ public class FeedbackHistory extends JPanel{
 				editor.setText(feedback.getCode());
 				
 				JTextArea errorLog = new JTextArea();
+				errorLog.setEditable(false);
 				errorLog.setText(feedback.getError());
+				
+				JPanel containerRecover = new JPanel();
 				
 				JButton recoverCode = new JButton("");
 				recoverCode.setText("Recover Code");
 				recoverCode.setToolTipText("Recovers Code Based on Selected Compile History");
+				recoverCode.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 				recoverCode.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-				recoverCode.setPreferredSize(new Dimension(80, 50));
+				recoverCode.setPreferredSize(new Dimension(120, 35));
 				recoverCode.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {			
 						int confirmed = JOptionPane.showConfirmDialog(null, "Overwrite current code in editor?", "Recover Code", JOptionPane.YES_NO_OPTION);
@@ -164,7 +211,7 @@ public class FeedbackHistory extends JPanel{
 					    }
 					}
 				});
-				
+				containerRecover.add(recoverCode);
 				container.setTopComponent(scrollPane);
 				JSplitPane bottomContainer = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT){
 				    /**
@@ -185,7 +232,7 @@ public class FeedbackHistory extends JPanel{
 				    }
 				};
 				bottomContainer.setTopComponent(new JScrollPane(errorLog));
-				bottomContainer.setBottomComponent(recoverCode);
+				bottomContainer.setBottomComponent(containerRecover);
 				container.setBottomComponent(bottomContainer);
 				feedbackWindow.add(container);
 			  }
@@ -193,6 +240,35 @@ public class FeedbackHistory extends JPanel{
 		
 		container.add(sub);
 		this.feedback.add(feedback);
+	}
+	
+	private int countErrors(String s) {
+		int count = 0;
+		String[] c = s.split("<br />");
+		count = c.length - 2;
+		return count;
+	}
+
+	private String htmlConvert(String s) {
+	    s = s.replaceAll("(\r\n|\n)", "<br />");
+	    s = "<html>" + s + "</html>";
+		return s;
+	}
+
+	public JPanel getContainer() {
+		return container;
+	}
+
+	public void setContainer(JPanel container) {
+		this.container = container;
+	}
+
+	public ArrayList<Feedback> getFeedback() {
+		return feedback;
+	}
+	
+	public void setFeedback(ArrayList<Feedback> feedback) {
+		this.feedback = feedback;
 	}
 
 }
