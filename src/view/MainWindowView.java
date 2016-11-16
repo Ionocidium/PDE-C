@@ -448,6 +448,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+			  eventController.checkIfResourceExists();
 				eventController.sendSrcCode(errorLog, filePath);
 			}
 		});
@@ -462,6 +463,7 @@ public class MainWindowView
 		downloadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
+			  eventController.checkIfResourceExists();
 			  eventController.downloadActivity();
 			}
 		});

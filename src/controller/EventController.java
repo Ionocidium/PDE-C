@@ -854,4 +854,23 @@ public class EventController
 		{
 			return gii == null?true:false;
 		}
+		
+		public boolean checkIfResourceExists()
+		{
+		  boolean exists = false;
+		  
+		  if (!Files.exists(Paths.get("resources/")))
+		  {
+			try
+			{
+			  Files.createDirectories(Paths.get("resources/"));
+			} catch (IOException e)
+			{
+			  // TODO Auto-generated catch block
+			  e.printStackTrace();
+			}
+		  }
+		  
+		  return exists;
+		}
 	}
