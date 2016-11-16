@@ -280,6 +280,7 @@ public class MainWindowView
 				    	eventController.quietlydeleteallbreakpoint(gut, breakpoints);
 				    	errorLog.setText("");
 						feedbackHistory.getContainer().removeAll();
+						feedbackHistory.getFeedback().clear();
 						feedbackHistory.updateUI();
 					}
 				}
@@ -309,6 +310,7 @@ public class MainWindowView
 			    	  //Open Feedback File/////////////////////
 				      feedbackFilePath = eventController.getFeedbackFile(filePath);
 				      feedbackHistory.getContainer().removeAll();
+				      feedbackHistory.getFeedback().clear();
 					  feedbackHistory.readFile(feedbackFilePath, editorPane);
 					  feedbackHistory.updateUI();
 					  /////////////////////////////////////////;
@@ -735,6 +737,7 @@ public class MainWindowView
 				    	eventController.quietlydeleteallbreakpoint(gut, breakpoints);
 				    	errorLog.setText("");
 						feedbackHistory.getContainer().removeAll();
+						feedbackHistory.getFeedback().clear();
 						feedbackHistory.updateUI();
 					}
 				}
@@ -762,6 +765,7 @@ public class MainWindowView
 		    	  //Open Feedback File/////////////////////
 			      feedbackFilePath = eventController.getFeedbackFile(filePath);
 			      feedbackHistory.getContainer().removeAll();
+			      feedbackHistory.getFeedback().clear();
 				  feedbackHistory.readFile(feedbackFilePath, editorPane);
 				  feedbackHistory.updateUI();
 				  /////////////////////////////////////////;
