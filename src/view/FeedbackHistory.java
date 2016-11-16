@@ -12,6 +12,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -86,11 +87,13 @@ public class FeedbackHistory extends JPanel{
 	}
 	
 	public void readFile(Path feedbackFilePath, RSyntaxTextArea editorPane) {
-		String pathContents = loader.loadFile(feedbackFilePath);
-		String[] allFeedback = pathContents.split("\\*\\*\\*PDE-C\\*\\*\\*");
-		for(int i=0; i < allFeedback.length; i+=2){
-			Feedback f = new Feedback(allFeedback[i], allFeedback[i+1]);
-			addFeedback(f, eventController.getCFile(feedbackFilePath), editorPane);
+		if(Files.exists(feedbackFilePath)){
+			String pathContents = loader.loadFile(feedbackFilePath);
+			String[] allFeedback = pathContents.split("\\*\\*\\*PDE-C\\*\\*\\*");
+			for(int i=0; i < allFeedback.length; i+=2){
+				Feedback f = new Feedback(allFeedback[i], allFeedback[i+1]);
+				addFeedback(f, eventController.getCFile(feedbackFilePath), editorPane);
+			}
 		}
 	}
 	

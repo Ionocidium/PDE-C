@@ -99,16 +99,18 @@ public class EventController
 	
 	public Path getFeedbackFile(Path feedbackFilePath)
 	{	
-		System.out.println(feedbackFilePath.toString());
-		String pdecFile = "";
-		pdecFile = feedbackFilePath.toString();
-		pdecFile = pdecFile.replaceAll("(\\.c)", ".pdec");
-		pdecFile = pdecFile.replaceAll("(\\\\)", "\\\\");
-		//System.out.println(pdecFile);
-		feedbackFilePath = Paths.get(pdecFile);
-		System.out.println(feedbackFilePath.toString());
-
-		return feedbackFilePath;
+		
+			System.out.println(feedbackFilePath.toString());
+			String pdecFile = "";
+			pdecFile = feedbackFilePath.toString();
+			pdecFile = pdecFile.replaceAll("(\\.c)", ".pdec");
+			pdecFile = pdecFile.replaceAll("(\\\\)", "\\\\");
+			//System.out.println(pdecFile);
+			feedbackFilePath = Paths.get(pdecFile);
+			System.out.println(feedbackFilePath.toString());
+	
+			return feedbackFilePath;
+		
 	}
 	
 	public Path getCFile(Path feedbackFilePath)
@@ -121,7 +123,7 @@ public class EventController
 		//System.out.println(pdecFile);
 		feedbackFilePath = Paths.get(cFile);
 		//System.out.println(feedbackFilePath.toString());
-
+		
 		return feedbackFilePath;
 	}
 	
