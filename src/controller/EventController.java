@@ -791,6 +791,44 @@ public class EventController
 		return res;
 	}
 	
+	public int silentAddBreakpoint(Gutter g, ArrayList<Integer> b, int num){
+		int res = -1;
+		try
+		{
+			int bpnum = num - 1;
+			boolean existing = false;
+			for(int i = 0; i < b.size(); i++)
+			{
+				if(b.get(i) == bpnum)
+				{
+					existing = true;
+				}
+			}
+			if(!existing)
+			{
+				GutterIconInfo gii = g.addLineTrackingIcon(bpnum, new ImageIcon("resources/images/materialsmall/breakpointeditor.png"));
+				b.add(bpnum);
+				MainWindowView.breakpoints2.add(gii);
+				res = bpnum;
+			}
+		}
+		catch (BadLocationException ble)
+		{
+			JOptionPane.showMessageDialog(null, "The line specified is not found. Discontinuing adding breakpoints...", 
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
+		catch (NumberFormatException nfe)
+		{
+			JOptionPane.showMessageDialog(null, "You entered a non-integer number!", 
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
+		catch (NullPointerException npe)
+		{
+			
+		}
+		return res;
+	}
+	
 		public int deletebreakpoint(JFrame jf, Gutter g, ArrayList<Integer> b){
 			int res = -1;
 			String input = JOptionPane.showInputDialog(
@@ -837,6 +875,33 @@ public class EventController
 				{
 					
 				}
+			}
+			return res;
+		}
+		
+		public int silentDeleteBreakpoint(Gutter g, ArrayList<Integer> b, int bnum){
+			int res = -1;
+			try
+			{
+				int bpnum = bnum - 1;
+				int target = -1;
+				GutterIconInfo gii = null;
+				for(int i = 0; i < b.size(); i++)
+				{
+					if(b.get(i) == bpnum)
+					{
+						gii = MainWindowView.breakpoints2.get(i);
+						target = i;
+					}
+				}
+				g.removeTrackingIcon(gii);
+				b.remove(target);
+				MainWindowView.breakpoints2.remove(target);
+				res = bpnum;
+			}
+			catch (NullPointerException npe)
+			{
+				
 			}
 			return res;
 		}
