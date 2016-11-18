@@ -59,6 +59,7 @@ import javax.swing.JScrollPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
+import java.awt.event.InputEvent;
 
 
 public class MainWindowView
@@ -92,6 +93,7 @@ public class MainWindowView
 	private JScrollPane feedbackScroll;
 	private JTabbedPane tabbedHorizontalPane;
 	private JTabbedPane tabbedVerticalPane;
+	private Gutter gut;
 	private FeedbackHistory feedbackHistory;
 	private static JButton sendButton;
 	
@@ -100,6 +102,8 @@ public class MainWindowView
 	private int maxFont = 72;
 	private String fontStyle;
 	private static MainWindowView instance = null;
+	private static BreakpointLists bpmgrInstance = null;
+	public static EventController eventController = null;
 	/**
 	 * Launch the application.
 	 */
@@ -197,7 +201,7 @@ public class MainWindowView
 		     "C Source (*.c)", "c");
 		fileChooser.setFileFilter(cFilter);
 		
-		EventController eventController = EventController.getEventController();
+		eventController = EventController.getEventController();
         
 		editorPane = new RSyntaxTextArea();
 		fontStyle = editorPane.getFont().getFamily();
@@ -242,7 +246,7 @@ public class MainWindowView
 		scrollPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		scrollPane.setWheelScrollingEnabled(true);
 		scrollPane.revalidate();
-		Gutter gut = scrollPane.getGutter();
+		gut = scrollPane.getGutter();
 		
 		Font monospace = new Font(fontStyle, Font.PLAIN, fontSize);
 		for(int i = 0; i < gut.getComponentCount(); i++)
@@ -541,6 +545,11 @@ public class MainWindowView
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				eventController.addbreakpoint(frame, gut, breakpoints);
+				if(bpmgrInstance == null);
+				else
+				{
+					bpmgrInstance.modifyMe();
+				}
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
 					delallbreakpointButton.setEnabled(true);
@@ -553,6 +562,11 @@ public class MainWindowView
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				eventController.deletebreakpoint(frame, gut, breakpoints);
+				if(bpmgrInstance == null);
+				else
+				{
+					bpmgrInstance.modifyMe();
+				}
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
@@ -565,10 +579,13 @@ public class MainWindowView
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				eventController.deleteallbreakpoint(gut, breakpoints);
-				if(breakpoints.size() == 0) {
-					delbreakpointButton.setEnabled(false);
-					delallbreakpointButton.setEnabled(false);
+				if(bpmgrInstance == null);
+				else
+				{
+					bpmgrInstance.modifyMe();
 				}
+				delbreakpointButton.setEnabled(false);
+				delallbreakpointButton.setEnabled(false);
 			}
 		});
 		
@@ -966,6 +983,7 @@ public class MainWindowView
 		debugBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, 0));
 		
 		addBreakItem = new JMenuItem("Add Breakpoint...");
+		addBreakItem.setEnabled(false);
 		
 		addBreakItem.addActionListener(new ActionListener()
 		{
@@ -979,6 +997,7 @@ public class MainWindowView
 			}
 		});
 		delBreakItem = new JMenuItem("Remove Breakpoint...");
+		delBreakItem.setEnabled(false);
 		delBreakItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -991,6 +1010,7 @@ public class MainWindowView
 			}
 		});
 		delallBreakItem = new JMenuItem("Remove all Breakpoint...");
+		delallBreakItem.setEnabled(false);
 		delallBreakItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -1005,6 +1025,14 @@ public class MainWindowView
 		
 		
 		JMenuItem manageBreakpointItem = new JMenuItem("Manage Breakpoints...");
+		manageBreakpointItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
+		manageBreakpointItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				bpmgrInstance = BreakpointLists.getInstance();
+				bpmgrInstance.openMe();
+				bpmgrInstance.modifyMe();
+			}
+		});
 		
 		JMenu helpMenu = new JMenu("Help");
 		helpMenu.setMnemonic(KeyEvent.VK_H);
@@ -1083,9 +1111,40 @@ public class MainWindowView
 		});
 		buildMenu.add(mntmCompileRun);
 		buildMenu.add(debugBuildItem);
-		buildMenu.add(addBreakItem);
-		buildMenu.add(delBreakItem);
-		buildMenu.add(delallBreakItem);
+//		buildMenu.add(addBreakItem);
+//		buildMenu.add(delBreakItem);
+//		buildMenu.add(delallBreakItem);
+		
+		JMenuItem toggleBreakItem = new JMenuItem("Toggle Breakpoint");
+		toggleBreakItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int lineNum = editorPane.getCaretLineNumber();
+				if(!breakpoints.contains(lineNum))
+				{
+					eventController.silentAddBreakpoint(gut, breakpoints, lineNum + 1);
+				}
+				else
+				{
+					eventController.silentDeleteBreakpoint(gut, breakpoints, lineNum + 1);
+				}
+				if(bpmgrInstance == null);
+				else
+				{
+					bpmgrInstance.modifyMe();
+				}
+				if(breakpoints.size() > 0) {
+					delbreakpointButton.setEnabled(true);
+					delallbreakpointButton.setEnabled(true);
+				}
+				else
+				{
+					delbreakpointButton.setEnabled(false);
+					delallbreakpointButton.setEnabled(false);
+				}
+			}
+		});
+		toggleBreakItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, InputEvent.CTRL_MASK));
+		buildMenu.add(toggleBreakItem);
 		buildMenu.add(manageBreakpointItem);
 		menuBar.add(helpMenu);
 		helpMenu.add(helpHelpItem);
@@ -1130,8 +1189,8 @@ public class MainWindowView
 		
 		tabbedHorizontalPane = new JTabbedPane();
 		tabbedHorizontalPane.add("Error Log", cL);
-		//tabbedHorizontalPane.add("Debug Log", dL);
-		//tabbedHorizontalPane.add("Test Log", cL);
+		tabbedHorizontalPane.add("Debug Log", dL);
+		tabbedHorizontalPane.add("Test Log", cL);
 		
 		tabbedVerticalPane.addTab("Feedback History", new JScrollPane(feedbackHistory));
 		
@@ -1147,106 +1206,6 @@ public class MainWindowView
 
 
 	}
-	
-	/*
-	
-	public void addbreakpoint(Gutter gut){
-		String input = JOptionPane.showInputDialog(
-                frame,
-                "Insert a breakpoint, enter a line number (must not exceed the end of file):");
-		if(input == null || input.isEmpty())
-		{
-			// do nothing
-		}
-		else
-		{
-			try
-			{
-				int bpnum = Integer.parseInt(input) - 1;
-				boolean existing = false;
-				for(int i = 0; i < breakpoints.size(); i++)
-				{
-					if(breakpoints.get(i) == bpnum)
-					{
-						existing = true;
-					}
-				}
-				if(!existing)
-				{
-					GutterIconInfo gii = gut.addLineTrackingIcon(bpnum, new ImageIcon("resources/images/materialsmall/breakpointeditor.png"));
-					breakpoints.add(bpnum);
-					breakpoints2.add(gii);
-					JOptionPane.showMessageDialog(null, "Line " + input + " added successfully.", "Added!", JOptionPane.INFORMATION_MESSAGE);
-				}
-				else
-					JOptionPane.showMessageDialog(null, "Line " + input + " already exists.", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			catch (BadLocationException ble)
-			{
-				JOptionPane.showMessageDialog(null, "The line specified is not found. Discontinuing adding breakpoints...", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			catch (NumberFormatException nfe)
-			{
-				JOptionPane.showMessageDialog(null, "You entered a non-integer number!", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			catch (NullPointerException npe)
-			{
-				
-			}
-		}
-	}
-	
-	public void deletebreakpoint(Gutter gut){
-		String input = JOptionPane.showInputDialog(
-                frame,
-                "Remove a breakpoint, enter a line number (must not exceed the end of file):");
-		if(input == null || input.isEmpty())
-		{
-			// do nothing
-		}
-		else
-		{
-			try
-			{
-				int bpnum = Integer.parseInt(input) - 1;
-				int target = -1;
-				GutterIconInfo gii = null;
-				for(int i = 0; i < breakpoints.size(); i++)
-				{
-					if(breakpoints.get(i) == bpnum)
-					{
-						gii = breakpoints2.get(i);
-						target = i;
-					}
-				}
-				if(target == -1)
-					JOptionPane.showMessageDialog(null, "Line " + input + " does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
-				else
-				{
-					gut.removeTrackingIcon(gii);
-					breakpoints.remove(target);
-					breakpoints2.remove(target);
-					JOptionPane.showMessageDialog(null, "Line " + input + " removed successfully.", "Removed", JOptionPane.INFORMATION_MESSAGE);
-				}
-			}
-			catch (NumberFormatException nfe)
-			{
-				JOptionPane.showMessageDialog(null, "You entered a non-integer number!", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			catch (NullPointerException npe)
-			{
-				
-			}
-		}
-	}
-	
-	public void deleteallbreakpoint(Gutter gut){				
-			gut.removeAllTrackingIcons();
-			breakpoints.clear();
-			breakpoints2.clear();
-			JOptionPane.showMessageDialog(null, "All breakpoints removed successfully.", "Removed", JOptionPane.INFORMATION_MESSAGE);
-	}
-	*/
 	
 	public JSplitPane getHorizontalPane()
 	{
@@ -1314,5 +1273,75 @@ public class MainWindowView
 		{
 		  sendButton.setVisible(false);
 		}
+	}
+
+	/**
+	 * @return the gut
+	 */
+	public Gutter getGut() {
+		return gut;
+	}
+
+	/**
+	 * @param gut the gut to set
+	 */
+	public void setGut(Gutter gut) {
+		this.gut = gut;
+	}
+
+	/**
+	 * @return the breakpoints
+	 */
+	public ArrayList<Integer> getBreakpoints() {
+		return breakpoints;
+	}
+
+	/**
+	 * @param breakpoints the breakpoints to set
+	 */
+	public void setBreakpoints(ArrayList<Integer> breakpoints) {
+		this.breakpoints = breakpoints;
+	}
+
+	/**
+	 * @return the breakpointButton
+	 */
+	public JButton getBreakpointButton() {
+		return breakpointButton;
+	}
+
+	/**
+	 * @param breakpointButton the breakpointButton to set
+	 */
+	public void setBreakpointButton(JButton breakpointButton) {
+		this.breakpointButton = breakpointButton;
+	}
+
+	/**
+	 * @return the delbreakpointButton
+	 */
+	public JButton getDelbreakpointButton() {
+		return delbreakpointButton;
+	}
+
+	/**
+	 * @param delbreakpointButton the delbreakpointButton to set
+	 */
+	public void setDelbreakpointButton(JButton delbreakpointButton) {
+		this.delbreakpointButton = delbreakpointButton;
+	}
+
+	/**
+	 * @return the delallbreakpointButton
+	 */
+	public JButton getDelallbreakpointButton() {
+		return delallbreakpointButton;
+	}
+
+	/**
+	 * @param delallbreakpointButton the delallbreakpointButton to set
+	 */
+	public void setDelallbreakpointButton(JButton delallbreakpointButton) {
+		this.delallbreakpointButton = delallbreakpointButton;
 	}
 }
