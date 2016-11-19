@@ -569,8 +569,7 @@ public class EventController
 					GutterIconInfo gii = null; // temp
 					GutterIconInfo pointer = null;
 					*/
-					long nowTime = System.currentTimeMillis();
-					while(System.currentTimeMillis() < nowTime + 100) ;
+					delayMe(100);
 					Process process = Runtime.getRuntime().exec(local.getGdbPath() + " \"" + exe + "\"");
 	                if (process != null){
 	                    BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -591,6 +590,7 @@ public class EventController
 	                    	{
 	                    		int answer = addbreakpoint(frame, rtsp.getGutter(), bp);
 	                    		if(answer <= -1)
+		    	                    out.println("info locals");
 	                    			out.println("break " + answer);
 	                    	}
                 		};
@@ -601,6 +601,7 @@ public class EventController
 	                    	{
 	                    		int answer = deletebreakpoint(frame, rtsp.getGutter(), bp);
 	                    		if(answer <= -1)
+		    	                    out.println("info locals");
 	                    			out.println("delete " + answer);
 	                    	}
                 		};
@@ -610,6 +611,7 @@ public class EventController
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
 	                    		deleteallbreakpoint(rtsp.getGutter(), bp);
+	    	                    out.println("info locals");
 	                    		out.println("delete");
 	                    	}
                 		};
@@ -622,6 +624,7 @@ public class EventController
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
+	    	                    out.println("info locals");
 	                    		out.println("step");
 	                    	}
 	                    }
@@ -631,6 +634,7 @@ public class EventController
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
+	    	                    out.println("info locals");
 	                    		out.println("continue");
 	                    	}
 	                    }
@@ -654,6 +658,7 @@ public class EventController
 	    	                    {
 	    	                    	out.println("break " + (bp.get(i) + 1));
 	    	                    }
+	    	                    out.println("info locals");
 	    	                    out.println("start");
 	                    	}
 	                    	if(line.startsWith("Breakpoint"))
@@ -942,5 +947,11 @@ public class EventController
 		  }
 		  
 		  return exists;
+		}
+		
+		public void delayMe(long ms)
+		{
+			long nowTime = System.currentTimeMillis();
+			while(System.currentTimeMillis() < nowTime + ms) ;
 		}
 	}
