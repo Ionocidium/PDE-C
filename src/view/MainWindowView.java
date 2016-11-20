@@ -100,7 +100,7 @@ public class MainWindowView
 	
 	// modifiers for global
 	private JButton newButton, openButton, saveButton, compileButton, compilerunButton, debugButton, stepOverButton, resumeButton, stopButton;
-	private JMenuItem newFileItem, openFileItem, saveFileItem, saveAsFileItem, compileBuildItem, debugBuildItem;
+	private JMenuItem newFileItem, openFileItem, saveFileItem, saveAsFileItem, compileBuildItem, debugBuildItem, toggleBreakItem;
 	
 	private int fontSize = 16;
 	private int minFont = 12;
@@ -1124,7 +1124,7 @@ public class MainWindowView
 //		buildMenu.add(delBreakItem);
 //		buildMenu.add(delallBreakItem);
 		
-		JMenuItem toggleBreakItem = new JMenuItem("Toggle Breakpoint");
+		toggleBreakItem = new JMenuItem("Toggle Breakpoint");
 		toggleBreakItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int lineNum = editorPane.getCaretLineNumber();
@@ -1576,5 +1576,19 @@ public class MainWindowView
 	 */
 	public void setDebugBuildItem(JMenuItem debugBuildItem) {
 		this.debugBuildItem = debugBuildItem;
+	}
+
+	/**
+	 * @return the toggleBreakItem
+	 */
+	public JMenuItem getToggleBreakItem() {
+		return toggleBreakItem;
+	}
+
+	/**
+	 * @param toggleBreakItem the toggleBreakItem to set
+	 */
+	public void setToggleBreakItem(JMenuItem toggleBreakItem) {
+		this.toggleBreakItem = toggleBreakItem;
 	}
 }
