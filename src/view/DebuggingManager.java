@@ -31,10 +31,10 @@ import java.util.Random;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class BreakpointLists {
+public class DebuggingManager {
 
 	private JFrame frmBreakpointManager;
-	private static BreakpointLists instance = null;
+	private static DebuggingManager instance = null;
 	
 	private JList<Integer> bpList;
 	private DefaultListModel<Integer> lmbp;
@@ -54,11 +54,11 @@ public class BreakpointLists {
 //		});
 //	}
 
-	public static BreakpointLists getInstance()
+	public static DebuggingManager getInstance()
 	{
 	  if (instance == null)
 	  {
-		instance = new BreakpointLists();
+		instance = new DebuggingManager();
 	  }
 	  
 	  return instance;
@@ -82,7 +82,7 @@ public class BreakpointLists {
 	/**
 	 * Create the application.
 	 */
-	private BreakpointLists() {
+	private DebuggingManager() {
 		initialize();
 	}
 
@@ -101,7 +101,7 @@ public class BreakpointLists {
 		lmbp = new DefaultListModel<Integer>();
 		frmBreakpointManager = new JFrame();
 		frmBreakpointManager.setAlwaysOnTop(true);
-		frmBreakpointManager.setTitle("Breakpoint Manager");
+		frmBreakpointManager.setTitle("Debugging Manager");
 		frmBreakpointManager.setResizable(false);
 		frmBreakpointManager.setBounds(100, 100, 450, 300);
 		frmBreakpointManager.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
