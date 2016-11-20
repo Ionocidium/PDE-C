@@ -140,6 +140,7 @@ public class DebuggingManager {
 		breakpointPanel.setLayout(gbl_breakpointPanel);
 		
 		JPanel bpListPane = new JPanel();
+		bpListPane.setToolTipText("Displays all breakpoints.");
 		bpListPane.setBorder(new TitledBorder(null, "Breakpoint List", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_bpListPane = new GridBagConstraints();
 		gbc_bpListPane.insets = new Insets(0, 0, 0, 5);
@@ -152,8 +153,10 @@ public class DebuggingManager {
 
 		
 		bpList = new JList<Integer>();
+		bpList.setToolTipText("Displays all breakpoints.");
 		
 		JScrollPane bpListScrollPane = new JScrollPane(bpList);
+		bpListScrollPane.setToolTipText("Displays all breakpoints.");
 		bpListPane.add(bpListScrollPane, BorderLayout.CENTER);
 		
 		JPanel bpOptionPane = new JPanel();
@@ -249,16 +252,28 @@ public class DebuggingManager {
 		bpHelperPane.setLayout(new BorderLayout(0, 0));
 		
 		JTextArea txtBpHelper = new JTextArea();
+		txtBpHelper.setEditable(false);
 		bpHelperPane.add(txtBpHelper, BorderLayout.CENTER);
 		txtBpHelper.setWrapStyleWord(true);
 		txtBpHelper.setLineWrap(true);
 		txtBpHelper.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		txtBpHelper.setText("How To Use Breakpoints\r\n\r\nTo add a breakpoint in your code, click on a line of code in your program (to move the typing cursor to that line) where you want the breakpoint to be, then press CTRL+F5. You may also click on the Add Breakpoint button above. Doing so will add the line number of that code to the list of breakpoints. You may have as many breakpoints as you want.\r\n\r\nTo remove a breakpoint, select the line number of the breakpoint you want to remove from the list of breakpoints, then click on the Remove Selected Breakpoint button. Alternatively, you may remove all breakponts from your program by clicking the Remove All Breakpoints.");
+		txtBpHelper.setText("How To Use Breakpoints" + System.getProperty("line.separator") + 
+				System.getProperty("line.separator") + 
+				"To add a breakpoint in your code, click on a line of code in your program (to move the typing cursor to that line) where you want the breakpoint to be, then press CTRL+F5. You may also click on the Add Breakpoint button above. Doing so will add the line number of that code to the list of breakpoints. You may have as many breakpoints as you want." + 
+				System.getProperty("line.separator") + System.getProperty("line.separator") + 
+				"To remove a breakpoint, select the line number of the breakpoint you want to remove from the list of breakpoints, then click on the Remove Selected Breakpoint button. Alternatively, you may remove all breakponts from your program by clicking the Remove All Breakpoints." + 
+				System.getProperty("line.separator") + System.getProperty("line.separator") + 
+				"How to Use the Debugger" + System.getProperty("line.separator") + 
+				System.getProperty("line.separator") + 
+				"The debugger is a useful tool in tracing and debugging your work. This tool allows you to run your code partially and view the values of the variables in your program along the way. " + 
+				System.getProperty("line.separator") + System.getProperty("line.separator") + 
+				"Before you start debugging, let's first set up your breakpoints. A breakpoint is an intentional stopping or pausing location in a program, put in place for debugging purposes. If you run your code in debug mode, your code will automatically stop when it reaches a breakpoint, which will allow you to view the values of your variables at certain points of your program!");
 		variablePanel = new JPanel();
 		tabbedPane.addTab("Variables", null, variablePanel, null);
 		variablePanel.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane varListScrollPane = new JScrollPane(varTable);
+		varListScrollPane.setToolTipText("Displays all local variables.");
 		variablePanel.add(varListScrollPane, BorderLayout.CENTER);
 		variableModel = new DefaultTableModel(varData, varColumnNames){
         	
@@ -280,23 +295,26 @@ public class DebuggingManager {
 		gbl_varOptionsPane.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		varOptionsPane.setLayout(gbl_varOptionsPane);
 		
-		JButton btnStepOver_1 = new JButton("Step Over");
-		GridBagConstraints gbc_btnStepOver_1 = new GridBagConstraints();
-		gbc_btnStepOver_1.fill = GridBagConstraints.BOTH;
-		gbc_btnStepOver_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnStepOver_1.gridx = 0;
-		gbc_btnStepOver_1.gridy = 0;
-		varOptionsPane.add(btnStepOver_1, gbc_btnStepOver_1);
+		JButton btnStepOver = new JButton("Step Over");
+		btnStepOver.setEnabled(false);
+		GridBagConstraints gbc_btnStepOver = new GridBagConstraints();
+		gbc_btnStepOver.fill = GridBagConstraints.BOTH;
+		gbc_btnStepOver.insets = new Insets(0, 0, 5, 5);
+		gbc_btnStepOver.gridx = 0;
+		gbc_btnStepOver.gridy = 0;
+		varOptionsPane.add(btnStepOver, gbc_btnStepOver);
 		
-		JButton btnContinue_1 = new JButton("Continue");
-		GridBagConstraints gbc_btnContinue_1 = new GridBagConstraints();
-		gbc_btnContinue_1.fill = GridBagConstraints.BOTH;
-		gbc_btnContinue_1.insets = new Insets(0, 0, 5, 0);
-		gbc_btnContinue_1.gridx = 1;
-		gbc_btnContinue_1.gridy = 0;
-		varOptionsPane.add(btnContinue_1, gbc_btnContinue_1);
+		JButton btnContinue = new JButton("Continue");
+		btnContinue.setEnabled(false);
+		GridBagConstraints gbc_btnContinue = new GridBagConstraints();
+		gbc_btnContinue.fill = GridBagConstraints.BOTH;
+		gbc_btnContinue.insets = new Insets(0, 0, 5, 0);
+		gbc_btnContinue.gridx = 1;
+		gbc_btnContinue.gridy = 0;
+		varOptionsPane.add(btnContinue, gbc_btnContinue);
 		
 		JButton btnTrackVars = new JButton("Track Variable");
+		btnTrackVars.setEnabled(false);
 		GridBagConstraints gbc_btnTrackVars = new GridBagConstraints();
 		gbc_btnTrackVars.fill = GridBagConstraints.BOTH;
 		gbc_btnTrackVars.insets = new Insets(0, 0, 5, 5);
@@ -304,13 +322,14 @@ public class DebuggingManager {
 		gbc_btnTrackVars.gridy = 1;
 		varOptionsPane.add(btnTrackVars, gbc_btnTrackVars);
 		
-		JButton btnStop_1 = new JButton("Stop");
-		GridBagConstraints gbc_btnStop_1 = new GridBagConstraints();
-		gbc_btnStop_1.fill = GridBagConstraints.BOTH;
-		gbc_btnStop_1.insets = new Insets(0, 0, 5, 0);
-		gbc_btnStop_1.gridx = 1;
-		gbc_btnStop_1.gridy = 1;
-		varOptionsPane.add(btnStop_1, gbc_btnStop_1);
+		JButton btnStop = new JButton("Stop");
+		btnStop.setEnabled(false);
+		GridBagConstraints gbc_btnStop = new GridBagConstraints();
+		gbc_btnStop.fill = GridBagConstraints.BOTH;
+		gbc_btnStop.insets = new Insets(0, 0, 5, 0);
+		gbc_btnStop.gridx = 1;
+		gbc_btnStop.gridy = 1;
+		varOptionsPane.add(btnStop, gbc_btnStop);
 		
 		JPanel varHelperPane = new JPanel();
 		varHelperPane.setBorder(new TitledBorder(null, "Help", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -328,7 +347,7 @@ public class DebuggingManager {
 		txtVarHelper.setWrapStyleWord(true);
 		txtVarHelper.setLineWrap(true);
 		txtVarHelper.setEditable(false);
-		txtVarHelper.setText("How to Use the Debugger\r\n\r\nThe debugger is a useful tool in tracing and debugging your work. This tool allows you to run your code partially and view the values of the variables in your program along the way. \r\n\r\nBefore you start debugging, let's first set up your breakpoints. A breakpoint is an intentional stopping or pausing location in a program, put in place for debugging purposes. If you run your code in debug mode, your code will automatically stop when it reaches a breakpoint, which will allow you to view the values of your variables at certain points of your program!");
+		txtVarHelper.setText("Helper Text");
 		txtVarHelper.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		watchPanel = new JPanel();
 		tabbedPane.addTab("Watches", null, watchPanel, null);
