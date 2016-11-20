@@ -15,9 +15,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -429,6 +431,10 @@ public class EventController
 		mwv.getStepOverButton().setEnabled(!mwv.getStepOverButton().isEnabled());
 		mwv.getResumeButton().setEnabled(!mwv.getResumeButton().isEnabled());
 		mwv.getStopButton().setEnabled(!mwv.getStopButton().isEnabled());
+		MainWindowView.debugMgrInstance.getBtnContinue().setEnabled(!MainWindowView.debugMgrInstance.getBtnContinue().isEnabled());
+		MainWindowView.debugMgrInstance.getBtnStepOver().setEnabled(!MainWindowView.debugMgrInstance.getBtnStepOver().isEnabled());
+		MainWindowView.debugMgrInstance.getBtnStop().setEnabled(!MainWindowView.debugMgrInstance.getBtnStop().isEnabled());
+		MainWindowView.debugMgrInstance.getBtnTrackVars().setEnabled(!MainWindowView.debugMgrInstance.getBtnTrackVars().isEnabled());
 	}
 	
 	public void writeInErrorLog(String s)
@@ -517,13 +523,12 @@ public class EventController
 		}
 	}
 	
-	
-
 	public void debugActual(String exe, LocalConfiguration local, MainWindowView mwv)
 	{
 		JButton breakpointButton = mwv.getBreakpointButton(), 
 				delbreakpointButton = mwv.getDelbreakpointButton(), 
 				delallbreakpointButton = mwv.getDelallbreakpointButton();
+		JMenuItem toggleBreakpointMenuItem = mwv.getToggleBreakItem();
 		writeInErrorLog("");
 		Thread debug = new Thread(new Runnable(){
 			public void run()
@@ -552,9 +557,17 @@ public class EventController
 	                    ActionListener abListener = breakpointButton.getActionListeners()[0];
 	                    ActionListener dbListener = delbreakpointButton.getActionListeners()[0];
 	                    ActionListener dabListener = delallbreakpointButton.getActionListeners()[0];
+	                    ActionListener tbListener = toggleBreakpointMenuItem.getActionListeners()[0];
+	                    ActionListener ab_debug_Listener = MainWindowView.debugMgrInstance.getBtnAddABreakpoint().getActionListeners()[0];
+	                    ActionListener db_debug_Listener = MainWindowView.debugMgrInstance.getBtnRemoveSelected().getActionListeners()[0];
+	                    ActionListener dab_debug_Listener = MainWindowView.debugMgrInstance.getBtnRemoveAll().getActionListeners()[0];
 	                    breakpointButton.removeActionListener(abListener);
 	                    delbreakpointButton.removeActionListener(dbListener);
 	                    delallbreakpointButton.removeActionListener(dabListener);
+	                    toggleBreakpointMenuItem.removeActionListener(tbListener);
+	                    MainWindowView.debugMgrInstance.getBtnAddABreakpoint().removeActionListener(ab_debug_Listener);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().removeActionListener(db_debug_Listener);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().removeActionListener(dab_debug_Listener);
 	                    
 	                    ActionListener abListener2 = new ActionListener()
                 		{
@@ -571,6 +584,10 @@ public class EventController
 	                    	{
 	                    		int answer = deletebreakpoint(mwv.getMainFrame(), mwv.getGut(), mwv.getBreakpoints());
                     			out.println("delete " + answer);
+        						if(mwv.getBreakpoints().size() == 0) {
+        							mwv.getDelbreakpointButton().setEnabled(false);
+        							mwv.getDelallbreakpointButton().setEnabled(false);
+        						}
 	                    	}
                 		};
 	                    
@@ -579,47 +596,132 @@ public class EventController
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
 	                    		deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
+                				mwv.getDelbreakpointButton().setEnabled(false);
+                				mwv.getDelallbreakpointButton().setEnabled(false);
 	                    		out.println("delete");
 	                    	}
+                		};
+                		
+                		ActionListener tbListener2 = new ActionListener() {
+                			public void actionPerformed(ActionEvent e) {
+                				int lineNum = mwv.getEditor().getCaretLineNumber();
+                				if(!mwv.getBreakpoints().contains(lineNum))
+                				{
+                					silentAddBreakpoint(mwv.getGut(), mwv.getBreakpoints(), lineNum + 1);
+                        			out.println("break " + (lineNum + 1));
+                				}
+                				else
+                				{
+                					silentDeleteBreakpoint(mwv.getGut(), mwv.getBreakpoints(), lineNum + 1);
+                        			out.println("delete " + (lineNum + 1));
+                				}
+            					MainWindowView.debugMgrInstance.modifyBreakpoints();
+                				if(mwv.getBreakpoints().size() > 0) {
+                					delbreakpointButton.setEnabled(true);
+                					delallbreakpointButton.setEnabled(true);
+                				}
+                				else
+                				{
+                					delbreakpointButton.setEnabled(false);
+                					delallbreakpointButton.setEnabled(false);
+                				}
+                			}
+                		};
+                		
+                		ActionListener ab_debug_Listener2 = new ActionListener()
+                		{
+	                    	public void actionPerformed(ActionEvent e)
+	                    	{
+	                    		int answer = addbreakpoint(mwv.getMainFrame(), mwv.getGut(), mwv.getBreakpoints());
+	                    		if(answer > 0)
+	            				{
+	                    			MainWindowView.debugMgrInstance.getLmbp().addElement(answer);
+	                    			MainWindowView.debugMgrInstance.getBpList().setModel(MainWindowView.debugMgrInstance.getLmbp());
+	            					if(mwv.getBreakpoints().size() > 0) {
+	            						mwv.getDelbreakpointButton().setEnabled(true);
+	            						mwv.getDelallbreakpointButton().setEnabled(true);
+	            					}
+	            				}
+                    			out.println("break " + answer);
+	                    	}
+                		};
+	                    
+                		ActionListener db_debug_Listener2 = new ActionListener()
+                		{
+	                    	public void actionPerformed(ActionEvent e)
+	                    	{
+	            				List<Integer> selected = MainWindowView.debugMgrInstance.getBpList().getSelectedValuesList();
+	            				if(selected.size() > 0)
+	            				{
+	            					for(int i = 0; i < selected.size(); i++)
+	            					{
+	            						int answer = selected.get(i);
+	            						MainWindowView.debugMgrInstance.getLmbp().removeElement(answer);
+	            						MainWindowView.eventController.silentDeleteBreakpoint(mwv.getGut(), mwv.getBreakpoints(), selected.get(i));
+	            						if(mwv.getBreakpoints().size() == 0) {
+	            							mwv.getDelbreakpointButton().setEnabled(false);
+	            							mwv.getDelallbreakpointButton().setEnabled(false);
+	            						}
+	                        			out.println("delete " + answer);
+	            					}
+	            					MainWindowView.debugMgrInstance.getBpList().setModel(MainWindowView.debugMgrInstance.getLmbp());
+	            				}
+	                    	}
+                		};
+	                    
+                		ActionListener dab_debug_Listener2 = new ActionListener() {
+                			public void actionPerformed(ActionEvent e) {
+                				MainWindowView.debugMgrInstance.setLmbp(new DefaultListModel<Integer>());
+                				MainWindowView.debugMgrInstance.getBpList().setModel(MainWindowView.debugMgrInstance.getLmbp());
+                				MainWindowView.eventController.deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
+                				mwv.getDelbreakpointButton().setEnabled(false);
+                				mwv.getDelallbreakpointButton().setEnabled(false);
+	                    		out.println("delete");
+                			}
                 		};
 
                 		breakpointButton.addActionListener(abListener2);
                 		delbreakpointButton.addActionListener(dbListener2);
                 		delallbreakpointButton.addActionListener(dabListener2);
+                		toggleBreakpointMenuItem.addActionListener(tbListener2);
+                		MainWindowView.debugMgrInstance.getBtnAddABreakpoint().addActionListener(ab_debug_Listener2);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().addActionListener(db_debug_Listener2);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().addActionListener(dab_debug_Listener2);
 	                    
-	                    mwv.getStepOverButton().addActionListener(new ActionListener()
+	                    ActionListener stepOverListener = new ActionListener()
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
 	    	                    command = "info locals";
 	    	                    out.println(command);
-	    	                    command = "step";
-	                    		out.println(command);
+	                    		out.println("step");
+	                    		MainWindowView.debugMgrInstance.loadingDebuggingTable();
 	                    	}
-	                    }
-	                    );
-	                    
-	                    mwv.getResumeButton().addActionListener(new ActionListener()
+	                    };
+	                    ActionListener resumeListener = new ActionListener()
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
 	    	                    command = "info locals";
 	    	                    out.println(command);
-	    	                    command = "continue";
-	                    		out.println(command);
+	                    		out.println("continue");
+	                    		MainWindowView.debugMgrInstance.loadingDebuggingTable();
 	                    	}
-	                    }
-	                    );
-	                    
-	                    mwv.getStopButton().addActionListener(new ActionListener()
+	                    };
+	                    ActionListener stopListener = new ActionListener()
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
 	                    		command = "";
 			                    out.close();
 	                    	}
-	                    }
-	                    );
+	                    };
+	                    mwv.getStepOverButton().addActionListener(stepOverListener);
+	                    mwv.getResumeButton().addActionListener(resumeListener);
+	                    mwv.getStopButton().addActionListener(stopListener);
+	                    MainWindowView.debugMgrInstance.getBtnStepOver().addActionListener(stepOverListener);
+	                    MainWindowView.debugMgrInstance.getBtnContinue().addActionListener(resumeListener);
+	                    MainWindowView.debugMgrInstance.getBtnStop().addActionListener(stopListener);
 	                    boolean notYet = true;
 	                    while ((line = in.readLine()) != null && notYet){
 	                    	//Regex: Breakpoint \d*, ([a-zA-Z_][a-zA-Z0-9_]*) (\(()\)) at (?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+:
@@ -643,7 +745,6 @@ public class EventController
                     			{
                         			System.out.println("Step/Continue has been pressed.");
                     			}
-	                    		MainWindowView.debugMgrInstance.modifyDebugging(locals);
 	                    	}
 	                    	if(line.endsWith("Type \"apropos word\" to search for commands related to \"word\"..."))
 	                    	{
@@ -719,10 +820,15 @@ public class EventController
 	                    breakpointButton.removeActionListener(abListener2);
 	                    delbreakpointButton.removeActionListener(dbListener2);
 	                    delallbreakpointButton.removeActionListener(dabListener2);
+	                    toggleBreakpointMenuItem.removeActionListener(tbListener2);
 	                    
 	                    breakpointButton.addActionListener(abListener);
 	                    delbreakpointButton.addActionListener(dbListener);
 	                    delallbreakpointButton.addActionListener(dabListener);
+	                    toggleBreakpointMenuItem.addActionListener(tbListener);
+	                    MainWindowView.debugMgrInstance.getBtnAddABreakpoint().addActionListener(ab_debug_Listener);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().addActionListener(db_debug_Listener);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().addActionListener(dab_debug_Listener);
 	                    MainWindowView.debugMgrInstance.resetDebuggingTable();
 	                    debugToggler();
 	                }

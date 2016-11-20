@@ -47,6 +47,8 @@ public class DebuggingManager {
 
 	private JFrame frmBreakpointManager;
 	private JPanel breakpointPanel, variablePanel, watchPanel;
+	private JButton btnStepOver, btnContinue, btnTrackVars, btnStop; // Variables Tab
+	private JButton btnAddABreakpoint, btnRemoveSelected, btnRemoveAll; // Variables Tab
 	private static DebuggingManager instance = null;
 	final private String[] varColumnNames = 
 	{
@@ -54,7 +56,10 @@ public class DebuggingManager {
 	};
 	private Object[][] varData = {
             {"Nothing to display because debug is not active."}};
+	private Object[][] varData2 = {
+            {"Running... Please wait."}};
 	private DefaultTableModel variableModel;
+	private DefaultTableModel variableModel2;
 	
 	private JList<Integer> bpList;
 	private DefaultListModel<Integer> lmbp;
@@ -93,6 +98,10 @@ public class DebuggingManager {
 
 	public void resetDebuggingTable(){
 		varTable.setModel(variableModel);
+	}
+
+	public void loadingDebuggingTable(){
+		varTable.setModel(variableModel2);
 	}
 	
 	public void modifyDebugging(ArrayList<LocalObject> aLocal){
@@ -138,7 +147,7 @@ public class DebuggingManager {
 		{
 			e.printStackTrace();
 		}
-		lmbp = new DefaultListModel<Integer>();
+		setLmbp(new DefaultListModel<Integer>());
 		frmBreakpointManager = new JFrame();
 		frmBreakpointManager.setAlwaysOnTop(true);
 		frmBreakpointManager.setTitle("Debugging Manager");
@@ -193,15 +202,15 @@ public class DebuggingManager {
 		gbl_bpOptionPane.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		bpOptionPane.setLayout(gbl_bpOptionPane);
 		
-		JButton btnAddABreakpoint = new JButton("Add A Breakpoint");
+		btnAddABreakpoint = new JButton("Add A Breakpoint");
 		btnAddABreakpoint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MainWindowView mwv = MainWindowView.getInstance();
 				int value = MainWindowView.eventController.addbreakpoint(frmBreakpointManager, mwv.getGut(), mwv.getBreakpoints()) + 1;
 				if(value > 0)
 				{
-					lmbp.addElement(value);
-					bpList.setModel(lmbp);
+					getLmbp().addElement(value);
+					bpList.setModel(getLmbp());
 					if(mwv.getBreakpoints().size() > 0) {
 						mwv.getDelbreakpointButton().setEnabled(true);
 						mwv.getDelallbreakpointButton().setEnabled(true);
@@ -216,7 +225,7 @@ public class DebuggingManager {
 		gbc_btnAddABreakpoint.gridy = 0;
 		bpOptionPane.add(btnAddABreakpoint, gbc_btnAddABreakpoint);
 		
-		JButton btnRemoveSelected = new JButton("Remove Selected Breakpoint");
+		btnRemoveSelected = new JButton("Remove Selected Breakpoint");
 		btnRemoveSelected.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				List<Integer> selected = bpList.getSelectedValuesList();
@@ -225,14 +234,14 @@ public class DebuggingManager {
 					MainWindowView mwv = MainWindowView.getInstance();
 					for(int i = 0; i < selected.size(); i++)
 					{
-						lmbp.removeElement(selected.get(i));
+						getLmbp().removeElement(selected.get(i));
 						MainWindowView.eventController.silentDeleteBreakpoint(mwv.getGut(), mwv.getBreakpoints(), selected.get(i));
 						if(mwv.getBreakpoints().size() == 0) {
 							mwv.getDelbreakpointButton().setEnabled(false);
 							mwv.getDelallbreakpointButton().setEnabled(false);
 						}
 					}
-					bpList.setModel(lmbp);
+					bpList.setModel(getLmbp());
 				}
 			}
 		});
@@ -243,11 +252,11 @@ public class DebuggingManager {
 		gbc_btnRemoveSelected.gridy = 0;
 		bpOptionPane.add(btnRemoveSelected, gbc_btnRemoveSelected);
 		
-		JButton btnRemoveAll = new JButton("Remove All Breakpoints");
+		btnRemoveAll = new JButton("Remove All Breakpoints");
 		btnRemoveAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MainWindowView mwv = MainWindowView.getInstance();
-				lmbp = new DefaultListModel<Integer>();
+				setLmbp(new DefaultListModel<Integer>());
 				bpList.setModel(new DefaultListModel<Integer>());
 				MainWindowView.eventController.deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
 				mwv.getDelbreakpointButton().setEnabled(false);
@@ -301,6 +310,12 @@ public class DebuggingManager {
         	public boolean isCellEditable(int row, int column){return false;}
         	
         };
+		variableModel2 = new DefaultTableModel(varData2, varColumnNames){
+        	
+        	@Override
+        	public boolean isCellEditable(int row, int column){return false;}
+        	
+        };
 		varTable = new JTable(variableModel);
 		varTable.setCellSelectionEnabled(true);
 		varListScrollPane.setViewportView(varTable);
@@ -315,7 +330,7 @@ public class DebuggingManager {
 		gbl_varOptionsPane.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		varOptionsPane.setLayout(gbl_varOptionsPane);
 		
-		JButton btnStepOver = new JButton("Step Over");
+		btnStepOver = new JButton("Step Over");
 		btnStepOver.setEnabled(false);
 		GridBagConstraints gbc_btnStepOver = new GridBagConstraints();
 		gbc_btnStepOver.fill = GridBagConstraints.BOTH;
@@ -324,7 +339,7 @@ public class DebuggingManager {
 		gbc_btnStepOver.gridy = 0;
 		varOptionsPane.add(btnStepOver, gbc_btnStepOver);
 		
-		JButton btnContinue = new JButton("Continue");
+		btnContinue = new JButton("Continue");
 		btnContinue.setEnabled(false);
 		GridBagConstraints gbc_btnContinue = new GridBagConstraints();
 		gbc_btnContinue.fill = GridBagConstraints.BOTH;
@@ -333,7 +348,7 @@ public class DebuggingManager {
 		gbc_btnContinue.gridy = 0;
 		varOptionsPane.add(btnContinue, gbc_btnContinue);
 		
-		JButton btnTrackVars = new JButton("Track Variable");
+		btnTrackVars = new JButton("Track Variable");
 		btnTrackVars.setEnabled(false);
 		GridBagConstraints gbc_btnTrackVars = new GridBagConstraints();
 		gbc_btnTrackVars.fill = GridBagConstraints.BOTH;
@@ -342,7 +357,7 @@ public class DebuggingManager {
 		gbc_btnTrackVars.gridy = 1;
 		varOptionsPane.add(btnTrackVars, gbc_btnTrackVars);
 		
-		JButton btnStop = new JButton("Stop");
+		btnStop = new JButton("Stop");
 		btnStop.setEnabled(false);
 		GridBagConstraints gbc_btnStop = new GridBagConstraints();
 		gbc_btnStop.fill = GridBagConstraints.BOTH;
@@ -378,5 +393,125 @@ public class DebuggingManager {
 		
 		JLabel lblUnderConstruction = new JLabel("Under Construction. Feature Coming Soon");
 		panel.add(lblUnderConstruction);
+	}
+
+	/**
+	 * @return the btnStepOver
+	 */
+	public JButton getBtnStepOver() {
+		return btnStepOver;
+	}
+
+	/**
+	 * @param btnStepOver the btnStepOver to set
+	 */
+	public void setBtnStepOver(JButton btnStepOver) {
+		this.btnStepOver = btnStepOver;
+	}
+
+	/**
+	 * @return the btnContinue
+	 */
+	public JButton getBtnContinue() {
+		return btnContinue;
+	}
+
+	/**
+	 * @param btnContinue the btnContinue to set
+	 */
+	public void setBtnContinue(JButton btnContinue) {
+		this.btnContinue = btnContinue;
+	}
+
+	/**
+	 * @return the btnTrackVars
+	 */
+	public JButton getBtnTrackVars() {
+		return btnTrackVars;
+	}
+
+	/**
+	 * @param btnTrackVars the btnTrackVars to set
+	 */
+	public void setBtnTrackVars(JButton btnTrackVars) {
+		this.btnTrackVars = btnTrackVars;
+	}
+
+	/**
+	 * @return the btnStop
+	 */
+	public JButton getBtnStop() {
+		return btnStop;
+	}
+
+	/**
+	 * @param btnStop the btnStop to set
+	 */
+	public void setBtnStop(JButton btnStop) {
+		this.btnStop = btnStop;
+	}
+
+	/**
+	 * @return the btnAddABreakpoint
+	 */
+	public JButton getBtnAddABreakpoint() {
+		return btnAddABreakpoint;
+	}
+
+	/**
+	 * @param btnAddABreakpoint the btnAddABreakpoint to set
+	 */
+	public void setBtnAddABreakpoint(JButton btnAddABreakpoint) {
+		this.btnAddABreakpoint = btnAddABreakpoint;
+	}
+
+	/**
+	 * @return the btnRemoveSelected
+	 */
+	public JButton getBtnRemoveSelected() {
+		return btnRemoveSelected;
+	}
+
+	/**
+	 * @param btnRemoveSelected the btnRemoveSelected to set
+	 */
+	public void setBtnRemoveSelected(JButton btnRemoveSelected) {
+		this.btnRemoveSelected = btnRemoveSelected;
+	}
+
+	/**
+	 * @return the btnRemoveAll
+	 */
+	public JButton getBtnRemoveAll() {
+		return btnRemoveAll;
+	}
+
+	/**
+	 * @param btnRemoveAll the btnRemoveAll to set
+	 */
+	public void setBtnRemoveAll(JButton btnRemoveAll) {
+		this.btnRemoveAll = btnRemoveAll;
+	}
+
+	public DefaultListModel<Integer> getLmbp() {
+		return lmbp;
+	}
+
+	public void setLmbp(DefaultListModel<Integer> lmbp) {
+		this.lmbp = lmbp;
+	}
+
+	/**
+	 * @return the bpList
+	 */
+	public JList<Integer> getBpList() {
+		return bpList;
+	}
+
+	/**
+	 * @param bpList the bpList to set
+	 */
+	public void setBpList(JList<Integer> bpList) {
+		this.bpList = bpList;
 	}
 }
