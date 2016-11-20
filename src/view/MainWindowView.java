@@ -93,16 +93,21 @@ public class MainWindowView
 	private JScrollPane feedbackScroll;
 	private JTabbedPane tabbedHorizontalPane;
 	private JTabbedPane tabbedVerticalPane;
+	private RTextScrollPane scrollPane;
 	private Gutter gut;
 	private FeedbackHistory feedbackHistory;
 	private static JButton sendButton;
+	
+	// modifiers for global
+	private JButton newButton, openButton, saveButton, compileButton, compilerunButton, debugButton, stepOverButton, resumeButton, stopButton;
+	private JMenuItem newFileItem, openFileItem, saveFileItem, saveAsFileItem, compileBuildItem, debugBuildItem;
 	
 	private int fontSize = 16;
 	private int minFont = 12;
 	private int maxFont = 72;
 	private String fontStyle;
 	private static MainWindowView instance = null;
-	private static BreakpointLists bpmgrInstance = null;
+	private static DebuggingManager bpmgrInstance = null;
 	public static EventController eventController = null;
 	/**
 	 * Launch the application.
@@ -239,7 +244,7 @@ public class MainWindowView
 		editorPane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
 		editorPane.setCodeFoldingEnabled(true);
 		editorPane.setFont(new Font(fontStyle, Font.PLAIN, fontSize));
-		RTextScrollPane scrollPane = new RTextScrollPane(editorPane);
+		scrollPane = new RTextScrollPane(editorPane);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setIconRowHeaderEnabled(true);
 		JComponent.setDefaultLocale(null);
@@ -258,7 +263,7 @@ public class MainWindowView
 		coreToolbar = new JToolBar();
 		coreToolbar.setFloatable(false);
 		coreToolbar.setRollover(true);
-		JButton newButton = new JButton("");
+		newButton = new JButton("");
 		newButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -295,7 +300,7 @@ public class MainWindowView
 		newButton.setIcon(new ImageIcon(newfile));
 		newButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		JButton openButton = new JButton("");
+		openButton = new JButton("");
 		openButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -329,7 +334,7 @@ public class MainWindowView
 		openButton.setToolTipText("Open");
 		openButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		JButton saveButton = new JButton("");
+		saveButton = new JButton("");
 		saveButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -379,7 +384,7 @@ public class MainWindowView
 		clearHistory.setEnabled(false);
 		
 		
-		JButton compileButton = new JButton("");
+		compileButton = new JButton("");
 		compileButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
@@ -416,7 +421,7 @@ public class MainWindowView
 		
 //		compileButton.setVisible(false);
 		
-		JButton compilerunButton = new JButton("");
+		compilerunButton = new JButton("");
 		compilerunButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) {
@@ -512,7 +517,7 @@ public class MainWindowView
 		compilerunButton.setToolTipText("Compile and Run");
 		compilerunButton.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		
-		JButton debugButton = new JButton("");
+		debugButton = new JButton("");
 		URL debug = Main.class.getResource("/debug.png");
 		debugButton.setIcon(new ImageIcon(debug));
 		debugButton.setToolTipText("Debug");
@@ -589,21 +594,21 @@ public class MainWindowView
 			}
 		});
 		
-		JButton stepOverButton = new JButton("");
+		stepOverButton = new JButton("");
 		URL stepOver = Main.class.getResource("/stepOver.png");
 		stepOverButton.setIcon(new ImageIcon(stepOver));
 		stepOverButton.setToolTipText("Step Over");
 		stepOverButton.setEnabled(false);
 		stepOverButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		JButton resumeButton = new JButton("");
+		resumeButton = new JButton("");
 		URL resume = Main.class.getResource("/resume.png");
 		resumeButton.setIcon(new ImageIcon(resume));
 		resumeButton.setToolTipText("Resume");
 		resumeButton.setEnabled(false);
 		resumeButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		JButton stopButton = new JButton("");
+		stopButton = new JButton("");
 		URL stop = Main.class.getResource("/stop.png");
 		stopButton.setIcon(new ImageIcon(stop));
 		stopButton.setToolTipText("Stop Debugging");
@@ -729,7 +734,7 @@ public class MainWindowView
 		menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);
-		JMenuItem newFileItem = new JMenuItem("New", KeyEvent.VK_N);
+		newFileItem = new JMenuItem("New", KeyEvent.VK_N);
 		newFileItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{ 
@@ -762,7 +767,7 @@ public class MainWindowView
 		});
 		newFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 		
-		JMenuItem openFileItem = new JMenuItem("Open");
+		openFileItem = new JMenuItem("Open");
 		openFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		openFileItem.addActionListener(new ActionListener() 
 		{
@@ -794,7 +799,7 @@ public class MainWindowView
 		});
 		
 		
-		JMenuItem saveFileItem = new JMenuItem("Save");
+		saveFileItem = new JMenuItem("Save");
 		saveFileItem.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -825,7 +830,7 @@ public class MainWindowView
 		
 		saveFileItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		
-		JMenuItem saveAsFileItem = new JMenuItem("Save As...");
+		saveAsFileItem = new JMenuItem("Save As...");
 		
 		saveAsFileItem.addActionListener(new ActionListener() 
 		{
@@ -906,7 +911,7 @@ public class MainWindowView
 		JMenu buildMenu = new JMenu("Build");
 		buildMenu.setMnemonic(KeyEvent.VK_B);
 		
-		JMenuItem compileBuildItem = new JMenuItem("Compile");
+		compileBuildItem = new JMenuItem("Compile");
 		
 		compileBuildItem.addActionListener(new ActionListener() 
 		{
@@ -944,22 +949,24 @@ public class MainWindowView
 		
 		compileBuildItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0));
 		
-		JMenuItem debugBuildItem = new JMenuItem("Debug", KeyEvent.VK_D);
+		debugBuildItem = new JMenuItem("Debug", KeyEvent.VK_D);
 		
 		debugBuildItem.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				eventController.debugToggler(frame, newButton, newFileItem, openButton, 
-						openFileItem, saveButton, saveFileItem, saveAsFileItem, 
-						compileButton, compilerunButton, compileBuildItem, debugButton, 
-						debugBuildItem, stepOverButton, resumeButton, stopButton);
-				eventController.debugActual2(frame, editorPane, filePath, newButton, 
-						newFileItem, openButton, openFileItem, saveButton, saveFileItem, 
-						saveAsFileItem, compileButton, compilerunButton, compileBuildItem, 
-						debugButton, debugBuildItem, stepOverButton, resumeButton, 
-						stopButton, editorPane, scrollPane, addBreakItem, delBreakItem, 
-						delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, breakpoints);
+//				eventController.debugToggler(frame, newButton, newFileItem, openButton, 
+//						openFileItem, saveButton, saveFileItem, saveAsFileItem, 
+//						compileButton, compilerunButton, compileBuildItem, debugButton, 
+//						debugBuildItem, stepOverButton, resumeButton, stopButton);
+				eventController.debugToggler();
+//				eventController.debugActual2(frame, editorPane, filePath, newButton, 
+//						newFileItem, openButton, openFileItem, saveButton, saveFileItem, 
+//						saveAsFileItem, compileButton, compilerunButton, compileBuildItem, 
+//						debugButton, debugBuildItem, stepOverButton, resumeButton, 
+//						stopButton, editorPane, scrollPane, addBreakItem, delBreakItem, 
+//						delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, breakpoints);
+				eventController.debugInit(filePath, breakpointButton, delbreakpointButton, delallbreakpointButton);
 			}
 		});
 		
@@ -967,16 +974,18 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				eventController.debugToggler(frame, newButton, newFileItem, openButton, 
-						openFileItem, saveButton, saveFileItem, saveAsFileItem, 
-						compileButton, compilerunButton, compileBuildItem, debugButton,
-						debugBuildItem, stepOverButton, resumeButton, stopButton);
-				eventController.debugActual2(frame, editorPane, filePath, newButton, 
-						newFileItem, openButton, openFileItem, saveButton, saveFileItem, 
-						saveAsFileItem, compileButton, compilerunButton, compileBuildItem, 
-						debugButton, debugBuildItem, stepOverButton, resumeButton, 
-						stopButton, editorPane, scrollPane, addBreakItem, delBreakItem, 
-						delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, breakpoints);
+//				eventController.debugToggler(frame, newButton, newFileItem, openButton, 
+//				openFileItem, saveButton, saveFileItem, saveAsFileItem, 
+//				compileButton, compilerunButton, compileBuildItem, debugButton, 
+//				debugBuildItem, stepOverButton, resumeButton, stopButton);
+				eventController.debugToggler();
+//				eventController.debugActual2(frame, editorPane, filePath, newButton, 
+//						newFileItem, openButton, openFileItem, saveButton, saveFileItem, 
+//						saveAsFileItem, compileButton, compilerunButton, compileBuildItem, 
+//						debugButton, debugBuildItem, stepOverButton, resumeButton, 
+//						stopButton, editorPane, scrollPane, addBreakItem, delBreakItem, 
+//						delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, breakpoints);
+				eventController.debugInit(filePath, breakpointButton, delbreakpointButton, delallbreakpointButton);
 			}
 		});
 		
@@ -1028,7 +1037,7 @@ public class MainWindowView
 		manageBreakpointItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
 		manageBreakpointItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				bpmgrInstance = BreakpointLists.getInstance();
+				bpmgrInstance = DebuggingManager.getInstance();
 				bpmgrInstance.openMe();
 				bpmgrInstance.modifyMe();
 			}
@@ -1290,6 +1299,20 @@ public class MainWindowView
 	}
 
 	/**
+	 * @return the scrollPane
+	 */
+	public RTextScrollPane getScrollPane() {
+		return scrollPane;
+	}
+
+	/**
+	 * @param scrollPane the scrollPane to set
+	 */
+	public void setScrollPane(RTextScrollPane scrollPane) {
+		this.scrollPane = scrollPane;
+	}
+
+	/**
 	 * @return the breakpoints
 	 */
 	public ArrayList<Integer> getBreakpoints() {
@@ -1343,5 +1366,215 @@ public class MainWindowView
 	 */
 	public void setDelallbreakpointButton(JButton delallbreakpointButton) {
 		this.delallbreakpointButton = delallbreakpointButton;
+	}
+
+	/**
+	 * @return the newButton
+	 */
+	public JButton getNewButton() {
+		return newButton;
+	}
+
+	/**
+	 * @param newButton the newButton to set
+	 */
+	public void setNewButton(JButton newButton) {
+		this.newButton = newButton;
+	}
+
+	/**
+	 * @return the openButton
+	 */
+	public JButton getOpenButton() {
+		return openButton;
+	}
+
+	/**
+	 * @param openButton the openButton to set
+	 */
+	public void setOpenButton(JButton openButton) {
+		this.openButton = openButton;
+	}
+
+	/**
+	 * @return the saveButton
+	 */
+	public JButton getSaveButton() {
+		return saveButton;
+	}
+
+	/**
+	 * @param saveButton the saveButton to set
+	 */
+	public void setSaveButton(JButton saveButton) {
+		this.saveButton = saveButton;
+	}
+
+	/**
+	 * @return the compileButton
+	 */
+	public JButton getCompileButton() {
+		return compileButton;
+	}
+
+	/**
+	 * @param compileButton the compileButton to set
+	 */
+	public void setCompileButton(JButton compileButton) {
+		this.compileButton = compileButton;
+	}
+
+	/**
+	 * @return the compilerunButton
+	 */
+	public JButton getCompilerunButton() {
+		return compilerunButton;
+	}
+
+	/**
+	 * @param compilerunButton the compilerunButton to set
+	 */
+	public void setCompilerunButton(JButton compilerunButton) {
+		this.compilerunButton = compilerunButton;
+	}
+
+	/**
+	 * @return the debugButton
+	 */
+	public JButton getDebugButton() {
+		return debugButton;
+	}
+
+	/**
+	 * @param debugButton the debugButton to set
+	 */
+	public void setDebugButton(JButton debugButton) {
+		this.debugButton = debugButton;
+	}
+
+	/**
+	 * @return the stepOverButton
+	 */
+	public JButton getStepOverButton() {
+		return stepOverButton;
+	}
+
+	/**
+	 * @param stepOverButton the stepOverButton to set
+	 */
+	public void setStepOverButton(JButton stepOverButton) {
+		this.stepOverButton = stepOverButton;
+	}
+
+	/**
+	 * @return the resumeButton
+	 */
+	public JButton getResumeButton() {
+		return resumeButton;
+	}
+
+	/**
+	 * @param resumeButton the resumeButton to set
+	 */
+	public void setResumeButton(JButton resumeButton) {
+		this.resumeButton = resumeButton;
+	}
+
+	/**
+	 * @return the stopButton
+	 */
+	public JButton getStopButton() {
+		return stopButton;
+	}
+
+	/**
+	 * @param stopButton the stopButton to set
+	 */
+	public void setStopButton(JButton stopButton) {
+		this.stopButton = stopButton;
+	}
+
+	/**
+	 * @return the newFileItem
+	 */
+	public JMenuItem getNewFileItem() {
+		return newFileItem;
+	}
+
+	/**
+	 * @param newFileItem the newFileItem to set
+	 */
+	public void setNewFileItem(JMenuItem newFileItem) {
+		this.newFileItem = newFileItem;
+	}
+
+	/**
+	 * @return the openFileItem
+	 */
+	public JMenuItem getOpenFileItem() {
+		return openFileItem;
+	}
+
+	/**
+	 * @param openFileItem the openFileItem to set
+	 */
+	public void setOpenFileItem(JMenuItem openFileItem) {
+		this.openFileItem = openFileItem;
+	}
+
+	/**
+	 * @return the saveFileItem
+	 */
+	public JMenuItem getSaveFileItem() {
+		return saveFileItem;
+	}
+
+	/**
+	 * @param saveFileItem the saveFileItem to set
+	 */
+	public void setSaveFileItem(JMenuItem saveFileItem) {
+		this.saveFileItem = saveFileItem;
+	}
+
+	/**
+	 * @return the saveAsFileItem
+	 */
+	public JMenuItem getSaveAsFileItem() {
+		return saveAsFileItem;
+	}
+
+	/**
+	 * @param saveAsFileItem the saveAsFileItem to set
+	 */
+	public void setSaveAsFileItem(JMenuItem saveAsFileItem) {
+		this.saveAsFileItem = saveAsFileItem;
+	}
+
+	/**
+	 * @return the compileBuildItem
+	 */
+	public JMenuItem getCompileBuildItem() {
+		return compileBuildItem;
+	}
+
+	/**
+	 * @param compileBuildItem the compileBuildItem to set
+	 */
+	public void setCompileBuildItem(JMenuItem compileBuildItem) {
+		this.compileBuildItem = compileBuildItem;
+	}
+
+	/**
+	 * @return the debugBuildItem
+	 */
+	public JMenuItem getDebugBuildItem() {
+		return debugBuildItem;
+	}
+
+	/**
+	 * @param debugBuildItem the debugBuildItem to set
+	 */
+	public void setDebugBuildItem(JMenuItem debugBuildItem) {
+		this.debugBuildItem = debugBuildItem;
 	}
 }
