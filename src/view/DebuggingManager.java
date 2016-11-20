@@ -156,19 +156,19 @@ public class DebuggingManager {
 		JScrollPane bpListScrollPane = new JScrollPane(bpList);
 		bpListPane.add(bpListScrollPane, BorderLayout.CENTER);
 		
-		JPanel optionPane = new JPanel();
-		GridBagConstraints gbc_optionPane = new GridBagConstraints();
-		gbc_optionPane.fill = GridBagConstraints.VERTICAL;
-		gbc_optionPane.gridx = 2;
-		gbc_optionPane.gridy = 0;
-		breakpointPanel.add(optionPane, gbc_optionPane);
-		optionPane.setBorder(new TitledBorder(null, "Options", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		GridBagLayout gbl_optionPane = new GridBagLayout();
-		gbl_optionPane.columnWidths = new int[]{60, 91, 76, 0};
-		gbl_optionPane.rowHeights = new int[]{24, 0, 0};
-		gbl_optionPane.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbl_optionPane.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		optionPane.setLayout(gbl_optionPane);
+		JPanel bpOptionPane = new JPanel();
+		GridBagConstraints gbc_bpOptionPane = new GridBagConstraints();
+		gbc_bpOptionPane.fill = GridBagConstraints.VERTICAL;
+		gbc_bpOptionPane.gridx = 2;
+		gbc_bpOptionPane.gridy = 0;
+		breakpointPanel.add(bpOptionPane, gbc_bpOptionPane);
+		bpOptionPane.setBorder(new TitledBorder(null, "Options", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		GridBagLayout gbl_bpOptionPane = new GridBagLayout();
+		gbl_bpOptionPane.columnWidths = new int[]{60, 91, 76, 0};
+		gbl_bpOptionPane.rowHeights = new int[]{24, 0, 0};
+		gbl_bpOptionPane.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_bpOptionPane.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		bpOptionPane.setLayout(gbl_bpOptionPane);
 		
 		JButton btnAddABreakpoint = new JButton("Add A Breakpoint");
 		btnAddABreakpoint.addActionListener(new ActionListener() {
@@ -191,7 +191,7 @@ public class DebuggingManager {
 		gbc_btnAddABreakpoint.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAddABreakpoint.gridx = 0;
 		gbc_btnAddABreakpoint.gridy = 0;
-		optionPane.add(btnAddABreakpoint, gbc_btnAddABreakpoint);
+		bpOptionPane.add(btnAddABreakpoint, gbc_btnAddABreakpoint);
 		
 		JButton btnRemoveSelected = new JButton("Remove Selected Breakpoint");
 		btnRemoveSelected.addActionListener(new ActionListener() {
@@ -218,7 +218,7 @@ public class DebuggingManager {
 		gbc_btnRemoveSelected.insets = new Insets(0, 0, 5, 5);
 		gbc_btnRemoveSelected.gridx = 1;
 		gbc_btnRemoveSelected.gridy = 0;
-		optionPane.add(btnRemoveSelected, gbc_btnRemoveSelected);
+		bpOptionPane.add(btnRemoveSelected, gbc_btnRemoveSelected);
 		
 		JButton btnRemoveAll = new JButton("Remove All Breakpoints");
 		btnRemoveAll.addActionListener(new ActionListener() {
@@ -236,20 +236,20 @@ public class DebuggingManager {
 		gbc_btnRemoveAll.insets = new Insets(0, 0, 5, 0);
 		gbc_btnRemoveAll.gridx = 2;
 		gbc_btnRemoveAll.gridy = 0;
-		optionPane.add(btnRemoveAll, gbc_btnRemoveAll);
+		bpOptionPane.add(btnRemoveAll, gbc_btnRemoveAll);
 		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBorder(new TitledBorder(null, "Help", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_panel_4 = new GridBagConstraints();
-		gbc_panel_4.gridwidth = 3;
-		gbc_panel_4.fill = GridBagConstraints.BOTH;
-		gbc_panel_4.gridx = 0;
-		gbc_panel_4.gridy = 1;
-		optionPane.add(panel_4, gbc_panel_4);
-		panel_4.setLayout(new BorderLayout(0, 0));
+		JPanel bpHelperPane = new JPanel();
+		bpHelperPane.setBorder(new TitledBorder(null, "Help", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_bpHelperPane = new GridBagConstraints();
+		gbc_bpHelperPane.gridwidth = 3;
+		gbc_bpHelperPane.fill = GridBagConstraints.BOTH;
+		gbc_bpHelperPane.gridx = 0;
+		gbc_bpHelperPane.gridy = 1;
+		bpOptionPane.add(bpHelperPane, gbc_bpHelperPane);
+		bpHelperPane.setLayout(new BorderLayout(0, 0));
 		
 		JTextArea txtBpHelper = new JTextArea();
-		panel_4.add(txtBpHelper, BorderLayout.CENTER);
+		bpHelperPane.add(txtBpHelper, BorderLayout.CENTER);
 		txtBpHelper.setWrapStyleWord(true);
 		txtBpHelper.setLineWrap(true);
 		txtBpHelper.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -270,15 +270,15 @@ public class DebuggingManager {
 		varTable.setCellSelectionEnabled(true);
 		varListScrollPane.setViewportView(varTable);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(null, "Options", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		variablePanel.add(panel_2, BorderLayout.EAST);
-		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{90, 63, 0};
-		gbl_panel_2.rowHeights = new int[]{24, 24, 0, 0};
-		gbl_panel_2.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		panel_2.setLayout(gbl_panel_2);
+		JPanel varOptionsPane = new JPanel();
+		varOptionsPane.setBorder(new TitledBorder(null, "Options", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		variablePanel.add(varOptionsPane, BorderLayout.EAST);
+		GridBagLayout gbl_varOptionsPane = new GridBagLayout();
+		gbl_varOptionsPane.columnWidths = new int[]{90, 63, 0};
+		gbl_varOptionsPane.rowHeights = new int[]{24, 24, 0, 0};
+		gbl_varOptionsPane.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_varOptionsPane.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		varOptionsPane.setLayout(gbl_varOptionsPane);
 		
 		JButton btnStepOver_1 = new JButton("Step Over");
 		GridBagConstraints gbc_btnStepOver_1 = new GridBagConstraints();
@@ -286,7 +286,7 @@ public class DebuggingManager {
 		gbc_btnStepOver_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnStepOver_1.gridx = 0;
 		gbc_btnStepOver_1.gridy = 0;
-		panel_2.add(btnStepOver_1, gbc_btnStepOver_1);
+		varOptionsPane.add(btnStepOver_1, gbc_btnStepOver_1);
 		
 		JButton btnContinue_1 = new JButton("Continue");
 		GridBagConstraints gbc_btnContinue_1 = new GridBagConstraints();
@@ -294,7 +294,7 @@ public class DebuggingManager {
 		gbc_btnContinue_1.insets = new Insets(0, 0, 5, 0);
 		gbc_btnContinue_1.gridx = 1;
 		gbc_btnContinue_1.gridy = 0;
-		panel_2.add(btnContinue_1, gbc_btnContinue_1);
+		varOptionsPane.add(btnContinue_1, gbc_btnContinue_1);
 		
 		JButton btnTrackVars = new JButton("Track Variable");
 		GridBagConstraints gbc_btnTrackVars = new GridBagConstraints();
@@ -302,7 +302,7 @@ public class DebuggingManager {
 		gbc_btnTrackVars.insets = new Insets(0, 0, 5, 5);
 		gbc_btnTrackVars.gridx = 0;
 		gbc_btnTrackVars.gridy = 1;
-		panel_2.add(btnTrackVars, gbc_btnTrackVars);
+		varOptionsPane.add(btnTrackVars, gbc_btnTrackVars);
 		
 		JButton btnStop_1 = new JButton("Stop");
 		GridBagConstraints gbc_btnStop_1 = new GridBagConstraints();
@@ -310,20 +310,20 @@ public class DebuggingManager {
 		gbc_btnStop_1.insets = new Insets(0, 0, 5, 0);
 		gbc_btnStop_1.gridx = 1;
 		gbc_btnStop_1.gridy = 1;
-		panel_2.add(btnStop_1, gbc_btnStop_1);
+		varOptionsPane.add(btnStop_1, gbc_btnStop_1);
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new TitledBorder(null, "Help", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
-		gbc_panel_3.gridwidth = 2;
-		gbc_panel_3.fill = GridBagConstraints.BOTH;
-		gbc_panel_3.gridx = 0;
-		gbc_panel_3.gridy = 2;
-		panel_2.add(panel_3, gbc_panel_3);
-		panel_3.setLayout(new BorderLayout(0, 0));
+		JPanel varHelperPane = new JPanel();
+		varHelperPane.setBorder(new TitledBorder(null, "Help", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_varHelperPane = new GridBagConstraints();
+		gbc_varHelperPane.gridwidth = 2;
+		gbc_varHelperPane.fill = GridBagConstraints.BOTH;
+		gbc_varHelperPane.gridx = 0;
+		gbc_varHelperPane.gridy = 2;
+		varOptionsPane.add(varHelperPane, gbc_varHelperPane);
+		varHelperPane.setLayout(new BorderLayout(0, 0));
 		
 		JTextArea txtVarHelper = new JTextArea();
-		panel_3.add(txtVarHelper);
+		varHelperPane.add(txtVarHelper);
 		txtVarHelper.setTabSize(0);
 		txtVarHelper.setWrapStyleWord(true);
 		txtVarHelper.setLineWrap(true);
@@ -339,9 +339,5 @@ public class DebuggingManager {
 		
 		JLabel lblUnderConstruction = new JLabel("Under Construction. Feature Coming Soon");
 		panel.add(lblUnderConstruction);
-		
-		JPanel panel_1 = new JPanel();
-		frmBreakpointManager.getContentPane().add(panel_1, BorderLayout.NORTH);
-		panel_1.setLayout(new BorderLayout(0, 0));
 	}
 }
