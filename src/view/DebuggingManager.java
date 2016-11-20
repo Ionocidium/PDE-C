@@ -20,6 +20,7 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
 
 import controller.EventController;
+import debugging.model.LocalObject;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -52,7 +53,7 @@ public class DebuggingManager {
 	    "Variable Name", "Value"
 	};
 	private Object[][] varData = {
-            {"Nothing to display because debug is not active."}};;
+            {"Nothing to display because debug is not active."}};
 	private DefaultTableModel variableModel;
 	
 	private JList<Integer> bpList;
@@ -89,8 +90,27 @@ public class DebuggingManager {
 			frmBreakpointManager.setVisible(true);
 		else frmBreakpointManager.requestFocus();
 	}
+
+	public void resetDebuggingTable(){
+		varTable.setModel(variableModel);
+	}
 	
-	public void modifyMe(){
+	public void modifyDebugging(ArrayList<LocalObject> aLocal){
+		DefaultTableModel listDebugging = new DefaultTableModel(varColumnNames, 0){
+        	
+        	@Override
+        	public boolean isCellEditable(int row, int column){return false;}
+        	
+        };
+		for(int i = 0; i < aLocal.size(); i++)
+		{
+			Object[] localVarData = {aLocal.get(i).getVariable(), aLocal.get(i).getValue()};
+			listDebugging.addRow(localVarData);
+		}
+		varTable.setModel(listDebugging);
+	}
+	
+	public void modifyBreakpoints(){
 		DefaultListModel<Integer> listBp = new DefaultListModel<Integer>();
 		MainWindowView mwv = MainWindowView.getInstance();
 		ArrayList<Integer> bp = mwv.getBreakpoints();

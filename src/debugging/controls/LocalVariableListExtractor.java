@@ -11,6 +11,7 @@ public class LocalVariableListExtractor {
 	
 	public String extractVars(String line)
     {
+		if(line.startsWith("(gdb) ")) line = line.substring(6);
         return line.substring(0, line.indexOf("=")).trim();
     }
     

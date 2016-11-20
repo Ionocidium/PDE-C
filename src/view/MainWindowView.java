@@ -107,7 +107,7 @@ public class MainWindowView
 	private int maxFont = 72;
 	private String fontStyle;
 	private static MainWindowView instance = null;
-	private static DebuggingManager debugMgrInstance = null;
+	public static DebuggingManager debugMgrInstance = null;
 	public static EventController eventController = null;
 	/**
 	 * Launch the application.
@@ -553,7 +553,7 @@ public class MainWindowView
 				if(debugMgrInstance == null);
 				else
 				{
-					debugMgrInstance.modifyMe();
+					debugMgrInstance.modifyBreakpoints();
 				}
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
@@ -570,7 +570,7 @@ public class MainWindowView
 				if(debugMgrInstance == null);
 				else
 				{
-					debugMgrInstance.modifyMe();
+					debugMgrInstance.modifyBreakpoints();
 				}
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
@@ -587,7 +587,7 @@ public class MainWindowView
 				if(debugMgrInstance == null);
 				else
 				{
-					debugMgrInstance.modifyMe();
+					debugMgrInstance.modifyBreakpoints();
 				}
 				delbreakpointButton.setEnabled(false);
 				delallbreakpointButton.setEnabled(false);
@@ -1039,7 +1039,7 @@ public class MainWindowView
 			public void actionPerformed(ActionEvent arg0) {
 				debugMgrInstance = DebuggingManager.getInstance();
 				debugMgrInstance.openMe();
-				debugMgrInstance.modifyMe();
+				debugMgrInstance.modifyBreakpoints();
 			}
 		});
 		
@@ -1139,7 +1139,7 @@ public class MainWindowView
 				if(debugMgrInstance == null);
 				else
 				{
-					debugMgrInstance.modifyMe();
+					debugMgrInstance.modifyBreakpoints();
 				}
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);

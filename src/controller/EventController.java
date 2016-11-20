@@ -35,8 +35,11 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import configuration.LocalConfiguration;
 import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
+import debugging.controls.LocalVariableListExtractor;
+import debugging.model.LocalObject;
 import service.ClientService;
 import view.CompileLog;
+import view.DebuggingManager;
 import view.DownloadWindow;
 import view.MainWindowView;
 import view.SetIPAddress;
@@ -49,6 +52,7 @@ public class EventController
 	private FileLoad loader;
 	private FileSave saveFile;
 	private FileNameExtensionFilter cFilter;
+	private String command = "";
 
 	private EventController()
 	{
@@ -405,333 +409,6 @@ public class EventController
 
 		return res;
 	}
-
-	/*
-	@unused
-	public void deleteDontTouch()
-	{
-	  File file = new File("resources/donttouch.bat");
-	  
-	  if (file.exists() && !file.isDirectory())
-	  {
-		file.delete();
-	  }
-	}
-	
-	@SuppressWarnings("unused")
-	public void debugToggler(JFrame frame, JButton newButton, JMenuItem newFileItem, 
-			JButton openButton, JMenuItem openFileItem, JButton saveButton, 
-			JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, 
-			JButton compilerunButton, JMenuItem compileBuildItem, JButton debugButton, 
-			JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, 
-			JButton stopButton)
-	{
-	  	newButton.setEnabled(!newButton.isEnabled());
-		newFileItem.setEnabled(!newFileItem.isEnabled());
-		openButton.setEnabled(!openButton.isEnabled());
-		openFileItem.setEnabled(!openFileItem.isEnabled());
-		saveButton.setEnabled(!saveButton.isEnabled());
-		saveFileItem.setEnabled(!saveFileItem.isEnabled());
-		saveAsFileItem.setEnabled(!saveAsFileItem.isEnabled());
-		compileButton.setEnabled(!compileButton.isEnabled());
-		compilerunButton.setEnabled(!compilerunButton.isEnabled());
-		compileBuildItem.setEnabled(!compileBuildItem.isEnabled());
-		debugButton.setEnabled(!debugButton.isEnabled());
-		debugBuildItem.setEnabled(!debugBuildItem.isEnabled());
-		stepOverButton.setEnabled(!stepOverButton.isEnabled());
-		resumeButton.setEnabled(!resumeButton.isEnabled());
-		stopButton.setEnabled(!stopButton.isEnabled());
-	}
-	
-	@SuppressWarnings("unused")
-	public void debugActual(String exe, JFrame frame, JButton newButton, 
-			JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, 
-			JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, 
-			JButton compileButton, JButton compilerunButton, JMenuItem compileBuildItem, 
-			JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, 
-			JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, 
-			RTextScrollPane rtsp, JMenuItem addBreakItem, JMenuItem delBreakItem, 
-			JMenuItem delallBreakItem, JButton breakpointButton, 
-			JButton delbreakpointButton, JButton delallbreakpointButton, ArrayList<Integer> bp, LocalConfiguration local)
-	{
-		writeInErrorLog("");
-		Thread debug = new Thread(new Runnable(){
-			public void run()
-			{
-				try
-				{
-					String line;
-					StringBuilder sb = new StringBuilder();
-//					int breaknum = 0; // temp
-//					GutterIconInfo gii = null; // temp
-//					GutterIconInfo pointer = null;
-					delayMe(100);
-					Process process = Runtime.getRuntime().exec(local.getGdbPath() + " \"" + exe + "\"");
-	                if (process != null){
-	                    BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
-	                    PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(process.getOutputStream())),true);
-	                    
-	                    // Capture user input through the use of continue and break buttons
-	                    
-	                    ActionListener abListener = addBreakItem.getActionListeners()[0];
-	                    ActionListener dbListener = delBreakItem.getActionListeners()[0];
-	                    ActionListener dabListener = delallBreakItem.getActionListeners()[0];
-	                    addBreakItem.removeActionListener(abListener);
-	                    delBreakItem.removeActionListener(dbListener);
-	                    delallBreakItem.removeActionListener(dabListener);
-	                    
-	                    ActionListener abListener2 = new ActionListener()
-                		{
-	                    	public void actionPerformed(ActionEvent e)
-	                    	{
-	                    		int answer = addbreakpoint(frame, rtsp.getGutter(), bp);
-	                    		if(answer <= -1)
-		    	                    out.println("info locals");
-	                    			out.println("break " + answer);
-	                    	}
-                		};
-	                    
-                		ActionListener dbListener2 = new ActionListener()
-                		{
-	                    	public void actionPerformed(ActionEvent e)
-	                    	{
-	                    		int answer = deletebreakpoint(frame, rtsp.getGutter(), bp);
-	                    		if(answer <= -1)
-		    	                    out.println("info locals");
-	                    			out.println("delete " + answer);
-	                    	}
-                		};
-	                    
-                		ActionListener dabListener2 = new ActionListener()
-                		{
-	                    	public void actionPerformed(ActionEvent e)
-	                    	{
-	                    		deleteallbreakpoint(rtsp.getGutter(), bp);
-	    	                    out.println("info locals");
-	                    		out.println("delete");
-	                    	}
-                		};
-
-	                    addBreakItem.addActionListener(abListener2);
-	                    delBreakItem.addActionListener(dbListener2);
-	                    delallBreakItem.addActionListener(dabListener2);
-	                    
-	                    stepOverButton.addActionListener(new ActionListener()
-	                    {
-	                    	public void actionPerformed(ActionEvent e)
-	                    	{
-	    	                    out.println("info locals");
-	                    		out.println("step");
-	                    	}
-	                    }
-	                    );
-	                    
-	                    resumeButton.addActionListener(new ActionListener()
-	                    {
-	                    	public void actionPerformed(ActionEvent e)
-	                    	{
-	    	                    out.println("info locals");
-	                    		out.println("continue");
-	                    	}
-	                    }
-	                    );
-	                    
-	                    stopButton.addActionListener(new ActionListener()
-	                    {
-	                    	public void actionPerformed(ActionEvent e)
-	                    	{
-			                    out.close();
-	                    	}
-	                    }
-	                    );
-	                    boolean notYet = true;
-	                    while ((line = in.readLine()) != null && notYet){
-	                    	//Regex: Breakpoint \d*, ([a-zA-Z_][a-zA-Z0-9_]*) (\(()\)) at (?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+:
-	                    	if(line.startsWith("(gdb) ")) line = line.substring("(gdb) ".length()); 
-	                    	if(line.endsWith("Type \"apropos word\" to search for commands related to \"word\"..."))
-	                    	{
-	    	                    for(int i = 0; i < bp.size(); i++)
-	    	                    {
-	    	                    	out.println("break " + (bp.get(i) + 1));
-	    	                    }
-	    	                    out.println("info locals");
-	    	                    out.println("start");
-	                    	}
-	                    	if(line.startsWith("Breakpoint"))
-	                    	{
-	                    		// check gutter
-//	                    		Gutter g = rtsp.getGutter();
-//	                    		if(gutterIconInfoIsEmpty(pointer))
-//	                    		{
-//		                    		String breakpointStringLine = line;
-//		                    		breakpointStringLine = breakpointStringLine.substring(breakpointStringLine.lastIndexOf(":") + 1);
-//		                    		breaknum = Integer.parseInt(breakpointStringLine);
-//		                    		// find breakpoint
-//		                    		int bArrIndex = bp.indexOf(breaknum);
-//		                    		if(bArrIndex != -1)
-//		                    		{
-//			                    		// get guttericoninfo for that breakpoint
-//			                    		gii = MainWindowView.breakpoints2.get(bArrIndex);
-//			                    		// remove breakpoint temporarily
-//			                    		g.removeTrackingIcon(gii);
-//		                    		}
-//		                    		// add breakpoint afterwards
-//		        					pointer = g.addLineTrackingIcon(breaknum - 1, new ImageIcon("resources/images/materialsmall/pointright.png"));
-//	                    		}
-//	                    		else
-//	                    		{
-//	                    			// remove breakpoint pointer
-//	                    			g.removeTrackingIcon(pointer);
-//	                    			// add temporary breakpoint again whose line is touched
-//	                    			g.addLineTrackingIcon(breaknum - 1, gii.getIcon());
-//	                    			// follow through
-//		                    		String breakpointStringLine = line;
-//		                    		breakpointStringLine = breakpointStringLine.substring(breakpointStringLine.lastIndexOf(":") + 1);
-//		                    		breaknum = Integer.parseInt(breakpointStringLine);
-//		                    		// find breakpoint
-//		                    		int bArrIndex = bp.indexOf(breaknum);
-//		                    		if(bArrIndex != -1)
-//		                    		{
-//			                    		// get guttericoninfo for that breakpoint
-//			                    		gii = MainWindowView.breakpoints2.get(bArrIndex);
-//			                    		// remove breakpoint temporarily
-//			                    		g.removeTrackingIcon(gii);
-//		                    		}
-//		                    		// add breakpoint afterwards
-//		        					pointer = g.addLineTrackingIcon(breaknum - 1, new ImageIcon("resources/images/materialsmall/pointright.png"));
-//	                    		}
-	                    	}
-	                    	if (line.startsWith("Temporary") && line.contains("c:"))
-	                    	{
-	                    		out.println("continue"); // prevent temporary breakpoints
-	                    	}
-	                    	if (line.indexOf("exited with") > 0)
-	                    	{
-	                    		notYet = false;
-	                    	}
-	                    	sb.append(line + "\n");
-		                    writeInErrorLog(sb.toString());
-	                    }
-	                    
-	                    process.destroy();
-	                    //stepOverButton.removeActionListener(arg0);
-	                    addBreakItem.removeActionListener(abListener2);
-	                    delBreakItem.removeActionListener(dbListener2);
-	                    delallBreakItem.removeActionListener(dabListener2);
-	                    
-	                    addBreakItem.addActionListener(abListener);
-	                    delBreakItem.addActionListener(dbListener);
-	                    delallBreakItem.addActionListener(dabListener);
-	                    debugToggler();
-	                }
-	            }
-				catch (Exception ex)
-				{
-	                ex.printStackTrace();
-	            }
-			}
-		});
-		debug.start();
-	}
-	
-	@SuppressWarnings("unused")
-	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, 
-			JButton newButton, JMenuItem newFileItem, JButton openButton, 
-			JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, 
-			JMenuItem saveAsFileItem, JButton compileButton, JButton compilerunButton, 
-			JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem,
-			JButton stepOverButton, JButton resumeButton, JButton stopButton, 
-			RSyntaxTextArea rsta, RTextScrollPane rtsp, JMenuItem addBreakItem, 
-			JMenuItem delBreakItem, JMenuItem delallBreakItem, JButton breakpointButton, 
-			JButton delbreakpointButton, JButton delallbreakpointButton,
-			ArrayList<Integer> bp)
-	{
-		LocalConfiguration local = LocalConfiguration.getInstance();
-		if (filePath != null)
-		{
-			String currentPath = filePath.toString();
-			String exePath = new String();
-			String currentOS = System.getProperty("os.name").toLowerCase();
-		  	if (currentOS.indexOf("win") >= 0)
-		  	{
-				exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
-		  	}
-		  	else if(currentOS.indexOf("mac") >= 0)
-		  	{
-
-				exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".out";
-		  	}
-		  	else if(currentOS.indexOf("nix") >= 0 || currentOS.indexOf("nux") >= 0)
-		  	{
-
-				exePath = currentPath.substring(0, currentPath.lastIndexOf(".c"));
-		  	}
-		  	try
-		  	{
-		  		Process process = Runtime.getRuntime().exec(local.getGccPath() + " \"" + currentPath + "\" -o " + exePath + " -g");
-		  	}
-		  	catch(IOException ioe)
-		  	{
-				JOptionPane.showMessageDialog(null, "The process may be in use.", "Error", JOptionPane.ERROR_MESSAGE);
-		  	}
-			debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, 
-					saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, 
-					compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, 
-					stopButton, rsta, rtsp, addBreakItem, delBreakItem, 
-					delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, bp, local);
-		}
-		else
-		{
-			int returnVal = fileChooser.showOpenDialog(frame);
-			if (returnVal == JFileChooser.APPROVE_OPTION)
-			{
-				Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
-				filePath = path;
-				String ext = path.getFileName().toString();
-				if (loader.checker(ext))
-				{
-					String pathContents = loader.loadFile(path);
-					editorPane.setText(pathContents);
-					String currentPath = filePath.toString();
-					String exePath = new String();
-					String currentOS = System.getProperty("os.name").toLowerCase();
-				  	if (currentOS.indexOf("win") >= 0)
-				  	{
-						exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".exe";
-				  	}
-				  	else if(currentOS.indexOf("mac") >= 0)
-				  	{
-
-						exePath = currentPath.substring(0, currentPath.lastIndexOf(".c")) + ".out";
-				  	}
-				  	else if(currentOS.indexOf("nix") >= 0 || currentOS.indexOf("nux") >= 0)
-				  	{
-
-						exePath = currentPath.substring(0, currentPath.lastIndexOf(".c"));
-				  	}
-				  	try
-				  	{
-				  		Process process = Runtime.getRuntime().exec(local.getGccPath() + " \"" + currentPath + "\" -o " + exePath + " -g");
-				  	}
-				  	catch(IOException ioe)
-				  	{
-						JOptionPane.showMessageDialog(null, "The process may be in use.", "Error", JOptionPane.ERROR_MESSAGE);
-				  	}
-					debugActual(exePath, frame, newButton, newFileItem, openButton, 
-							openFileItem, saveButton, saveFileItem, saveAsFileItem, 
-							compileButton, compilerunButton, compileBuildItem, debugButton, 
-							debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, 
-							rtsp, addBreakItem, delBreakItem, delallBreakItem, breakpointButton, 
-							delbreakpointButton, delallbreakpointButton, bp, local);
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(null, "Not a C source code.", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		}
-	}
-	*/
 	
 	public void debugToggler()
 	{
@@ -852,7 +529,11 @@ public class EventController
 			{
 				try
 				{
-					String command = "";
+					MainWindowView.debugMgrInstance = DebuggingManager.getInstance();
+					MainWindowView.debugMgrInstance.openMe();
+					MainWindowView.debugMgrInstance.modifyBreakpoints();
+					LocalVariableListExtractor lvle = new LocalVariableListExtractor();
+					ArrayList<LocalObject> locals = new ArrayList<LocalObject>();
 					String line;
 					StringBuilder sb = new StringBuilder();
 					/*
@@ -880,11 +561,7 @@ public class EventController
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
 	                    		int answer = addbreakpoint(mwv.getMainFrame(), mwv.getGut(), mwv.getBreakpoints());
-	                    		if(answer <= -1)
-	                    		{
-		    	                    out.println("info locals");
-	                    			out.println("break " + answer);
-	                    		}
+                    			out.println("break " + answer);
 	                    	}
                 		};
 	                    
@@ -893,11 +570,7 @@ public class EventController
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
 	                    		int answer = deletebreakpoint(mwv.getMainFrame(), mwv.getGut(), mwv.getBreakpoints());
-	                    		if(answer <= -1)
-	                    		{
-		    	                    out.println("info locals");
-	                    			out.println("delete " + answer);
-	                    		}
+                    			out.println("delete " + answer);
 	                    	}
                 		};
 	                    
@@ -906,7 +579,6 @@ public class EventController
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
 	                    		deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
-	    	                    out.println("info locals");
 	                    		out.println("delete");
 	                    	}
                 		};
@@ -919,8 +591,10 @@ public class EventController
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
-	    	                    out.println("info locals");
-	                    		out.println("step");
+	    	                    command = "info locals";
+	    	                    out.println(command);
+	    	                    command = "step";
+	                    		out.println(command);
 	                    	}
 	                    }
 	                    );
@@ -929,8 +603,10 @@ public class EventController
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
-	    	                    out.println("info locals");
-	                    		out.println("continue");
+	    	                    command = "info locals";
+	    	                    out.println(command);
+	    	                    command = "continue";
+	                    		out.println(command);
 	                    	}
 	                    }
 	                    );
@@ -939,6 +615,7 @@ public class EventController
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
+	                    		command = "";
 			                    out.close();
 	                    	}
 	                    }
@@ -953,9 +630,19 @@ public class EventController
 		                    		if(!(line.startsWith("0") || line.startsWith("1") || line.startsWith("2") || line.startsWith("3") || line.startsWith("4") ||
 		                    				line.startsWith("5") || line.startsWith("6") || line.startsWith("7") || line.startsWith("8") || line.startsWith("9")))
 		                    		{
-		                    			System.out.println("Printing Local Variables");
+		                    			locals.add(new LocalObject(lvle.extractVars(line), lvle.extractVals(line)));
 		                    		}
 	                    		}
+	                    		MainWindowView.debugMgrInstance.modifyDebugging(locals);
+	                    	}
+	                    	else if (!command.equals("info locals"))
+	                    	{
+                    			System.out.println("Refreshing local variables");
+                    			if(command.equals("step") || command.equals("continue"))
+                    			{
+                        			System.out.println("Step/Continue has been pressed.");
+                    			}
+	                    		MainWindowView.debugMgrInstance.modifyDebugging(locals);
 	                    	}
 	                    	if(line.startsWith("(gdb) ")) line = line.substring("(gdb) ".length()); 
 	                    	if(line.endsWith("Type \"apropos word\" to search for commands related to \"word\"..."))
@@ -1024,6 +711,7 @@ public class EventController
 	                    	}
 	                    	sb.append(line + "\n");
 		                    writeInErrorLog(sb.toString());
+		            		MainWindowView.debugMgrInstance.modifyDebugging(locals);
 	                    }
 	                    
 	                    process.destroy();
@@ -1035,6 +723,7 @@ public class EventController
 	                    breakpointButton.addActionListener(abListener);
 	                    delbreakpointButton.addActionListener(dbListener);
 	                    delallbreakpointButton.addActionListener(dabListener);
+	                    MainWindowView.debugMgrInstance.resetDebuggingTable();
 	                    debugToggler();
 	                }
 	            }
