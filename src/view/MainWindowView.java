@@ -107,7 +107,7 @@ public class MainWindowView
 	private int maxFont = 72;
 	private String fontStyle;
 	private static MainWindowView instance = null;
-	private static DebuggingManager bpmgrInstance = null;
+	private static DebuggingManager debugMgrInstance = null;
 	public static EventController eventController = null;
 	/**
 	 * Launch the application.
@@ -550,10 +550,10 @@ public class MainWindowView
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				eventController.addbreakpoint(frame, gut, breakpoints);
-				if(bpmgrInstance == null);
+				if(debugMgrInstance == null);
 				else
 				{
-					bpmgrInstance.modifyMe();
+					debugMgrInstance.modifyMe();
 				}
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
@@ -567,10 +567,10 @@ public class MainWindowView
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				eventController.deletebreakpoint(frame, gut, breakpoints);
-				if(bpmgrInstance == null);
+				if(debugMgrInstance == null);
 				else
 				{
-					bpmgrInstance.modifyMe();
+					debugMgrInstance.modifyMe();
 				}
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
@@ -584,10 +584,10 @@ public class MainWindowView
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				eventController.deleteallbreakpoint(gut, breakpoints);
-				if(bpmgrInstance == null);
+				if(debugMgrInstance == null);
 				else
 				{
-					bpmgrInstance.modifyMe();
+					debugMgrInstance.modifyMe();
 				}
 				delbreakpointButton.setEnabled(false);
 				delallbreakpointButton.setEnabled(false);
@@ -1037,9 +1037,9 @@ public class MainWindowView
 		manageBreakpointItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
 		manageBreakpointItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				bpmgrInstance = DebuggingManager.getInstance();
-				bpmgrInstance.openMe();
-				bpmgrInstance.modifyMe();
+				debugMgrInstance = DebuggingManager.getInstance();
+				debugMgrInstance.openMe();
+				debugMgrInstance.modifyMe();
 			}
 		});
 		
@@ -1136,10 +1136,10 @@ public class MainWindowView
 				{
 					eventController.silentDeleteBreakpoint(gut, breakpoints, lineNum + 1);
 				}
-				if(bpmgrInstance == null);
+				if(debugMgrInstance == null);
 				else
 				{
-					bpmgrInstance.modifyMe();
+					debugMgrInstance.modifyMe();
 				}
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
