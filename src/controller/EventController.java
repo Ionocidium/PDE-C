@@ -413,6 +413,7 @@ public class EventController
 	public void debugToggler()
 	{
 		MainWindowView mwv = MainWindowView.getInstance();
+		MainWindowView.debugMgrInstance = DebuggingManager.getInstance();
 		mwv.getNewButton().setEnabled(!mwv.getNewButton().isEnabled());
 		mwv.getNewFileItem().setEnabled(!mwv.getNewFileItem().isEnabled());
 		mwv.getOpenButton().setEnabled(!mwv.getOpenButton().isEnabled());
@@ -529,7 +530,6 @@ public class EventController
 			{
 				try
 				{
-					MainWindowView.debugMgrInstance = DebuggingManager.getInstance();
 					MainWindowView.debugMgrInstance.openMe();
 					MainWindowView.debugMgrInstance.modifyBreakpoints();
 					LocalVariableListExtractor lvle = new LocalVariableListExtractor();
@@ -623,6 +623,7 @@ public class EventController
 	                    boolean notYet = true;
 	                    while ((line = in.readLine()) != null && notYet){
 	                    	//Regex: Breakpoint \d*, ([a-zA-Z_][a-zA-Z0-9_]*) (\(()\)) at (?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+:
+	                    	if(line.startsWith("(gdb) ")) line = line.substring("(gdb) ".length()); 
 	                    	if(command.equals("info locals"))
 	                    	{
 	                    		if(line.contains(" = "))
@@ -644,7 +645,6 @@ public class EventController
                     			}
 	                    		MainWindowView.debugMgrInstance.modifyDebugging(locals);
 	                    	}
-	                    	if(line.startsWith("(gdb) ")) line = line.substring("(gdb) ".length()); 
 	                    	if(line.endsWith("Type \"apropos word\" to search for commands related to \"word\"..."))
 	                    	{
 	    	                    for(int i = 0; i < mwv.getBreakpoints().size(); i++)
