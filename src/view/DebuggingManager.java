@@ -58,34 +58,35 @@ public class DebuggingManager {
 	private JPanel breakpointPanel, variablePanel, watchPanel;
 	private JButton btnStepOver, btnContinue, btnTrackVars, btnStop; // Variables Tab
 	private JButton btnAddABreakpoint, btnRemoveSelected, btnRemoveAll; // Variables Tab
-    private ArrayList<RowLocalObject> watchList2 = new ArrayList<RowLocalObject>();
+//    private ArrayList<RowLocalObject> watchList2 = new ArrayList<RowLocalObject>();
     private HashMap<String, String> varVals = new HashMap<String, String>();
 	private static DebuggingManager instance = null;
 	final private RowManipulator rm = new RowManipulator();
-	final private DefaultTableCellRenderer tracker = new DefaultTableCellRenderer(){
-        @Override
-        public Component getTableCellRendererComponent(JTable table,
-                Object value, boolean isSelected, boolean hasFocus, int row, int col) {
-
-            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
-            if(!watchList2.isEmpty())
-            {
-            	boolean existing = false;
-            	for(int i = 0; i < watchList2.size(); i++)
-            	{
-            		if(row == watchList2.get(i).getRow() && table.getValueAt(watchList2.get(i).getRow(), 0).equals(watchList2.get(i).getLocalVarVal().getVariable())) existing = true;
-            	}
-	            if (existing) {
-	            	setBackground(new Color(53, 208, 53));
-	                setForeground(Color.BLACK);
-	            } else {
-	                setBackground(Color.WHITE);
-	                setForeground(Color.BLACK);
-	            }
-            }
-            return this;
-        }
-	};
+//	Unstable version of Tracking Variables.
+//	final private DefaultTableCellRenderer tracker = new DefaultTableCellRenderer(){
+//        @Override
+//        public Component getTableCellRendererComponent(JTable table,
+//                Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+//
+//            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+//            if(!watchList2.isEmpty())
+//            {
+//            	boolean existing = false;
+//            	for(int i = 0; i < watchList2.size(); i++)
+//            	{
+//            		if(row == watchList2.get(i).getRow() && table.getValueAt(watchList2.get(i).getRow(), 0).equals(watchList2.get(i).getLocalVarVal().getVariable())) existing = true;
+//            	}
+//	            if (existing) {
+//	            	setBackground(new Color(53, 208, 53));
+//	                setForeground(Color.BLACK);
+//	            } else {
+//	                setBackground(Color.WHITE);
+//	                setForeground(Color.BLACK);
+//	            }
+//            }
+//            return this;
+//        }
+//	};
 	final private String[] varColumnNames = 
 	{
 	    "Variable Name", "Value"
@@ -346,16 +347,16 @@ public class DebuggingManager {
         };
 		varTable = new JTable(variableModel);
 		varTable.setCellSelectionEnabled(true);
-		varTable.setDefaultRenderer(Object.class, tracker);
+//		varTable.setDefaultRenderer(Object.class, tracker); // unstable
 		varListScrollPane.setViewportView(varTable);
 		
 		JPanel varOptionsPane = new JPanel();
 		varOptionsPane.setBorder(new TitledBorder(null, "Options", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		variablePanel.add(varOptionsPane, BorderLayout.EAST);
 		GridBagLayout gbl_varOptionsPane = new GridBagLayout();
-		gbl_varOptionsPane.columnWidths = new int[]{90, 63, 0};
+		gbl_varOptionsPane.columnWidths = new int[]{120, 120, 0};
 		gbl_varOptionsPane.rowHeights = new int[]{24, 24, 0, 0};
-		gbl_varOptionsPane.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_varOptionsPane.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		gbl_varOptionsPane.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		varOptionsPane.setLayout(gbl_varOptionsPane);
 		
@@ -368,8 +369,15 @@ public class DebuggingManager {
 		gbc_btnStepOver.gridy = 0;
 		varOptionsPane.add(btnStepOver, gbc_btnStepOver);
 		
-		btnContinue = new JButton("Continue");
-		btnContinue.setEnabled(false);
+		btnContinue = new JButton("Start");
+		btnContinue.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				MainWindowView mwv = MainWindowView.getInstance();
+				MainWindowView.eventController.debugToggler();
+				MainWindowView.eventController.debugInit(mwv.getFilePath());
+			}
+		});
 		GridBagConstraints gbc_btnContinue = new GridBagConstraints();
 		gbc_btnContinue.fill = GridBagConstraints.BOTH;
 		gbc_btnContinue.insets = new Insets(0, 0, 5, 0);
@@ -553,12 +561,12 @@ public class DebuggingManager {
 		this.lmbp = lmbp;
 	}
 
-	/**
-	 * @return the watchList2
-	 */
-	public ArrayList<RowLocalObject> getWatchList2() {
-		return watchList2;
-	}
+//	/**
+//	 * @return the watchList2
+//	 */
+//	public ArrayList<RowLocalObject> getWatchList2() {
+//		return watchList2;
+//	}
 
 	/**
 	 * @return the bpList

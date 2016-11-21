@@ -953,19 +953,19 @@ public class MainWindowView
 		
 		debugBuildItem.addActionListener(new ActionListener() 
 		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				eventController.debugToggler();
-				eventController.debugInit(filePath, breakpointButton, delbreakpointButton, delallbreakpointButton);
+			public void actionPerformed(ActionEvent arg0) {
+				debugMgrInstance = DebuggingManager.getInstance();
+				debugMgrInstance.openMe();
+				debugMgrInstance.modifyBreakpoints();
 			}
 		});
 		
 		debugButton.addActionListener(new ActionListener() 
 		{
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				eventController.debugToggler();
-				eventController.debugInit(filePath, breakpointButton, delbreakpointButton, delallbreakpointButton);
+			public void actionPerformed(ActionEvent arg0) {
+				debugMgrInstance = DebuggingManager.getInstance();
+				debugMgrInstance.openMe();
+				debugMgrInstance.modifyBreakpoints();
 			}
 		});
 		
@@ -1009,17 +1009,6 @@ public class MainWindowView
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
 				}
-			}
-		});
-		
-		
-		JMenuItem manageBreakpointItem = new JMenuItem("Manage Breakpoints...");
-		manageBreakpointItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
-		manageBreakpointItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				debugMgrInstance = DebuggingManager.getInstance();
-				debugMgrInstance.openMe();
-				debugMgrInstance.modifyBreakpoints();
 			}
 		});
 		
@@ -1134,7 +1123,6 @@ public class MainWindowView
 		});
 		toggleBreakItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, InputEvent.CTRL_MASK));
 		buildMenu.add(toggleBreakItem);
-		buildMenu.add(manageBreakpointItem);
 		menuBar.add(helpMenu);
 		helpMenu.add(helpHelpItem);
 		helpMenu.add(aboutHelpItem);
@@ -1570,5 +1558,19 @@ public class MainWindowView
 	 */
 	public void setToggleBreakItem(JMenuItem toggleBreakItem) {
 		this.toggleBreakItem = toggleBreakItem;
+	}
+
+	/**
+	 * @return the filePath
+	 */
+	public Path getFilePath() {
+		return filePath;
+	}
+
+	/**
+	 * @param filePath the filePath to set
+	 */
+	public void setFilePath(Path filePath) {
+		this.filePath = filePath;
 	}
 }

@@ -443,10 +443,8 @@ public class EventController
 		mwv.getStepOverButton().setEnabled(!mwv.getStepOverButton().isEnabled());
 		mwv.getResumeButton().setEnabled(!mwv.getResumeButton().isEnabled());
 		mwv.getStopButton().setEnabled(!mwv.getStopButton().isEnabled());
-		MainWindowView.debugMgrInstance.getBtnContinue().setEnabled(!MainWindowView.debugMgrInstance.getBtnContinue().isEnabled());
 		MainWindowView.debugMgrInstance.getBtnStepOver().setEnabled(!MainWindowView.debugMgrInstance.getBtnStepOver().isEnabled());
 		MainWindowView.debugMgrInstance.getBtnStop().setEnabled(!MainWindowView.debugMgrInstance.getBtnStop().isEnabled());
-		MainWindowView.debugMgrInstance.getBtnTrackVars().setEnabled(!MainWindowView.debugMgrInstance.getBtnTrackVars().isEnabled());
 	}
 	
 	public void writeInErrorLog(String s)
@@ -454,8 +452,7 @@ public class EventController
 		MainWindowView.debugLog.setText(s);
 	}
   
-	public void debugInit(Path filePath, JButton breakpointButton, 
-			JButton delbreakpointButton, JButton delallbreakpointButton)
+	public void debugInit(Path filePath)
 	{
 		LocalConfiguration local = LocalConfiguration.getInstance();
 		MainWindowView mwv = MainWindowView.getInstance();
@@ -551,7 +548,6 @@ public class EventController
 					MainWindowView.debugMgrInstance.modifyBreakpoints();
 					LocalVariableListExtractor lvle = new LocalVariableListExtractor();
 					HashMap<String, String> locals = new HashMap<String, String>();
-//					ArrayList<LocalObject> locals = new ArrayList<LocalObject>();
 					String line, prevLine;
 					StringBuilder sb = new StringBuilder();
 					/*
@@ -574,6 +570,7 @@ public class EventController
 	                    ActionListener ab_debug_Listener = MainWindowView.debugMgrInstance.getBtnAddABreakpoint().getActionListeners()[0];
 	                    ActionListener db_debug_Listener = MainWindowView.debugMgrInstance.getBtnRemoveSelected().getActionListeners()[0];
 	                    ActionListener dab_debug_Listener = MainWindowView.debugMgrInstance.getBtnRemoveAll().getActionListeners()[0];
+	                    ActionListener cntListener = MainWindowView.debugMgrInstance.getBtnContinue().getActionListeners()[0];
 	                    breakpointButton.removeActionListener(abListener);
 	                    delbreakpointButton.removeActionListener(dbListener);
 	                    delallbreakpointButton.removeActionListener(dabListener);
@@ -581,6 +578,7 @@ public class EventController
 	                    MainWindowView.debugMgrInstance.getBtnAddABreakpoint().removeActionListener(ab_debug_Listener);
 	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().removeActionListener(db_debug_Listener);
 	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().removeActionListener(dab_debug_Listener);
+	                    MainWindowView.debugMgrInstance.getBtnContinue().removeActionListener(cntListener);
 	                    
 	                    ActionListener abListener2 = new ActionListener()
                 		{
@@ -699,44 +697,44 @@ public class EventController
                         		boolean existing = false;
                         		if(r > -1)
                         		{
-                        			ArrayList<RowLocalObject> aWatch2 = MainWindowView.debugMgrInstance.getWatchList2();
-                        			for(int i = 0; i < aWatch2.size(); i++)
-                        			{
-                        				if(aWatch2.get(i).getRow() == r)
-                        				{
-                        					existing = true;
-                        				}
-                        			}
-                        			if(!existing)
-                        			{
-                        				LocalObject lo = new LocalObject("", "");
-                    					if(locals.get(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)).equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 1)))
-                    					{
-                    						lo.setVariable(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0).toString());
-                    						lo.setValue(locals.get(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)));
-                            				aWatch2.add(new RowLocalObject(r, lo));
-                    					}
-                            			System.out.println("Added a watch.");
-                        			}
-                        			else
-                        			{
-                        				for(int i = 0; i < aWatch2.size(); i++)
-                        				{
-                        					if(aWatch2.get(i).getLocalVarVal().getVariable().equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)))
-                        					{
-                                				aWatch2.remove(i);
-                        					}
-                        				}
-                            			System.out.println("Removed a watch.");
-                        			}
-                        			System.out.print("Current Watches: ");
-                        			System.out.println();
-                        			for(int i = 0; i < aWatch2.size(); i++)
-                        			{
-                        				System.out.print("Row " + aWatch2.get(i).getRow() + ": " + 
-                        						aWatch2.get(i).getLocalVarVal().getVariable() + " = " + aWatch2.get(i).getLocalVarVal().getValue());
-                            			System.out.println();
-                        			}
+//                        			ArrayList<RowLocalObject> aWatch2 = MainWindowView.debugMgrInstance.getWatchList2();
+//                        			for(int i = 0; i < aWatch2.size(); i++)
+//                        			{
+//                        				if(aWatch2.get(i).getRow() == r)
+//                        				{
+//                        					existing = true;
+//                        				}
+//                        			}
+//                        			if(!existing)
+//                        			{
+//                        				LocalObject lo = new LocalObject("", "");
+//                    					if(locals.get(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)).equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 1)))
+//                    					{
+//                    						lo.setVariable(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0).toString());
+//                    						lo.setValue(locals.get(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)));
+//                            				aWatch2.add(new RowLocalObject(r, lo));
+//                    					}
+//                            			System.out.println("Added a watch.");
+//                        			}
+//                        			else
+//                        			{
+//                        				for(int i = 0; i < aWatch2.size(); i++)
+//                        				{
+//                        					if(aWatch2.get(i).getLocalVarVal().getVariable().equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)))
+//                        					{
+//                                				aWatch2.remove(i);
+//                        					}
+//                        				}
+//                            			System.out.println("Removed a watch.");
+//                        			}
+//                        			System.out.print("Current Watches: ");
+//                        			System.out.println();
+//                        			for(int i = 0; i < aWatch2.size(); i++)
+//                        			{
+//                        				System.out.print("Row " + aWatch2.get(i).getRow() + ": " + 
+//                        						aWatch2.get(i).getLocalVarVal().getVariable() + " = " + aWatch2.get(i).getLocalVarVal().getValue());
+//                            			System.out.println();
+//                        			}
                         		}
                 			}
                 		};
@@ -787,6 +785,7 @@ public class EventController
 	                    mwv.getStopButton().addActionListener(stopListener);
 	                    MainWindowView.debugMgrInstance.getBtnStepOver().addActionListener(stepOverListener);
 	                    MainWindowView.debugMgrInstance.getBtnContinue().addActionListener(resumeListener);
+	                    MainWindowView.debugMgrInstance.getBtnContinue().setText("Continue");
 	                    MainWindowView.debugMgrInstance.getBtnStop().addActionListener(stopListener);
 	                    boolean notYet = true;
 	                    line = in.readLine();
@@ -811,10 +810,10 @@ public class EventController
 	                    	}
 	                    	else if (!command.equals("info locals"))
 	                    	{
-                    			System.out.println("Refreshing local variables");
+//                    			System.out.println("Refreshing local variables");
                     			if(command.equals("step") || command.equals("continue"))
                     			{
-                        			System.out.println("Step/Continue has been pressed.");
+//                        			System.out.println("Step/Continue has been pressed.");
                     			}
 	                    	}
 	                    	if(line.endsWith("Type \"apropos word\" to search for commands related to \"word\"..."))
@@ -899,6 +898,7 @@ public class EventController
 	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().removeActionListener(db_debug_Listener2);
 	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().removeActionListener(dab_debug_Listener2);
 	                    MainWindowView.debugMgrInstance.getBtnTrackVars().removeActionListener(tv_debug_Listener);
+	                    MainWindowView.debugMgrInstance.getBtnContinue().removeActionListener(resumeListener);
 	                    
 	                    breakpointButton.addActionListener(abListener);
 	                    delbreakpointButton.addActionListener(dbListener);
@@ -907,7 +907,9 @@ public class EventController
 	                    MainWindowView.debugMgrInstance.getBtnAddABreakpoint().addActionListener(ab_debug_Listener);
 	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().addActionListener(db_debug_Listener);
 	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().addActionListener(dab_debug_Listener);
-	                    MainWindowView.debugMgrInstance.getWatchList2().clear();
+	                    MainWindowView.debugMgrInstance.getBtnContinue().addActionListener(cntListener);
+	                    MainWindowView.debugMgrInstance.getBtnContinue().setText("Start");
+//	                    MainWindowView.debugMgrInstance.getWatchList2().clear();
 	                    MainWindowView.debugMgrInstance.getVarVals().clear();
 	                    MainWindowView.debugMgrInstance.resetDebuggingTable();
 	                    debugToggler();
