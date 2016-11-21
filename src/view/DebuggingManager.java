@@ -49,6 +49,7 @@ public class DebuggingManager {
 	private JPanel breakpointPanel, variablePanel, watchPanel;
 	private JButton btnStepOver, btnContinue, btnTrackVars, btnStop; // Variables Tab
 	private JButton btnAddABreakpoint, btnRemoveSelected, btnRemoveAll; // Variables Tab
+    private ArrayList<Boolean> watchList = new ArrayList<Boolean>();
 	private static DebuggingManager instance = null;
 	final private String[] varColumnNames = 
 	{
@@ -56,10 +57,7 @@ public class DebuggingManager {
 	};
 	private Object[][] varData = {
             {"Nothing to display because debug is not active."}};
-	private Object[][] varData2 = {
-            {"Running... Please wait."}};
 	private DefaultTableModel variableModel;
-	private DefaultTableModel variableModel2;
 	
 	private JList<Integer> bpList;
 	private DefaultListModel<Integer> lmbp;
@@ -98,10 +96,6 @@ public class DebuggingManager {
 
 	public void resetDebuggingTable(){
 		varTable.setModel(variableModel);
-	}
-
-	public void loadingDebuggingTable(){
-		varTable.setModel(variableModel2);
 	}
 	
 	public void modifyDebugging(ArrayList<LocalObject> aLocal){
@@ -305,12 +299,6 @@ public class DebuggingManager {
 		varListScrollPane.setToolTipText("Displays all local variables.");
 		variablePanel.add(varListScrollPane, BorderLayout.CENTER);
 		variableModel = new DefaultTableModel(varData, varColumnNames){
-        	
-        	@Override
-        	public boolean isCellEditable(int row, int column){return false;}
-        	
-        };
-		variableModel2 = new DefaultTableModel(varData2, varColumnNames){
         	
         	@Override
         	public boolean isCellEditable(int row, int column){return false;}
