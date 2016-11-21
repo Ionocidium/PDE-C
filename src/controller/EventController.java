@@ -39,6 +39,7 @@ import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
 import debugging.controls.LocalVariableListExtractor;
 import debugging.model.LocalObject;
+import debugging.model.RowLocalObject;
 import service.ClientService;
 import view.CompileLog;
 import view.DebuggingManager;
@@ -687,6 +688,7 @@ public class EventController
                         		if(r > -1)
                         		{
                         			ArrayList<String> aWatch = MainWindowView.debugMgrInstance.getWatchList();
+                        			ArrayList<RowLocalObject> aWatch2 = MainWindowView.debugMgrInstance.getWatchList2();
                         			for(int i = 0; i < aWatch.size(); i++)
                         			{
                         				if(aWatch.get(i).equals(Integer.toString(r)))
@@ -697,19 +699,44 @@ public class EventController
                         			if(!existing)
                         			{
                         				aWatch.add(Integer.toString(r));
+                        				LocalObject lo = new LocalObject("", "");
+                        				for(int i = 0; i < locals.size(); i++)
+                        				{
+                        					if(locals.get(i).getVariable().equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)))
+                        					{
+                        						lo.setVariable(locals.get(i).getVariable());
+                        						lo.setValue(locals.get(i).getValue());
+                                				aWatch2.add(new RowLocalObject(r, lo));
+                        					}
+                        				}
                             			System.out.println("Added a watch.");
                         			}
                         			else
                         			{
                         				aWatch.remove(Integer.toString(r));
+                        				LocalObject lo = new LocalObject("", "");
+                        				for(int i = 0; i < aWatch2.size(); i++)
+                        				{
+                        					if(aWatch2.get(i).getLocalVarVal().getVariable().equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)))
+                        					{
+                        						lo.setVariable(locals.get(i).getVariable());
+                        						lo.setValue(locals.get(i).getValue());
+                                				aWatch2.remove(i);
+                        					}
+                        				}
                             			System.out.println("Removed a watch.");
                         			}
                         			System.out.print("Current Watches: ");
-                        			for(int i = 0; i < aWatch.size(); i++)
+//                        			for(int i = 0; i < aWatch.size(); i++)
+//                        			{
+//                        				System.out.print(aWatch.get(i) + " ");
+//                        			}
+                        			for(int i = 0; i < aWatch2.size(); i++)
                         			{
-                        				System.out.print(aWatch.get(i) + " ");
+                        				System.out.print("Row " + aWatch2.get(i).getRow() + ": " + 
+                        						aWatch2.get(i).getLocalVarVal().getVariable() + " = " + aWatch2.get(i).getLocalVarVal().getValue());
+                            			System.out.println();
                         			}
-                        			System.out.println();
                         		}
                 			}
                 		};
@@ -878,6 +905,7 @@ public class EventController
 	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().addActionListener(db_debug_Listener);
 	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().addActionListener(dab_debug_Listener);
 	                    MainWindowView.debugMgrInstance.getWatchList().clear();
+	                    MainWindowView.debugMgrInstance.getWatchList2().clear();
 	                    MainWindowView.debugMgrInstance.resetDebuggingTable();
 	                    debugToggler();
 	                }
