@@ -30,8 +30,11 @@ import javax.swing.DefaultListModel;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridBagLayout;
@@ -129,24 +132,20 @@ public class DebuggingManager {
 		varTable.setModel(variableModel);
 	}
 	
-	public void modifyDebugging(ArrayList<LocalObject> aLocal){
-		aLocal.sort(new Comparator<LocalObject>() {
-
-			@Override
-			public int compare(LocalObject o1, LocalObject o2) {
-				
-				return 0;
-			}
-		});
+	public void modifyDebugging(HashMap<String, String> aLocal){
+		Map<String, String> map = new TreeMap<String, String>(aLocal); // sorts keys in ascending order ref: http://stackoverflow.com/questions/7860822/sorting-hashmap-based-on-keys
+	
 		DefaultTableModel listDebugging = new DefaultTableModel(varColumnNames, 0){
         	
         	@Override
         	public boolean isCellEditable(int row, int column){return false;}
         	
         };
-		for(int i = 0; i < aLocal.size(); i++)
+        
+        // iterate over all the map items ref: http://stackoverflow.com/questions/46898/how-to-efficiently-iterate-over-each-entry-in-a-map
+		for(Map.Entry<String, String> entry : map.entrySet())
 		{
-			Object[] localVarData = {aLocal.get(i).getVariable(), aLocal.get(i).getValue()};
+			Object[] localVarData = {entry.getKey(), entry.getValue()};
 			listDebugging.addRow(localVarData);
 		}
 		varTable.setModel(listDebugging);
