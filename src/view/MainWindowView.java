@@ -195,6 +195,8 @@ public class MainWindowView
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+		URL pdecIcon = Main.class.getResource("/PDECICON.png");
+		frame.setIconImage(new ImageIcon(pdecIcon).getImage());
 		
 		final JFileChooser fileChooser = new JFileChooser();
 		FileNameExtensionFilter cFilter = new FileNameExtensionFilter(
@@ -1189,10 +1191,15 @@ public class MainWindowView
 		
 		tabbedHorizontalPane = new JTabbedPane();
 		tabbedHorizontalPane.add("Error Log", cL);
+		URL errorlogIcon = Main.class.getResource("/errorlog.png");
+		tabbedHorizontalPane.setIconAt(0, new ImageIcon(errorlogIcon) );
+		
 		tabbedHorizontalPane.add("Debug Log", dL);
-		tabbedHorizontalPane.add("Test Log", cL);
+		tabbedHorizontalPane.setIconAt(1, new ImageIcon(debug) );
 		
 		tabbedVerticalPane.addTab("Feedback History", new JScrollPane(feedbackHistory));
+		URL feedbacklogIcon = Main.class.getResource("/feedbacklog.png");
+		tabbedVerticalPane.setIconAt(0, new ImageIcon(feedbacklogIcon) );
 		
 		horizontalPane.setBottomComponent(tabbedHorizontalPane);
 		horizontalPane.setResizeWeight(1);
