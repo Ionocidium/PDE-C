@@ -539,7 +539,7 @@ public class EventController
 					MainWindowView.debugMgrInstance.modifyBreakpoints();
 					LocalVariableListExtractor lvle = new LocalVariableListExtractor();
 					ArrayList<LocalObject> locals = new ArrayList<LocalObject>();
-					String line;
+					String line, prevLine;
 					StringBuilder sb = new StringBuilder();
 					/*
 					int breaknum = 0; // temp
@@ -695,7 +695,7 @@ public class EventController
 	    	                    command = "info locals";
 	    	                    out.println(command);
 	                    		out.println("step");
-	                    		MainWindowView.debugMgrInstance.loadingDebuggingTable();
+	                    		locals.clear();
 	                    	}
 	                    };
 	                    ActionListener resumeListener = new ActionListener()
@@ -705,7 +705,7 @@ public class EventController
 	    	                    command = "info locals";
 	    	                    out.println(command);
 	                    		out.println("continue");
-	                    		MainWindowView.debugMgrInstance.loadingDebuggingTable();
+	                    		locals.clear();
 	                    	}
 	                    };
 	                    ActionListener stopListener = new ActionListener()
@@ -714,6 +714,7 @@ public class EventController
 	                    	{
 	                    		command = "";
 			                    out.close();
+	                    		locals.clear();
 	                    	}
 	                    };
 	                    mwv.getStepOverButton().addActionListener(stepOverListener);
@@ -723,7 +724,8 @@ public class EventController
 	                    MainWindowView.debugMgrInstance.getBtnContinue().addActionListener(resumeListener);
 	                    MainWindowView.debugMgrInstance.getBtnStop().addActionListener(stopListener);
 	                    boolean notYet = true;
-	                    while ((line = in.readLine()) != null && notYet){
+	                    line = in.readLine();
+	                    while (line != null && notYet){
 	                    	//Regex: Breakpoint \d*, ([a-zA-Z_][a-zA-Z0-9_]*) (\(()\)) at (?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+:
 	                    	if(line.startsWith("(gdb) ")) line = line.substring("(gdb) ".length()); 
 	                    	if(command.equals("info locals"))
@@ -735,8 +737,12 @@ public class EventController
 		                    		{
 		                    			locals.add(new LocalObject(lvle.extractVars(line), lvle.extractVals(line)));
 		                    		}
+//		                    		else
+//		                    		{
+//		                    			command = "";
+//		                    		}
 	                    		}
-	                    		MainWindowView.debugMgrInstance.modifyDebugging(locals);
+//	                    		MainWindowView.debugMgrInstance.modifyDebugging(locals);
 	                    	}
 	                    	else if (!command.equals("info locals"))
 	                    	{
@@ -758,6 +764,7 @@ public class EventController
 	                    	}
 	                    	if(line.startsWith("Breakpoint"))
 	                    	{
+	                    		MainWindowView.debugMgrInstance.modifyDebugging(locals);
 	                    		// check gutter
 	                    		/*
 	                    		Gutter g = rtsp.getGutter();
@@ -813,6 +820,8 @@ public class EventController
 	                    	sb.append(line + "\n");
 		                    writeInErrorLog(sb.toString());
 		            		MainWindowView.debugMgrInstance.modifyDebugging(locals);
+		            		prevLine = line;
+		            		line = in.readLine();
 	                    }
 	                    
 	                    process.destroy();
