@@ -1118,7 +1118,7 @@ public class EventController
 		  return exists;
 		}
 		
-		public void delayMe(long ms)
+		public static void delayMe(long ms)
 		{
 			long nowTime = System.currentTimeMillis();
 			while(System.currentTimeMillis() < nowTime + ms) ;
