@@ -58,7 +58,6 @@ public class DebuggingManager {
 	private JPanel breakpointPanel, variablePanel, watchPanel;
 	private JButton btnStepOver, btnContinue, btnTrackVars, btnStop; // Variables Tab
 	private JButton btnAddABreakpoint, btnRemoveSelected, btnRemoveAll; // Variables Tab
-    private ArrayList<String> watchList = new ArrayList<String>();
     private ArrayList<RowLocalObject> watchList2 = new ArrayList<RowLocalObject>();
     private HashMap<String, String> varVals = new HashMap<String, String>();
 	private static DebuggingManager instance = null;
@@ -74,7 +73,7 @@ public class DebuggingManager {
             	boolean existing = false;
             	for(int i = 0; i < watchList2.size(); i++)
             	{
-            		if(table.getValueAt(watchList2.get(i).getRow(), 0).equals(watchList2.get(i).getLocalVarVal().getVariable())) existing = true;
+            		if(row == watchList2.get(i).getRow() && table.getValueAt(watchList2.get(i).getRow(), 0).equals(watchList2.get(i).getLocalVarVal().getVariable())) existing = true;
             	}
 	            if (existing) {
 	            	setBackground(new Color(53, 208, 53));
@@ -543,13 +542,6 @@ public class DebuggingManager {
 
 	public void setLmbp(DefaultListModel<Integer> lmbp) {
 		this.lmbp = lmbp;
-	}
-
-	/**
-	 * @return the watchList
-	 */
-	public ArrayList<String> getWatchList() {
-		return watchList;
 	}
 
 	/**

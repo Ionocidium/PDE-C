@@ -689,18 +689,16 @@ public class EventController
                         		boolean existing = false;
                         		if(r > -1)
                         		{
-                        			ArrayList<String> aWatch = MainWindowView.debugMgrInstance.getWatchList();
                         			ArrayList<RowLocalObject> aWatch2 = MainWindowView.debugMgrInstance.getWatchList2();
-                        			for(int i = 0; i < aWatch.size(); i++)
+                        			for(int i = 0; i < aWatch2.size(); i++)
                         			{
-                        				if(aWatch.get(i).equals(Integer.toString(r)))
+                        				if(aWatch2.get(i).getRow() == r)
                         				{
                         					existing = true;
                         				}
                         			}
                         			if(!existing)
                         			{
-                        				aWatch.add(Integer.toString(r));
                         				LocalObject lo = new LocalObject("", "");
                     					if(locals.get(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)).equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 1)))
                     					{
@@ -712,7 +710,6 @@ public class EventController
                         			}
                         			else
                         			{
-                        				aWatch.remove(Integer.toString(r));
                         				for(int i = 0; i < aWatch2.size(); i++)
                         				{
                         					if(aWatch2.get(i).getLocalVarVal().getVariable().equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)))
@@ -723,10 +720,7 @@ public class EventController
                             			System.out.println("Removed a watch.");
                         			}
                         			System.out.print("Current Watches: ");
-//                        			for(int i = 0; i < aWatch.size(); i++)
-//                        			{
-//                        				System.out.print(aWatch.get(i) + " ");
-//                        			}
+                        			System.out.println();
                         			for(int i = 0; i < aWatch2.size(); i++)
                         			{
                         				System.out.print("Row " + aWatch2.get(i).getRow() + ": " + 
@@ -900,7 +894,6 @@ public class EventController
 	                    MainWindowView.debugMgrInstance.getBtnAddABreakpoint().addActionListener(ab_debug_Listener);
 	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().addActionListener(db_debug_Listener);
 	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().addActionListener(dab_debug_Listener);
-	                    MainWindowView.debugMgrInstance.getWatchList().clear();
 	                    MainWindowView.debugMgrInstance.getWatchList2().clear();
 	                    MainWindowView.debugMgrInstance.getVarVals().clear();
 	                    MainWindowView.debugMgrInstance.resetDebuggingTable();
