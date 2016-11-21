@@ -421,7 +421,7 @@ public class DebuggingManager {
 				+ "You will notice that the program will stop at the first breakpoint encountered (hopefully you have properly set up your breakpoints!)."
 				+ System.getProperty("line.separator") + System.getProperty("line.separator")
 				+ "To the left, you will now see the variables present in your code, with their respective current values on the line marked with the breakpoint. "
-				+ "From here, you may click STep Over to go to the next line, or click Continue to proceed to the next breakpoint."
+				+ "From here, you may click Step Over to go to the next line, or click Continue to proceed to the next breakpoint."
 				+ System.getProperty("line.separator") + System.getProperty("line.separator")
 				+ "You may also mark certain variables so you can track their values. "
 				+ "Click on a variable in the table, then click Track Variable. "
