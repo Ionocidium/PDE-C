@@ -60,6 +60,7 @@ public class DebuggingManager {
 	private JButton btnAddABreakpoint, btnRemoveSelected, btnRemoveAll; // Variables Tab
     private ArrayList<String> watchList = new ArrayList<String>();
     private ArrayList<RowLocalObject> watchList2 = new ArrayList<RowLocalObject>();
+    private HashMap<String, String> varVals = new HashMap<String, String>();
 	private static DebuggingManager instance = null;
 	final private RowManipulator rm = new RowManipulator();
 	final private DefaultTableCellRenderer tracker = new DefaultTableCellRenderer(){
@@ -71,13 +72,10 @@ public class DebuggingManager {
             if(!watchList2.isEmpty())
             {
             	boolean existing = false;
-    			for(int i = 0; i < watchList2.size(); i++)
-    			{
-    				if(watchList2.get(i).getRow() == row)
-    				{
-    					existing = true;
-    				}
-    			}
+            	for(int i = 0; i < watchList2.size(); i++)
+            	{
+            		if(table.getValueAt(watchList2.get(i).getRow(), 0).equals(watchList2.get(i).getLocalVarVal().getVariable())) existing = true;
+            	}
 	            if (existing) {
 	            	setBackground(new Color(53, 208, 53));
 	                setForeground(Color.BLACK);
@@ -137,6 +135,7 @@ public class DebuggingManager {
 	}
 	
 	public void modifyDebugging(HashMap<String, String> aLocal){
+		setVarVals(aLocal);
 		Map<String, String> map = new TreeMap<String, String>(aLocal); // sorts keys in ascending order ref: http://stackoverflow.com/questions/7860822/sorting-hashmap-based-on-keys
 	
 		DefaultTableModel listDebugging = new DefaultTableModel(varColumnNames, 0){
@@ -151,24 +150,6 @@ public class DebuggingManager {
 		{
 			Object[] localVarData = {entry.getKey(), entry.getValue()};
 			listDebugging.addRow(localVarData);
-		}
-		for(int i = 0; i < watchList2.size(); i++)
-		{
-			if(rm.searchLocalVarByIndex(aLocal, watchList2.get(i).getLocalVarVal()) == -1)
-			{
-				// Remove the element
-				watchList2.remove(i);
-			}
-			else
-			{
-				// element is found. time to manipulate
-				if(rm.searchTrackingLocalVarByIndex(watchList2, watchList2.get(i).getLocalVarVal()) > -1)
-				{
-					int diff = rm.checkDifference(aLocal, watchList2, watchList2.get(i).getLocalVarVal());
-					// manipulate accordingly
-					watchList2.get(i).setRow(watchList2.get(i).getRow() - diff);
-				}
-			}
 		}
 		varTable.setModel(listDebugging);
 	}
@@ -583,6 +564,14 @@ public class DebuggingManager {
 	 */
 	public JList<Integer> getBpList() {
 		return bpList;
+	}
+
+	public HashMap<String, String> getVarVals() {
+		return varVals;
+	}
+
+	public void setVarVals(HashMap<String, String> varVals) {
+		this.varVals = varVals;
 	}
 
 }

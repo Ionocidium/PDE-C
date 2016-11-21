@@ -1,6 +1,8 @@
 package debugging.controls;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import debugging.model.LocalObject;
 import debugging.model.RowLocalObject;

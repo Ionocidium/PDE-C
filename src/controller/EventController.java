@@ -702,27 +702,21 @@ public class EventController
                         			{
                         				aWatch.add(Integer.toString(r));
                         				LocalObject lo = new LocalObject("", "");
-                        				for(int i = 0; i < locals.size(); i++)
-                        				{
-                        					if(locals.get(i).getVariable().equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)))
-                        					{
-                        						lo.setVariable(locals.get(i).getVariable());
-                        						lo.setValue(locals.get(i).getValue());
-                                				aWatch2.add(new RowLocalObject(r, lo));
-                        					}
-                        				}
+                    					if(locals.get(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)).equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 1)))
+                    					{
+                    						lo.setVariable(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0).toString());
+                    						lo.setValue(locals.get(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)));
+                            				aWatch2.add(new RowLocalObject(r, lo));
+                    					}
                             			System.out.println("Added a watch.");
                         			}
                         			else
                         			{
                         				aWatch.remove(Integer.toString(r));
-                        				LocalObject lo = new LocalObject("", "");
                         				for(int i = 0; i < aWatch2.size(); i++)
                         				{
                         					if(aWatch2.get(i).getLocalVarVal().getVariable().equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)))
                         					{
-                        						lo.setVariable(locals.get(i).getVariable());
-                        						lo.setValue(locals.get(i).getValue());
                                 				aWatch2.remove(i);
                         					}
                         				}
@@ -908,6 +902,7 @@ public class EventController
 	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().addActionListener(dab_debug_Listener);
 	                    MainWindowView.debugMgrInstance.getWatchList().clear();
 	                    MainWindowView.debugMgrInstance.getWatchList2().clear();
+	                    MainWindowView.debugMgrInstance.getVarVals().clear();
 	                    MainWindowView.debugMgrInstance.resetDebuggingTable();
 	                    debugToggler();
 	                }
