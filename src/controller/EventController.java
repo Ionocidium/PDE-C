@@ -748,6 +748,7 @@ public class EventController
 	    	                    out.println(command);
 	                    		out.println("step");
 	                    		locals.clear();
+	        					delayMe(50);
 	                    	}
 	                    };
 	                    ActionListener resumeListener = new ActionListener()
@@ -758,6 +759,7 @@ public class EventController
 	    	                    out.println(command);
 	                    		out.println("continue");
 	                    		locals.clear();
+	        					delayMe(50);
 	                    	}
 	                    };
 	                    ActionListener stopListener = new ActionListener()
@@ -767,6 +769,7 @@ public class EventController
 	                    		command = "";
 			                    out.close();
 	                    		locals.clear();
+	        					delayMe(50);
 	                    	}
 	                    };
 	                    mwv.getStepOverButton().addActionListener(stepOverListener);
