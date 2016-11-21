@@ -277,6 +277,9 @@ public class EventController
 	{
 	  
 	  Path path = null;
+	  
+	  if (this.checkIfGccExists())
+	  {
 		try
 		{
 			if (filePath != null)
@@ -349,6 +352,13 @@ public class EventController
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	  }
+	  
+	  else
+	  {
+		JOptionPane.showMessageDialog(null, "GCC not found", "Error", JOptionPane.ERROR_MESSAGE);
+	  }
+
 		
 		return path;
 	}
@@ -953,5 +963,19 @@ public class EventController
 		{
 			long nowTime = System.currentTimeMillis();
 			while(System.currentTimeMillis() < nowTime + ms) ;
+		}
+		
+		private boolean checkIfGccExists()
+		{
+		  boolean itExists = false;
+		  
+		  LocalConfiguration local = LocalConfiguration.getInstance();
+		  
+		  if (Files.exists(Paths.get(local.getGccPath())))
+		  {
+			itExists = true;
+		  }
+		  
+		  return itExists;
 		}
 	}
