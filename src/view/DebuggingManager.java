@@ -73,7 +73,10 @@ public class DebuggingManager {
             	boolean existing = false;
             	for(int i = 0; i < watchList2.size(); i++)
             	{
-            		if(row == watchList2.get(i).getRow() && table.getValueAt(watchList2.get(i).getRow(), 0).equals(watchList2.get(i).getLocalVarVal().getVariable())) existing = true;
+            		if(row == watchList2.get(i).getRow())
+        			{
+            			if(table.getValueAt(watchList2.get(i).getRow(), 0).equals(watchList2.get(i).getLocalVarVal().getVariable())) existing = true;
+        			}
             	}
 	            if (existing) {
 	            	setBackground(new Color(53, 208, 53));
@@ -333,17 +336,27 @@ public class DebuggingManager {
 				"Before you start debugging, let's first set up your breakpoints. A breakpoint is an intentional stopping or pausing location in a program, put in place for debugging purposes. If you run your code in debug mode, your code will automatically stop when it reaches a breakpoint, which will allow you to view the values of your variables at certain points of your program!");
 		variablePanel = new JPanel();
 		tabbedPane.addTab("Variables", null, variablePanel, null);
-		variablePanel.setLayout(new BorderLayout(0, 0));
-		
-		JScrollPane varListScrollPane = new JScrollPane(varTable);
-		varListScrollPane.setToolTipText("Displays all local variables.");
-		variablePanel.add(varListScrollPane, BorderLayout.CENTER);
+		GridBagLayout gbl_variablePanel = new GridBagLayout();
+		gbl_variablePanel.columnWidths = new int[]{476, 191, 0};
+		gbl_variablePanel.rowHeights = new int[]{423, 0};
+		gbl_variablePanel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gbl_variablePanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		variablePanel.setLayout(gbl_variablePanel);
 		variableModel = new DefaultTableModel(varData, varColumnNames){
         	
         	@Override
         	public boolean isCellEditable(int row, int column){return false;}
         	
         };
+		
+		JScrollPane varListScrollPane = new JScrollPane(varTable);
+		varListScrollPane.setToolTipText("Displays all local variables.");
+		GridBagConstraints gbc_varListScrollPane = new GridBagConstraints();
+		gbc_varListScrollPane.fill = GridBagConstraints.BOTH;
+		gbc_varListScrollPane.insets = new Insets(0, 0, 0, 5);
+		gbc_varListScrollPane.gridx = 0;
+		gbc_varListScrollPane.gridy = 0;
+		variablePanel.add(varListScrollPane, gbc_varListScrollPane);
 		varTable = new JTable(variableModel);
 		varTable.setCellSelectionEnabled(true);
 		varTable.setDefaultRenderer(Object.class, tracker);
@@ -351,11 +364,15 @@ public class DebuggingManager {
 		
 		JPanel varOptionsPane = new JPanel();
 		varOptionsPane.setBorder(new TitledBorder(null, "Options", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		variablePanel.add(varOptionsPane, BorderLayout.EAST);
+		GridBagConstraints gbc_varOptionsPane = new GridBagConstraints();
+		gbc_varOptionsPane.fill = GridBagConstraints.BOTH;
+		gbc_varOptionsPane.gridx = 1;
+		gbc_varOptionsPane.gridy = 0;
+		variablePanel.add(varOptionsPane, gbc_varOptionsPane);
 		GridBagLayout gbl_varOptionsPane = new GridBagLayout();
-		gbl_varOptionsPane.columnWidths = new int[]{90, 63, 0};
+		gbl_varOptionsPane.columnWidths = new int[]{117, 50, 63, 0};
 		gbl_varOptionsPane.rowHeights = new int[]{24, 24, 0, 0};
-		gbl_varOptionsPane.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_varOptionsPane.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_varOptionsPane.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		varOptionsPane.setLayout(gbl_varOptionsPane);
 		
@@ -371,6 +388,7 @@ public class DebuggingManager {
 		btnContinue = new JButton("Continue");
 		btnContinue.setEnabled(false);
 		GridBagConstraints gbc_btnContinue = new GridBagConstraints();
+		gbc_btnContinue.gridwidth = 2;
 		gbc_btnContinue.fill = GridBagConstraints.BOTH;
 		gbc_btnContinue.insets = new Insets(0, 0, 5, 0);
 		gbc_btnContinue.gridx = 1;
@@ -389,6 +407,7 @@ public class DebuggingManager {
 		btnStop = new JButton("Stop");
 		btnStop.setEnabled(false);
 		GridBagConstraints gbc_btnStop = new GridBagConstraints();
+		gbc_btnStop.gridwidth = 2;
 		gbc_btnStop.fill = GridBagConstraints.BOTH;
 		gbc_btnStop.insets = new Insets(0, 0, 5, 0);
 		gbc_btnStop.gridx = 1;
@@ -398,7 +417,7 @@ public class DebuggingManager {
 		JPanel varHelperPane = new JPanel();
 		varHelperPane.setBorder(new TitledBorder(null, "Help", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_varHelperPane = new GridBagConstraints();
-		gbc_varHelperPane.gridwidth = 2;
+		gbc_varHelperPane.gridwidth = 3;
 		gbc_varHelperPane.fill = GridBagConstraints.BOTH;
 		gbc_varHelperPane.gridx = 0;
 		gbc_varHelperPane.gridy = 2;
@@ -411,7 +430,7 @@ public class DebuggingManager {
 		txtVarHelper.setWrapStyleWord(true);
 		txtVarHelper.setLineWrap(true);
 		txtVarHelper.setEditable(false);
-		txtVarHelper.setText("Helper Text");
+		txtVarHelper.setText("Now that you have set up your breakpoints, we can now begin debugging your code. You may click on the Start button above to start running your code. You will notice that the program will stop at the first breakpoint encountered (hopefully you have properly set up your breakpoints!)." + System.getProperty("line.separator") + System.getProperty("line.separator") + "To the left, you will now see the variables present in your code, with their respective current values on the line marked with the breakpoint. From here, you may click STep Over to go to the next line, or click Continue to proceed to the next breakpoint. " + System.getProperty("line.separator") + System.getProperty("line.separator") + "You may also mark certain variables so you can track their values. Click on a variable in the table, then click Track Variable. This will highlight the variable so you can observe its value more clearly as you run your code in debug mode.");
 		txtVarHelper.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		watchPanel = new JPanel();
 		tabbedPane.addTab("Watches", null, watchPanel, null);
