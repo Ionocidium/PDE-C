@@ -244,8 +244,7 @@ public class DebuggingManager {
 				int value = MainWindowView.eventController.addbreakpoint(frmBreakpointManager, mwv.getGut(), mwv.getBreakpoints()) + 1;
 				if(value > 0)
 				{
-					getLmbp().addElement(value);
-					bpList.setModel(getLmbp());
+					modifyBreakpoints();
 					if(mwv.getBreakpoints().size() > 0) {
 						mwv.getDelbreakpointButton().setEnabled(true);
 						mwv.getDelallbreakpointButton().setEnabled(true);
@@ -269,14 +268,13 @@ public class DebuggingManager {
 					MainWindowView mwv = MainWindowView.getInstance();
 					for(int i = 0; i < selected.size(); i++)
 					{
-						getLmbp().removeElement(selected.get(i));
 						MainWindowView.eventController.silentDeleteBreakpoint(mwv.getGut(), mwv.getBreakpoints(), selected.get(i));
 						if(mwv.getBreakpoints().size() == 0) {
 							mwv.getDelbreakpointButton().setEnabled(false);
 							mwv.getDelallbreakpointButton().setEnabled(false);
 						}
 					}
-					bpList.setModel(getLmbp());
+					modifyBreakpoints();
 				}
 			}
 		});
@@ -291,11 +289,10 @@ public class DebuggingManager {
 		btnRemoveAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MainWindowView mwv = MainWindowView.getInstance();
-				setLmbp(new DefaultListModel<Integer>());
-				bpList.setModel(new DefaultListModel<Integer>());
 				MainWindowView.eventController.deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
 				mwv.getDelbreakpointButton().setEnabled(false);
 				mwv.getDelallbreakpointButton().setEnabled(false);
+				modifyBreakpoints();
 			}
 		});
 		GridBagConstraints gbc_btnRemoveAll = new GridBagConstraints();
