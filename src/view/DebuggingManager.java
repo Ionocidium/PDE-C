@@ -248,6 +248,8 @@ public class DebuggingManager {
 					if(mwv.getBreakpoints().size() > 0) {
 						mwv.getDelbreakpointButton().setEnabled(true);
 						mwv.getDelallbreakpointButton().setEnabled(true);
+						getBtnRemoveSelected().setEnabled(true);
+						getBtnRemoveAll().setEnabled(true);
 					}
 				}
 			}
@@ -272,6 +274,8 @@ public class DebuggingManager {
 						if(mwv.getBreakpoints().size() == 0) {
 							mwv.getDelbreakpointButton().setEnabled(false);
 							mwv.getDelallbreakpointButton().setEnabled(false);
+							getBtnRemoveSelected().setEnabled(false);
+							getBtnRemoveAll().setEnabled(false);
 						}
 					}
 					modifyBreakpoints();
@@ -292,6 +296,8 @@ public class DebuggingManager {
 				MainWindowView.eventController.deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
 				mwv.getDelbreakpointButton().setEnabled(false);
 				mwv.getDelallbreakpointButton().setEnabled(false);
+				getBtnRemoveSelected().setEnabled(false);
+				getBtnRemoveAll().setEnabled(false);
 				modifyBreakpoints();
 			}
 		});

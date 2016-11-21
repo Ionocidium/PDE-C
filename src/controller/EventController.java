@@ -598,6 +598,8 @@ public class EventController
         						if(mwv.getBreakpoints().size() == 0) {
         							mwv.getDelbreakpointButton().setEnabled(false);
         							mwv.getDelallbreakpointButton().setEnabled(false);
+        							MainWindowView.debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
+        							MainWindowView.debugMgrInstance.getBtnRemoveAll().setEnabled(false);
         						}
 	                    	}
                 		};
@@ -609,6 +611,8 @@ public class EventController
 	                    		deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
                 				mwv.getDelbreakpointButton().setEnabled(false);
                 				mwv.getDelallbreakpointButton().setEnabled(false);
+    							MainWindowView.debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
+    							MainWindowView.debugMgrInstance.getBtnRemoveAll().setEnabled(false);
 	                    		out.println("delete");
 	                    	}
                 		};
@@ -630,11 +634,15 @@ public class EventController
                 				if(mwv.getBreakpoints().size() > 0) {
                 					delbreakpointButton.setEnabled(true);
                 					delallbreakpointButton.setEnabled(true);
+        							MainWindowView.debugMgrInstance.getBtnRemoveSelected().setEnabled(true);
+        							MainWindowView.debugMgrInstance.getBtnRemoveAll().setEnabled(true);
                 				}
                 				else
                 				{
                 					delbreakpointButton.setEnabled(false);
                 					delallbreakpointButton.setEnabled(false);
+        							MainWindowView.debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
+        							MainWindowView.debugMgrInstance.getBtnRemoveAll().setEnabled(false);
                 				}
                 			}
                 		};
@@ -651,6 +659,8 @@ public class EventController
 	            					if(mwv.getBreakpoints().size() > 0) {
 	            						mwv.getDelbreakpointButton().setEnabled(true);
 	            						mwv.getDelallbreakpointButton().setEnabled(true);
+	        							MainWindowView.debugMgrInstance.getBtnRemoveSelected().setEnabled(true);
+	        							MainWindowView.debugMgrInstance.getBtnRemoveAll().setEnabled(true);
 	            					}
 	            				}
                     			out.println("break " + answer);
@@ -672,6 +682,8 @@ public class EventController
 	            						if(mwv.getBreakpoints().size() == 0) {
 	            							mwv.getDelbreakpointButton().setEnabled(false);
 	            							mwv.getDelallbreakpointButton().setEnabled(false);
+	            							MainWindowView.debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
+	            							MainWindowView.debugMgrInstance.getBtnRemoveAll().setEnabled(false);
 	            						}
 	                        			out.println("delete " + answer);
 	            					}
@@ -687,6 +699,8 @@ public class EventController
                 				deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
                 				mwv.getDelbreakpointButton().setEnabled(false);
                 				mwv.getDelallbreakpointButton().setEnabled(false);
+    							MainWindowView.debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
+    							MainWindowView.debugMgrInstance.getBtnRemoveAll().setEnabled(false);
 	                    		out.println("delete");
                 			}
                 		};

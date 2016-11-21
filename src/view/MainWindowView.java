@@ -554,6 +554,10 @@ public class MainWindowView
 				else
 				{
 					debugMgrInstance.modifyBreakpoints();
+					if(breakpoints.size() > 0) {
+						debugMgrInstance.getBtnRemoveSelected().setEnabled(true);
+						debugMgrInstance.getBtnRemoveAll().setEnabled(true);
+					}
 				}
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
@@ -571,6 +575,10 @@ public class MainWindowView
 				else
 				{
 					debugMgrInstance.modifyBreakpoints();
+					if(breakpoints.size() == 0) {
+						debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
+						debugMgrInstance.getBtnRemoveAll().setEnabled(false);
+					}
 				}
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
@@ -588,6 +596,8 @@ public class MainWindowView
 				else
 				{
 					debugMgrInstance.modifyBreakpoints();
+					debugMgrInstance.getBtnRemoveSelected().setEnabled(true);
+					debugMgrInstance.getBtnRemoveAll().setEnabled(true);
 				}
 				delbreakpointButton.setEnabled(false);
 				delallbreakpointButton.setEnabled(false);
@@ -982,6 +992,12 @@ public class MainWindowView
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
 					delallbreakpointButton.setEnabled(true);
+					if(debugMgrInstance == null);
+					else
+					{
+						debugMgrInstance.getBtnRemoveSelected().setEnabled(true);
+						debugMgrInstance.getBtnRemoveAll().setEnabled(true);
+					}
 				}
 			}
 		});
@@ -995,6 +1011,12 @@ public class MainWindowView
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
+					if(debugMgrInstance == null);
+					else
+					{
+						debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
+						debugMgrInstance.getBtnRemoveAll().setEnabled(false);
+					}
 				}
 			}
 		});
@@ -1008,6 +1030,12 @@ public class MainWindowView
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
+					if(debugMgrInstance == null);
+					else
+					{
+						debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
+						debugMgrInstance.getBtnRemoveAll().setEnabled(false);
+					}
 				}
 			}
 		});
@@ -1113,11 +1141,23 @@ public class MainWindowView
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
 					delallbreakpointButton.setEnabled(true);
+					if(debugMgrInstance == null);
+					else
+					{
+						debugMgrInstance.getBtnRemoveSelected().setEnabled(true);
+						debugMgrInstance.getBtnRemoveAll().setEnabled(true);
+					}
 				}
 				else
 				{
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
+					if(debugMgrInstance == null);
+					else
+					{
+						debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
+						debugMgrInstance.getBtnRemoveAll().setEnabled(false);
+					}
 				}
 			}
 		});
