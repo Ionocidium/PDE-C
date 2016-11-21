@@ -262,7 +262,10 @@ public class DebuggingManager {
 		bpOptionPane.add(btnAddABreakpoint, gbc_btnAddABreakpoint);
 		
 		btnRemoveSelected = new JButton("Remove Selected Breakpoint");
-		btnRemoveSelected.setEnabled(false);
+		if(MainWindowView.getInstance().getBreakpoints().isEmpty())
+			btnRemoveSelected.setEnabled(false);
+		else
+			btnRemoveSelected.setEnabled(true);
 		btnRemoveSelected.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				List<Integer> selected = bpList.getSelectedValuesList();
@@ -291,7 +294,10 @@ public class DebuggingManager {
 		bpOptionPane.add(btnRemoveSelected, gbc_btnRemoveSelected);
 		
 		btnRemoveAll = new JButton("Remove All Breakpoints");
-		btnRemoveAll.setEnabled(false);
+		if(MainWindowView.getInstance().getBreakpoints().isEmpty())
+			btnRemoveAll.setEnabled(false);
+		else
+			btnRemoveAll.setEnabled(true);
 		btnRemoveAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MainWindowView mwv = MainWindowView.getInstance();
