@@ -15,6 +15,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.border.MatteBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
@@ -27,6 +29,7 @@ import javax.swing.DefaultListModel;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.awt.event.ActionListener;
@@ -39,6 +42,7 @@ import java.awt.BorderLayout;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import javax.swing.JToolBar;
@@ -49,8 +53,35 @@ public class DebuggingManager {
 	private JPanel breakpointPanel, variablePanel, watchPanel;
 	private JButton btnStepOver, btnContinue, btnTrackVars, btnStop; // Variables Tab
 	private JButton btnAddABreakpoint, btnRemoveSelected, btnRemoveAll; // Variables Tab
-    private ArrayList<Boolean> watchList = new ArrayList<Boolean>();
+    private ArrayList<String> watchList = new ArrayList<String>();
 	private static DebuggingManager instance = null;
+	final private DefaultTableCellRenderer tracker = new DefaultTableCellRenderer(){
+        @Override
+        public Component getTableCellRendererComponent(JTable table,
+                Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+
+            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+            if(!watchList.isEmpty())
+            {
+            	boolean existing = false;
+    			for(int i = 0; i < watchList.size(); i++)
+    			{
+    				if(watchList.get(i).equals(row))
+    				{
+    					existing = true;
+    				}
+    			}
+	            if (existing) {
+	            	setBackground(new Color(53, 208, 53));
+	                setForeground(Color.WHITE);
+	            } else {
+	                setBackground(Color.WHITE);
+	                setForeground(Color.BLACK);
+	            }
+            }
+            return this;
+        }
+	};
 	final private String[] varColumnNames = 
 	{
 	    "Variable Name", "Value"
@@ -99,6 +130,14 @@ public class DebuggingManager {
 	}
 	
 	public void modifyDebugging(ArrayList<LocalObject> aLocal){
+		aLocal.sort(new Comparator<LocalObject>() {
+
+			@Override
+			public int compare(LocalObject o1, LocalObject o2) {
+				
+				return 0;
+			}
+		});
 		DefaultTableModel listDebugging = new DefaultTableModel(varColumnNames, 0){
         	
         	@Override
@@ -306,6 +345,7 @@ public class DebuggingManager {
         };
 		varTable = new JTable(variableModel);
 		varTable.setCellSelectionEnabled(true);
+		varTable.setDefaultRenderer(Object.class, tracker);
 		varListScrollPane.setViewportView(varTable);
 		
 		JPanel varOptionsPane = new JPanel();
@@ -481,6 +521,20 @@ public class DebuggingManager {
 		this.btnRemoveAll = btnRemoveAll;
 	}
 
+	/**
+	 * @return the varTable
+	 */
+	public JTable getVarTable() {
+		return varTable;
+	}
+
+	/**
+	 * @param varTable the varTable to set
+	 */
+	public void setVarTable(JTable varTable) {
+		this.varTable = varTable;
+	}
+
 	public DefaultListModel<Integer> getLmbp() {
 		return lmbp;
 	}
@@ -490,16 +544,16 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * @return the watchList
+	 */
+	public ArrayList<String> getWatchList() {
+		return watchList;
+	}
+
+	/**
 	 * @return the bpList
 	 */
 	public JList<Integer> getBpList() {
 		return bpList;
-	}
-
-	/**
-	 * @param bpList the bpList to set
-	 */
-	public void setBpList(JList<Integer> bpList) {
-		this.bpList = bpList;
 	}
 }

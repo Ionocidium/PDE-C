@@ -657,7 +657,7 @@ public class EventController
 	            					{
 	            						int answer = selected.get(i);
 	            						MainWindowView.debugMgrInstance.getLmbp().removeElement(answer);
-	            						MainWindowView.eventController.silentDeleteBreakpoint(mwv.getGut(), mwv.getBreakpoints(), selected.get(i));
+	            						silentDeleteBreakpoint(mwv.getGut(), mwv.getBreakpoints(), selected.get(i));
 	            						if(mwv.getBreakpoints().size() == 0) {
 	            							mwv.getDelbreakpointButton().setEnabled(false);
 	            							mwv.getDelallbreakpointButton().setEnabled(false);
@@ -673,10 +673,44 @@ public class EventController
                 			public void actionPerformed(ActionEvent e) {
                 				MainWindowView.debugMgrInstance.setLmbp(new DefaultListModel<Integer>());
                 				MainWindowView.debugMgrInstance.getBpList().setModel(MainWindowView.debugMgrInstance.getLmbp());
-                				MainWindowView.eventController.deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
+                				deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
                 				mwv.getDelbreakpointButton().setEnabled(false);
                 				mwv.getDelallbreakpointButton().setEnabled(false);
 	                    		out.println("delete");
+                			}
+                		};
+                		
+                		ActionListener tv_debug_Listener = new ActionListener() {
+                			public void actionPerformed(ActionEvent e) {
+                        		int r = MainWindowView.debugMgrInstance.getVarTable().getSelectedRow();
+                        		boolean existing = false;
+                        		if(r > -1)
+                        		{
+                        			ArrayList<String> aWatch = MainWindowView.debugMgrInstance.getWatchList();
+                        			for(int i = 0; i < aWatch.size(); i++)
+                        			{
+                        				if(aWatch.get(i).equals(Integer.toString(r)))
+                        				{
+                        					existing = true;
+                        				}
+                        			}
+                        			if(!existing)
+                        			{
+                        				aWatch.add(Integer.toString(r));
+                            			System.out.println("Added a watch.");
+                        			}
+                        			else
+                        			{
+                        				aWatch.remove(Integer.toString(r));
+                            			System.out.println("Removed a watch.");
+                        			}
+                        			System.out.print("Current Watches: ");
+                        			for(int i = 0; i < aWatch.size(); i++)
+                        			{
+                        				System.out.print(aWatch.get(i) + " ");
+                        			}
+                        			System.out.println();
+                        		}
                 			}
                 		};
 
@@ -687,6 +721,7 @@ public class EventController
                 		MainWindowView.debugMgrInstance.getBtnAddABreakpoint().addActionListener(ab_debug_Listener2);
 	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().addActionListener(db_debug_Listener2);
 	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().addActionListener(dab_debug_Listener2);
+	                    MainWindowView.debugMgrInstance.getBtnTrackVars().addActionListener(tv_debug_Listener);
 	                    
 	                    ActionListener stepOverListener = new ActionListener()
 	                    {
@@ -830,6 +865,10 @@ public class EventController
 	                    delbreakpointButton.removeActionListener(dbListener2);
 	                    delallbreakpointButton.removeActionListener(dabListener2);
 	                    toggleBreakpointMenuItem.removeActionListener(tbListener2);
+                		MainWindowView.debugMgrInstance.getBtnAddABreakpoint().removeActionListener(ab_debug_Listener2);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().removeActionListener(db_debug_Listener2);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().removeActionListener(dab_debug_Listener2);
+	                    MainWindowView.debugMgrInstance.getBtnTrackVars().removeActionListener(tv_debug_Listener);
 	                    
 	                    breakpointButton.addActionListener(abListener);
 	                    delbreakpointButton.addActionListener(dbListener);
@@ -838,6 +877,7 @@ public class EventController
 	                    MainWindowView.debugMgrInstance.getBtnAddABreakpoint().addActionListener(ab_debug_Listener);
 	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().addActionListener(db_debug_Listener);
 	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().addActionListener(dab_debug_Listener);
+	                    MainWindowView.debugMgrInstance.getWatchList().clear();
 	                    MainWindowView.debugMgrInstance.resetDebuggingTable();
 	                    debugToggler();
 	                }
