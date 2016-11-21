@@ -955,17 +955,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-//				eventController.debugToggler(frame, newButton, newFileItem, openButton, 
-//						openFileItem, saveButton, saveFileItem, saveAsFileItem, 
-//						compileButton, compilerunButton, compileBuildItem, debugButton, 
-//						debugBuildItem, stepOverButton, resumeButton, stopButton);
 				eventController.debugToggler();
-//				eventController.debugActual2(frame, editorPane, filePath, newButton, 
-//						newFileItem, openButton, openFileItem, saveButton, saveFileItem, 
-//						saveAsFileItem, compileButton, compilerunButton, compileBuildItem, 
-//						debugButton, debugBuildItem, stepOverButton, resumeButton, 
-//						stopButton, editorPane, scrollPane, addBreakItem, delBreakItem, 
-//						delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, breakpoints);
 				eventController.debugInit(filePath, breakpointButton, delbreakpointButton, delallbreakpointButton);
 			}
 		});
@@ -974,17 +964,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-//				eventController.debugToggler(frame, newButton, newFileItem, openButton, 
-//				openFileItem, saveButton, saveFileItem, saveAsFileItem, 
-//				compileButton, compilerunButton, compileBuildItem, debugButton, 
-//				debugBuildItem, stepOverButton, resumeButton, stopButton);
 				eventController.debugToggler();
-//				eventController.debugActual2(frame, editorPane, filePath, newButton, 
-//						newFileItem, openButton, openFileItem, saveButton, saveFileItem, 
-//						saveAsFileItem, compileButton, compilerunButton, compileBuildItem, 
-//						debugButton, debugBuildItem, stepOverButton, resumeButton, 
-//						stopButton, editorPane, scrollPane, addBreakItem, delBreakItem, 
-//						delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, breakpoints);
 				eventController.debugInit(filePath, breakpointButton, delbreakpointButton, delallbreakpointButton);
 			}
 		});
