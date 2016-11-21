@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -539,7 +540,8 @@ public class EventController
 					MainWindowView.debugMgrInstance.openMe();
 					MainWindowView.debugMgrInstance.modifyBreakpoints();
 					LocalVariableListExtractor lvle = new LocalVariableListExtractor();
-					ArrayList<LocalObject> locals = new ArrayList<LocalObject>();
+					HashMap<String, String> locals = new HashMap<String, String>();
+//					ArrayList<LocalObject> locals = new ArrayList<LocalObject>();
 					String line, prevLine;
 					StringBuilder sb = new StringBuilder();
 					/*
@@ -797,7 +799,7 @@ public class EventController
 		                    		if(!(line.startsWith("0") || line.startsWith("1") || line.startsWith("2") || line.startsWith("3") || line.startsWith("4") ||
 		                    				line.startsWith("5") || line.startsWith("6") || line.startsWith("7") || line.startsWith("8") || line.startsWith("9")))
 		                    		{
-		                    			locals.add(new LocalObject(lvle.extractVars(line), lvle.extractVals(line)));
+		                    			locals.put(lvle.extractVars(line), lvle.extractVals(line));
 		                    		}
 //		                    		else
 //		                    		{
