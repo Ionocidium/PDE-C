@@ -554,6 +554,10 @@ public class MainWindowView
 				else
 				{
 					debugMgrInstance.modifyBreakpoints();
+					if(breakpoints.size() > 0) {
+						debugMgrInstance.getBtnRemoveSelected().setEnabled(true);
+						debugMgrInstance.getBtnRemoveAll().setEnabled(true);
+					}
 				}
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
@@ -571,6 +575,10 @@ public class MainWindowView
 				else
 				{
 					debugMgrInstance.modifyBreakpoints();
+					if(breakpoints.size() == 0) {
+						debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
+						debugMgrInstance.getBtnRemoveAll().setEnabled(false);
+					}
 				}
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
@@ -588,6 +596,8 @@ public class MainWindowView
 				else
 				{
 					debugMgrInstance.modifyBreakpoints();
+					debugMgrInstance.getBtnRemoveSelected().setEnabled(true);
+					debugMgrInstance.getBtnRemoveAll().setEnabled(true);
 				}
 				delbreakpointButton.setEnabled(false);
 				delallbreakpointButton.setEnabled(false);
@@ -953,39 +963,19 @@ public class MainWindowView
 		
 		debugBuildItem.addActionListener(new ActionListener() 
 		{
-			public void actionPerformed(ActionEvent e) 
-			{
-//				eventController.debugToggler(frame, newButton, newFileItem, openButton, 
-//						openFileItem, saveButton, saveFileItem, saveAsFileItem, 
-//						compileButton, compilerunButton, compileBuildItem, debugButton, 
-//						debugBuildItem, stepOverButton, resumeButton, stopButton);
-				eventController.debugToggler();
-//				eventController.debugActual2(frame, editorPane, filePath, newButton, 
-//						newFileItem, openButton, openFileItem, saveButton, saveFileItem, 
-//						saveAsFileItem, compileButton, compilerunButton, compileBuildItem, 
-//						debugButton, debugBuildItem, stepOverButton, resumeButton, 
-//						stopButton, editorPane, scrollPane, addBreakItem, delBreakItem, 
-//						delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, breakpoints);
-				eventController.debugInit(filePath, breakpointButton, delbreakpointButton, delallbreakpointButton);
+			public void actionPerformed(ActionEvent arg0) {
+				debugMgrInstance = DebuggingManager.getInstance();
+				debugMgrInstance.openMe();
+				debugMgrInstance.modifyBreakpoints();
 			}
 		});
 		
 		debugButton.addActionListener(new ActionListener() 
 		{
-			public void actionPerformed(ActionEvent arg0) 
-			{
-//				eventController.debugToggler(frame, newButton, newFileItem, openButton, 
-//				openFileItem, saveButton, saveFileItem, saveAsFileItem, 
-//				compileButton, compilerunButton, compileBuildItem, debugButton, 
-//				debugBuildItem, stepOverButton, resumeButton, stopButton);
-				eventController.debugToggler();
-//				eventController.debugActual2(frame, editorPane, filePath, newButton, 
-//						newFileItem, openButton, openFileItem, saveButton, saveFileItem, 
-//						saveAsFileItem, compileButton, compilerunButton, compileBuildItem, 
-//						debugButton, debugBuildItem, stepOverButton, resumeButton, 
-//						stopButton, editorPane, scrollPane, addBreakItem, delBreakItem, 
-//						delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, breakpoints);
-				eventController.debugInit(filePath, breakpointButton, delbreakpointButton, delallbreakpointButton);
+			public void actionPerformed(ActionEvent arg0) {
+				debugMgrInstance = DebuggingManager.getInstance();
+				debugMgrInstance.openMe();
+				debugMgrInstance.modifyBreakpoints();
 			}
 		});
 		
@@ -1002,6 +992,12 @@ public class MainWindowView
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
 					delallbreakpointButton.setEnabled(true);
+					if(debugMgrInstance == null);
+					else
+					{
+						debugMgrInstance.getBtnRemoveSelected().setEnabled(true);
+						debugMgrInstance.getBtnRemoveAll().setEnabled(true);
+					}
 				}
 			}
 		});
@@ -1015,6 +1011,12 @@ public class MainWindowView
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
+					if(debugMgrInstance == null);
+					else
+					{
+						debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
+						debugMgrInstance.getBtnRemoveAll().setEnabled(false);
+					}
 				}
 			}
 		});
@@ -1028,18 +1030,13 @@ public class MainWindowView
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
+					if(debugMgrInstance == null);
+					else
+					{
+						debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
+						debugMgrInstance.getBtnRemoveAll().setEnabled(false);
+					}
 				}
-			}
-		});
-		
-		
-		JMenuItem manageBreakpointItem = new JMenuItem("Manage Breakpoints...");
-		manageBreakpointItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
-		manageBreakpointItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				debugMgrInstance = DebuggingManager.getInstance();
-				debugMgrInstance.openMe();
-				debugMgrInstance.modifyBreakpoints();
 			}
 		});
 		
@@ -1144,17 +1141,28 @@ public class MainWindowView
 				if(breakpoints.size() > 0) {
 					delbreakpointButton.setEnabled(true);
 					delallbreakpointButton.setEnabled(true);
+					if(debugMgrInstance == null);
+					else
+					{
+						debugMgrInstance.getBtnRemoveSelected().setEnabled(true);
+						debugMgrInstance.getBtnRemoveAll().setEnabled(true);
+					}
 				}
 				else
 				{
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
+					if(debugMgrInstance == null);
+					else
+					{
+						debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
+						debugMgrInstance.getBtnRemoveAll().setEnabled(false);
+					}
 				}
 			}
 		});
 		toggleBreakItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, InputEvent.CTRL_MASK));
 		buildMenu.add(toggleBreakItem);
-		buildMenu.add(manageBreakpointItem);
 		menuBar.add(helpMenu);
 		helpMenu.add(helpHelpItem);
 		helpMenu.add(aboutHelpItem);
@@ -1590,5 +1598,19 @@ public class MainWindowView
 	 */
 	public void setToggleBreakItem(JMenuItem toggleBreakItem) {
 		this.toggleBreakItem = toggleBreakItem;
+	}
+
+	/**
+	 * @return the filePath
+	 */
+	public Path getFilePath() {
+		return filePath;
+	}
+
+	/**
+	 * @param filePath the filePath to set
+	 */
+	public void setFilePath(Path filePath) {
+		this.filePath = filePath;
 	}
 }
