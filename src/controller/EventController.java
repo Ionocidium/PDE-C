@@ -15,9 +15,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -35,8 +38,12 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import configuration.LocalConfiguration;
 import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
+import debugging.controls.LocalVariableListExtractor;
+import debugging.model.LocalObject;
+import debugging.model.RowLocalObject;
 import service.ClientService;
 import view.CompileLog;
+import view.DebuggingManager;
 import view.DownloadWindow;
 import view.MainWindowView;
 import view.SetIPAddress;
@@ -49,6 +56,7 @@ public class EventController
 	private FileLoad loader;
 	private FileSave saveFile;
 	private FileNameExtensionFilter cFilter;
+	private String command = "";
 
 	private EventController()
 	{
@@ -415,61 +423,42 @@ public class EventController
 
 		return res;
 	}
-
-	/*
-	@unused
-	public void deleteDontTouch()
+	
+	public void debugToggler()
 	{
-	  File file = new File("resources/donttouch.bat");
-	  
-	  if (file.exists() && !file.isDirectory())
-	  {
-		file.delete();
-	  }
-	}
-	*/
-
-	public void debugToggler(JFrame frame, JButton newButton, JMenuItem newFileItem, 
-			JButton openButton, JMenuItem openFileItem, JButton saveButton, 
-			JMenuItem saveFileItem, JMenuItem saveAsFileItem, JButton compileButton, 
-			JButton compilerunButton, JMenuItem compileBuildItem, JButton debugButton, 
-			JMenuItem debugBuildItem, JButton stepOverButton, JButton resumeButton, 
-			JButton stopButton)
-	{
-	  	newButton.setEnabled(!newButton.isEnabled());
-		newFileItem.setEnabled(!newFileItem.isEnabled());
-		openButton.setEnabled(!openButton.isEnabled());
-		openFileItem.setEnabled(!openFileItem.isEnabled());
-		saveButton.setEnabled(!saveButton.isEnabled());
-		saveFileItem.setEnabled(!saveFileItem.isEnabled());
-		saveAsFileItem.setEnabled(!saveAsFileItem.isEnabled());
-		compileButton.setEnabled(!compileButton.isEnabled());
-		compilerunButton.setEnabled(!compilerunButton.isEnabled());
-		compileBuildItem.setEnabled(!compileBuildItem.isEnabled());
-		debugButton.setEnabled(!debugButton.isEnabled());
-		debugBuildItem.setEnabled(!debugBuildItem.isEnabled());
-		stepOverButton.setEnabled(!stepOverButton.isEnabled());
-		resumeButton.setEnabled(!resumeButton.isEnabled());
-		stopButton.setEnabled(!stopButton.isEnabled());
+		MainWindowView mwv = MainWindowView.getInstance();
+		MainWindowView.debugMgrInstance = DebuggingManager.getInstance();
+		mwv.getNewButton().setEnabled(!mwv.getNewButton().isEnabled());
+		mwv.getNewFileItem().setEnabled(!mwv.getNewFileItem().isEnabled());
+		mwv.getOpenButton().setEnabled(!mwv.getOpenButton().isEnabled());
+		mwv.getOpenFileItem().setEnabled(!mwv.getOpenFileItem().isEnabled());
+		mwv.getSaveButton().setEnabled(!mwv.getSaveButton().isEnabled());
+		mwv.getSaveFileItem().setEnabled(!mwv.getSaveFileItem().isEnabled());
+		mwv.getSaveAsFileItem().setEnabled(!mwv.getSaveAsFileItem().isEnabled());
+		mwv.getCompileButton().setEnabled(!mwv.getCompileButton().isEnabled());
+		mwv.getCompilerunButton().setEnabled(!mwv.getCompilerunButton().isEnabled());
+		mwv.getCompileBuildItem().setEnabled(!mwv.getCompileBuildItem().isEnabled());
+		mwv.getDebugButton().setEnabled(!mwv.getDebugButton().isEnabled());
+		mwv.getDebugBuildItem().setEnabled(!mwv.getDebugBuildItem().isEnabled());
+		mwv.getStepOverButton().setEnabled(!mwv.getStepOverButton().isEnabled());
+		mwv.getResumeButton().setEnabled(!mwv.getResumeButton().isEnabled());
+		mwv.getStopButton().setEnabled(!mwv.getStopButton().isEnabled());
+		MainWindowView.debugMgrInstance.getBtnContinue().setEnabled(!MainWindowView.debugMgrInstance.getBtnContinue().isEnabled());
+		MainWindowView.debugMgrInstance.getBtnStepOver().setEnabled(!MainWindowView.debugMgrInstance.getBtnStepOver().isEnabled());
+		MainWindowView.debugMgrInstance.getBtnStop().setEnabled(!MainWindowView.debugMgrInstance.getBtnStop().isEnabled());
+		MainWindowView.debugMgrInstance.getBtnTrackVars().setEnabled(!MainWindowView.debugMgrInstance.getBtnTrackVars().isEnabled());
 	}
 	
 	public void writeInErrorLog(String s)
 	{
-		//MainWindowView.debugLog.setText(s);
+		MainWindowView.debugLog.setText(s);
 	}
   
-	public void debugActual2(JFrame frame, RSyntaxTextArea editorPane, Path filePath, 
-			JButton newButton, JMenuItem newFileItem, JButton openButton, 
-			JMenuItem openFileItem, JButton saveButton, JMenuItem saveFileItem, 
-			JMenuItem saveAsFileItem, JButton compileButton, JButton compilerunButton, 
-			JMenuItem compileBuildItem, JButton debugButton, JMenuItem debugBuildItem,
-			JButton stepOverButton, JButton resumeButton, JButton stopButton, 
-			RSyntaxTextArea rsta, RTextScrollPane rtsp, JMenuItem addBreakItem, 
-			JMenuItem delBreakItem, JMenuItem delallBreakItem, JButton breakpointButton, 
-			JButton delbreakpointButton, JButton delallbreakpointButton,
-			ArrayList<Integer> bp)
+	public void debugInit(Path filePath, JButton breakpointButton, 
+			JButton delbreakpointButton, JButton delallbreakpointButton)
 	{
 		LocalConfiguration local = LocalConfiguration.getInstance();
+		MainWindowView mwv = MainWindowView.getInstance();
 		if (filePath != null)
 		{
 			String currentPath = filePath.toString();
@@ -497,15 +486,11 @@ public class EventController
 		  	{
 				JOptionPane.showMessageDialog(null, "The process may be in use.", "Error", JOptionPane.ERROR_MESSAGE);
 		  	}
-			debugActual(exePath, frame, newButton, newFileItem, openButton, openFileItem, 
-					saveButton, saveFileItem, saveAsFileItem, compileButton, compilerunButton, 
-					compileBuildItem, debugButton, debugBuildItem, stepOverButton, resumeButton, 
-					stopButton, rsta, rtsp, addBreakItem, delBreakItem, 
-					delallBreakItem, breakpointButton, delbreakpointButton, delallbreakpointButton, bp, local);
+			debugActual(exePath, local, mwv);
 		}
 		else
 		{
-			int returnVal = fileChooser.showOpenDialog(frame);
+			int returnVal = fileChooser.showOpenDialog(mwv.getMainFrame());
 			if (returnVal == JFileChooser.APPROVE_OPTION)
 			{
 				Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
@@ -514,7 +499,7 @@ public class EventController
 				if (loader.checker(ext))
 				{
 					String pathContents = loader.loadFile(path);
-					editorPane.setText(pathContents);
+					mwv.getEditor().setText(pathContents);
 					String currentPath = filePath.toString();
 					String exePath = new String();
 					String currentOS = System.getProperty("os.name").toLowerCase();
@@ -540,12 +525,7 @@ public class EventController
 				  	{
 						JOptionPane.showMessageDialog(null, "The process may be in use.", "Error", JOptionPane.ERROR_MESSAGE);
 				  	}
-					debugActual(exePath, frame, newButton, newFileItem, openButton, 
-							openFileItem, saveButton, saveFileItem, saveAsFileItem, 
-							compileButton, compilerunButton, compileBuildItem, debugButton, 
-							debugBuildItem, stepOverButton, resumeButton, stopButton, rsta, 
-							rtsp, addBreakItem, delBreakItem, delallBreakItem, breakpointButton, 
-							delbreakpointButton, delallbreakpointButton, bp, local);
+					debugActual(exePath, local, mwv);
 				}
 				else
 				{
@@ -555,24 +535,24 @@ public class EventController
 		}
 	}
 	
-
-	public void debugActual(String exe, JFrame frame, JButton newButton, 
-			JMenuItem newFileItem, JButton openButton, JMenuItem openFileItem, 
-			JButton saveButton, JMenuItem saveFileItem, JMenuItem saveAsFileItem, 
-			JButton compileButton, JButton compilerunButton, JMenuItem compileBuildItem, 
-			JButton debugButton, JMenuItem debugBuildItem, JButton stepOverButton, 
-			JButton resumeButton, JButton stopButton, RSyntaxTextArea rsta, 
-			RTextScrollPane rtsp, JMenuItem addBreakItem, JMenuItem delBreakItem, 
-			JMenuItem delallBreakItem, JButton breakpointButton, 
-			JButton delbreakpointButton, JButton delallbreakpointButton, ArrayList<Integer> bp, LocalConfiguration local)
+	public void debugActual(String exe, LocalConfiguration local, MainWindowView mwv)
 	{
+		JButton breakpointButton = mwv.getBreakpointButton(), 
+				delbreakpointButton = mwv.getDelbreakpointButton(), 
+				delallbreakpointButton = mwv.getDelallbreakpointButton();
+		JMenuItem toggleBreakpointMenuItem = mwv.getToggleBreakItem();
 		writeInErrorLog("");
 		Thread debug = new Thread(new Runnable(){
 			public void run()
 			{
 				try
 				{
-					String line;
+					MainWindowView.debugMgrInstance.openMe();
+					MainWindowView.debugMgrInstance.modifyBreakpoints();
+					LocalVariableListExtractor lvle = new LocalVariableListExtractor();
+					HashMap<String, String> locals = new HashMap<String, String>();
+//					ArrayList<LocalObject> locals = new ArrayList<LocalObject>();
+					String line, prevLine;
 					StringBuilder sb = new StringBuilder();
 					/*
 					int breaknum = 0; // temp
@@ -587,21 +567,27 @@ public class EventController
 	                    
 	                    // Capture user input through the use of continue and break buttons
 	                    
-	                    ActionListener abListener = addBreakItem.getActionListeners()[0];
-	                    ActionListener dbListener = delBreakItem.getActionListeners()[0];
-	                    ActionListener dabListener = delallBreakItem.getActionListeners()[0];
-	                    addBreakItem.removeActionListener(abListener);
-	                    delBreakItem.removeActionListener(dbListener);
-	                    delallBreakItem.removeActionListener(dabListener);
+	                    ActionListener abListener = breakpointButton.getActionListeners()[0];
+	                    ActionListener dbListener = delbreakpointButton.getActionListeners()[0];
+	                    ActionListener dabListener = delallbreakpointButton.getActionListeners()[0];
+	                    ActionListener tbListener = toggleBreakpointMenuItem.getActionListeners()[0];
+	                    ActionListener ab_debug_Listener = MainWindowView.debugMgrInstance.getBtnAddABreakpoint().getActionListeners()[0];
+	                    ActionListener db_debug_Listener = MainWindowView.debugMgrInstance.getBtnRemoveSelected().getActionListeners()[0];
+	                    ActionListener dab_debug_Listener = MainWindowView.debugMgrInstance.getBtnRemoveAll().getActionListeners()[0];
+	                    breakpointButton.removeActionListener(abListener);
+	                    delbreakpointButton.removeActionListener(dbListener);
+	                    delallbreakpointButton.removeActionListener(dabListener);
+	                    toggleBreakpointMenuItem.removeActionListener(tbListener);
+	                    MainWindowView.debugMgrInstance.getBtnAddABreakpoint().removeActionListener(ab_debug_Listener);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().removeActionListener(db_debug_Listener);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().removeActionListener(dab_debug_Listener);
 	                    
 	                    ActionListener abListener2 = new ActionListener()
                 		{
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
-	                    		int answer = addbreakpoint(frame, rtsp.getGutter(), bp);
-	                    		if(answer <= -1)
-		    	                    out.println("info locals");
-	                    			out.println("break " + answer);
+	                    		int answer = addbreakpoint(mwv.getMainFrame(), mwv.getGut(), mwv.getBreakpoints());
+                    			out.println("break " + answer);
 	                    	}
                 		};
 	                    
@@ -609,10 +595,12 @@ public class EventController
                 		{
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
-	                    		int answer = deletebreakpoint(frame, rtsp.getGutter(), bp);
-	                    		if(answer <= -1)
-		    	                    out.println("info locals");
-	                    			out.println("delete " + answer);
+	                    		int answer = deletebreakpoint(mwv.getMainFrame(), mwv.getGut(), mwv.getBreakpoints());
+                    			out.println("delete " + answer);
+        						if(mwv.getBreakpoints().size() == 0) {
+        							mwv.getDelbreakpointButton().setEnabled(false);
+        							mwv.getDelallbreakpointButton().setEnabled(false);
+        						}
 	                    	}
                 		};
 	                    
@@ -620,59 +608,228 @@ public class EventController
                 		{
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
-	                    		deleteallbreakpoint(rtsp.getGutter(), bp);
-	    	                    out.println("info locals");
+	                    		deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
+                				mwv.getDelbreakpointButton().setEnabled(false);
+                				mwv.getDelallbreakpointButton().setEnabled(false);
 	                    		out.println("delete");
 	                    	}
                 		};
+                		
+                		ActionListener tbListener2 = new ActionListener() {
+                			public void actionPerformed(ActionEvent e) {
+                				int lineNum = mwv.getEditor().getCaretLineNumber();
+                				if(!mwv.getBreakpoints().contains(lineNum))
+                				{
+                					silentAddBreakpoint(mwv.getGut(), mwv.getBreakpoints(), lineNum + 1);
+                        			out.println("break " + (lineNum + 1));
+                				}
+                				else
+                				{
+                					silentDeleteBreakpoint(mwv.getGut(), mwv.getBreakpoints(), lineNum + 1);
+                        			out.println("delete " + (lineNum + 1));
+                				}
+            					MainWindowView.debugMgrInstance.modifyBreakpoints();
+                				if(mwv.getBreakpoints().size() > 0) {
+                					delbreakpointButton.setEnabled(true);
+                					delallbreakpointButton.setEnabled(true);
+                				}
+                				else
+                				{
+                					delbreakpointButton.setEnabled(false);
+                					delallbreakpointButton.setEnabled(false);
+                				}
+                			}
+                		};
+                		
+                		ActionListener ab_debug_Listener2 = new ActionListener()
+                		{
+	                    	public void actionPerformed(ActionEvent e)
+	                    	{
+	                    		int answer = addbreakpoint(mwv.getMainFrame(), mwv.getGut(), mwv.getBreakpoints());
+	                    		if(answer > 0)
+	            				{
+	                    			MainWindowView.debugMgrInstance.getLmbp().addElement(answer);
+	                    			MainWindowView.debugMgrInstance.getBpList().setModel(MainWindowView.debugMgrInstance.getLmbp());
+	            					if(mwv.getBreakpoints().size() > 0) {
+	            						mwv.getDelbreakpointButton().setEnabled(true);
+	            						mwv.getDelallbreakpointButton().setEnabled(true);
+	            					}
+	            				}
+                    			out.println("break " + answer);
+	                    	}
+                		};
+	                    
+                		ActionListener db_debug_Listener2 = new ActionListener()
+                		{
+	                    	public void actionPerformed(ActionEvent e)
+	                    	{
+	            				List<Integer> selected = MainWindowView.debugMgrInstance.getBpList().getSelectedValuesList();
+	            				if(selected.size() > 0)
+	            				{
+	            					for(int i = 0; i < selected.size(); i++)
+	            					{
+	            						int answer = selected.get(i);
+	            						MainWindowView.debugMgrInstance.getLmbp().removeElement(answer);
+	            						silentDeleteBreakpoint(mwv.getGut(), mwv.getBreakpoints(), selected.get(i));
+	            						if(mwv.getBreakpoints().size() == 0) {
+	            							mwv.getDelbreakpointButton().setEnabled(false);
+	            							mwv.getDelallbreakpointButton().setEnabled(false);
+	            						}
+	                        			out.println("delete " + answer);
+	            					}
+	            					MainWindowView.debugMgrInstance.getBpList().setModel(MainWindowView.debugMgrInstance.getLmbp());
+	            				}
+	                    	}
+                		};
+	                    
+                		ActionListener dab_debug_Listener2 = new ActionListener() {
+                			public void actionPerformed(ActionEvent e) {
+                				MainWindowView.debugMgrInstance.setLmbp(new DefaultListModel<Integer>());
+                				MainWindowView.debugMgrInstance.getBpList().setModel(MainWindowView.debugMgrInstance.getLmbp());
+                				deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
+                				mwv.getDelbreakpointButton().setEnabled(false);
+                				mwv.getDelallbreakpointButton().setEnabled(false);
+	                    		out.println("delete");
+                			}
+                		};
+                		
+                		ActionListener tv_debug_Listener = new ActionListener() {
+                			public void actionPerformed(ActionEvent e) {
+                        		int r = MainWindowView.debugMgrInstance.getVarTable().getSelectedRow();
+                        		boolean existing = false;
+                        		if(r > -1)
+                        		{
+                        			ArrayList<RowLocalObject> aWatch2 = MainWindowView.debugMgrInstance.getWatchList2();
+                        			for(int i = 0; i < aWatch2.size(); i++)
+                        			{
+                        				if(aWatch2.get(i).getRow() == r)
+                        				{
+                        					existing = true;
+                        				}
+                        			}
+                        			if(!existing)
+                        			{
+                        				LocalObject lo = new LocalObject("", "");
+                    					if(locals.get(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)).equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 1)))
+                    					{
+                    						lo.setVariable(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0).toString());
+                    						lo.setValue(locals.get(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)));
+                            				aWatch2.add(new RowLocalObject(r, lo));
+                    					}
+                            			System.out.println("Added a watch.");
+                        			}
+                        			else
+                        			{
+                        				for(int i = 0; i < aWatch2.size(); i++)
+                        				{
+                        					if(aWatch2.get(i).getLocalVarVal().getVariable().equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)))
+                        					{
+                                				aWatch2.remove(i);
+                        					}
+                        				}
+                            			System.out.println("Removed a watch.");
+                        			}
+                        			System.out.print("Current Watches: ");
+                        			System.out.println();
+                        			for(int i = 0; i < aWatch2.size(); i++)
+                        			{
+                        				System.out.print("Row " + aWatch2.get(i).getRow() + ": " + 
+                        						aWatch2.get(i).getLocalVarVal().getVariable() + " = " + aWatch2.get(i).getLocalVarVal().getValue());
+                            			System.out.println();
+                        			}
+                        		}
+                			}
+                		};
 
-	                    addBreakItem.addActionListener(abListener2);
-	                    delBreakItem.addActionListener(dbListener2);
-	                    delallBreakItem.addActionListener(dabListener2);
+                		breakpointButton.addActionListener(abListener2);
+                		delbreakpointButton.addActionListener(dbListener2);
+                		delallbreakpointButton.addActionListener(dabListener2);
+                		toggleBreakpointMenuItem.addActionListener(tbListener2);
+                		MainWindowView.debugMgrInstance.getBtnAddABreakpoint().addActionListener(ab_debug_Listener2);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().addActionListener(db_debug_Listener2);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().addActionListener(dab_debug_Listener2);
+	                    MainWindowView.debugMgrInstance.getBtnTrackVars().addActionListener(tv_debug_Listener);
 	                    
-	                    stepOverButton.addActionListener(new ActionListener()
+	                    ActionListener stepOverListener = new ActionListener()
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
-	    	                    out.println("info locals");
+	    	                    command = "info locals";
+	    	                    out.println(command);
 	                    		out.println("step");
+	                    		locals.clear();
+	        					delayMe(50);
 	                    	}
-	                    }
-	                    );
-	                    
-	                    resumeButton.addActionListener(new ActionListener()
+	                    };
+	                    ActionListener resumeListener = new ActionListener()
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
-	    	                    out.println("info locals");
+	    	                    command = "info locals";
+	    	                    out.println(command);
 	                    		out.println("continue");
+	                    		locals.clear();
+	        					delayMe(50);
 	                    	}
-	                    }
-	                    );
-	                    
-	                    stopButton.addActionListener(new ActionListener()
+	                    };
+	                    ActionListener stopListener = new ActionListener()
 	                    {
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
+	                    		command = "";
 			                    out.close();
+	                    		locals.clear();
+	        					delayMe(50);
 	                    	}
-	                    }
-	                    );
+	                    };
+	                    mwv.getStepOverButton().addActionListener(stepOverListener);
+	                    mwv.getResumeButton().addActionListener(resumeListener);
+	                    mwv.getStopButton().addActionListener(stopListener);
+	                    MainWindowView.debugMgrInstance.getBtnStepOver().addActionListener(stepOverListener);
+	                    MainWindowView.debugMgrInstance.getBtnContinue().addActionListener(resumeListener);
+	                    MainWindowView.debugMgrInstance.getBtnStop().addActionListener(stopListener);
 	                    boolean notYet = true;
-	                    while ((line = in.readLine()) != null && notYet){
+	                    line = in.readLine();
+	                    while (line != null && notYet){
 	                    	//Regex: Breakpoint \d*, ([a-zA-Z_][a-zA-Z0-9_]*) (\(()\)) at (?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+:
 	                    	if(line.startsWith("(gdb) ")) line = line.substring("(gdb) ".length()); 
+	                    	if(command.equals("info locals"))
+	                    	{
+	                    		if(line.contains(" = "))
+	                    		{
+		                    		if(!(line.startsWith("0") || line.startsWith("1") || line.startsWith("2") || line.startsWith("3") || line.startsWith("4") ||
+		                    				line.startsWith("5") || line.startsWith("6") || line.startsWith("7") || line.startsWith("8") || line.startsWith("9")))
+		                    		{
+		                    			locals.put(lvle.extractVars(line), lvle.extractVals(line));
+		                    		}
+//		                    		else
+//		                    		{
+//		                    			command = "";
+//		                    		}
+	                    		}
+//	                    		MainWindowView.debugMgrInstance.modifyDebugging(locals);
+	                    	}
+	                    	else if (!command.equals("info locals"))
+	                    	{
+                    			System.out.println("Refreshing local variables");
+                    			if(command.equals("step") || command.equals("continue"))
+                    			{
+                        			System.out.println("Step/Continue has been pressed.");
+                    			}
+	                    	}
 	                    	if(line.endsWith("Type \"apropos word\" to search for commands related to \"word\"..."))
 	                    	{
-	    	                    for(int i = 0; i < bp.size(); i++)
+	    	                    for(int i = 0; i < mwv.getBreakpoints().size(); i++)
 	    	                    {
-	    	                    	out.println("break " + (bp.get(i) + 1));
+	    	                    	out.println("break " + (mwv.getBreakpoints().get(i) + 1));
 	    	                    }
-	    	                    out.println("info locals");
 	    	                    out.println("start");
+	    	                    command = "info locals";
+	    	                    out.println(command);
 	                    	}
 	                    	if(line.startsWith("Breakpoint"))
 	                    	{
+	                    		MainWindowView.debugMgrInstance.modifyDebugging(locals);
 	                    		// check gutter
 	                    		/*
 	                    		Gutter g = rtsp.getGutter();
@@ -727,21 +884,33 @@ public class EventController
 	                    	}
 	                    	sb.append(line + "\n");
 		                    writeInErrorLog(sb.toString());
+		            		MainWindowView.debugMgrInstance.modifyDebugging(locals);
+		            		prevLine = line;
+		            		line = in.readLine();
 	                    }
 	                    
 	                    process.destroy();
 	                    //stepOverButton.removeActionListener(arg0);
-	                    addBreakItem.removeActionListener(abListener2);
-	                    delBreakItem.removeActionListener(dbListener2);
-	                    delallBreakItem.removeActionListener(dabListener2);
+	                    breakpointButton.removeActionListener(abListener2);
+	                    delbreakpointButton.removeActionListener(dbListener2);
+	                    delallbreakpointButton.removeActionListener(dabListener2);
+	                    toggleBreakpointMenuItem.removeActionListener(tbListener2);
+                		MainWindowView.debugMgrInstance.getBtnAddABreakpoint().removeActionListener(ab_debug_Listener2);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().removeActionListener(db_debug_Listener2);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().removeActionListener(dab_debug_Listener2);
+	                    MainWindowView.debugMgrInstance.getBtnTrackVars().removeActionListener(tv_debug_Listener);
 	                    
-	                    addBreakItem.addActionListener(abListener);
-	                    delBreakItem.addActionListener(dbListener);
-	                    delallBreakItem.addActionListener(dabListener);
-	                    debugToggler(frame, newButton, newFileItem, openButton, openFileItem, 
-	                    		saveButton, saveFileItem, saveAsFileItem, compileButton, 
-	                    		compilerunButton, compileBuildItem, debugButton, debugBuildItem,
-	                    		stepOverButton, resumeButton, stopButton);
+	                    breakpointButton.addActionListener(abListener);
+	                    delbreakpointButton.addActionListener(dbListener);
+	                    delallbreakpointButton.addActionListener(dabListener);
+	                    toggleBreakpointMenuItem.addActionListener(tbListener);
+	                    MainWindowView.debugMgrInstance.getBtnAddABreakpoint().addActionListener(ab_debug_Listener);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveSelected().addActionListener(db_debug_Listener);
+	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().addActionListener(dab_debug_Listener);
+	                    MainWindowView.debugMgrInstance.getWatchList2().clear();
+	                    MainWindowView.debugMgrInstance.getVarVals().clear();
+	                    MainWindowView.debugMgrInstance.resetDebuggingTable();
+	                    debugToggler();
 	                }
 	            }
 				catch (Exception ex)
@@ -959,7 +1128,7 @@ public class EventController
 		  return exists;
 		}
 		
-		public void delayMe(long ms)
+		public static void delayMe(long ms)
 		{
 			long nowTime = System.currentTimeMillis();
 			while(System.currentTimeMillis() < nowTime + ms) ;
