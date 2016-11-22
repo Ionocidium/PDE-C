@@ -364,7 +364,7 @@ public class EventController
 	  
 	  else
 	  {
-		JOptionPane.showMessageDialog(null, "GCC not found", "Error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, "gcc.exe not found, please locate it using the Settings menu.", "Error", JOptionPane.ERROR_MESSAGE);
 	  }
 
 		
@@ -396,18 +396,30 @@ public class EventController
 			String dir = f.getParent();
 			String filename = f.getName();
 			String currentOS = System.getProperty("os.name").toLowerCase();
+			
 		  	if (currentOS.indexOf("win") >= 0)
 		  	{
 		  		String compiled = dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")).concat(".exe"));
-	  			ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", compiled, "/b", compiled);
-	  			Process proc = pb.start();
+		  		
+		  		if (this.programIfExists(compiled))
+		  		{
+		  		  ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", compiled, "/b", compiled);
+		  		  Process proc = pb.start();
+		  		}
+		  		
+		  		else
+		  		{
+		  		  JOptionPane.showMessageDialog(null, "Some compilation error occured", "Error", JOptionPane.ERROR_MESSAGE);
+		  		}
 		  	}
+		  	
 		  	else if(currentOS.indexOf("mac") >= 0)
 		  	{
 		  		String compiled = dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")).concat(".out"));
 	  			Runtime rt = Runtime.getRuntime();
 	  			Process proc = rt.exec(compiled);
 		  	}
+		  	
 		  	else if(currentOS.indexOf("nix") >= 0 || currentOS.indexOf("nux") >= 0)
 		  	{
 		  		String compiled = dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")));
@@ -1157,6 +1169,18 @@ public class EventController
 		  LocalConfiguration local = LocalConfiguration.getInstance();
 		  
 		  if (Files.exists(Paths.get(local.getGccPath())))
+		  {
+			itExists = true;
+		  }
+		  
+		  return itExists;
+		}
+		
+		private boolean programIfExists(String compiledPath)
+		{
+		  boolean itExists = false;
+		  
+		  if (Files.exists(Paths.get(compiledPath)))
 		  {
 			itExists = true;
 		  }
