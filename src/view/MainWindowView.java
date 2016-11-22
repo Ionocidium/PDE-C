@@ -1177,7 +1177,7 @@ public class MainWindowView
 		frame.setVisible(true);
 		horizontalPane = new JSplitPane();
 		horizontalPane.setOrientation(JSplitPane.VERTICAL_SPLIT);		
-		horizontalPane.setDividerLocation(600);
+		horizontalPane.setDividerLocation(450);
 		frame.getContentPane().add(horizontalPane, BorderLayout.CENTER);
 		horizontalPane.setOneTouchExpandable(true);	
 		
@@ -1187,7 +1187,7 @@ public class MainWindowView
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
-			private final int location = 1300;
+			private final int location = 900;
 		    {
 		        setDividerLocation( location );
 		    }
