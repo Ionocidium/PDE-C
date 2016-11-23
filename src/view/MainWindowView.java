@@ -209,7 +209,7 @@ public class MainWindowView
 		fileChooser.setFileFilter(cFilter);
 		
 		eventController = EventController.getEventController();
-        
+        eventController.checkIfResourceExists();
 		editorPane = new RSyntaxTextArea();
 		fontStyle = editorPane.getFont().getFamily();
 		editorPane.getDocument().addDocumentListener(new DocumentListener() {
@@ -265,6 +265,7 @@ public class MainWindowView
 		coreToolbar = new JToolBar();
 		coreToolbar.setFloatable(false);
 		coreToolbar.setRollover(true);
+		
 		newButton = new JButton("");
 		newButton.addActionListener(new ActionListener() 
 		{
@@ -312,7 +313,6 @@ public class MainWindowView
 			    if (confirmed == JOptionPane.YES_OPTION) 
 			    {
 			      filePath = eventController.openFile(frame, editorPane);
-			      System.out.println(filePath.toString());
 			
 			      if (filePath != null)
 			      {
@@ -790,7 +790,6 @@ public class MainWindowView
 		    if (confirmed == JOptionPane.YES_OPTION) 
 		    {
 		      filePath = eventController.openFile(frame, editorPane);
-		      System.out.println(filePath.toString());
 		
 		      if (filePath != null)
 		      {
