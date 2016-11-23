@@ -89,7 +89,6 @@ public class EventController
 			Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
 			filePath = path;
 			String ext = path.getFileName().toString();
-			System.out.println(ext);
 			if (loader.checker(ext))
 			{
 				String pathContents = loader.loadFile(path);
@@ -107,15 +106,12 @@ public class EventController
 	
 	public Path getFeedbackFile(Path feedbackFilePath)
 	{	
-		
-			System.out.println(feedbackFilePath.toString());
 			String pdecFile = "";
 			pdecFile = feedbackFilePath.toString();
 			pdecFile = pdecFile.replaceAll("(\\.c)", ".pdec");
 			pdecFile = pdecFile.replaceAll("(\\\\)", "\\\\");
 			//System.out.println(pdecFile);
 			feedbackFilePath = Paths.get(pdecFile);
-			System.out.println(feedbackFilePath.toString());
 	
 			return feedbackFilePath;
 		
@@ -149,10 +145,6 @@ public class EventController
 		Path path = Paths.get(exeFileChooser.getSelectedFile().getAbsolutePath());
 		local.setGccPath(path.toAbsolutePath().toString());
 	  }
-	  else
-	  {
-		System.out.println("what");
-	  }
 	}
 	
 	public void changeSettingsGdb(JFrame frame)
@@ -170,11 +162,6 @@ public class EventController
 	  {
 		Path path = Paths.get(exeFileChooser.getSelectedFile().getAbsolutePath());
 		local.setGdbPath(path.toAbsolutePath().toString());
-	  }
-	  
-	  else
-	  {
-		System.out.println("what");
 	  }
 	}
 	
@@ -224,7 +211,6 @@ public class EventController
 			{
 			  String pathsss = path.toString().concat(".c");
 			  
-			  System.out.println(pathsss);
 			  Path newPath = Paths.get(pathsss);
 			  
 			  saveFile.writeFile(newPath, editorPane.getText());
@@ -243,7 +229,7 @@ public class EventController
 	  
 	  if (filePath == null)
 	  {
-		
+		JOptionPane.showMessageDialog(null, "Cannot send empty source code.", "Warning", JOptionPane.INFORMATION_MESSAGE);
 	  }
 	  
 	  else
@@ -362,13 +348,7 @@ public class EventController
 		}
 	  }
 	  
-	  else
-	  {
-		JOptionPane.showMessageDialog(null, "gcc.exe not found, please locate it using the Settings menu.", "Error", JOptionPane.ERROR_MESSAGE);
-	  }
-
-		
-		return path;
+	  return path;
 	}
 	
 	public Path compile(Path filePath)
@@ -1162,6 +1142,7 @@ public class EventController
 			while(System.currentTimeMillis() < nowTime + ms) ;
 		}
 		
+		
 		private boolean checkIfGccExists()
 		{
 		  boolean itExists = false;
@@ -1171,6 +1152,11 @@ public class EventController
 		  if (Files.exists(Paths.get(local.getGccPath())))
 		  {
 			itExists = true;
+		  }
+		  
+		  else
+		  {
+			JOptionPane.showMessageDialog(null, "PDE-C cannot find the gcc.exe specified. Please use the settings to fix the path.", "Error", JOptionPane.ERROR_MESSAGE);
 		  }
 		  
 		  return itExists;
@@ -1183,6 +1169,51 @@ public class EventController
 		  if (Files.exists(Paths.get(compiledPath)))
 		  {
 			itExists = true;
+		  }
+		  
+		  return itExists;
+		}
+		
+		private boolean testForGccInSysPath()
+		{
+		  boolean itExists = false;
+		  
+		  Runtime rt = Runtime.getRuntime();
+		  String[] commands = {"gcc.exe", "--version"};
+		  Process proc;
+		  int lineCtr = 0;
+		  
+		  try
+		  {
+			proc = rt.exec(commands);
+			
+			BufferedReader stdInput = new BufferedReader(new 
+			     InputStreamReader(proc.getInputStream()));
+			
+			String s = null;
+			
+			while ((s = stdInput.readLine()) != null) 
+			{
+			    lineCtr++;
+			}
+			
+			if (lineCtr > 0)
+			{
+			  itExists = true;
+			}
+			
+			else
+			{
+			  itExists = false;
+			  JOptionPane.showMessageDialog(null, "No gcc found in the machine's environment variables. Exit PDE-C and set gcc in the environment variables.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		  } 
+		  
+		  catch (IOException e)
+		  {
+			// TODO Auto-generated catch block
+			itExists = false;
+			JOptionPane.showMessageDialog(null, "No gcc found in the machine's environment variables. Exit PDE-C and set gcc in the environment variables.", "Error", JOptionPane.ERROR_MESSAGE);
 		  }
 		  
 		  return itExists;
