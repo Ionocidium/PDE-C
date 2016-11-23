@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.EventController;
 import service.ClientService;
 
 import javax.swing.JTextField;
@@ -18,6 +19,8 @@ public class SetIPAddress extends JFrame
 {
 
   private JPanel contentPane;
+  private EventController eventCtrl;
+  private ClientService client;
 
   /**
    * Launch the application.
@@ -28,6 +31,8 @@ public class SetIPAddress extends JFrame
    */
   public SetIPAddress()
   {
+	eventCtrl = EventController.getEventController();
+	client = ClientService.getClientService();
 	this.initialize();
   }
   
@@ -53,9 +58,11 @@ public class SetIPAddress extends JFrame
 		  String ipAddress = ipAddr.getText();
 		  if (!ipAddress.trim().equals(""))
 		  {
-			ClientService client = ClientService.getClientService();
+			client = ClientService.getClientService();
 			client.setIPAddress(ipAddress);
 			dispose();
+			
+			eventCtrl.downloadActivity();
 		  }
 		}
 	});
@@ -74,9 +81,11 @@ public class SetIPAddress extends JFrame
 		  String ipAddress = ipAddr.getText();
 		  if (!ipAddress.trim().equals(""))
 		  {
-			ClientService client = ClientService.getClientService();
+			client = ClientService.getClientService();
 			client.setIPAddress(ipAddress);
 			dispose();
+			
+			eventCtrl.downloadActivity();
 		  }
 		}
 	});
