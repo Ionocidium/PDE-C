@@ -17,15 +17,17 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.DefaultListModel;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
@@ -33,14 +35,11 @@ import javax.swing.text.BadLocationException;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.GutterIconInfo;
-import org.fife.ui.rtextarea.RTextScrollPane;
 
 import configuration.LocalConfiguration;
 import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
 import debugging.controls.LocalVariableListExtractor;
-import debugging.model.LocalObject;
-import debugging.model.RowLocalObject;
 import service.ClientService;
 import view.CompileLog;
 import view.DebuggingManager;
@@ -456,6 +455,7 @@ public class EventController
 		mwv.getResumeButton().setEnabled(!mwv.getResumeButton().isEnabled());
 		mwv.getStopButton().setEnabled(!mwv.getStopButton().isEnabled());
 		MainWindowView.debugMgrInstance.getBtnStepOver().setEnabled(!MainWindowView.debugMgrInstance.getBtnStepOver().isEnabled());
+		MainWindowView.debugMgrInstance.getBtnTrackVars().setEnabled(!MainWindowView.debugMgrInstance.getBtnTrackVars().isEnabled());
 		MainWindowView.debugMgrInstance.getBtnStop().setEnabled(!MainWindowView.debugMgrInstance.getBtnStop().isEnabled());
 	}
 	
@@ -719,49 +719,38 @@ public class EventController
                 		
                 		ActionListener tv_debug_Listener = new ActionListener() {
                 			public void actionPerformed(ActionEvent e) {
-                        		int r = MainWindowView.debugMgrInstance.getVarTable().getSelectedRow();
+                				JTable jt = MainWindowView.debugMgrInstance.getVarTable();
+                        		int r = jt.getSelectedRow();
                         		boolean existing = false;
                         		if(r > -1)
                         		{
-//                        			ArrayList<RowLocalObject> aWatch2 = MainWindowView.debugMgrInstance.getWatchList2();
-//                        			for(int i = 0; i < aWatch2.size(); i++)
-//                        			{
-//                        				if(aWatch2.get(i).getRow() == r)
-//                        				{
-//                        					existing = true;
-//                        				}
-//                        			}
-//                        			if(!existing)
-//                        			{
-//                        				LocalObject lo = new LocalObject("", "");
-//                    					if(locals.get(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)).equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 1)))
-//                    					{
-//                    						lo.setVariable(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0).toString());
-//                    						lo.setValue(locals.get(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)));
-//                            				aWatch2.add(new RowLocalObject(r, lo));
-//                    					}
-//                            			System.out.println("Added a watch.");
-//                        			}
-//                        			else
-//                        			{
-//                        				for(int i = 0; i < aWatch2.size(); i++)
-//                        				{
-//                        					if(aWatch2.get(i).getLocalVarVal().getVariable().equals(MainWindowView.debugMgrInstance.getVarTable().getValueAt(r, 0)))
-//                        					{
-//                                				aWatch2.remove(i);
-//                        					}
-//                        				}
-//                            			System.out.println("Removed a watch.");
-//                        			}
-//                        			System.out.print("Current Watches: ");
-//                        			System.out.println();
-//                        			for(int i = 0; i < aWatch2.size(); i++)
-//                        			{
-//                        				System.out.print("Row " + aWatch2.get(i).getRow() + ": " + 
-//                        						aWatch2.get(i).getLocalVarVal().getVariable() + " = " + aWatch2.get(i).getLocalVarVal().getValue());
-//                            			System.out.println();
-//                        			}
+                        			HashMap<String, String> aWatch2 = MainWindowView.debugMgrInstance.getWatchList2();
+                        			Map<String, String> map = new TreeMap<String, String>(aWatch2); // sorts keys in ascending order ref: http://stackoverflow.com/questions/7860822/sorting-hashmap-based-on-keys
+                        			for(Map.Entry<String, String> entry : map.entrySet())
+                        			{
+                        				if(entry.getKey().equals(jt.getValueAt(r, 0)))
+                        				{
+                        					existing = true;
+                        				}
+                        			}
+                        			if(!existing)
+                        			{
+                        				aWatch2.put(jt.getValueAt(r, 0).toString(), jt.getValueAt(r, 1).toString());
+                        			}
+                        			else
+                        			{
+                        				String theVariableToRemove = "";
+                        				for(Map.Entry<String, String> entry : map.entrySet())
+                        				{
+                            				if(entry.getKey().equals(jt.getValueAt(r, 0)))
+                            				{
+                            					theVariableToRemove = entry.getKey();
+                            				}
+                        				}
+                        				aWatch2.remove(theVariableToRemove);
+                        			}
                         		}
+                        		jt.repaint();
                 			}
                 		};
 
@@ -935,7 +924,7 @@ public class EventController
 	                    MainWindowView.debugMgrInstance.getBtnRemoveAll().addActionListener(dab_debug_Listener);
 	                    MainWindowView.debugMgrInstance.getBtnContinue().addActionListener(cntListener);
 	                    MainWindowView.debugMgrInstance.getBtnContinue().setText("Start");
-//	                    MainWindowView.debugMgrInstance.getWatchList2().clear();
+	                    MainWindowView.debugMgrInstance.getWatchList2().clear();
 	                    MainWindowView.debugMgrInstance.getVarVals().clear();
 	                    MainWindowView.debugMgrInstance.resetDebuggingTable();
 	                    debugToggler();
