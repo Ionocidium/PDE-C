@@ -301,7 +301,7 @@ public class DebuggingManager {
 		btnRemoveAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MainWindowView mwv = MainWindowView.getInstance();
-				MainWindowView.eventController.deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
+				MainWindowView.eventController.deleteallbreakpoint(frmBreakpointManager, mwv.getGut(), mwv.getBreakpoints());
 				mwv.getDelbreakpointButton().setEnabled(false);
 				mwv.getDelallbreakpointButton().setEnabled(false);
 				getBtnRemoveSelected().setEnabled(false);
@@ -592,6 +592,13 @@ public class DebuggingManager {
 
 	public void setVarVals(HashMap<String, String> varVals) {
 		this.varVals = varVals;
+	}
+
+	/**
+	 * @return the Debugging Manager
+	 */
+	public JFrame getDebuggingFrame() {
+		return frmBreakpointManager;
 	}
 
 }

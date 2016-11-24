@@ -14,7 +14,9 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
 
 public class LoginScreen {
 
@@ -68,6 +70,7 @@ public class LoginScreen {
 		textField.setColumns(10);
 		
 		JButton btnLogin = new JButton("Login");
+		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			  EventQueue.invokeLater(new Runnable()
@@ -103,6 +106,47 @@ public class LoginScreen {
 		btnLogin.setBounds(171, 64, 90, 23);
 		frmLogin.getContentPane().add(btnLogin);
 		frmLogin.setLocationRelativeTo(null);
+		
+		frmLogin.getRootPane().setDefaultButton(btnLogin);
+		frmLogin.addKeyListener(new KeyAdapter() 
+		{
+			@Override
+			public void keyPressed(KeyEvent arg0) 
+			{
+			  if (arg0.getKeyCode() == KeyEvent.VK_ENTER)
+			  {
+				EventQueue.invokeLater(new Runnable()
+				{
+					public void run()
+					{
+						try
+						{
+							MainWindowView window = MainWindowView.getInstance();
+							
+							if (!textField.getText().trim().equals(""))
+							{
+							  window.setStudentIdNum(textField.getText());
+							}
+							
+							else
+							{
+							  window.setStudentIdNum("0");
+							  window.checkIfSendable();
+							}
+
+							window.getMainFrame().setVisible(true);
+							frmLogin.dispose();
+							
+						} catch (Exception e)
+						{
+							e.printStackTrace();
+						}
+					}
+				});
+			  }
+			}
+		});
 	}
+	
 
 }

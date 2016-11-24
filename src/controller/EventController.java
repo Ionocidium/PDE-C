@@ -364,7 +364,7 @@ public class EventController
 	  
 	  else
 	  {
-		JOptionPane.showMessageDialog(null, "GCC not found", "Error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, "gcc.exe not found, please locate it using the Settings menu.", "Error", JOptionPane.ERROR_MESSAGE);
 	  }
 
 		
@@ -396,18 +396,30 @@ public class EventController
 			String dir = f.getParent();
 			String filename = f.getName();
 			String currentOS = System.getProperty("os.name").toLowerCase();
+			
 		  	if (currentOS.indexOf("win") >= 0)
 		  	{
 		  		String compiled = dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")).concat(".exe"));
-	  			ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", compiled, "/b", compiled);
-	  			Process proc = pb.start();
+		  		
+		  		if (this.programIfExists(compiled))
+		  		{
+		  		  ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", compiled, "/b", compiled);
+		  		  Process proc = pb.start();
+		  		}
+		  		
+		  		else
+		  		{
+		  		  JOptionPane.showMessageDialog(null, "Some compilation error occured", "Error", JOptionPane.ERROR_MESSAGE);
+		  		}
 		  	}
+		  	
 		  	else if(currentOS.indexOf("mac") >= 0)
 		  	{
 		  		String compiled = dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")).concat(".out"));
 	  			Runtime rt = Runtime.getRuntime();
 	  			Process proc = rt.exec(compiled);
 		  	}
+		  	
 		  	else if(currentOS.indexOf("nix") >= 0 || currentOS.indexOf("nux") >= 0)
 		  	{
 		  		String compiled = dir.concat("\\").concat(filename.substring(0, f.getName().lastIndexOf(".")));
@@ -608,7 +620,7 @@ public class EventController
                 		{
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
-	                    		deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
+	                    		deleteallbreakpoint(mwv.getMainFrame(), mwv.getGut(), mwv.getBreakpoints());
                 				mwv.getDelbreakpointButton().setEnabled(false);
                 				mwv.getDelallbreakpointButton().setEnabled(false);
     							MainWindowView.debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
@@ -651,7 +663,7 @@ public class EventController
                 		{
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
-	                    		int answer = addbreakpoint(mwv.getMainFrame(), mwv.getGut(), mwv.getBreakpoints());
+	                    		int answer = addbreakpoint(MainWindowView.debugMgrInstance.getDebuggingFrame(), mwv.getGut(), mwv.getBreakpoints());
 	                    		if(answer > 0)
 	            				{
 	                    			MainWindowView.debugMgrInstance.getLmbp().addElement(answer);
@@ -696,7 +708,7 @@ public class EventController
                 			public void actionPerformed(ActionEvent e) {
                 				MainWindowView.debugMgrInstance.setLmbp(new DefaultListModel<Integer>());
                 				MainWindowView.debugMgrInstance.getBpList().setModel(MainWindowView.debugMgrInstance.getLmbp());
-                				deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
+                				deleteallbreakpoint(MainWindowView.debugMgrInstance.getDebuggingFrame(), mwv.getGut(), mwv.getBreakpoints());
                 				mwv.getDelbreakpointButton().setEnabled(false);
                 				mwv.getDelallbreakpointButton().setEnabled(false);
     							MainWindowView.debugMgrInstance.getBtnRemoveSelected().setEnabled(false);
@@ -965,22 +977,22 @@ public class EventController
 					GutterIconInfo gii = g.addLineTrackingIcon(bpnum, new ImageIcon("resources/images/materialsmall/breakpointeditor.png"));
 					b.add(bpnum);
 					MainWindowView.breakpoints2.add(gii);
-					JOptionPane.showMessageDialog(null, "Line " + input + " added successfully.", 
+					JOptionPane.showMessageDialog(jf, "Line " + input + " added successfully.", 
 							"Added!", JOptionPane.INFORMATION_MESSAGE);
 					res = bpnum;
 				}
 				else
-					JOptionPane.showMessageDialog(null, "Line " + input + " already exists.", 
+					JOptionPane.showMessageDialog(jf, "Line " + input + " already exists.", 
 							"Error", JOptionPane.ERROR_MESSAGE);
 			}
 			catch (BadLocationException ble)
 			{
-				JOptionPane.showMessageDialog(null, "The line specified is not found. Discontinuing adding breakpoints...", 
+				JOptionPane.showMessageDialog(jf, "The line specified is not found. Discontinuing adding breakpoints...", 
 						"Error", JOptionPane.ERROR_MESSAGE);
 			}
 			catch (NumberFormatException nfe)
 			{
-				JOptionPane.showMessageDialog(null, "You entered a non-integer number!", 
+				JOptionPane.showMessageDialog(jf, "You entered a non-integer number!", 
 						"Error", JOptionPane.ERROR_MESSAGE);
 			}
 			catch (NullPointerException npe)
@@ -1054,14 +1066,14 @@ public class EventController
 						}
 					}
 					if(target == -1)
-						JOptionPane.showMessageDialog(null, "Line " + input + " does not exist.", 
+						JOptionPane.showMessageDialog(jf, "Line " + input + " does not exist.", 
 								"Error", JOptionPane.ERROR_MESSAGE);
 					else
 					{
 						g.removeTrackingIcon(gii);
 						b.remove(target);
 						MainWindowView.breakpoints2.remove(target);
-						JOptionPane.showMessageDialog(null, "Line " + input + " removed successfully.", 
+						JOptionPane.showMessageDialog(jf, "Line " + input + " removed successfully.", 
 								"Removed", JOptionPane.INFORMATION_MESSAGE);
 						res = bpnum;
 					}
@@ -1106,11 +1118,11 @@ public class EventController
 			return res;
 		}
 	
-		public void deleteallbreakpoint(Gutter g, ArrayList<Integer> b){				
+		public void deleteallbreakpoint(JFrame jf, Gutter g, ArrayList<Integer> b){				
 			g.removeAllTrackingIcons();
 			b.clear();
 			MainWindowView.breakpoints2.clear();
-			JOptionPane.showMessageDialog(null, "All breakpoints removed successfully.", 
+			JOptionPane.showMessageDialog(jf, "All breakpoints removed successfully.", 
 					"Removed", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
@@ -1157,6 +1169,18 @@ public class EventController
 		  LocalConfiguration local = LocalConfiguration.getInstance();
 		  
 		  if (Files.exists(Paths.get(local.getGccPath())))
+		  {
+			itExists = true;
+		  }
+		  
+		  return itExists;
+		}
+		
+		private boolean programIfExists(String compiledPath)
+		{
+		  boolean itExists = false;
+		  
+		  if (Files.exists(Paths.get(compiledPath)))
 		  {
 			itExists = true;
 		  }

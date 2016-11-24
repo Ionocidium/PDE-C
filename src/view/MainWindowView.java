@@ -200,6 +200,8 @@ public class MainWindowView
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+		URL pdecIcon = Main.class.getResource("/PDECICON.png");
+		frame.setIconImage(new ImageIcon(pdecIcon).getImage());
 		
 		final JFileChooser fileChooser = new JFileChooser();
 		FileNameExtensionFilter cFilter = new FileNameExtensionFilter(
@@ -207,7 +209,7 @@ public class MainWindowView
 		fileChooser.setFileFilter(cFilter);
 		
 		eventController = EventController.getEventController();
-        
+        eventController.checkIfResourceExists();
 		editorPane = new RSyntaxTextArea();
 		fontStyle = editorPane.getFont().getFamily();
 		editorPane.getDocument().addDocumentListener(new DocumentListener() {
@@ -263,6 +265,7 @@ public class MainWindowView
 		coreToolbar = new JToolBar();
 		coreToolbar.setFloatable(false);
 		coreToolbar.setRollover(true);
+		
 		newButton = new JButton("");
 		newButton.addActionListener(new ActionListener() 
 		{
@@ -310,7 +313,6 @@ public class MainWindowView
 			    if (confirmed == JOptionPane.YES_OPTION) 
 			    {
 			      filePath = eventController.openFile(frame, editorPane);
-			      System.out.println(filePath.toString());
 			
 			      if (filePath != null)
 			      {
@@ -591,7 +593,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				eventController.deleteallbreakpoint(gut, breakpoints);
+				eventController.deleteallbreakpoint(frame, gut, breakpoints);
 				if(debugMgrInstance == null);
 				else
 				{
@@ -788,7 +790,6 @@ public class MainWindowView
 		    if (confirmed == JOptionPane.YES_OPTION) 
 		    {
 		      filePath = eventController.openFile(frame, editorPane);
-		      System.out.println(filePath.toString());
 		
 		      if (filePath != null)
 		      {
@@ -1020,13 +1021,13 @@ public class MainWindowView
 				}
 			}
 		});
-		delallBreakItem = new JMenuItem("Remove all Breakpoint...");
+		delallBreakItem = new JMenuItem("Remove all Breakpoints...");
 		delallBreakItem.setEnabled(false);
 		delallBreakItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				eventController.deleteallbreakpoint(gut, breakpoints);
+				eventController.deleteallbreakpoint(frame, gut, breakpoints);
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
@@ -1206,10 +1207,15 @@ public class MainWindowView
 		
 		tabbedHorizontalPane = new JTabbedPane();
 		tabbedHorizontalPane.add("Error Log", cL);
+		URL errorlogIcon = Main.class.getResource("/errorlog.png");
+		tabbedHorizontalPane.setIconAt(0, new ImageIcon(errorlogIcon) );
+		
 		tabbedHorizontalPane.add("Debug Log", dL);
-		tabbedHorizontalPane.add("Test Log", cL);
+		tabbedHorizontalPane.setIconAt(1, new ImageIcon(debug) );
 		
 		tabbedVerticalPane.addTab("Feedback History", new JScrollPane(feedbackHistory));
+		URL feedbacklogIcon = Main.class.getResource("/feedbacklog.png");
+		tabbedVerticalPane.setIconAt(0, new ImageIcon(feedbacklogIcon) );
 		
 		horizontalPane.setBottomComponent(tabbedHorizontalPane);
 		horizontalPane.setResizeWeight(1);
