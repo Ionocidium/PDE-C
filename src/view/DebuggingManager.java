@@ -1,41 +1,20 @@
 package view;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JList;
-import javax.swing.AbstractListModel;
 import javax.swing.JScrollPane;
-import javax.swing.ListModel;
 import javax.swing.UIManager;
 import javax.swing.JPanel;
-import java.awt.FlowLayout;
 import javax.swing.JButton;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Component;
-
-import javax.swing.border.MatteBorder;
-import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
-
-import controller.EventController;
-import debugging.controls.RowManipulator;
-import debugging.model.LocalObject;
-import debugging.model.RowLocalObject;
-
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 
-import java.awt.GridLayout;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.TreeMap;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -50,7 +29,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
-import javax.swing.JToolBar;
 
 public class DebuggingManager {
 
@@ -58,35 +36,43 @@ public class DebuggingManager {
 	private JPanel breakpointPanel, variablePanel, watchPanel;
 	private JButton btnStepOver, btnContinue, btnTrackVars, btnStop; // Variables Tab
 	private JButton btnAddABreakpoint, btnRemoveSelected, btnRemoveAll; // Variables Tab
-//    private ArrayList<RowLocalObject> watchList2 = new ArrayList<RowLocalObject>();
+    private HashMap<String, String> watchList2 = new HashMap<String, String>();
     private HashMap<String, String> varVals = new HashMap<String, String>();
 	private static DebuggingManager instance = null;
-	final private RowManipulator rm = new RowManipulator();
-//	Unstable version of Tracking Variables.
-//	final private DefaultTableCellRenderer tracker = new DefaultTableCellRenderer(){
-//        @Override
-//        public Component getTableCellRendererComponent(JTable table,
-//                Object value, boolean isSelected, boolean hasFocus, int row, int col) {
-//
-//            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
-//            if(!watchList2.isEmpty())
-//            {
-//            	boolean existing = false;
-//            	for(int i = 0; i < watchList2.size(); i++)
-//            	{
-//            		if(row == watchList2.get(i).getRow() && table.getValueAt(watchList2.get(i).getRow(), 0).equals(watchList2.get(i).getLocalVarVal().getVariable())) existing = true;
-//            	}
-//	            if (existing) {
-//	            	setBackground(new Color(53, 208, 53));
-//	                setForeground(Color.BLACK);
-//	            } else {
-//	                setBackground(Color.WHITE);
-//	                setForeground(Color.BLACK);
-//	            }
-//            }
-//            return this;
-//        }
-//	};
+	final private DefaultTableCellRenderer tracker = new DefaultTableCellRenderer(){
+        @Override
+        public Component getTableCellRendererComponent(JTable table,
+                Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+
+            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+            if(!watchList2.isEmpty())
+            {
+            	// iterate over all the map items ref: http://stackoverflow.com/questions/46898/how-to-efficiently-iterate-over-each-entry-in-a-map
+            	Map<String, String> included = new TreeMap<String, String>(watchList2);
+            	Map<String, String> excluded = new TreeMap<String, String>(varVals);
+            	for(Map.Entry<String, String> nonWatch : excluded.entrySet())
+            	{
+            		if (table.getValueAt(row, 0).equals(nonWatch.getKey())) {
+		                setBackground(Color.WHITE);
+		                setForeground(Color.BLACK);
+		            }
+    				for(Map.Entry<String, String> aWatchedVariable : included.entrySet())
+        			{
+    		            if (table.getValueAt(row, 0).equals(aWatchedVariable.getKey())) {
+    		            	setBackground(new Color(53, 208, 53));
+    		                setForeground(Color.BLACK);
+    		            }
+        			}
+            	}
+            }
+            else
+            {
+                setBackground(Color.WHITE);
+                setForeground(Color.BLACK);
+            }
+            return this;
+        }
+	};
 	final private String[] varColumnNames = 
 	{
 	    "Variable Name", "Value"
@@ -98,21 +84,6 @@ public class DebuggingManager {
 	private JList<Integer> bpList;
 	private DefaultListModel<Integer> lmbp;
 	private JTable varTable;
-
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					BreakpointLists window = getInstance();
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	public static DebuggingManager getInstance()
 	{
@@ -301,7 +272,7 @@ public class DebuggingManager {
 		btnRemoveAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MainWindowView mwv = MainWindowView.getInstance();
-				MainWindowView.eventController.deleteallbreakpoint(mwv.getGut(), mwv.getBreakpoints());
+				MainWindowView.eventController.deleteallbreakpoint(frmBreakpointManager, mwv.getGut(), mwv.getBreakpoints());
 				mwv.getDelbreakpointButton().setEnabled(false);
 				mwv.getDelallbreakpointButton().setEnabled(false);
 				getBtnRemoveSelected().setEnabled(false);
@@ -345,29 +316,43 @@ public class DebuggingManager {
 				"Before you start debugging, let's first set up your breakpoints. A breakpoint is an intentional stopping or pausing location in a program, put in place for debugging purposes. If you run your code in debug mode, your code will automatically stop when it reaches a breakpoint, which will allow you to view the values of your variables at certain points of your program!");
 		variablePanel = new JPanel();
 		tabbedPane.addTab("Variables", null, variablePanel, null);
-		variablePanel.setLayout(new BorderLayout(0, 0));
-		
-		JScrollPane varListScrollPane = new JScrollPane(varTable);
-		varListScrollPane.setToolTipText("Displays all local variables.");
-		variablePanel.add(varListScrollPane, BorderLayout.CENTER);
+		GridBagLayout gbl_variablePanel = new GridBagLayout();
+		gbl_variablePanel.columnWidths = new int[]{392, 315, 0};
+		gbl_variablePanel.rowHeights = new int[]{423, 0};
+		gbl_variablePanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_variablePanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		variablePanel.setLayout(gbl_variablePanel);
 		variableModel = new DefaultTableModel(varData, varColumnNames){
         	
         	@Override
         	public boolean isCellEditable(int row, int column){return false;}
         	
         };
+		
+		JScrollPane varListScrollPane = new JScrollPane(varTable);
+		varListScrollPane.setToolTipText("Displays all local variables.");
+		GridBagConstraints gbc_varListScrollPane = new GridBagConstraints();
+		gbc_varListScrollPane.fill = GridBagConstraints.BOTH;
+		gbc_varListScrollPane.insets = new Insets(0, 0, 0, 5);
+		gbc_varListScrollPane.gridx = 0;
+		gbc_varListScrollPane.gridy = 0;
+		variablePanel.add(varListScrollPane, gbc_varListScrollPane);
 		varTable = new JTable(variableModel);
 		varTable.setCellSelectionEnabled(true);
-//		varTable.setDefaultRenderer(Object.class, tracker); // unstable
+		varTable.setDefaultRenderer(Object.class, tracker); // unstable
 		varListScrollPane.setViewportView(varTable);
 		
 		JPanel varOptionsPane = new JPanel();
 		varOptionsPane.setBorder(new TitledBorder(null, "Options", TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		variablePanel.add(varOptionsPane, BorderLayout.EAST);
+		GridBagConstraints gbc_varOptionsPane = new GridBagConstraints();
+		gbc_varOptionsPane.fill = GridBagConstraints.BOTH;
+		gbc_varOptionsPane.gridx = 1;
+		gbc_varOptionsPane.gridy = 0;
+		variablePanel.add(varOptionsPane, gbc_varOptionsPane);
 		GridBagLayout gbl_varOptionsPane = new GridBagLayout();
 		gbl_varOptionsPane.columnWidths = new int[]{120, 120, 0};
 		gbl_varOptionsPane.rowHeights = new int[]{24, 24, 0, 0};
-		gbl_varOptionsPane.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_varOptionsPane.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
 		gbl_varOptionsPane.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		varOptionsPane.setLayout(gbl_varOptionsPane);
 		
@@ -439,6 +424,9 @@ public class DebuggingManager {
 				+ System.getProperty("line.separator") + System.getProperty("line.separator")
 				+ "You may also mark certain variables so you can track their values. "
 				+ "Click on a variable in the table, then click Track Variable. "
+				+ "This will highlight the variable so you can observe its value more clearly as you run your code in debug mode."
+				+ System.getProperty("line.separator") + System.getProperty("line.separator")
+				+ "You may also mark certain variables so you can track their values. Click on a variable in the table, then click Track Variable. "
 				+ "This will highlight the variable so you can observe its value more clearly as you run your code in debug mode.");
 		txtVarHelper.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		watchPanel = new JPanel();
@@ -572,12 +560,12 @@ public class DebuggingManager {
 		this.lmbp = lmbp;
 	}
 
-//	/**
-//	 * @return the watchList2
-//	 */
-//	public ArrayList<RowLocalObject> getWatchList2() {
-//		return watchList2;
-//	}
+	/**
+	 * @return the watchList2
+	 */
+	public HashMap<String, String> getWatchList2() {
+		return watchList2;
+	}
 
 	/**
 	 * @return the bpList
@@ -592,6 +580,13 @@ public class DebuggingManager {
 
 	public void setVarVals(HashMap<String, String> varVals) {
 		this.varVals = varVals;
+	}
+
+	/**
+	 * @return the Debugging Manager
+	 */
+	public JFrame getDebuggingFrame() {
+		return frmBreakpointManager;
 	}
 
 }

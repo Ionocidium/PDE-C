@@ -593,7 +593,7 @@ public class MainWindowView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				eventController.deleteallbreakpoint(gut, breakpoints);
+				eventController.deleteallbreakpoint(frame, gut, breakpoints);
 				if(debugMgrInstance == null);
 				else
 				{
@@ -1021,13 +1021,13 @@ public class MainWindowView
 				}
 			}
 		});
-		delallBreakItem = new JMenuItem("Remove all Breakpoint...");
+		delallBreakItem = new JMenuItem("Remove all Breakpoints...");
 		delallBreakItem.setEnabled(false);
 		delallBreakItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				eventController.deleteallbreakpoint(gut, breakpoints);
+				eventController.deleteallbreakpoint(frame, gut, breakpoints);
 				if(breakpoints.size() == 0) {
 					delbreakpointButton.setEnabled(false);
 					delallbreakpointButton.setEnabled(false);
