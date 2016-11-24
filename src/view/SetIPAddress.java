@@ -62,7 +62,7 @@ public class SetIPAddress extends JFrame
 			client.setIPAddress(ipAddress);
 			dispose();
 			
-			eventCtrl.downloadActivity();
+//			eventCtrl.downloadActivity();
 		  }
 		}
 	});
@@ -85,7 +85,7 @@ public class SetIPAddress extends JFrame
 			client.setIPAddress(ipAddress);
 			dispose();
 			
-			eventCtrl.downloadActivity();
+//			eventCtrl.downloadActivity();
 		  }
 		}
 	});

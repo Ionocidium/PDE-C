@@ -88,19 +88,7 @@ public class DownloadWindow extends JFrame
 		  try
 		  {
 			client.getActivityFile(actList.getSelectedIndex());
-			JOptionPane.showMessageDialog(null, "File download complete.", "", JOptionPane.INFORMATION_MESSAGE);
-			
-			if (Desktop.isDesktopSupported()) {
-			    try {
-			        File myFile = new File("resources/activity.pdf");
-			        Desktop.getDesktop().open(myFile);
-			        dispose();
-			    } catch (IOException ex) {
-					JOptionPane.showMessageDialog(null, "Nothing to open here.", "", JOptionPane.INFORMATION_MESSAGE);
-			    }
-			}
-			
-		
+			dispose();
 		  }
 		  catch (Exception e)
 		  {

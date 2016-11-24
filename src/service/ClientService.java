@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 import api.component.PObject;
+import clientservices.DownloadHandler;
 
 public class ClientService
 {
@@ -141,18 +142,36 @@ public class ClientService
 	  initSocket();
 	}
 	
-	int properIdNum = idNum + 1;
+/*	int properIdNum = idNum + 1;
 	toServer.writeBytes("get,ActivityFiles," + (properIdNum) + "\n");
 	BufferedReader downloadedFile = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 	String message = downloadedFile.readLine();
 	FileDecoder decode = new FileDecoder();
 	decode.convertToFile(message, "activity.pdf");
 	downloadedFile.close();
-	clientSocket = null;
+	clientSocket = null;*/
+	
+	Thread download = new Thread(new DownloadHandler(idNum));
+	download.start();
   }
 
   public String getCurrIpAddr()
   {
     return currIpAddr;
+  }
+  
+  public Socket getClientSocket()
+  {
+	return clientSocket;
+  }
+  
+  public DataOutputStream getClientOutputStream()
+  {
+	return toServer;
+  }
+  
+  public void setClientSocketNull()
+  {
+	clientSocket = null;
   }
 }
