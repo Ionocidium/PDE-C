@@ -442,6 +442,7 @@ public class EventController
 	public void writeInErrorLog(String s)
 	{
 		MainWindowView.debugLog.setText(s);
+		MainWindowView.debugLog.setCaretPosition(MainWindowView.debugLog.getDocument().getLength());
 	}
   
 	public void debugInit(Path filePath)
