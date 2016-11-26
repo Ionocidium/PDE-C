@@ -169,6 +169,17 @@ public class EventController
 	  SetIPAddress set = new SetIPAddress();
 	}
 	
+	public void changeIPSettings(ClientService client)
+	{
+		client = ClientService.getClientService();
+		String ipAddress = JOptionPane.showInputDialog(MainWindowView.getInstance().getMainFrame(), "Please enter the IP Address you would want to connect:");
+		if (!ipAddress.trim().equals(""))
+		{
+			client = ClientService.getClientService();
+			client.setIPAddress(ipAddress);
+		}
+	}
+	
 	public void savePathSettings()
 	{
 	  LocalConfiguration local = LocalConfiguration.getInstance();
@@ -245,12 +256,26 @@ public class EventController
 	  }
 	}
 	
+//	public void downloadActivity()
+//	{
+//	  ClientService client = ClientService.getClientService();
+//	  if (client.getCurrIpAddr().equals("0.0.0.0"))
+//	  {
+//		this.changeIPSettings();
+//	  }
+//	  
+//	  else
+//	  {
+//        DownloadWindow download = new DownloadWindow();
+//	  }
+//	}
+	
 	public void downloadActivity()
 	{
 	  ClientService client = ClientService.getClientService();
 	  if (client.getCurrIpAddr().equals("0.0.0.0"))
 	  {
-		this.changeIPSettings();
+		this.changeIPSettings(client);
 	  }
 	  
 	  else
