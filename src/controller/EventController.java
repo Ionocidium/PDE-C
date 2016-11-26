@@ -173,10 +173,14 @@ public class EventController
 	{
 		client = ClientService.getClientService();
 		String ipAddress = JOptionPane.showInputDialog(MainWindowView.getInstance().getMainFrame(), "Please enter the IP Address you would want to connect:");
-		if (!ipAddress.trim().equals(""))
+		if(ipAddress == null);
+		else
 		{
-			client = ClientService.getClientService();
-			client.setIPAddress(ipAddress);
+			if (!ipAddress.trim().equals(""))
+			{
+				client = ClientService.getClientService();
+				client.setIPAddress(ipAddress);
+			}
 		}
 	}
 	
@@ -235,47 +239,33 @@ public class EventController
 	
 	public void sendSrcCode(JTextArea consoleLog, Path filePath)
 	{
-	  ClientService client = ClientService.getClientService();
-	  
-	  if (filePath == null)
-	  {
-		JOptionPane.showMessageDialog(null, "Cannot send empty source code.", "Warning", JOptionPane.INFORMATION_MESSAGE);
-	  }
-	  
-	  else
-	  {
-		if (client.getCurrIpAddr().equals("0.0.0.0"))
+		ClientService client = ClientService.getClientService();
+		  
+		if (filePath == null)
 		{
-		  this.changeIPSettings();
+			JOptionPane.showMessageDialog(null, "Cannot send empty source code.", "Warning", JOptionPane.INFORMATION_MESSAGE);
 		}
-		
+		  
 		else
 		{
-		  SourceCodeUploaderView upload = new SourceCodeUploaderView(filePath, consoleLog);
+			if (client.getCurrIpAddr().equals("0.0.0.0"))
+			{
+				this.changeIPSettings(client);
+			}
+			
+			else
+			{
+			  SourceCodeUploaderView upload = new SourceCodeUploaderView(filePath, consoleLog);
+			}
 		}
-	  }
 	}
-	
-//	public void downloadActivity()
-//	{
-//	  ClientService client = ClientService.getClientService();
-//	  if (client.getCurrIpAddr().equals("0.0.0.0"))
-//	  {
-//		this.changeIPSettings();
-//	  }
-//	  
-//	  else
-//	  {
-//        DownloadWindow download = new DownloadWindow();
-//	  }
-//	}
 	
 	public void downloadActivity()
 	{
 	  ClientService client = ClientService.getClientService();
 	  if (client.getCurrIpAddr().equals("0.0.0.0"))
 	  {
-		this.changeIPSettings(client);
+		  this.changeIPSettings(client);
 	  }
 	  
 	  else
