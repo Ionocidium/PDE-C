@@ -90,7 +90,6 @@ public class SourceCodeUploaderView {
 	  	}
 	  	
 		frmActivityUpload = new JFrame();
-		frmActivityUpload.setVisible(true);
 	  	
 	  	frmActivityUpload.setTitle("Source Code Upload");
 		frmActivityUpload.setBounds(100, 100, 450, 177);
@@ -190,6 +189,7 @@ public class SourceCodeUploaderView {
 		btnSubmit.setBounds(335, 105, 89, 23);
 		frmActivityUpload.getContentPane().add(btnSubmit);
 		frmActivityUpload.setLocationRelativeTo(null);
+		frmActivityUpload.setVisible(true);
 		
 	}
 	

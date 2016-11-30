@@ -865,7 +865,7 @@ public class MainWindowView
 		settingsIpFileItem.addActionListener(new ActionListener() {
 		  public void actionPerformed(ActionEvent e)
 		  {
-			eventController.changeIPSettings(ClientService.getClientService());
+			eventController.changeIPSettings();
 		  }
 		});
 		

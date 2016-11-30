@@ -166,19 +166,13 @@ public class EventController
 	
 	public void changeIPSettings()
 	{
-	  SetIPAddress set = new SetIPAddress();
-	}
-	
-	public void changeIPSettings(ClientService client)
-	{
-		client = ClientService.getClientService();
+		ClientService client = ClientService.getClientService();
 		String ipAddress = JOptionPane.showInputDialog(MainWindowView.getInstance().getMainFrame(), "Please enter the IP Address you would want to connect:");
 		if(ipAddress == null);
 		else
 		{
 			if (!ipAddress.trim().equals(""))
 			{
-				client = ClientService.getClientService();
 				client.setIPAddress(ipAddress);
 			}
 		}
@@ -251,7 +245,7 @@ public class EventController
 	  {
 		if (client.getCurrIpAddr().equals("0.0.0.0"))
 		{
-		  this.changeIPSettings(client);
+		  this.changeIPSettings();
 		}
 			
 		else
@@ -266,7 +260,7 @@ public class EventController
 	  ClientService client = ClientService.getClientService();
 	  if (client.getCurrIpAddr().equals("0.0.0.0"))
 	  {
-		  this.changeIPSettings(client);
+		  this.changeIPSettings();
 	  }
 	  
 	  else
