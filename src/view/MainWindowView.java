@@ -1148,28 +1148,11 @@ public class MainWindowView
 		frame.getContentPane().add(horizontalPane, BorderLayout.CENTER);
 		horizontalPane.setOneTouchExpandable(true);	
 		
-		//for editor text and cbrc
-		verticalPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT){
-		    /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			private final int location = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()/1.5);
-		    {
-		        setDividerLocation( location );
-		    }
-		    @Override
-		    public int getDividerLocation() {
-		        return location ;
-		    }
-		    @Override
-		    public int getLastDividerLocation() {
-		        return location ;
-		    }
-		};
+		verticalPane = new JSplitPane();
+		verticalPane.setDividerLocation((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()/1.5));
 		verticalPane.setLeftComponent(scrollPane);
 		verticalPane.setRightComponent(tabbedVerticalPane);
-		verticalPane.setOneTouchExpandable(false);	
+		verticalPane.setOneTouchExpandable(true);	
 		
 		horizontalPane.setTopComponent(verticalPane);
 		

@@ -118,7 +118,7 @@ public class FeedbackHistory extends JPanel{
 	
 	public void addFeedback(Feedback feedback, Path filePath, RSyntaxTextArea editorPane) {
 		JButton sub = new JButton();
-		sub.setHorizontalAlignment(SwingConstants.NORTH_EAST);
+		//sub.setHorizontalAlignment(SwingConstants.CENTER);
 		sub.setFont(new Font(fontStyle, Font.PLAIN, 12));
 		sub.setBorder(new CompoundBorder(new EmptyBorder(10,10,10,10), sub.getBorder()));
 		sub.setPreferredSize(new Dimension (this.getWidth()-30, 50));
