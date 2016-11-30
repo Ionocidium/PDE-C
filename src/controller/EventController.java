@@ -169,6 +169,21 @@ public class EventController
 	  SetIPAddress set = new SetIPAddress();
 	}
 	
+	public void changeIPSettings(ClientService client)
+	{
+		client = ClientService.getClientService();
+		String ipAddress = JOptionPane.showInputDialog(MainWindowView.getInstance().getMainFrame(), "Please enter the IP Address you would want to connect:");
+		if(ipAddress == null);
+		else
+		{
+			if (!ipAddress.trim().equals(""))
+			{
+				client = ClientService.getClientService();
+				client.setIPAddress(ipAddress);
+			}
+		}
+	}
+	
 	public void savePathSettings()
 	{
 	  LocalConfiguration local = LocalConfiguration.getInstance();
@@ -224,25 +239,25 @@ public class EventController
 	
 	public void sendSrcCode(JTextArea consoleLog, Path filePath)
 	{
-	  ClientService client = ClientService.getClientService();
-	  
-	  if (filePath == null)
-	  {
-		JOptionPane.showMessageDialog(null, "Cannot send empty source code.", "Warning", JOptionPane.INFORMATION_MESSAGE);
-	  }
-	  
-	  else
-	  {
-		if (client.getCurrIpAddr().equals("0.0.0.0"))
+		ClientService client = ClientService.getClientService();
+		  
+		if (filePath == null)
 		{
-		  this.changeIPSettings();
+			JOptionPane.showMessageDialog(null, "Cannot send empty source code.", "Warning", JOptionPane.INFORMATION_MESSAGE);
 		}
-		
+		  
 		else
 		{
-		  SourceCodeUploaderView upload = new SourceCodeUploaderView(filePath, consoleLog);
+			if (client.getCurrIpAddr().equals("0.0.0.0"))
+			{
+				this.changeIPSettings(client);
+			}
+			
+			else
+			{
+			  SourceCodeUploaderView upload = new SourceCodeUploaderView(filePath, consoleLog);
+			}
 		}
-	  }
 	}
 	
 	public void downloadActivity()
@@ -250,7 +265,7 @@ public class EventController
 	  ClientService client = ClientService.getClientService();
 	  if (client.getCurrIpAddr().equals("0.0.0.0"))
 	  {
-		this.changeIPSettings();
+		  this.changeIPSettings(client);
 	  }
 	  
 	  else
