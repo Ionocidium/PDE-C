@@ -445,8 +445,6 @@ public class EventController
 		mwv.getCompileButton().setEnabled(!mwv.getCompileButton().isEnabled());
 		mwv.getCompilerunButton().setEnabled(!mwv.getCompilerunButton().isEnabled());
 		mwv.getCompileBuildItem().setEnabled(!mwv.getCompileBuildItem().isEnabled());
-		mwv.getDebugButton().setEnabled(!mwv.getDebugButton().isEnabled());
-		mwv.getDebugBuildItem().setEnabled(!mwv.getDebugBuildItem().isEnabled());
 		mwv.getStepOverButton().setEnabled(!mwv.getStepOverButton().isEnabled());
 		mwv.getResumeButton().setEnabled(!mwv.getResumeButton().isEnabled());
 		mwv.getStopButton().setEnabled(!mwv.getStopButton().isEnabled());
@@ -660,11 +658,10 @@ public class EventController
                 		{
 	                    	public void actionPerformed(ActionEvent e)
 	                    	{
-	                    		int answer = addbreakpoint(MainWindowView.debugMgrInstance.getDebuggingFrame(), mwv.getGut(), mwv.getBreakpoints());
+	                    		int answer = addbreakpoint(MainWindowView.debugMgrInstance.getDebuggingFrame(), mwv.getGut(), mwv.getBreakpoints()) + 1;
 	                    		if(answer > 0)
 	            				{
-	                    			MainWindowView.debugMgrInstance.getLmbp().addElement(answer);
-	                    			MainWindowView.debugMgrInstance.getBpList().setModel(MainWindowView.debugMgrInstance.getLmbp());
+	                    			MainWindowView.debugMgrInstance.modifyBreakpoints();
 	            					if(mwv.getBreakpoints().size() > 0) {
 	            						mwv.getDelbreakpointButton().setEnabled(true);
 	            						mwv.getDelallbreakpointButton().setEnabled(true);
@@ -696,7 +693,7 @@ public class EventController
 	            						}
 	                        			out.println("delete " + answer);
 	            					}
-	            					MainWindowView.debugMgrInstance.getBpList().setModel(MainWindowView.debugMgrInstance.getLmbp());
+	            					MainWindowView.debugMgrInstance.modifyBreakpoints();
 	            				}
 	                    	}
                 		};
