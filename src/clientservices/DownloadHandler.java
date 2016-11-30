@@ -64,6 +64,7 @@ public class DownloadHandler implements Runnable
 	catch (Exception ex)
 	{
 	  ex.printStackTrace();
+	  JOptionPane.showMessageDialog(null, "Connection to server failed.", "Server error", JOptionPane.ERROR_MESSAGE);
 	}
 	
   }

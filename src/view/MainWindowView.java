@@ -2,20 +2,17 @@ package view;
 
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.ComponentOrientation;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -33,21 +30,17 @@ import javax.swing.JFileChooser;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
 import controller.EventController;
-import model.ErrorMessage;
 import model.Feedback;
 import service.ClientService;
 import service.Parsers;
 
 import javax.swing.SpringLayout;
-import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.ScrollPaneConstants;
@@ -90,7 +83,6 @@ public class MainWindowView
 	private JMenuBar menuBar;
 	private JSplitPane horizontalPane;
 	private JSplitPane verticalPane;
-	private JScrollPane feedbackScroll;
 	private JTabbedPane tabbedHorizontalPane;
 	private JTabbedPane tabbedVerticalPane;
 	private RTextScrollPane scrollPane;
@@ -109,31 +101,7 @@ public class MainWindowView
 	private static MainWindowView instance = null;
 	public static DebuggingManager debugMgrInstance = null;
 	public static EventController eventController = null;
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args)
-//	{
-//		EventQueue.invokeLater(new Runnable()
-//		{
-//			public void run()
-//			{
-//				try
-//				{
-//				  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//					MainWindowView window = getInstance();
-//					window.frame.setVisible(true);
-//				} catch (Exception e)
-//				{
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
-	/**
-	 * Create the application.
-	 */
 	private MainWindowView()
 	{
 	  	filePath = null;
@@ -161,7 +129,6 @@ public class MainWindowView
 		fileName = "new file";
 	  	feedbackFilePath = null;
 	  	
-	  	feedbackScroll = new JScrollPane();
 		tabbedVerticalPane = new JTabbedPane();
 		feedbackHistory = new FeedbackHistory();
 		studentIdNum = "1";

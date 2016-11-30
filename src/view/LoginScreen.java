@@ -9,12 +9,16 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import org.fife.rsta.ac.java.rjc.parser.Main;
+
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 
@@ -57,6 +61,8 @@ public class LoginScreen {
 		frmLogin.setBounds(100, 100, 278, 128);
 		frmLogin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmLogin.getContentPane().setLayout(null);
+		URL pdecIcon = Main.class.getResource("/PDECICON.png");
+		frmLogin.setIconImage(new ImageIcon(pdecIcon).getImage());
 		
 		JLabel lblStudentId = new JLabel("Student ID:");
 		lblStudentId.setHorizontalAlignment(SwingConstants.RIGHT);

@@ -142,15 +142,6 @@ public class ClientService
 	  initSocket();
 	}
 	
-/*	int properIdNum = idNum + 1;
-	toServer.writeBytes("get,ActivityFiles," + (properIdNum) + "\n");
-	BufferedReader downloadedFile = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-	String message = downloadedFile.readLine();
-	FileDecoder decode = new FileDecoder();
-	decode.convertToFile(message, "activity.pdf");
-	downloadedFile.close();
-	clientSocket = null;*/
-	
 	Thread download = new Thread(new DownloadHandler(idNum));
 	download.start();
   }
