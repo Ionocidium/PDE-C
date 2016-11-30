@@ -37,6 +37,7 @@ public class COutputCollector extends OutputCollector{
 		if (m.find()) {
 			String errorDesc = line;
 			line = line.substring(0, line.length()-m.group().length());
+			//System.out.println(errorDesc);
 			SimplifyError se = new SimplifyError(errorDesc);
 
 			Matcher m2 = ERROR_PATTERN2.matcher(errorDesc);

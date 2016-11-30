@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,17 +28,16 @@ public class SimplifyError {
 	private static String MISSING_IF_FROM_ELSE = "There is a missing 'if' statement for 'else' in line ";
 	private static String MISSING_TERMINATOR = "There is a missing terminating character in line ";
 	private static String MISSING_INT_MAIN = "There is a missing 'int' at main in line ";
-	private static String MISSING_INCLUDE = "There is no filename name inside #include in line ";
+	private static String MISSING_INCLUDE = "There is no filename inside #include in line ";
 	private static String MISSING_FILE = "There is no such file or directory exists in line ";
 	
 	private static String INCOMPATIBLE_DECLARATION = "There is an incompatible declaration for built-in function in line ";
 	
 	private static String UNKNOWN_TYPE = "There is an unknown data type in line ";
-	private static String CHARACTER_TOO_LONG = "The value for 'char' is too long in line ";
+	private static String CHARACTER_TOO_LONG = "The value for the data type is too long in line ";
 	private static String UNDECLARED_VARIABLE = "There is an undeclared variable in line ";
 	private static String IMPLICIT_FUNCTION = "There is an undeclared function in line ";
 	private static String STRAY_SLASH = "There is a stray '\\' in line ";
-	private static String FILE_DIRECTORY = "File directory does not exist in line ";
 	
 	private static String FEW_PRINTF = "The function 'printf' is incomplete in line ";
 	private static String LEFT_VALUE_NOT_ASSIGNABLE = "You cannot assign the leftmost value in line ";
@@ -53,7 +55,7 @@ public class SimplifyError {
 	private static final Pattern PATTERN_MISSING_EXPRESSION = Pattern.compile("(error: expected expression before)");
 	private static final Pattern PATTERN_MISSING_STATEMENT = Pattern.compile("(error: expected statement before)");
 	private static final Pattern PATTERN_MISSING_IF_FROM_ELSE = Pattern.compile("(error: 'else' without a previous 'if')");
-	private static final Pattern PATTERN_MISSING_TERMINATOR = Pattern.compile("(warning: missing terminating)|(error: missing terminating)");
+	private static final Pattern PATTERN_MISSING_TERMINATOR = Pattern.compile("(error: missing terminating)");
 	private static final Pattern PATTERN_MISSING_INT_MAIN = Pattern.compile("(warning: return type defaults to 'int')");
 	private static final Pattern PATTERN_MISSING_INCLUDE = Pattern.compile("(error: empty filename in #include)");
 	private static final Pattern PATTERN_MISSING_FILE = Pattern.compile("(No such file or directory)");
@@ -68,13 +70,11 @@ public class SimplifyError {
 	private static final Pattern PATTERN_INVALID_SUFFIX = Pattern.compile("(error: invalid suffix)");
 	private static final Pattern PATTERN_IMPLICIT_FUNCTION = Pattern.compile("(warning: implicit declaration of function)");
 	private static final Pattern PATTERN_STRAY_SLASH = Pattern.compile("(error: stray '\\\\')");
-	private static final Pattern PATTERN_FILE_DIRECTORY = Pattern.compile("(No such file or directory)");
 	
 	private static final Pattern PATTERN_PATH_MAIN = Pattern.compile("(?!.c: In function 'main':)");
 	private static final Pattern PATTERN_PATH = Pattern.compile("((?!.c:)[0-9]+(?=:\\d))"); //pattern for path
 	private static final Pattern PATTERN_ERROR = Pattern.compile("((error:)|(warning:)|(note:)) (.*)"); //pattern for error/note/warning
-
-	private static final Pattern PATTERN_NO_ERROR = Pattern.compile("(error: expected declaration specifiers or '...')");
+	
 	
 	private String error;
 
@@ -97,6 +97,7 @@ public class SimplifyError {
 			{
 				errorDesc = m2.group();
 				errorDesc = convert(new ErrorMessage("", errorDesc, m.group()));
+				//errorDesc = removeDuplicates(errorDesc);
 				//System.out.println(errorDesc);
 				return errorDesc;
 			}
@@ -113,6 +114,19 @@ public class SimplifyError {
 		
 		return errorDesc;
 	}
+	
+//	private String removeDuplicates(String list) {
+//		String[] errors = list.split("(\r\n|\n)");
+//		Set<String> set = new HashSet<String>(Arrays.asList(errors));
+//		errors = set.toArray(new String[set.size()]);
+//		
+//		String cleanErrors = "";
+//		
+//		for(int i = 0; i < errors.length; i++)
+//			cleanErrors = cleanErrors + errors[i];
+//		
+//		return cleanErrors;
+//	}
 	
 	private String convert(ErrorMessage errorDesc) {
 		Matcher m;
@@ -282,20 +296,6 @@ public class SimplifyError {
 		if (m.find()) {
 			errorDesc.setType(ERROR);
 			errorDesc.setMessage(STRAY_SLASH);
-			errorDesc.setLine(errorDesc.getLine());
-			return errorDesc.getErrorMessage();
-		}
-		m = PATTERN_NO_ERROR.matcher(errorDesc.getMessage());
-		if (m.find()) {
-			errorDesc.setType("");
-			errorDesc.setMessage("");
-			errorDesc.setLine("");
-			return errorDesc.getErrorMessage();
-		}
-		m = PATTERN_FILE_DIRECTORY.matcher(errorDesc.getMessage());
-		if (m.find()) {
-			errorDesc.setType(ERROR);
-			errorDesc.setMessage(FILE_DIRECTORY);
 			errorDesc.setLine(errorDesc.getLine());
 			return errorDesc.getErrorMessage();
 		}
