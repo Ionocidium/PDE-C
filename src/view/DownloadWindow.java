@@ -78,7 +78,18 @@ public class DownloadWindow extends JFrame
 	JComboBox actList = new JComboBox();
 	actList.setBounds(135, 22, 152, 20);
 	actList.setModel(new DefaultComboBoxModel(actListArray.toArray()));
-	actList.setSelectedIndex(0);
+	
+	try
+	{
+	  actList.setSelectedIndex(0);
+	}
+	
+	catch (Exception ex)
+	{
+	  JOptionPane.showMessageDialog(null, "Connection to server failed.", "Server error", JOptionPane.ERROR_MESSAGE);
+	  dispose();
+	}
+	
 	contentPane.add(actList);
 	
 	JButton btnDownload = new JButton("Download");
