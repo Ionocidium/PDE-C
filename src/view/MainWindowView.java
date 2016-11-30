@@ -4,6 +4,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -1143,7 +1144,7 @@ public class MainWindowView
 		frame.setVisible(true);
 		horizontalPane = new JSplitPane();
 		horizontalPane.setOrientation(JSplitPane.VERTICAL_SPLIT);		
-		horizontalPane.setDividerLocation(450);
+		horizontalPane.setDividerLocation((int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()/1.7));
 		frame.getContentPane().add(horizontalPane, BorderLayout.CENTER);
 		horizontalPane.setOneTouchExpandable(true);	
 		
@@ -1153,7 +1154,7 @@ public class MainWindowView
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
-			private final int location = 900;
+			private final int location = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()/1.5);
 		    {
 		        setDividerLocation( location );
 		    }
