@@ -239,25 +239,26 @@ public class EventController
 	
 	public void sendSrcCode(JTextArea consoleLog, Path filePath)
 	{
-		ClientService client = ClientService.getClientService();
+	  ClientService client = ClientService.getClientService();
 		  
-		if (filePath == null)
+	  
+	  if (filePath == null)
+	  {
+		JOptionPane.showMessageDialog(null, "Cannot send empty an source code.", "Warning", JOptionPane.INFORMATION_MESSAGE);
+	  }
+	  
+	  else
+	  {
+		if (client.getCurrIpAddr().equals("0.0.0.0"))
 		{
-			JOptionPane.showMessageDialog(null, "Cannot send empty source code.", "Warning", JOptionPane.INFORMATION_MESSAGE);
+		  this.changeIPSettings(client);
 		}
-		  
+			
 		else
 		{
-			if (client.getCurrIpAddr().equals("0.0.0.0"))
-			{
-				this.changeIPSettings(client);
-			}
-			
-			else
-			{
-			  SourceCodeUploaderView upload = new SourceCodeUploaderView(filePath, consoleLog);
-			}
+	      SourceCodeUploaderView upload = new SourceCodeUploaderView(filePath, consoleLog);
 		}
+	  }
 	}
 	
 	public void downloadActivity()
@@ -397,7 +398,7 @@ public class EventController
 		  		
 		  		if (this.programIfExists(compiled))
 		  		{
-		  		  ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", compiled, "/b", compiled);
+		  		  ProcessBuilder pb = new ProcessBuilder("cmd", "/k", "start", compiled);
 		  		  Process proc = pb.start();
 		  		}
 		  		
@@ -1179,45 +1180,60 @@ public class EventController
 		  return itExists;
 		}
 		
+		
+		//work in progress
 		private boolean testForGccInSysPath()
 		{
 		  boolean itExists = false;
 		  
 		  Runtime rt = Runtime.getRuntime();
 		  String[] commands = {"gcc.exe", "--version"};
-		  Process proc;
+		  
+		  
 		  int lineCtr = 0;
 		  
 		  try
 		  {
-			proc = rt.exec(commands);
+			//proc = rt.exec(commands);
+			ProcessBuilder pb = new ProcessBuilder("cmd", "/k", "start", "gcc.exe", "--version");
+	  		Process proc = pb.start();
+//			BufferedReader stdInput = new BufferedReader(new 
+//			     InputStreamReader(proc.getInputStream()));
+//			
+//			BufferedReader stdError = new BufferedReader(new 
+//			     InputStreamReader(proc.getErrorStream()));
+//			
+//			String s = null;
+//			
+//			while ((s = stdInput.readLine()) != null) 
+//			{
+//			    lineCtr++;
+//			}
+//			
+//			while ((s = stdError.readLine()) != null) {
+//			    System.out.println(s);
+//			}
+//			
+//			if (lineCtr > 0)
+//			{
+//			  itExists = true;
+//			}
+//			
+//			else
+//			{
+//			  itExists = false;
+//			  JOptionPane.showMessageDialog(null, "No gcc found in the machine's environment variables. Exit PDE-C and set gcc in the environment variables.", "Error", JOptionPane.ERROR_MESSAGE);
+//			}
 			
-			BufferedReader stdInput = new BufferedReader(new 
-			     InputStreamReader(proc.getInputStream()));
-			
-			String s = null;
-			
-			while ((s = stdInput.readLine()) != null) 
-			{
-			    lineCtr++;
-			}
-			
-			if (lineCtr > 0)
-			{
-			  itExists = true;
-			}
-			
-			else
-			{
-			  itExists = false;
-			  JOptionPane.showMessageDialog(null, "No gcc found in the machine's environment variables. Exit PDE-C and set gcc in the environment variables.", "Error", JOptionPane.ERROR_MESSAGE);
-			}
+			Thread t = new Thread(new ProcessOutputController(proc.getInputStream()));
+			t.start();
 		  } 
 		  
-		  catch (IOException e)
+		  catch (Exception e)
 		  {
 			// TODO Auto-generated catch block
 			itExists = false;
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "No gcc found in the machine's environment variables. Exit PDE-C and set gcc in the environment variables.", "Error", JOptionPane.ERROR_MESSAGE);
 		  }
 		  
