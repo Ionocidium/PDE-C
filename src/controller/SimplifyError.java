@@ -300,7 +300,7 @@ public class SimplifyError {
 			return errorDesc.getErrorMessage();
 		}
 		//System.out.println(errorDesc);
-		return errorDesc.getErrorMessage();
+		return "";
 	}
 
 	public String getError() {

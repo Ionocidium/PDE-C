@@ -9,9 +9,11 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -28,6 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ScrollPaneLayout;
@@ -38,6 +42,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.fife.rsta.ac.java.rjc.parser.Main;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.Gutter;
@@ -142,7 +147,7 @@ public class FeedbackHistory extends JPanel{
 					 * 
 					 */
 					private static final long serialVersionUID = 1L;
-					private final int location = 300;
+					private final int location = 350;
 				    {
 				        setDividerLocation( location );
 				    }
@@ -160,7 +165,7 @@ public class FeedbackHistory extends JPanel{
 				//feedbackWindow.setAlwaysOnTop(true);
 				feedbackWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 				feedbackWindow.setVisible(true);
-				feedbackWindow.setSize(700,550);
+				feedbackWindow.setSize(850,600);
 				feedbackWindow.setResizable(false);
 				feedbackWindow.setLocationRelativeTo(null);
 				
@@ -218,7 +223,7 @@ public class FeedbackHistory extends JPanel{
 					 * 
 					 */
 					private static final long serialVersionUID = 1L;
-					private final int location = 500;
+					private final int location = (int) (feedbackWindow.getWidth()/1.4);
 				    {
 				        setDividerLocation( location );
 				    }
@@ -231,7 +236,12 @@ public class FeedbackHistory extends JPanel{
 				        return location ;
 				    }
 				};
-				bottomContainer.setTopComponent(new JScrollPane(errorLog));
+				JTabbedPane errorPane = new JTabbedPane();
+				errorPane.add("Error Log", new JScrollPane(errorLog));
+				URL errorlogIcon = Main.class.getResource("/errorlog.png");
+				errorPane.setIconAt(0, new ImageIcon(errorlogIcon) );
+				
+				bottomContainer.setTopComponent(errorPane);
 				bottomContainer.setBottomComponent(containerRecover);
 				container.setBottomComponent(bottomContainer);
 				feedbackWindow.add(container);
