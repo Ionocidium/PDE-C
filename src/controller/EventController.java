@@ -48,6 +48,16 @@ import view.MainWindowView;
 import view.SetIPAddress;
 import view.SourceCodeUploaderView;
 
+/**
+ * Description pf the class
+ * <table>
+ * 	<tr><td>Table Cell</td></tr>
+ * </table>
+ *  
+ * 
+ * @author Author name
+ *
+ */
 public class EventController
 {	
 	private static EventController instance = null;
@@ -68,6 +78,10 @@ public class EventController
 		fileChooser.setFileFilter(cFilter);
 	}
   
+	/**
+	 * Description of the method
+	 * @return describe the value
+	 */
 	public static EventController getEventController()
 	{
 		if (instance == null)
@@ -78,6 +92,13 @@ public class EventController
 		return instance;
   	}
 	
+	/**
+	 * DEsc...
+	 * 
+	 * @param frame - what is this frame?
+	 * @param editorPane - what is this editor pane?
+	 * @return describe what this retuns
+	 */
 	public Path openFile(JFrame frame, RSyntaxTextArea editorPane)
 	{
 		int returnVal = fileChooser.showOpenDialog(frame);
