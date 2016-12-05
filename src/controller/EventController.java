@@ -50,12 +50,19 @@ import view.SourceCodeUploaderView;
 
 /**
  * Description pf the class
- * <table>
- * 	<tr><td>Table Cell</td></tr>
+ * 
+ * <p>
+ * Long description of <code>EventController</code>
+ * </p>
+ * 
+ * <table style="border: 1px solid black;">
+ * 	<tr><td style="border: 1px solid black;">Table Cell</td></tr>
  * </table>
  *  
  * 
- * @author Author name
+ * @author In Yong S. Lee
+ * @author Alexander John D. Jose
+ * @author Lorenzo Miguel G. Monzon
  *
  */
 public class EventController

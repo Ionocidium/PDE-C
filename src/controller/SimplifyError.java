@@ -8,10 +8,27 @@ import java.util.regex.Pattern;
 
 import model.ErrorMessage;
 
+/**
+ * Handles the simplification of error messages translated from the standard error output of <code>gcc</code>.
+ * 
+ * Please include the Simplified Error including its descriptive values here. Include tables whenever possible, for better representation. Thanks!
+ *  
+ * @author Lorenzo Miguel G. Monzon
+ */
+
 public class SimplifyError {
 	
+	/**
+	 *	Default string for Error.
+	 */
 	private static String ERROR = " ERROR  :";
+	/**
+	 *	Default string for Warning.
+	 */
 	private static String WARNING = " WARNING:";
+	/**
+	 *	Default string for Note.
+	 */
 	private static String NOTE = " NOTE   :";
 	
 	private static String NOTE_UNDECLARED_IDENTIFIER = "Undeclared variables are reported once for every function in line ";
@@ -78,10 +95,19 @@ public class SimplifyError {
 	
 	private String error;
 
+	  /**
+	   * Creates an instance of <code>SimplifyError</code>.
+	   * @param s The line to capture.
+	   */
 	public SimplifyError(String s) {
 		this.error = s;
 	}
 
+	/**
+	 * Explain the process here.
+	 * 
+	 * @return The simplified error message.
+	 */
 	public String simplify(){
 		String errorDesc = "";
 		String line = error;
@@ -127,7 +153,13 @@ public class SimplifyError {
 //		
 //		return cleanErrors;
 //	}
-	
+
+	/**
+	 * Explain the process here.
+	 * 
+	 * @param errorDesc The Error Message Object
+	 * @return The equivalent of the converted message.
+	 */
 	private String convert(ErrorMessage errorDesc) {
 		Matcher m;
 		
@@ -303,10 +335,16 @@ public class SimplifyError {
 		return "";
 	}
 
+	/**
+	 * @return The error message from the standard output.
+	 */
 	public String getError() {
 		return error;
 	}
 
+	/**
+	 * @param error The error message from the standard output.
+	 */
 	public void setError(String error) {
 		this.error = error;
 	}

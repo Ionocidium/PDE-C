@@ -13,14 +13,26 @@ import javax.swing.JOptionPane;
 import service.ClientService;
 import service.FileDecoder;
 
+/**
+ * Handles the actual downloading of the activity files made by the professor.
+ *
+ * @author Alexander John D. Jose
+ *
+ */
+
 public class DownloadHandler implements Runnable
 {
-  
+ 
   private int idNum;
   private ClientService client;
   private Socket clientSocket;
   private DataOutputStream toServer;
   
+
+	/**
+	 * Creates a new instance of DownloadHandler using the said ID Number.
+	 * @param code The ID Number of the student.
+	 */
   public DownloadHandler(int code)
   {
 	idNum = code;
@@ -29,6 +41,10 @@ public class DownloadHandler implements Runnable
 	toServer = client.getClientOutputStream();
   }
 
+	/**
+	 * Downloads the said activity file to the client. <br>
+	 * This will download the PDF File provided that there is an access to the server.
+	 */
   @Override
   public void run()
   {
