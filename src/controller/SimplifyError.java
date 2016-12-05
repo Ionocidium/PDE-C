@@ -336,6 +336,8 @@ public class SimplifyError {
 	}
 
 	/**
+	 * Explain the process here.
+	 * 
 	 * @return The error message from the standard output.
 	 */
 	public String getError() {
