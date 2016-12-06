@@ -30,7 +30,7 @@ public class DownloadHandler implements Runnable
   
 
 	/**
-	 * Creates a new instance of DownloadHandler using the said ID Number.
+	 * Creates a new instance of <code>DownloadHandler</code> using the said ID Number.
 	 * @param code The ID Number of the student.
 	 */
   public DownloadHandler(int code)
