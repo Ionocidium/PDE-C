@@ -1,7 +1,11 @@
 package api.component;
 
 import javax.swing.JOptionPane;
-
+/**
+ * 
+ * @author Lorenzo Miguel Monzon
+ *
+ */
 public class PDialogBox{
 
 	public static final int INFORMATION = 0;
