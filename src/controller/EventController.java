@@ -383,7 +383,7 @@ public class EventController
 	 * @param editorPane The <code>editorPane</code> to use.
 	 * @param filePath The source code to compile.
 	 * @param compileLog The <code>textArea</code> to use for logging errors.
-	 * @returns the <code>filePath</code>
+	 * @return the <code>filePath</code> to compile
 	 */
 	public Path compile(JFrame frame, RSyntaxTextArea editorPane, Path filePath, JTextArea compileLog)
 	{
@@ -476,6 +476,7 @@ public class EventController
 	 * </p>
 	 * 
 	 * @param filePath The source code to compile.
+	 * @return the <code>filePath</code> to compile
 	 */
 	@Deprecated
 	public Path compile(Path filePath)
@@ -1246,7 +1247,7 @@ public class EventController
 		 * Silently removes a breakpoint.
 		 * @param g the current <code>Gutter</code>.
 		 * @param b the list of all breakpoints.
-		 * @param num the breakpoint to remove.
+		 * @param bnum the breakpoint to remove.
 		 * @return the line number to remove.
 		 */
 		public int silentDeleteBreakpoint(Gutter g, ArrayList<Integer> b, int bnum){
@@ -1281,7 +1282,6 @@ public class EventController
 		 * @param jf the target frame to use for location relativity.
 		 * @param g the current <code>Gutter</code>.
 		 * @param b the list of all breakpoints.
-		 * @return the line number to delete.
 		 */
 		public void deleteallbreakpoint(JFrame jf, Gutter g, ArrayList<Integer> b){				
 			g.removeAllTrackingIcons();
@@ -1304,7 +1304,7 @@ public class EventController
 		
 		/**
 		 * Checks if <code>GutterIconInfo</code> has information.
-		 * @param g the current <code>Gutter</code>.
+		 * @param gii the current <code>Gutter</code>.
 		 * @return <code>true</code> if it contains no values for <code>GutterIconInfo</code>'s attribute, <code>false</code> if otherwise.
 		 */
 		public boolean gutterIconInfoIsEmpty(GutterIconInfo gii)

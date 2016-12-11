@@ -1,8 +1,5 @@
 /**
- * This package is a short description.
- * <p>
- * This package contains a longer description, detailed description.
- * </p>
+ * Handles the services for the client side.
  * 
  * @author Alexander John D. Jose
  * @author In Yong S. Lee

@@ -32,7 +32,7 @@ public class PButton extends JButton
   
   /**
    * 
-   * @param the desired name of PButton
+   * @param name the desired name of PButton
    */
   public PButton(String name)
   {
