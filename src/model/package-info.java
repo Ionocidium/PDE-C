@@ -1,7 +1,7 @@
 /**
- * This package is a short description.
+ * Contains the object representation involved in the making of PDE-C.
  * <p>
- * This package contains a longer description, detailed description.
+ * Its object representation contains the encapsulation of the objects listed above.
  * </p>
  * 
  * @author Alexander John D. Jose

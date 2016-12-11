@@ -1,8 +1,5 @@
 /**
- * This package is a short description.
- * <p>
- * This package contains a longer description, detailed description.
- * </p>
+ * Handles the panel arrangement and menu/toolbar arrangements.
  * 
  * @author Lorenzo Miguel G. Monzon
  */

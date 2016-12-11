@@ -1,5 +1,5 @@
 /**
- * This package contains most of the things that are shown to the client, who are students and novice programmers.
+ * Contains most of the things that are shown to the client, who are students and novice programmers.
  * 
  * <p>
  * The changes are handled by <code>controller</code> packages, whose job is to make sure that the values will be passed once a certain selection is triggered.

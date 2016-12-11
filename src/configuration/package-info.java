@@ -1,8 +1,5 @@
 /**
- * This package is a short description.
- * <p>
- * This package contains a longer description, detailed description.
- * </p>
+ * Handles the setting of local configuration for the client.
  * 
  * @author Alexander John D. Jose
  * @author In Yong S. Lee

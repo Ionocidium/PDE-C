@@ -1,5 +1,5 @@
 /**
- * This package consists of controllers that allows the changes from frontend to backend.
+ * Consists of controllers that allows the changes from frontend to backend.
  * <p>
  * These includes the following functions in the backend part of <code>controller</code> package:
  *  <ul>

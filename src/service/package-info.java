@@ -1,8 +1,5 @@
 /**
- * This package is a short description.
- * <p>
- * This package contains a longer description, detailed description.
- * </p>
+ * Handles the usage of services that is being run in the backend.
  * 
  * @author Alexander John D. Jose
  * @author In Yong S. Lee

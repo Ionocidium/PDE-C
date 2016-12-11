@@ -1,7 +1,11 @@
 /**
- * This package is a short description.
+ * Handles the action invocation of buttons.
  * <p>
- * This package contains a longer description, detailed description.
+ * <ul>
+ *  <li><code>CompileAction</code> - Handles the invocation of Compile Button.</li>
+ *  <li><code>DownloadAction</code> - Handles the invocation of Download Button.</li>
+ *  <li><code>SendAction</code> - Handles the invocation of Send Button.</li>
+ * </ul>
  * </p>
  * 
  * @author Alexander John D. Jose
