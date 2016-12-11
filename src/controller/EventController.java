@@ -1314,12 +1314,9 @@ public class EventController
 
 		/**
 		 * Checks if <code>resources</code> folder exists.
-		 * @return <code>true</code> if <code>resources</code> folder exists, <code>false</code> if otherwise.
 		 */
-		public boolean checkIfResourceExists()
+		public void checkIfResourceExists()
 		{
-		  boolean exists = false;
-		  
 		  if (!Files.exists(Paths.get("resources/")))
 		  {
 			try
@@ -1331,8 +1328,6 @@ public class EventController
 			  e.printStackTrace();
 			}
 		  }
-		  
-		  return exists;
 		}
 		
 		/**
