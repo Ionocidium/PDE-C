@@ -56,7 +56,7 @@ public class Deliverable
 
 	/**
 	 * Sets the <code>deliverableID</code> to its preferred value.
-	 * @param activityID the <code>deliverableID</code> to set
+	 * @param deliverableID the <code>deliverableID</code> to set
 	 */
 	public void setDeliverableID(int deliverableID) 
 	{
@@ -74,7 +74,7 @@ public class Deliverable
 
 	/**
 	 * Sets the <code>studentID</code> to its preferred value.
-	 * @param activityID the <code>studentID</code> to set
+	 * @param studentID the <code>studentID</code> to set
 	 */
 	public void setStudentID(int studentID) 
 	{
@@ -173,6 +173,7 @@ public class Deliverable
 
 	/**
 	 * Sends the <code>Deliverable</code> model representation to the server-side.
+	 * @throws IOException if the data cannot be written to bytes
 	 */
 	public void sendData() throws IOException
 	{

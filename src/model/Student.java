@@ -134,6 +134,7 @@ public class Student
 
 	/**
 	 * Sends the <code>Student</code> model representation to the server-side.
+	 * @throws IOException if the data cannot be written to bytes
 	 */
 	public void sendData() throws IOException
 	{

@@ -160,6 +160,7 @@ public class Activity
 
 	/**
 	 * Sends the <code>Activity</code> model representation to the server-side.
+	 * @throws IOException if the data cannot be written to bytes
 	 */
 	public void sendData() throws IOException
 	{

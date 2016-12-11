@@ -38,7 +38,7 @@ public class CompileLog {
 
 	/**
 	 * Create the application.
-	 * @throws IOException 
+	 * @throws IOException if the file cannot be read.
 	 */
 	public CompileLog(Path path) throws IOException {
 	  	this.cPath = path;
