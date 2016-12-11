@@ -1,11 +1,10 @@
 /**
- * This package is a short description.
+ * Contains the packages for API use.
  * <p>
- * This package contains a longer description, detailed description.
+ * Contains components that will be used by the developers, to further extend the use of PDE-C.
  * </p>
  * 
  * @author Alexander John D. Jose
- * @author In Yong S. Lee
  * @author Lorenzo Miguel G. Monzon
  */
 package api.component;
