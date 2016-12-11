@@ -49,15 +49,24 @@ import view.SetIPAddress;
 import view.SourceCodeUploaderView;
 
 /**
- * Description pf the class
+ * Lists all of the event invocations being called by various buttons like New, Open, Save.
  * 
  * <p>
- * Long description of <code>EventController</code>
+ * This includes, but not limited to the following:
+ * <ul>
+ *  <li>Compiling</li>
+ *  <li>Debugging</li>
+ *  <li>Setting the IP Address</li>
+ *  <li>Managing the breakpoints</li>
+ *  <li>Creating a new file</li>
+ *  <li>Opening the file</li>
+ *  <li>Saving the file</li>
+ *  <li>Sending the source code</li>
+ *  <li>Checking if the program exists</li>
+ *  <li>Running the program</li>
+ *  </ul>
  * </p>
  * 
- * <table style="border: 1px solid black;">
- * 	<tr><td style="border: 1px solid black;">Table Cell</td></tr>
- * </table>
  *  
  * 
  * @author In Yong S. Lee
@@ -86,8 +95,8 @@ public class EventController
 	}
   
 	/**
-	 * Description of the method
-	 * @return describe the value
+	 * Gets the instance of Event Controller, if it exists. Otherwise, it will create a new instance of the event controller.
+	 * @return the <code>EventController</code>'s instance
 	 */
 	public static EventController getEventController()
 	{
@@ -100,11 +109,11 @@ public class EventController
   	}
 	
 	/**
-	 * DEsc...
+	 * Opens the Open File Frame.
 	 * 
-	 * @param frame - what is this frame?
-	 * @param editorPane - what is this editor pane?
-	 * @return describe what this retuns
+	 * @param frame The target frame to modify.
+	 * @param editorPane The <code>editorPane</code> to modify.
+	 * @return the <code>Path</code> selected by the student.
 	 */
 	public Path openFile(JFrame frame, RSyntaxTextArea editorPane)
 	{
@@ -130,7 +139,13 @@ public class EventController
 		}
 		return filePath;
 	}
-	
+
+	/**
+	 * Gets the feedback history file (*.pdec).
+	 * 
+	 * @param feedbackFilePath The original path to convert
+	 * @return the feedback file <code>Path</code>.
+	 */
 	public Path getFeedbackFile(Path feedbackFilePath)
 	{	
 			String pdecFile = "";
@@ -143,7 +158,13 @@ public class EventController
 			return feedbackFilePath;
 		
 	}
-	
+
+	/**
+	 * Gets the source code (*.pdec).
+	 * 
+	 * @param feedbackFilePath The original path to convert
+	 * @return the source code C file <code>Path</code>.
+	 */
 	public Path getCFile(Path feedbackFilePath)
 	{	
 		//System.out.println(feedbackFilePath.toString());
@@ -158,6 +179,11 @@ public class EventController
 		return feedbackFilePath;
 	}
 	
+	/**
+	 * Sets the current compiler for compilation of the source code.
+	 * 
+	 * @param frame The target frame to use for location relativity.
+	 */
 	public void changeSettingsGcc(JFrame frame)
 	{ 
 	  FileNameExtensionFilter exeFilter = new FileNameExtensionFilter(
@@ -173,7 +199,12 @@ public class EventController
 		local.setGccPath(path.toAbsolutePath().toString());
 	  }
 	}
-	
+
+	/**
+	 * Sets the current debugger for debugging of the source code.
+	 * 
+	 * @param frame The target frame to use for location relativity.
+	 */
 	public void changeSettingsGdb(JFrame frame)
 	{
 	  FileNameExtensionFilter exeFilter = new FileNameExtensionFilter(
@@ -191,7 +222,10 @@ public class EventController
 		local.setGdbPath(path.toAbsolutePath().toString());
 	  }
 	}
-	
+
+	/**
+	 * Sets the IP Address to connect to the server side to retrieve the activity and send the files.
+	 */
 	public void changeIPSettings()
 	{
 		ClientService client = ClientService.getClientService();
@@ -206,6 +240,9 @@ public class EventController
 		}
 	}
 	
+	/**
+	 * Saves the path settings to a file for persistent changes.
+	 */
 	public void savePathSettings()
 	{
 	  LocalConfiguration local = LocalConfiguration.getInstance();
@@ -225,7 +262,15 @@ public class EventController
 	    ex.printStackTrace();
 	  }
 	}
-  
+
+	/**
+	 * Saves the source code to the said <code>Path</code>.
+	 * 
+	 * @param frame The target frame to modify.
+	 * @param editorPane The <code>editorPane</code> to use.
+	 * @param state The modification state to change.
+	 * @return the <code>Path</code> selected by the student.
+	 */
 	public Path saveAsFile(JFrame frame, RSyntaxTextArea editorPane, boolean state)
 	{
 		int returnVal = fileChooser.showSaveDialog(frame);
@@ -258,7 +303,16 @@ public class EventController
 		
 		return returnedPath;
 	}
-	
+
+	/**
+	 * Sends the source code to the server.
+	 * <p>
+	 * 	For failsafe reasons, a student should set the IP Address first before sending the source code to the server.
+	 * </p>
+	 * 
+	 * @param consoleLog The logger to use.
+	 * @param filePath The source code to send.
+	 */
 	public void sendSrcCode(JTextArea consoleLog, Path filePath)
 	{
 	  ClientService client = ClientService.getClientService();
@@ -282,7 +336,14 @@ public class EventController
 		}
 	  }
 	}
-	
+
+	/**
+	 * Downloads the activity from the server.
+	 * <p>
+	 * 	For failsafe reasons, a student should set the IP Address first before downloading the activity files from the server.
+	 * </p>
+	 * 
+	 */
 	public void downloadActivity()
 	{
 	  ClientService client = ClientService.getClientService();
@@ -296,14 +357,34 @@ public class EventController
         DownloadWindow download = new DownloadWindow();
 	  }
 	}
-  
+	
+	/**
+	 * Saves the source code to the said <code>Path</code>.
+	 * 
+	 * @param frame The target frame to modify.
+	 * @param editorPane The <code>editorPane</code> to use.
+	 * @param filePath The absolute path to write.
+	 * @param state The modification state to change.
+	 */
 	public void saveFile(JFrame frame, RSyntaxTextArea editorPane, Path filePath, boolean state)
 	{
 		saveFile.writeFile(filePath, editorPane.getText());
 		frame.setTitle("PDE-C - " + filePath.toString());
 		state = false;
 	}
-  
+	
+	/**
+	 * Compiles the source code.
+	 * <p>
+	 *  It checks if the compiler exists. Otherwise, compilation of the source code will not work. As a result, it is imperative to open a source code first before compiling. Otherwise, opening the file will be done by the time a student presses Compile button.
+	 * </p>
+	 * 
+	 * @param frame The target frame to modify.
+	 * @param editorPane The <code>editorPane</code> to use.
+	 * @param filePath The source code to compile.
+	 * @param compileLog The <code>textArea</code> to use for logging errors.
+	 * @returns the <code>filePath</code>
+	 */
 	public Path compile(JFrame frame, RSyntaxTextArea editorPane, Path filePath, JTextArea compileLog)
 	{
 	  
@@ -388,6 +469,15 @@ public class EventController
 	  return path;
 	}
 	
+	/**
+	 * Prototype Version of compile method.
+	 * <p>
+	 *  This should pop up a <code>CompileLog</code> in a separate window.
+	 * </p>
+	 * 
+	 * @param filePath The source code to compile.
+	 */
+	@Deprecated
 	public Path compile(Path filePath)
 	{
 	  try
@@ -402,11 +492,17 @@ public class EventController
 	  
 	  return filePath;
 	}
-	
-	public String runProgram(Path p)
-	{
-		String res = null;
 
+	/**
+	 * Prototype Version of compile method.
+	 * <p>
+	 *  This should pop up a <code>CompileLog</code> in a separate window.
+	 * </p>
+	 * 
+	 * @param p The source code to use.
+	 */
+	public void runProgram(Path p)
+	{
 		try
 		{
 			File f = new File(p.toString());
@@ -449,10 +545,11 @@ public class EventController
 		{
 			System.out.println("");
 		}
-
-		return res;
 	}
 	
+	/**
+	 * Sets the said functions to enabled/disabled.
+	 */
 	public void debugToggler()
 	{
 		MainWindowView mwv = MainWindowView.getInstance();
@@ -474,13 +571,21 @@ public class EventController
 		MainWindowView.debugMgrInstance.getBtnTrackVars().setEnabled(!MainWindowView.debugMgrInstance.getBtnTrackVars().isEnabled());
 		MainWindowView.debugMgrInstance.getBtnStop().setEnabled(!MainWindowView.debugMgrInstance.getBtnStop().isEnabled());
 	}
-	
+
+	/**
+	 * Writes the debug log.
+	 * @param s The output of the debugger.
+	 */
 	public void writeInErrorLog(String s)
 	{
 		MainWindowView.debugLog.setText(s);
 		MainWindowView.debugLog.setCaretPosition(MainWindowView.debugLog.getDocument().getLength());
 	}
-  
+
+	/**
+	 * Initializes a debugging session.
+	 * @param filePath the source code to compile for debugging purposes.
+	 */
 	public void debugInit(Path filePath)
 	{
 		LocalConfiguration local = LocalConfiguration.getInstance();
@@ -560,7 +665,27 @@ public class EventController
 			}
 		}
 	}
-	
+
+	/**
+	 * Debugs the program through the use of the current debugger.
+	 * 
+	 * <p>
+	 *  What it actually does is to get the <code>ActionListener</code> of each <code>JButton</code>, and stores it in a separate variable. These said buttons will replace the current function of the buttons involved and replace it with a different function.
+	 *  Function modification will include adding a breakpoint, removing a breakpoint, removing all breakpoints from the command line interface through the use of output streams without the need to type commands to the current debugger.
+	 *  Step Over and Continue will have a function in addition to invoking the actual debugger, while Start will be changed to Stop, and its functions related to the said button will be changed as well.
+	 *  
+	 *  Button modifications are included as follows:
+	 *  <ul>
+	 *   <li>Add A Breakpoint</li>
+	 *   <li>Remove a Breakpoint/Remove selected breakpoint(s)</li>
+	 *   <li>Remove all breakpoints</li>
+	 *   <li>Start/Stop debugging</li>
+	 *  </ul>
+	 * </p>
+	 * @param exe the compiled source code for debugging
+	 * @param local the <code>LocalConfiguration</code> to use
+	 * @param mwv the Main Window View to use
+	 */
 	public void debugActual(String exe, LocalConfiguration local, MainWindowView mwv)
 	{
 		JButton breakpointButton = mwv.getBreakpointButton(), 
@@ -955,6 +1080,13 @@ public class EventController
 		debug.start();
 		}
 	
+	/**
+	 * Adds a breakpoint through the use of a dialog box.
+	 * @param jf the target frame to use for location relativity.
+	 * @param g the current <code>Gutter</code>.
+	 * @param b the list of all breakpoints.
+	 * @return the line number to add.
+	 */
 	public int addbreakpoint(JFrame jf, Gutter g, ArrayList<Integer> b){
 		int res = -1;
 		String input = JOptionPane.showInputDialog(
@@ -1007,7 +1139,14 @@ public class EventController
 		}
 		return res;
 	}
-	
+
+	/**
+	 * Silently adds a breakpoint.
+	 * @param g the current <code>Gutter</code>.
+	 * @param b the list of all breakpoints.
+	 * @param num the breakpoint to add.
+	 * @return the line number to add.
+	 */
 	public int silentAddBreakpoint(Gutter g, ArrayList<Integer> b, int num){
 		int res = -1;
 		try
@@ -1046,6 +1185,13 @@ public class EventController
 		return res;
 	}
 	
+	/**
+	 * Removes a breakpoint through the use of a dialog box.
+	 * @param jf the target frame to use for location relativity.
+	 * @param g the current <code>Gutter</code>.
+	 * @param b the list of all breakpoints.
+	 * @return the line number to delete.
+	 */
 		public int deletebreakpoint(JFrame jf, Gutter g, ArrayList<Integer> b){
 			int res = -1;
 			String input = JOptionPane.showInputDialog(
@@ -1096,6 +1242,13 @@ public class EventController
 			return res;
 		}
 		
+		/**
+		 * Silently removes a breakpoint.
+		 * @param g the current <code>Gutter</code>.
+		 * @param b the list of all breakpoints.
+		 * @param num the breakpoint to remove.
+		 * @return the line number to remove.
+		 */
 		public int silentDeleteBreakpoint(Gutter g, ArrayList<Integer> b, int bnum){
 			int res = -1;
 			try
@@ -1122,7 +1275,14 @@ public class EventController
 			}
 			return res;
 		}
-	
+
+		/**
+		 * Removes all breakpoints and notifies the user of the changes.
+		 * @param jf the target frame to use for location relativity.
+		 * @param g the current <code>Gutter</code>.
+		 * @param b the list of all breakpoints.
+		 * @return the line number to delete.
+		 */
 		public void deleteallbreakpoint(JFrame jf, Gutter g, ArrayList<Integer> b){				
 			g.removeAllTrackingIcons();
 			b.clear();
@@ -1131,17 +1291,31 @@ public class EventController
 					"Removed", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
+		/**
+		 * Silently removes all breakpoints.
+		 * @param g the current <code>Gutter</code>.
+		 * @param b the list of all breakpoints.
+		 */
 		public void quietlydeleteallbreakpoint(Gutter g, ArrayList<Integer> b){				
 			g.removeAllTrackingIcons();
 			b.clear();
 			MainWindowView.breakpoints2.clear();
 		}
 		
+		/**
+		 * Checks if <code>GutterIconInfo</code> has information.
+		 * @param g the current <code>Gutter</code>.
+		 * @return <code>true</code> if it contains no values for <code>GutterIconInfo</code>'s attribute, <code>false</code> if otherwise.
+		 */
 		public boolean gutterIconInfoIsEmpty(GutterIconInfo gii)
 		{
 			return gii == null?true:false;
 		}
-		
+
+		/**
+		 * Checks if <code>resources</code> folder exists.
+		 * @return <code>true</code> if <code>resources</code> folder exists, <code>false</code> if otherwise.
+		 */
 		public boolean checkIfResourceExists()
 		{
 		  boolean exists = false;
@@ -1161,6 +1335,10 @@ public class EventController
 		  return exists;
 		}
 		
+		/**
+		 * Delays the current code for a said <code>ms</code>.
+		 * @param ms milliseconds.
+		 */
 		public static void delayMe(long ms)
 		{
 			long nowTime = System.currentTimeMillis();
