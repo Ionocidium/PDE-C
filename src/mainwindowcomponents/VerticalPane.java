@@ -8,7 +8,7 @@ import model.APITabs;
 import view.MainWindowView;
 
 /**
- * Handles the components of the <code>Vertical Pane</code> found in the right of PDE-C's user interface.
+ * Handles the components of the <code>VerticalPane</code> found in the right of PDE-C's user interface.
  * 
  * @author Lorenzo Miguel G. Monzon
  */
@@ -20,7 +20,7 @@ public class VerticalPane implements APITabs{
 	  private JTabbedPane verticalPane;
 	  
 		/**
-		 * Creates a representation that contains the information of the <code>Vertical Pane</code> of PDE-C.
+		 * Creates a representation that contains the information of the <code>VerticalPane</code> of PDE-C.
 		 * 
 		 */
 	  
@@ -31,8 +31,8 @@ public class VerticalPane implements APITabs{
 	  }
 	  
 	  /**
-	   * Gets the <code>Vertical Pane</code> property.
-	   * @return the <code>Vertical Pane</code>
+	   * Gets the <code>VerticalPane</code> property.
+	   * @return the <code>VerticalPane</code>
 	   */
 	  
 	  public static VerticalPane getVerticalPane()
@@ -46,7 +46,7 @@ public class VerticalPane implements APITabs{
 	  }
 	  
 	  /**
-	   * Adds a new tab for the <code>Vertical Pane</code> property.
+	   * Adds a new tab for the <code>VerticalPane</code> property.
 	   * 
 	   * @param tabName the name of the tab to add.
 	   * @param comp the component to be added in the tab.
@@ -58,9 +58,9 @@ public class VerticalPane implements APITabs{
 	}
 	
 	  /**
-	   * Removes the tab specified in the <code>Vertical Pane</code> property.
+	   * Removes the tab specified in the <code>VerticalPane</code> property.
 	   * 
-	   * @param comp the component to be removed in the <code>Vertical Pane</code>.
+	   * @param comp the component to be removed in the <code>VerticalPane</code>.
 	   */
 
 	@Override
@@ -71,9 +71,9 @@ public class VerticalPane implements APITabs{
 	}
 	
 	  /**
-	   * Sets the visibility of <code>Vertical Pane</code> property.
+	   * Sets the visibility of <code>VerticalPane</code> property.
 	   * 
-	   * @param isVisible the boolean value of the visibility of <code>Vertical Pane</code>.
+	   * @param isVisible the boolean value of the visibility of <code>VerticalPane</code>.
 	   */
 
 	@Override

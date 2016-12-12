@@ -12,7 +12,7 @@ import model.APITabs;
 import view.MainWindowView;
 
 /**
- * Handles the components of the <code>Horizontal Pane</code> found in the bottom of PDE-C's user interface.
+ * Handles the components of the <code>HorizontalPane</code> found in the bottom of PDE-C's user interface.
  * 
  * @author Lorenzo Miguel G. Monzon
  */
@@ -24,7 +24,7 @@ public class HorizontalPane implements APITabs{
 	  private JTabbedPane horizontalPane;
 	  
 		/**
-		 * Creates a representation that contains the information of the <code>Horizontal Pane</code> of PDE-C.
+		 * Creates a representation that contains the information of the <code>HorizontalPane</code> of PDE-C.
 		 * 
 		 */
 	  private HorizontalPane()
@@ -34,8 +34,8 @@ public class HorizontalPane implements APITabs{
 	  }
 	  
 	  /**
-	   * Gets the <code>Horizontal Pane</code> property.
-	   * @return the <code>Horizontal Pane</code>
+	   * Gets the <code>HorizontalPane</code> property.
+	   * @return the <code>HorizontalPane</code>
 	   */
 	  
 	  public static HorizontalPane getHorizontalPane()
@@ -49,7 +49,7 @@ public class HorizontalPane implements APITabs{
 	  }
 	
 	  /**
-	   * Adds a new tab for the <code>Horizontal Pane</code> property.
+	   * Adds a new tab for the <code>HorizontalPane</code> property.
 	   * 
 	   * @param tabName the name of the tab to add.
 	   * @param comp the component to be added in the tab.
@@ -61,9 +61,9 @@ public class HorizontalPane implements APITabs{
 	}
 	
 	  /**
-	   * Removes the tab specified in the <code>Horizontal Pane</code> property.
+	   * Removes the tab specified in the <code>HorizontalPane</code> property.
 	   * 
-	   * @param comp the component to be removed in the <code>Horizontal Pane</code>.
+	   * @param comp the component to be removed in the <code>HorizontalPane</code>.
 	   */
 
 	@Override
@@ -74,9 +74,9 @@ public class HorizontalPane implements APITabs{
 	}
 	
 	  /**
-	   * Sets the visibility of <code>Horizontal Pane</code> property.
+	   * Sets the visibility of <code>HorizontalPane</code> property.
 	   * 
-	   * @param isVisible the boolean value of the visibility of <code>Horizontal Pane</code>.
+	   * @param isVisible the boolean value of the visibility of <code>HorizontalPane</code>.
 	   */
 
 	@Override
