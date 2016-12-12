@@ -4,7 +4,10 @@ import javax.swing.JMenuItem;
 
 /**
  * This class extends JMenuItem and has all access to JMenuItem’s
- *	method. In addition, the thesis group added function that will help other developers.
+ *	method.
+ * <p>
+ *  In addition, the thesis group added function that will help other developers.
+ * </p>
  * @author Alexander John Jose
  *
  */

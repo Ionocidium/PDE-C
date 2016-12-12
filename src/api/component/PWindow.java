@@ -3,8 +3,10 @@ package api.component;
 import javax.swing.JFrame;
 
 /**
- * This class extends JFrame and has all access to JFrame
- *	The thesis group also added their own method to PWindow class.
+ * This class extends JFrame and has all access to JFrame.
+ * <p>
+ *  The thesis group also added their own method to PWindow class.
+ * </p>
  * @author Alexander John Jose
  *
  */

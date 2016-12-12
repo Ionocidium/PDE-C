@@ -6,8 +6,10 @@ import javax.swing.JMenu;
 
 import mainwindowcomponents.MenuBar;
 /**
- * This class extends JMenu and has all access to JMenu’s methods. 
+ * This class extends JMenu and has all access to JMenu’s methods.
+ * <p>
  * The thesis group also added some of their own methods that will help other developer implement the PMenu class
+ * </p>
  * @author Alexander John Jose
  *
  */
@@ -54,9 +56,11 @@ public class PMenu extends JMenu
   }
   
   /**
-   * This method adds a sub menu to the currentPMenu class.  
-   * It accepts another PMenuclass.  
-   * The newly added PMenu class will be the sub menu.
+   * This method adds a sub menu to the currentPMenu class.
+   * <p>
+   *  It accepts another PMenuclass.  
+   *  The newly added PMenu class will be the sub menu.
+   * </p>
    * @param menu the sub menu that should be added to this PMenu
    */
   public void addSubMenuItem(PMenu menu)
