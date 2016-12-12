@@ -10,9 +10,6 @@ import model.ErrorMessage;
 
 /**
  * Handles the simplification of error messages translated from the standard error output of <code>gcc</code>.
- * 
- * Please include the Simplified Error including its descriptive values here. Include tables whenever possible, for better representation. Thanks!
- *  
  * @author Lorenzo Miguel G. Monzon
  */
 
@@ -104,7 +101,8 @@ public class SimplifyError {
 	}
 
 	/**
-	 * Explain the process here.
+	 * This method converts the error messages created by <code>gcc</code> into the simplified error messages of PDE-C.
+	 * The conversion is based on the default regex patterns of PDE-C. If an error message not found in the regex patterns of PDE-C, that error message will be returned as an empty string.
 	 * 
 	 * @return The simplified error message.
 	 */
