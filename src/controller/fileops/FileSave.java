@@ -8,9 +8,7 @@ import java.io.BufferedWriter;
 
 /**
  * Handles the actual writing of C Files in PDE-C.
- * <p>
- * Long description here
- * </p>
+ * 
  * @author Alexander John D. Jose
  *
  */

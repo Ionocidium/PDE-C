@@ -11,9 +11,7 @@ import java.util.regex.Pattern;
 
 /**
  * Handles the actual reading of C Files, PDE-C files (Feedback History), Portable Document Format file types in PDE-C.
- * <p>
- * Long description here
- * </p>
+ * 
  * @author Alexander John D. Jose
  * @author Lorenzo Miguel G. Monzon
  *
