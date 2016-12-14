@@ -19,8 +19,8 @@ public class PWindow extends JFrame
   
   
   /**
-   * The constructor of PWindow
-   * @param title this will be the name of the newly created window
+   * The constructor of P<code>PWindow</code> with the given title.
+   * @param title the name of the newly created window
    */
   public PWindow(String title)
   {
@@ -29,17 +29,20 @@ public class PWindow extends JFrame
   
   
   /**
-   * 
-   * @param x
-   * @param y
-   * @param width
-   * @param height
+   * The constructor of <code>PWindow</code> with the given dimensions and its coordinates.
+   * @param x the x-axis of <code>PWindow</code>
+   * @param y the y-axis of <code>PWindow</code>
+   * @param width the width of <code>PWindow</code>
+   * @param height the height of <code>PWindow</code>
    */
   public PWindow(int x, int y, int width, int height)
   {
 	this.setBounds(x, y, width, height);
   }
   
+  /**
+   * Shows the <code>PWindow</code>.
+   */
   public void showWindow()
   {
 	this.setLocationRelativeTo(null);

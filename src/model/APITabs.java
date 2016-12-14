@@ -17,7 +17,7 @@ public interface APITabs {
 	  public void addComponent(String tabName, Component comp);
 	  /**
 	   * This method is for the removal of components
-	   * @param comp
+	   * @param comp the component to be removed
 	   */
 	  public void removeComponent(Component comp);
 	  /**

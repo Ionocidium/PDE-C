@@ -10,8 +10,8 @@ import java.io.IOException;
 import org.apache.commons.codec.binary.Base64;
 
 /**
- * This class is mostly used for converting a <code>base 64 String</code> into a 
- * @author Alexander John Jose
+ * This class is mostly used for converting a <code>base 64 String</code> into a file.
+ * @author Alexander John D. Jose
  *
  */
 public class FileManipulation {
@@ -46,12 +46,12 @@ public class FileManipulation {
             
             return null;
         }
-        
+
         /**
-         * NOT USED
-         * @param imageDataString
-         * @param filename
-         * @return
+         * Unused method for converting to image.
+         * @param imageDataString The image data string representation.
+         * @param filename The file name.
+         * @return the byte array of an image.
          */
         public byte[] convertToImage(String imageDataString, String filename){
            byte[] imageByteArray = null;  

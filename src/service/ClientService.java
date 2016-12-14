@@ -14,7 +14,7 @@ import clientservices.DownloadHandler;
 /**
  * This is class is responsible for sending and receiving information from PDE-C Server
  * 
- * @author Alexander John Jose
+ * @author Alexander John D. Jose
  *
  */
 public class ClientService
@@ -130,7 +130,7 @@ public class ClientService
   /**
    * Sends an actual data to PDE-C Server
    * @param data the information, in <code>String</code>, to be sent to PDE-C Server
-   * @throws IOException
+   * @throws IOException if the source code cannot be read
    */
   public void sendDataToServer(String data) throws IOException
   {
@@ -147,7 +147,7 @@ public class ClientService
   
   /**
    * Retrieves the activity list from PDE-C Server
-   * @throws IOException
+   * @throws IOException if the PDF file(s) cannot be read
    */
   public void getActivity() throws IOException
   {
@@ -171,7 +171,7 @@ public class ClientService
   /**
    * Retrieves a particular activity file from PDE-C Server
    * @param idNum ID Number, from the database, of the activity file to be downloaded
-   * @throws IOException
+   * @throws IOException If the reading of PDF File fails
    */
   public void getActivityFile(int idNum) throws IOException
   {

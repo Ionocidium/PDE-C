@@ -10,7 +10,7 @@ import view.MainWindowView;
 
 /**
  * This class represents the Menu bar of PDE-C
- * @author Alexander John Jose
+ * @author Alexander John D. Jose
  *
  */
 public class MenuBar implements APIInterface

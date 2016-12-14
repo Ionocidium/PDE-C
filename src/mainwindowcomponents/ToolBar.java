@@ -11,7 +11,7 @@ import view.MainWindowView;
 
 /**
  * This class resembles the tool bar of PDE-C
- * @author Alexander John Jose
+ * @author Alexander John D. Jose
  *
  */
 public class ToolBar implements APIInterface

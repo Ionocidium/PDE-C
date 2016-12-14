@@ -19,7 +19,7 @@ public interface APIInterface
   public void addComponent(Component comp);
   /**
    * This method is for the removal of components
-   * @param comp
+   * @param comp the component to remove
    */
   public void removeComponent(Component comp);
   /**

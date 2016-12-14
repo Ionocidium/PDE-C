@@ -7,9 +7,8 @@ import java.io.IOException;
 import org.apache.commons.codec.binary.Base64;
 
 /**
- * FileDecoder class
- * @author Alexander John Jose
- *
+ * A class that decodes files.
+ * @author Alexander John D. Jose
  */
 public class FileDecoder {
 	
