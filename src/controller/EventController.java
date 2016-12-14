@@ -41,7 +41,6 @@ import controller.fileops.FileLoad;
 import controller.fileops.FileSave;
 import debugging.controls.LocalVariableListExtractor;
 import service.ClientService;
-import view.CompileLog;
 import view.DebuggingManager;
 import view.DownloadWindow;
 import view.MainWindowView;
@@ -467,31 +466,6 @@ public class EventController
 	  }
 	  
 	  return path;
-	}
-	
-	/**
-	 * Prototype Version of compile method.
-	 * <p>
-	 *  This should pop up a <code>CompileLog</code> in a separate window.
-	 * </p>
-	 * 
-	 * @param filePath The source code to compile.
-	 * @return the <code>filePath</code> to compile
-	 */
-	@Deprecated
-	public Path compile(Path filePath)
-	{
-	  try
-	  {
-		CompileLog log = new CompileLog(filePath);
-	  }
-	  
-	  catch (Exception ex)
-	  {
-		ex.printStackTrace();
-	  }
-	  
-	  return filePath;
 	}
 
 	/**
