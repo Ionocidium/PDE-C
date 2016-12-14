@@ -1340,7 +1340,10 @@ public class EventController
 			while(System.currentTimeMillis() < nowTime + ms) ;
 		}
 		
-		
+		/**
+		 * Checks if PDE-C is pointing to the correct path of the machine's gcc.exe
+		 * @return true if PDE-C found gcc.exe, false if not
+		 */
 		private boolean checkIfGccExists()
 		{
 		  boolean itExists = false;
@@ -1360,6 +1363,11 @@ public class EventController
 		  return itExists;
 		}
 		
+		/**
+		 * Checks if the corresponding executable file exists
+		 * @param compiledPath the path of the execubtable file to be checked
+		 * @return <code>true</code> if PDE-C found the executable file, <code>false</code>	 if not
+		 */
 		private boolean programIfExists(String compiledPath)
 		{
 		  boolean itExists = false;

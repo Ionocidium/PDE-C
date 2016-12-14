@@ -27,6 +27,14 @@ public class PWindow extends JFrame
 	this.setTitle(title);
   }
   
+  
+  /**
+   * 
+   * @param x
+   * @param y
+   * @param width
+   * @param height
+   */
   public PWindow(int x, int y, int width, int height)
   {
 	this.setBounds(x, y, width, height);

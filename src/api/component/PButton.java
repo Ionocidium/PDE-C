@@ -67,9 +67,9 @@ public class PButton extends JButton
    * @param action Integer value that determines if the buttons is to be
                    made to a download button, send source code button, or
 				   compile button. pecific codes are:
-				   PButton.DOWNLOAD ACTION,
+				   <code>PButton.DOWNLOAD ACTION,
 				   PButton.SEND ACTION,
-	               PButton.COMPILE ACTION
+	               PButton.COMPILE ACTION</code>
 				   
    * @param filePath This is an optional parameter for send and compile action. If
 					 this parameter is not null, the button will send or compile a file
@@ -79,9 +79,9 @@ public class PButton extends JButton
 
    * @param code This is a required parameter that must be with the Compile
 				 action input. The specific codes are:
-			 	 CompileAction.COMPILE,
-				 CompileAction.COMPILE RUN,
-				 CompileAction.NO ACTION.
+			 	 <code>CompileAction.COMPILE</code>,
+				 <code>CompileAction.COMPILE RUN</code>,
+				 <code>CompileAction.NO ACTION<code>.
 				 No Action code must be used when the button is not to be
 				 programmed as a compile button.
    */
