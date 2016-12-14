@@ -93,7 +93,7 @@ public class EventController
 	}
   
 	/**
-	 * Gets the instance of Event Controller, if it exists. Otherwise, it will create a new instance of the event controller.
+	 * Gets the instance of Event Controller, if it exists. Otherwise, it will create a new instance of the Event Controller.
 	 * @return the <code>EventController</code>'s instance
 	 */
 	public static EventController getEventController()

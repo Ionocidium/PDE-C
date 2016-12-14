@@ -30,6 +30,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 
+/**
+ * Handles the debugging features of PDE-C.
+ * <p>
+ *  This is a separate window for the Debug Feature of PDE-C. The student can see where the breakpoints are listed in that window. In any case, the student can debug their source code in the Variables tab.
+ * </p>
+ * @author In Yong S. Lee
+ */
 public class DebuggingManager {
 
 	private JFrame frmBreakpointManager;
@@ -85,6 +92,10 @@ public class DebuggingManager {
 	private DefaultListModel<Integer> lmbp;
 	private JTable varTable;
 
+	/**
+	 * Gets the instance of Debugging Manager, if it exists. Otherwise, it will create a new instance of the Debugging Manager.
+	 * @return the <code>DebuggingManager</code>'s instance
+	 */
 	public static DebuggingManager getInstance()
 	{
 	  if (instance == null)
@@ -95,16 +106,26 @@ public class DebuggingManager {
 	  return instance;
 	}
 	
+	/**
+	 * Opens the Debugging Manager Window.
+	 */
 	public void openMe(){
 		if(!frmBreakpointManager.isVisible())
 			frmBreakpointManager.setVisible(true);
 		else frmBreakpointManager.requestFocus();
 	}
 
+	/**
+	 * Resets the debugging table after every debugging session.
+	 */
 	public void resetDebuggingTable(){
 		varTable.setModel(variableModel);
 	}
 	
+	/**
+	 * Modifies the local variables and local values for the current debugging session.
+	 * @param aLocal The local variables and its partner values.
+	 */
 	public void modifyDebugging(HashMap<String, String> aLocal){
 		setVarVals(aLocal);
 		Map<String, String> map = new TreeMap<String, String>(aLocal); // sorts keys in ascending order ref: http://stackoverflow.com/questions/7860822/sorting-hashmap-based-on-keys
@@ -125,6 +146,9 @@ public class DebuggingManager {
 		varTable.setModel(listDebugging);
 	}
 	
+	/**
+	 * Modifies the Breakpoint Lists via <code>JList</code>
+	 */
 	public void modifyBreakpoints(){
 		DefaultListModel<Integer> listBp = new DefaultListModel<Integer>();
 		MainWindowView mwv = MainWindowView.getInstance();
@@ -441,6 +465,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Gets the <code>btnStepOver</code> property, which contains the button for Step Over.
 	 * @return the btnStepOver
 	 */
 	public JButton getBtnStepOver() {
@@ -448,6 +473,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Sets the <code>btnStepOver</code> to its preferred value.
 	 * @param btnStepOver the btnStepOver to set
 	 */
 	public void setBtnStepOver(JButton btnStepOver) {
@@ -455,6 +481,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Gets the <code>btnContinue</code> property, which contains the button for Debug/Continue.
 	 * @return the btnContinue
 	 */
 	public JButton getBtnContinue() {
@@ -462,6 +489,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Sets the <code>btnContinue</code> to its preferred value.
 	 * @param btnContinue the btnContinue to set
 	 */
 	public void setBtnContinue(JButton btnContinue) {
@@ -469,6 +497,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Gets the <code>btnTrackVars</code> property, which contains the button for Track Variables.
 	 * @return the btnTrackVars
 	 */
 	public JButton getBtnTrackVars() {
@@ -476,6 +505,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Sets the <code>btnTrackVars</code> to its preferred value.
 	 * @param btnTrackVars the btnTrackVars to set
 	 */
 	public void setBtnTrackVars(JButton btnTrackVars) {
@@ -483,6 +513,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Gets the <code>btnStop</code> property, which contains the button for Stop Debugging.
 	 * @return the btnStop
 	 */
 	public JButton getBtnStop() {
@@ -490,6 +521,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Sets the <code>btnStop</code> to its preferred value.
 	 * @param btnStop the btnStop to set
 	 */
 	public void setBtnStop(JButton btnStop) {
@@ -497,6 +529,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Gets the <code>btnAddABreakpoint</code> property, which contains the button for Add A Breakpoint.
 	 * @return the btnAddABreakpoint
 	 */
 	public JButton getBtnAddABreakpoint() {
@@ -504,6 +537,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Sets the <code>btnAddABreakpoint</code> to its preferred value.
 	 * @param btnAddABreakpoint the btnAddABreakpoint to set
 	 */
 	public void setBtnAddABreakpoint(JButton btnAddABreakpoint) {
@@ -511,6 +545,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Gets the <code>btnRemoveSelected</code> property, which contains the button for Remove Selected Breakpoints.
 	 * @return the btnRemoveSelected
 	 */
 	public JButton getBtnRemoveSelected() {
@@ -518,6 +553,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Sets the <code>btnRemoveSelected</code> to its preferred value.
 	 * @param btnRemoveSelected the btnRemoveSelected to set
 	 */
 	public void setBtnRemoveSelected(JButton btnRemoveSelected) {
@@ -525,6 +561,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Gets the <code>btnRemoveAll</code> property, which contains the button for Remove All Breakpoints.
 	 * @return the btnRemoveAll
 	 */
 	public JButton getBtnRemoveAll() {
@@ -532,6 +569,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Sets the <code>btnRemoveAll</code> to its preferred value.
 	 * @param btnRemoveAll the btnRemoveAll to set
 	 */
 	public void setBtnRemoveAll(JButton btnRemoveAll) {
@@ -539,28 +577,39 @@ public class DebuggingManager {
 	}
 
 	/**
-	 * @return the varTable
+	 * Gets the <code>bpList</code> property, which contains the component for Local Variable/Value Table.
+	 * @return the <code>JTable</code> for Local Variable/Value Table.
 	 */
 	public JTable getVarTable() {
 		return varTable;
 	}
 
 	/**
+	 * Sets the <code>varTable</code> to its preferred value.
 	 * @param varTable the varTable to set
 	 */
 	public void setVarTable(JTable varTable) {
 		this.varTable = varTable;
 	}
 
+	/**
+	 * Gets the <code>lmbp</code> property, which contains the list model for breakpoint numbers.
+	 * @return the list model for breakpoint numbers.
+	 */
 	public DefaultListModel<Integer> getLmbp() {
 		return lmbp;
 	}
 
+	/**
+	 * Sets the <code>lmbp</code> to its preferred value.
+	 * @param lmbp the list model for breakpoint numbers to set.
+	 */
 	public void setLmbp(DefaultListModel<Integer> lmbp) {
 		this.lmbp = lmbp;
 	}
 
 	/**
+	 * Gets the <code>watchList2</code> property, which contains the variables needed to watch.
 	 * @return the watchList2
 	 */
 	public HashMap<String, String> getWatchList2() {
@@ -568,12 +617,17 @@ public class DebuggingManager {
 	}
 
 	/**
-	 * @return the bpList
+	 * Gets the <code>bpList</code> property, which contains the component for Breakpoint Numbers.
+	 * @return the <code>JList</code> for Breakpoint List
 	 */
 	public JList<Integer> getBpList() {
 		return bpList;
 	}
 
+	/**
+	 * Gets the <code>varVals</code> property, which contains the Local Variables and its partner values.
+	 * @return the Local Variables and its partner values
+	 */
 	public HashMap<String, String> getVarVals() {
 		return varVals;
 	}
@@ -583,6 +637,7 @@ public class DebuggingManager {
 	}
 
 	/**
+	 * Gets the <code>frmBreakpointManager</code> property.
 	 * @return the Debugging Manager
 	 */
 	public JFrame getDebuggingFrame() {
