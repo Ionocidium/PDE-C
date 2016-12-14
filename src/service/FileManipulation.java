@@ -10,7 +10,7 @@ import java.io.IOException;
 import org.apache.commons.codec.binary.Base64;
 
 /**
- * This class is mostly used for converting a <code>base 64 String</code> into a 
+ * This class is mostly used for converting a <code>base 64 String</code> into a file
  * @author Alexander John Jose
  *
  */
