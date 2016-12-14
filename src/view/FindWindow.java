@@ -1,7 +1,5 @@
 package view;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
@@ -18,22 +16,6 @@ public class FindWindow {
 	private JTextField findContentTextField2;
 	private JTextField replaceContentTextField;
 	private JTextField findContentTextField;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FindWindow window = new FindWindow();
-					window.findAndReplaceFrame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -125,5 +107,7 @@ public class FindWindow {
 		JCheckBox matchCaseCheckBox2 = new JCheckBox("Match case");
 		matchCaseCheckBox2.setBounds(141, 39, 128, 23);
 		replacePanel.add(matchCaseCheckBox2);
+		
+		findAndReplaceFrame.setVisible(true);
 	}
 }
