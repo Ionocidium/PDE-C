@@ -58,10 +58,12 @@ public class PCompiler
   /**
    * Compiles and run a source code
    * @param filePath the source code to be compiled and run
+   * @return returns the error message of compilation if present
    */
-  public void compileRun(Path filePath)
+  public String compileRun(Path filePath)
   {
 	Path next = compile(filePath);
+	String errors = "";
 	
 	if (!main.getErrorLog().getText().trim().equals(""))
 	{
@@ -70,8 +72,10 @@ public class PCompiler
 	
 	else
 	{
-	  event.runProgram(next);	  
+	  event.runProgram(next);	 
+	  errors = MainWindowView.getInstance().getErrorLog().toString();
 	}
 
+	return errors;
   }
 }
