@@ -59,10 +59,9 @@ public class PCompiler
    * Compiles and run a source code
    * @param filePath the source code to be compiled and run
    */
-  public String compileRun(Path filePath)
+  public void compileRun(Path filePath)
   {
 	Path next = compile(filePath);
-	String toBeReturned = null;
 	
 	if (!main.getErrorLog().getText().trim().equals(""))
 	{
@@ -71,10 +70,8 @@ public class PCompiler
 	
 	else
 	{
-	  event.runProgram(next);
-	  toBeReturned = MainWindowView.getInstance().getErrorLog().toString();
+	  event.runProgram(next);	  
 	}
-	
-	return toBeReturned;
+
   }
 }
