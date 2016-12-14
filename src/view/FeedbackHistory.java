@@ -84,7 +84,7 @@ public class FeedbackHistory extends JPanel{
 		saveFile = new FileSave();
 		loader = new FileLoad();
 		cFilter = new FileNameExtensionFilter(
-					"PDE-C Feedback File (*.pdec)", ".pdec");
+					"PDE-C Feedback File (*.fdbk)", ".fdbk");
 		container = new JPanel();
 		filePath = null;
 		initialize();
@@ -99,8 +99,8 @@ public class FeedbackHistory extends JPanel{
 	}
 	
 	/**
-	 * Reads the feedback history.
-	 * @param feedbackFilePath the <code>.pdec</code> file to read
+	 * Reads the feedback file produced by the feedback history.
+	 * @param feedbackFilePath the <code>.fdbk</code> file to read
 	 * @param editorPane the editorPane 
 	 */
 	public void readFile(Path feedbackFilePath, RSyntaxTextArea editorPane) {
@@ -115,9 +115,10 @@ public class FeedbackHistory extends JPanel{
 	}
 	
 	/**
+	 * Creates a <code>.fdbk</code> file
 	 * 
 	 * @param feedback the list of <code>Feedback</code>.
-	 * @param feedbackFilePath the <code>.pdec</code> file to write.
+	 * @param feedbackFilePath the <code>.fdbk</code> file to write.
 	 */
 	public void saveFile(ArrayList<Feedback> feedback, Path feedbackFilePath)
 	{
@@ -136,7 +137,7 @@ public class FeedbackHistory extends JPanel{
 	/**
 	 * Adds the feedback based on the compilation result.
 	 * @param feedback the <code>Feedback</code> model to use.
-	 * @param filePath the <code>.pdec</code> file to use. 
+	 * @param filePath the <code>.fdbk</code> file to use. 
 	 * @param editorPane the editor to use.
 	 */
 	public void addFeedback(Feedback feedback, Path filePath, RSyntaxTextArea editorPane) {

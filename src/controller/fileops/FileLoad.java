@@ -87,7 +87,7 @@ public class FileLoad
    */
   public boolean checkerpdec(String fileName)
   {
-	String codePattern = "(^.*\\.(pdec)$)";
+	String codePattern = "(^.*\\.(fdbk)$)";
 	pattern = Pattern.compile(codePattern);
 	matcher = pattern.matcher(fileName);
 	

@@ -139,7 +139,7 @@ public class EventController
 	}
 
 	/**
-	 * Gets the feedback history file (*.pdec).
+	 * Gets the feedback history file (*.fdbk).
 	 * 
 	 * @param feedbackFilePath The original path to convert
 	 * @return the feedback file <code>Path</code>.
@@ -148,7 +148,7 @@ public class EventController
 	{	
 			String pdecFile = "";
 			pdecFile = feedbackFilePath.toString();
-			pdecFile = pdecFile.replaceAll("(\\.c)", ".pdec");
+			pdecFile = pdecFile.replaceAll("(\\.c)", ".fdbk");
 			pdecFile = pdecFile.replaceAll("(\\\\)", "\\\\");
 			//System.out.println(pdecFile);
 			feedbackFilePath = Paths.get(pdecFile);
@@ -158,7 +158,7 @@ public class EventController
 	}
 
 	/**
-	 * Gets the source code (*.pdec).
+	 * Gets the source code (*.fdbk).
 	 * 
 	 * @param feedbackFilePath The original path to convert
 	 * @return the source code C file <code>Path</code>.
@@ -168,7 +168,7 @@ public class EventController
 		//System.out.println(feedbackFilePath.toString());
 		String cFile = "";
 		cFile = feedbackFilePath.toString();
-		cFile = cFile.replaceAll("(\\.pdec)", ".c");
+		cFile = cFile.replaceAll("(\\.fdbk)", ".c");
 		cFile = cFile.replaceAll("(\\\\)", "\\\\");
 		//System.out.println(pdecFile);
 		feedbackFilePath = Paths.get(cFile);
