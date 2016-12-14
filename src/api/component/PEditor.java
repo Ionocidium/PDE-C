@@ -5,7 +5,7 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import view.MainWindowView;
 /**
  * This class is used for retrieving the editor used by PDE-C.
- * @author Alexander John Jose
+ * @author Alexander John D. Jose
  *
  */
 public class PEditor

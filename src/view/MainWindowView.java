@@ -55,21 +55,42 @@ import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.awt.event.InputEvent;
 
-
+/**
+ * Contains the PDE-C Client window.
+ * <p>
+ *  This is the frame that appears after the student has logged in.
+ * </p>
+ * 
+ * @author Alexander John D. Jose
+ * @author In Yong S. Lee
+ * @author Lorenzo Miguel G. Monzon
+ */
 public class MainWindowView
 {
 
 	private JFrame frame;
 	private RSyntaxTextArea editorPane;
 	private ArrayList<Integer> breakpoints;
+	/**
+	 * Information about the breakpoints.
+	 */
 	public static ArrayList<GutterIconInfo> breakpoints2;
 	private Path filePath;
 	private Path feedbackFilePath;
 	private boolean fileModified;
 	private final String appName = "PDE-C";
 	private String fileName;
+	/**
+	 * Contains the Error Log.
+	 */
 	public static JTextArea errorLog;
+	/**
+	 * Contains the Debug Log.
+	 */
 	public static JTextArea debugLog;
+	/**
+	 * Contains the Feedback Log.
+	 */
 	public static JTextArea feedbackLog;
 	private JMenuItem addBreakItem, delBreakItem, delallBreakItem;
 	private JButton breakpointButton, delbreakpointButton, delallbreakpointButton;
@@ -100,7 +121,13 @@ public class MainWindowView
 	private int maxFont = 72;
 	private String fontStyle;
 	private static MainWindowView instance = null;
+	/**
+	 * Contains the <code>DebuggingManager</code> instance.
+	 */
 	public static DebuggingManager debugMgrInstance = null;
+	/**
+	 * Contains the <code>EventController</code> instance.
+	 */
 	public static EventController eventController = null;
 
 	private MainWindowView()
@@ -109,6 +136,10 @@ public class MainWindowView
 		initialize();
 	}
 	
+	/**
+	 * Gets the instance of Main Window View, if it exists. Otherwise, it will create a new instance of the Main Window View.
+	 * @return the <code>MainWindowView</code>'s instance
+	 */
 	public static MainWindowView getInstance()
 	{
 	  if (instance == null)
@@ -1180,67 +1211,121 @@ public class MainWindowView
 
 
 	}
-	
+
+	/**
+	 * Gets the <code>horizontalPane</code> property, which contains the Horizontal Pane component.
+	 * @return the Horizontal Pane component.
+	 */
 	public JSplitPane getHorizontalPane()
 	{
 		return horizontalPane;
 	}
-	
+
+	/**
+	 * Gets the <code>verticalPane</code> property, which contains the Vertical Pane component.
+	 * @return the Vertical Pane component.
+	 */
 	public JSplitPane getVerticalPane()
 	{
 		return verticalPane;
 	}
-	
+
+	/**
+	 * Gets the <code>tabbedHorizontalPane</code> property, which contains the Tabbed Horizontal Pane component.
+	 * @return the Tabbed Horizontal Pane component.
+	 */
 	public JTabbedPane getTabbedHorizontalPane()
 	{
 		return tabbedHorizontalPane;
 	}
-	
+
+	/**
+	 * Gets the <code>tabbedVerticalPane</code> property, which contains the Tabbed Vertical Pane component.
+	 * @return the Tabbed Vertical Pane component.
+	 */
 	public JTabbedPane getTabbedVerticalPane()
 	{
 		return tabbedVerticalPane;
 	}
-	
+
+	/**
+	 * Gets the <code>coreToolbar</code> property, which contains the Core Tool Bar for PDE-C.
+	 * @return the Core Tool Bar for PDE-C.
+	 */
 	public JToolBar getCoreToolbar()
 	{
 	  return coreToolbar;
 	}
 
+	/**
+	 * Gets the <code>menuBar</code> property, which contains the Menu Bar for PDE-C.
+	 * @return the Menu Bar for PDE-C.
+	 */
 	public JMenuBar getMenuBar()
 	{
 	  return menuBar;
 	}
 
+	/**
+	 * Gets the <code>errorLog</code> property, which contains the Error Log.
+	 * @return the Error Log
+	 */
 	public JTextArea getErrorLog()
 	{
 	  return errorLog;
 	}
-	
+
+	/**
+	 * Gets the <code>feedbackLog</code> property, which contains the Feedback Log.
+	 * @return the Feedback Log
+	 */
 	public JTextArea getfeedbackLog()
 	{
 	  return feedbackLog;
 	}
-	
+
+	/**
+	 * Gets the <code>frame</code> property, which contains the PDE-C Window.
+	 * @return the PDE-C Window
+	 */
 	public JFrame getMainFrame()
 	{
 	  return frame;
 	}
-	
+
+	/**
+	 * Gets the <code>editorPane</code> property, which contains the editor itself.
+	 * @return the Editor Pane
+	 */
 	public RSyntaxTextArea getEditor()
 	{
 	  return editorPane;
 	}
 
+	/**
+	 * Gets the <code>studentIdNum</code> property, which contains the Student ID Number.
+	 * @return the Student ID Number
+	 */
 	public String getStudentIdNum()
 	{
 	  return studentIdNum;
 	}
 
+	/**
+	 * Sets the <code>studentIdNum</code> to its preferred value.
+	 * @param studentIdNum the studentIdNum to set
+	 */
 	public void setStudentIdNum(String studentIdNum)
 	{
 	  this.studentIdNum = studentIdNum;
 	}
 	
+	/**
+	 * Check if the C Source Code is sendable given the Student ID Number.
+	 * <p>
+	 *  The sending feature will be disabled given that the student did not provide his/her ID Number.
+	 * </p>
+	 */
 	public void checkIfSendable()
 	{
 	  if (studentIdNum.equals("0"))
@@ -1250,6 +1335,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>gut</code> property, which contains the gutter for <code>RTextScrollPane</code>.
 	 * @return the gut
 	 */
 	public Gutter getGut() {
@@ -1257,6 +1343,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>gut</code> to its preferred value.
 	 * @param gut the gut to set
 	 */
 	public void setGut(Gutter gut) {
@@ -1264,6 +1351,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>scrollPane</code> property, which contains the <code>RSyntaxScrollPane</code>.
 	 * @return the scrollPane
 	 */
 	public RTextScrollPane getScrollPane() {
@@ -1271,6 +1359,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>scrollPane</code> to its preferred value.
 	 * @param scrollPane the scrollPane to set
 	 */
 	public void setScrollPane(RTextScrollPane scrollPane) {
@@ -1278,6 +1367,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>breakpoints</code> property, which contains the list of breakpoints, in the form of <code>ArrayList&lt;Integer&gt;</code>.
 	 * @return the breakpoints
 	 */
 	public ArrayList<Integer> getBreakpoints() {
@@ -1285,6 +1375,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>breakpoints</code> to its preferred value.
 	 * @param breakpoints the breakpoints to set
 	 */
 	public void setBreakpoints(ArrayList<Integer> breakpoints) {
@@ -1292,6 +1383,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>breakpointButton</code> property, which contains the button for Add A Breakpoint.
 	 * @return the breakpointButton
 	 */
 	public JButton getBreakpointButton() {
@@ -1299,6 +1391,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>breakpointButton</code> to its preferred value.
 	 * @param breakpointButton the breakpointButton to set
 	 */
 	public void setBreakpointButton(JButton breakpointButton) {
@@ -1306,6 +1399,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>delbreakpointButton</code> property, which contains the button for Remove A Breakpoint.
 	 * @return the delbreakpointButton
 	 */
 	public JButton getDelbreakpointButton() {
@@ -1313,6 +1407,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>delbreakpointButton</code> to its preferred value.
 	 * @param delbreakpointButton the delbreakpointButton to set
 	 */
 	public void setDelbreakpointButton(JButton delbreakpointButton) {
@@ -1320,6 +1415,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>delallbreakpointButton</code> property, which contains the button for Remove All Breakpoints.
 	 * @return the delallbreakpointButton
 	 */
 	public JButton getDelallbreakpointButton() {
@@ -1327,6 +1423,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>delallbreakpointButton</code> to its preferred value.
 	 * @param delallbreakpointButton the delallbreakpointButton to set
 	 */
 	public void setDelallbreakpointButton(JButton delallbreakpointButton) {
@@ -1334,6 +1431,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>newButton</code> property, which contains the button for New File.
 	 * @return the newButton
 	 */
 	public JButton getNewButton() {
@@ -1341,6 +1439,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>newButton</code> to its preferred value.
 	 * @param newButton the newButton to set
 	 */
 	public void setNewButton(JButton newButton) {
@@ -1348,6 +1447,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>openButton</code> property, which contains the button for Open File.
 	 * @return the openButton
 	 */
 	public JButton getOpenButton() {
@@ -1355,6 +1455,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>openButton</code> to its preferred value.
 	 * @param openButton the openButton to set
 	 */
 	public void setOpenButton(JButton openButton) {
@@ -1362,6 +1463,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>saveButton</code> property, which contains the button for Save File.
 	 * @return the saveButton
 	 */
 	public JButton getSaveButton() {
@@ -1369,6 +1471,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>saveButton</code> to its preferred value.
 	 * @param saveButton the saveButton to set
 	 */
 	public void setSaveButton(JButton saveButton) {
@@ -1376,6 +1479,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>compileButton</code> property, which contains the button for Compile.
 	 * @return the compileButton
 	 */
 	public JButton getCompileButton() {
@@ -1383,6 +1487,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>compileButton</code> to its preferred value.
 	 * @param compileButton the compileButton to set
 	 */
 	public void setCompileButton(JButton compileButton) {
@@ -1390,6 +1495,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>compilerunButton</code> property, which contains the button for Compile and Run.
 	 * @return the compilerunButton
 	 */
 	public JButton getCompilerunButton() {
@@ -1397,6 +1503,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>compilerunButton</code> to its preferred value.
 	 * @param compilerunButton the compilerunButton to set
 	 */
 	public void setCompilerunButton(JButton compilerunButton) {
@@ -1404,6 +1511,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>debugButton</code> property, which contains the button for Debug.
 	 * @return the debugButton
 	 */
 	public JButton getDebugButton() {
@@ -1411,6 +1519,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>debugButton</code> to its preferred value.
 	 * @param debugButton the debugButton to set
 	 */
 	public void setDebugButton(JButton debugButton) {
@@ -1418,6 +1527,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>stepOverButton</code> property, which contains the button for Step Over.
 	 * @return the stepOverButton
 	 */
 	public JButton getStepOverButton() {
@@ -1425,6 +1535,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>stepOverButton</code> to its preferred value.
 	 * @param stepOverButton the stepOverButton to set
 	 */
 	public void setStepOverButton(JButton stepOverButton) {
@@ -1432,6 +1543,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>resumeButton</code> property, which contains the button for Continue.
 	 * @return the resumeButton
 	 */
 	public JButton getResumeButton() {
@@ -1439,6 +1551,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>resumeButton</code> to its preferred value.
 	 * @param resumeButton the resumeButton to set
 	 */
 	public void setResumeButton(JButton resumeButton) {
@@ -1446,6 +1559,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>stopButton</code> property, which contains the button for Stop.
 	 * @return the stopButton
 	 */
 	public JButton getStopButton() {
@@ -1453,6 +1567,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>stopButton</code> to its preferred value.
 	 * @param stopButton the stopButton to set
 	 */
 	public void setStopButton(JButton stopButton) {
@@ -1460,6 +1575,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>newFileItem</code> property, which contains the menu item for New File.
 	 * @return the newFileItem
 	 */
 	public JMenuItem getNewFileItem() {
@@ -1467,6 +1583,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>newFileItem</code> to its preferred value.
 	 * @param newFileItem the newFileItem to set
 	 */
 	public void setNewFileItem(JMenuItem newFileItem) {
@@ -1474,6 +1591,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>openFileItem</code> property, which contains the menu item for Open File.
 	 * @return the openFileItem
 	 */
 	public JMenuItem getOpenFileItem() {
@@ -1481,6 +1599,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>openFileItem</code> to its preferred value.
 	 * @param openFileItem the openFileItem to set
 	 */
 	public void setOpenFileItem(JMenuItem openFileItem) {
@@ -1488,6 +1607,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>saveFileItem</code> property, which contains the menu item for Save File.
 	 * @return the saveFileItem
 	 */
 	public JMenuItem getSaveFileItem() {
@@ -1495,6 +1615,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>saveFileItem</code> to its preferred value.
 	 * @param saveFileItem the saveFileItem to set
 	 */
 	public void setSaveFileItem(JMenuItem saveFileItem) {
@@ -1502,6 +1623,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>saveAsFileItem</code> property, which contains the menu item for Save As.
 	 * @return the saveAsFileItem
 	 */
 	public JMenuItem getSaveAsFileItem() {
@@ -1509,6 +1631,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>saveAsFileItem</code> to its preferred value.
 	 * @param saveAsFileItem the saveAsFileItem to set
 	 */
 	public void setSaveAsFileItem(JMenuItem saveAsFileItem) {
@@ -1516,6 +1639,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>compileBuildItem</code> property, which contains the menu item for Compile.
 	 * @return the compileBuildItem
 	 */
 	public JMenuItem getCompileBuildItem() {
@@ -1523,6 +1647,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>compileBuildItem</code> to its preferred value.
 	 * @param compileBuildItem the compileBuildItem to set
 	 */
 	public void setCompileBuildItem(JMenuItem compileBuildItem) {
@@ -1530,6 +1655,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>debugBuildItem</code> property, which contains the menu item for Debug.
 	 * @return the debugBuildItem
 	 */
 	public JMenuItem getDebugBuildItem() {
@@ -1537,6 +1663,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>debugBuildItem</code> to its preferred value.
 	 * @param debugBuildItem the debugBuildItem to set
 	 */
 	public void setDebugBuildItem(JMenuItem debugBuildItem) {
@@ -1544,6 +1671,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Gets the <code>toggleBreakItem</code> property, which contains the menu item for Toggle Breakpoint.
 	 * @return the toggleBreakItem
 	 */
 	public JMenuItem getToggleBreakItem() {
@@ -1551,6 +1679,7 @@ public class MainWindowView
 	}
 
 	/**
+	 * Sets the <code>toggleBreakItem</code> to its preferred value.
 	 * @param toggleBreakItem the toggleBreakItem to set
 	 */
 	public void setToggleBreakItem(JMenuItem toggleBreakItem) {
@@ -1558,13 +1687,15 @@ public class MainWindowView
 	}
 
 	/**
-	 * @return the filePath
+	 * Gets the <code>filePath</code> property, which contains the source code of the current file being edited.
+	 * @return the source code of the current file being edited.
 	 */
 	public Path getFilePath() {
 		return filePath;
 	}
 
 	/**
+	 * Sets the <code>filePath</code> to its preferred value.
 	 * @param filePath the filePath to set
 	 */
 	public void setFilePath(Path filePath) {

@@ -4,7 +4,7 @@ import controller.EventController;
 
 /**
  * This class is used for downloading activities from PDE-C Server.
- * @author Alexander John Jose
+ * @author Alexander John D. Jose
  *
  */
 public class PDownload

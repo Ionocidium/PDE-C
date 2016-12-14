@@ -7,7 +7,7 @@ import javax.swing.JFrame;
  * <p>
  *  The thesis group also added their own method to PWindow class.
  * </p>
- * @author Alexander John Jose
+ * @author Alexander John D. Jose
  *
  */
 public class PWindow extends JFrame

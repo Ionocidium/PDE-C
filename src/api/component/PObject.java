@@ -7,7 +7,7 @@ import service.ClientService;
 
 /**
  * Used for sending an <code>Object</code> to PDE-C Server.
- * @author Alexander John Jose
+ * @author Alexander John D. Jose
  *
  */
 public class PObject extends Object implements Serializable

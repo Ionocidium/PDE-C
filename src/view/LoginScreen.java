@@ -22,6 +22,10 @@ import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 
+/**
+ * Shows the Login Screen.	
+ * @author Alexander John D. Jose
+ */
 public class LoginScreen {
 
 	private JFrame frmLogin;

@@ -7,7 +7,7 @@ import view.MainWindowView;
 
 /**
  * This class is used for the sending of source code functionality of PDE-C
- * @author Alexander John Jose
+ * @author Alexander John D. Jose
  *
  */
 public class PSendSource

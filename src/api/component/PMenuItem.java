@@ -8,7 +8,7 @@ import javax.swing.JMenuItem;
  * <p>
  *  In addition, the thesis group added function that will help other developers.
  * </p>
- * @author Alexander John Jose
+ * @author Alexander John D. Jose
  *
  */
 public class PMenuItem extends JMenuItem

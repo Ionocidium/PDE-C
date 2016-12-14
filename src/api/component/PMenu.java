@@ -10,7 +10,7 @@ import mainwindowcomponents.MenuBar;
  * <p>
  * The thesis group also added some of their own methods that will help other developer implement the PMenu class
  * </p>
- * @author Alexander John Jose
+ * @author Alexander John D. Jose
  *
  */
 public class PMenu extends JMenu

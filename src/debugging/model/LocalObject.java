@@ -14,7 +14,7 @@ package debugging.model;
  * <br>
  * will be translated to the following:<br>
  * <br>
- *	<table style="border: 1px solid black;">
+ *	<table style="border: 1px solid black;"  summary="LocalObject Model">
  *		<tr>
  *  		<td style="border: 1px solid black;"><code>variable</code></td>
  *  		<td style="border: 1px solid black;"><code>a</code></td>
