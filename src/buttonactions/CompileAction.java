@@ -11,7 +11,7 @@ import view.MainWindowView;
 /**
  * A compile action for PDE-C API
  * 
- * @author Alexander John Jose
+ * @author Alexander John D. Jose
  *
  */
 public class CompileAction extends AbstractAction
@@ -53,10 +53,10 @@ public class CompileAction extends AbstractAction
 	this.code = code;
   }
 
-  @Override
   /**
    * Action performed that is made for compiling event
    */
+  @Override
   public void actionPerformed(ActionEvent arg0)
   {
 	switch (code)

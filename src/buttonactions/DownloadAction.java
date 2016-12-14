@@ -8,7 +8,7 @@ import controller.EventController;
 
 /**
  * Class for download action of PDE-C API
- * @author Alexander John Jose
+ * @author Alexander John D. Jose
  *
  */
 public class DownloadAction extends AbstractAction
@@ -35,10 +35,10 @@ public class DownloadAction extends AbstractAction
 	putValue(MNEMONIC_KEY, mnemonic);
   }
 
-  @Override
   /**
    * The action event of downloading activity
    */
+  @Override
   public void actionPerformed(ActionEvent arg0)
   {
 	event.downloadActivity();	

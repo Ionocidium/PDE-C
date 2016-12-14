@@ -9,8 +9,8 @@ import javax.swing.JTextArea;
 import controller.EventController;
 
 /**
- * 
- * @author Alexander John Jose
+ * Class for send action of PDE-C API
+ * @author Alexander John D. Jose
  *
  */
 public class SendAction extends AbstractAction
@@ -47,10 +47,10 @@ public class SendAction extends AbstractAction
 	this.filePath = filePath;
   }
 
-  @Override
   /**
    * Method that handles the send action
    */
+  @Override
   public void actionPerformed(ActionEvent arg0)
   {
 	event.sendSrcCode(consoleLog, filePath);	
