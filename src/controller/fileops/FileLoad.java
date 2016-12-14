@@ -81,7 +81,7 @@ public class FileLoad
   }
 
   /**
-   * Checks if the fileName has a <code>.pdec</code> extension.
+   * Checks if the fileName has a <code>.fdbk</code> extension.
    * @param fileName The Absolute File to check.
    * @return <code>true</code> if the <code>fileName</code> specified is a PDE-C Extension, <code>false</code> otherwise.
    */
