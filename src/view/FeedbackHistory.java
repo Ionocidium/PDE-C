@@ -54,11 +54,15 @@ import controller.fileops.FileSave;
 import model.Feedback;
 import service.Parsers;
 
+/**
+ * Handles the Feedback History.
+ * <p>
+ *  Lists down the existing errors for every compilation made by the student and the source code.
+ * </p>
+ * @author Lorenzo Miguel G. Monzon
+ */
 public class FeedbackHistory extends JPanel{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private ArrayList<Feedback> feedback = new ArrayList<Feedback>();
@@ -73,6 +77,9 @@ public class FeedbackHistory extends JPanel{
 	private int fontSize = 16;
 	private String fontStyle;
 
+	/**
+	 * Creates the FeedbackHistory constructor.
+	 */
 	public FeedbackHistory() {
 		saveFile = new FileSave();
 		loader = new FileLoad();
@@ -91,6 +98,11 @@ public class FeedbackHistory extends JPanel{
 		add(container);
 	}
 	
+	/**
+	 * Reads the feedback history.
+	 * @param feedbackFilePath the <code>.pdec</code> file to read
+	 * @param editorPane the editorPane 
+	 */
 	public void readFile(Path feedbackFilePath, RSyntaxTextArea editorPane) {
 		if(Files.exists(feedbackFilePath)){
 			String pathContents = loader.loadFile(feedbackFilePath);
@@ -102,6 +114,11 @@ public class FeedbackHistory extends JPanel{
 		}
 	}
 	
+	/**
+	 * 
+	 * @param feedback the list of <code>Feedback</code>.
+	 * @param feedbackFilePath the <code>.pdec</code> file to write.
+	 */
 	public void saveFile(ArrayList<Feedback> feedback, Path feedbackFilePath)
 	{
 		feedbackFilePath = eventController.getFeedbackFile(feedbackFilePath);
@@ -116,6 +133,12 @@ public class FeedbackHistory extends JPanel{
 	    saveFile.writeFile(feedbackFilePath, errorFile);
 	}
 	
+	/**
+	 * Adds the feedback based on the compilation result.
+	 * @param feedback the <code>Feedback</code> model to use.
+	 * @param filePath the <code>.pdec</code> file to use. 
+	 * @param editorPane the editor to use.
+	 */
 	public void addFeedback(Feedback feedback, Path filePath, RSyntaxTextArea editorPane) {
 		JButton sub = new JButton();
 		//sub.setHorizontalAlignment(SwingConstants.CENTER);
@@ -265,18 +288,34 @@ public class FeedbackHistory extends JPanel{
 		return s;
 	}
 
+	/**
+	 * Gets the <code>container</code> property.
+	 * @return the <code>container</code>
+	 */
 	public JPanel getContainer() {
 		return container;
 	}
 
+	/**
+	 * Sets the <code>container</code> to its preferred value.
+	 * @param container the <code>container</code> to set
+	 */
 	public void setContainer(JPanel container) {
 		this.container = container;
 	}
 
+	/**
+	 * Gets the <code>feedback</code> property.
+	 * @return the <code>feedback</code>
+	 */
 	public ArrayList<Feedback> getFeedback() {
 		return feedback;
 	}
-	
+
+	/**
+	 * Sets the <code>feedback</code> to its preferred value.
+	 * @param feedback the <code>feedback</code> to set
+	 */
 	public void setFeedback(ArrayList<Feedback> feedback) {
 		this.feedback = feedback;
 	}

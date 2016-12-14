@@ -43,6 +43,7 @@ public class WatchObject {
 	private String newValue;
 	
 	/**
+	 * Creates a representation that contains the information for <code>WatchObject</code> model.
 	 * @param variable The local variable being watched
 	 * @param oldValue The old value of the local variable
 	 * @param newValue The new value of the local variable
@@ -54,6 +55,7 @@ public class WatchObject {
 	}
 
 	/**
+	 * Gets the <code>variable</code> property.
 	 * @return The local variable being watched
 	 */
 	public String getVariable() {
@@ -61,6 +63,7 @@ public class WatchObject {
 	}
 
 	/**
+	 * Sets the <code>variable</code> to its preferred value.
 	 * @param variable the variable to set
 	 */
 	public void setVariable(String variable) {
@@ -68,6 +71,7 @@ public class WatchObject {
 	}
 
 	/**
+	 * Gets the <code>oldValue</code> property.
 	 * @return the The old value of the local variable
 	 */
 	public String getOldValue() {
@@ -75,6 +79,7 @@ public class WatchObject {
 	}
 
 	/**
+	 * Sets the <code>oldValue</code> to its preferred value.
 	 * @param oldValue the oldValue to set
 	 */
 	public void setOldValue(String oldValue) {
@@ -82,6 +87,7 @@ public class WatchObject {
 	}
 
 	/**
+	 * Gets the <code>newValue</code> property.
 	 * @return the The new value of the local variable
 	 */
 	public String getNewValue() {
@@ -89,6 +95,7 @@ public class WatchObject {
 	}
 
 	/**
+	 * Sets the <code>newValue</code> to its preferred value.
 	 * @param newValue the newValue to set
 	 */
 	public void setNewValue(String newValue) {

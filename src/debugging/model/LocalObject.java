@@ -35,6 +35,7 @@ public class LocalObject {
 	private String value;
 	
 	/**
+	 * Creates a representation that contains the information for <code>LocalObject</code> model.
 	 * @param variable The local variable declared by the novice programmer.
 	 * @param value The local value in the local variable explicitly defined by the novice programmer. If it's not explicitly declared in the source code, then the value is defaulted according to the runtime.
 	 */
@@ -45,6 +46,7 @@ public class LocalObject {
 	}
 
 	/**
+	 * Gets the <code>variable</code> property.
 	 * @return The local variable declared by the novice programmer.
 	 */
 	public String getVariable() {
@@ -52,6 +54,7 @@ public class LocalObject {
 	}
 
 	/**
+	 * Sets the <code>variable</code> to its preferred value.
 	 * @param variable The local variable to be set.
 	 */
 	public void setVariable(String variable) {
@@ -59,6 +62,7 @@ public class LocalObject {
 	}
 
 	/**
+	 * Gets the <code>value</code> property.
 	 * @return The local value in the local variable explicitly defined by the novice programmer. If it's not explicitly declared in the source code, then the value is defaulted according to the runtime.
 	 */
 	public String getValue() {
@@ -66,6 +70,7 @@ public class LocalObject {
 	}
 
 	/**
+	 * Sets the <code>value</code> to its preferred value.
 	 * @param value The value to be set.
 	 */
 	public void setValue(String value) {

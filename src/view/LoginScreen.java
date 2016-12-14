@@ -29,6 +29,7 @@ public class LoginScreen {
 
 	/**
 	 * Launch the application.
+	 * @param args the arguments that will be issued while running the program.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -45,7 +46,7 @@ public class LoginScreen {
 	}
 
 	/**
-	 * Create the application.
+	 * Shows the <code>LoginScreen</code>.
 	 */
 	public LoginScreen() {
 		initialize();

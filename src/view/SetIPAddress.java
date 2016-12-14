@@ -15,6 +15,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * The popup frame of Set IP Address View.
+ * <p>
+ *  Replaced with a dialog box via {@link controller.EventController#changeIPSettings()} method.
+ * </p>
+ * @author Alexander John D. Jose
+ */
+@Deprecated
 public class SetIPAddress extends JFrame
 {
 
@@ -27,7 +35,7 @@ public class SetIPAddress extends JFrame
    */
 
   /**
-   * Create the frame.
+   * Create the frame <code>SetIPAddress</code>.
    */
   public SetIPAddress()
   {

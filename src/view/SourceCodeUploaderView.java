@@ -10,6 +10,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -42,6 +43,12 @@ import java.io.IOException;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 
+/**
+ * The popup frame of Source Code Uploader View.
+ * 
+ * @author Alexander John D. Jose
+ * @author In Yong S. Lee
+ */
 public class SourceCodeUploaderView {
 
 	private JFrame frmActivityUpload;
@@ -54,7 +61,12 @@ public class SourceCodeUploaderView {
 	
 	private String studentId;
 
-	public SourceCodeUploaderView(Path filePath, JTextArea frame) {
+	/**
+	 * Shows the source code uploader view through the constructor.
+	 * @param filePath The source code currently in use with respect to the editor
+	 * @param txtArea The error log contents.
+	 */
+	public SourceCodeUploaderView(Path filePath, JTextArea txtArea) {
 	  	file = filePath;
 	  	loader = new FileLoad();
 	  	fileChooser= new JFileChooser();
@@ -64,10 +76,10 @@ public class SourceCodeUploaderView {
 	  	
 	  	studentId = MainWindowView.getInstance().getStudentIdNum();
 	  	
-		initialize(frame);
+		initialize(txtArea);
 	}
 
-	private void initialize(JTextArea frame) {
+	private void initialize(JTextArea txtArea) {
 	  	ArrayList<String> actList = new ArrayList<String>();
 	  	ClientService client = ClientService.getClientService();
 	  	
@@ -131,14 +143,6 @@ public class SourceCodeUploaderView {
 		});
 		btnUpload.setBounds(335, 35, 89, 23);
 		frmActivityUpload.getContentPane().add(btnUpload);
-//		btnUpload.addActionListener(new ActionListener() 
-//		{
-//			public void actionPerformed(ActionEvent e) 
-//			{
-//			  chooseFile(frmActivityUpload); // Returns FilePath. Upload not yet implemented
-//			}
-//		});
-		
 		JLabel lblIdNumber = new JLabel("ID Number:");
 		lblIdNumber.setBounds(10, 70, 100, 14);
 		frmActivityUpload.getContentPane().add(lblIdNumber);
@@ -181,8 +185,8 @@ public class SourceCodeUploaderView {
 			    }
 			    String trace = sb.toString();
 			    
-			    frame.setForeground(Color.RED);
-			    frame.setText(trace);
+			    txtArea.setForeground(Color.RED);
+			    txtArea.setText(trace);
 			  }
 			}
 		});
@@ -217,6 +221,11 @@ public class SourceCodeUploaderView {
 	  return res;
 	}
 	
+	/**
+	 * Shows the <code>JFileChooser</code> to the target <code>frame</code>.
+	 * @param frame The target frame to use for location relativity. 
+	 * @return The C Source file
+	 */
 	public Path chooseFile(JFrame frame)
 	{
 		int returnVal = fileChooser.showOpenDialog(frame);

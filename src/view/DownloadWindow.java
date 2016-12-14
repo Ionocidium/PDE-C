@@ -24,17 +24,20 @@ import java.awt.event.ActionListener;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 
+/**
+ * Handles the Download Window.
+ * <p>
+ *  Allows the students to download the activity uploaded by the professor.
+ * </p>
+ * @author Alexander John D. Jose
+ */
 public class DownloadWindow extends JFrame
 {
 
   private JPanel contentPane;
 
   /**
-   * Launch the application.
-   */
-
-  /**
-   * Create the frame.
+   * Creates the DownloadWindow constructor.
    */
   public DownloadWindow()
   {

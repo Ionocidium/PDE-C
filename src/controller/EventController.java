@@ -44,7 +44,6 @@ import service.ClientService;
 import view.DebuggingManager;
 import view.DownloadWindow;
 import view.MainWindowView;
-import view.SetIPAddress;
 import view.SourceCodeUploaderView;
 
 /**
