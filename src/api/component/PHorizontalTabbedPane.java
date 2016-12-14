@@ -8,6 +8,12 @@ import javax.swing.JTextArea;
 
 import mainwindowcomponents.HorizontalPane;
 
+/**
+ * This class handles the horizontal pane found in the bottom part of PDE-C's main window.
+ * 
+ * @author Lorenzo Miguel Monzon
+ *
+ */
 public class PHorizontalTabbedPane extends JTabbedPane{
 
 	/**
@@ -19,6 +25,10 @@ public class PHorizontalTabbedPane extends JTabbedPane{
 	
 	private HorizontalPane pane = HorizontalPane.getHorizontalPane();
 	
+	  /**
+	   * Gets the instance of PHorizontalTabbedPane. Adds a log component in the tab.
+	   * @param tabTitle this is the name of the tab to be added on the pane
+	   */
 	public PHorizontalTabbedPane (String tabTitle)
 	{
 		this.tabName = tabTitle;
@@ -28,6 +38,9 @@ public class PHorizontalTabbedPane extends JTabbedPane{
 		this.comp = console;
 	}
 	
+	/**
+	 * This method adds the tab component in the pane
+	 */
 	public void addTab()
 	{
 		if (this != null)
@@ -35,6 +48,10 @@ public class PHorizontalTabbedPane extends JTabbedPane{
 		  pane.addComponent(this.tabName, this.comp);
 		}	
 	}
+	
+	/**
+	 * This methods removes the tab component in the pane
+	 */
 	
 	public void remove()
 	{

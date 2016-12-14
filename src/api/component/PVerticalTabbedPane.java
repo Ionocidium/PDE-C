@@ -8,6 +8,12 @@ import javax.swing.JTextArea;
 
 import mainwindowcomponents.VerticalPane;
 
+/**
+ * This class handles the vertical pane found in the bottom part of PDE-C's main window.
+ * 
+ * @author Lorenzo Miguel Monzon
+ *
+ */
 public class PVerticalTabbedPane extends JTabbedPane{
 
 	/**
@@ -19,6 +25,12 @@ public class PVerticalTabbedPane extends JTabbedPane{
 	
 	private VerticalPane pane = VerticalPane.getVerticalPane();
 	
+	
+	  /**
+	   * Gets the instance of PVerticalTabbedPane. Adds a log component in the tab.
+	   * @param tabTitle this is the name of the tab to be added on the pane
+	   */
+	
 	public PVerticalTabbedPane (String tabTitle)
 	{
 		this.tabName = tabTitle;
@@ -28,6 +40,9 @@ public class PVerticalTabbedPane extends JTabbedPane{
 		this.comp = console;
 	}
 	
+	/**
+	 * This method adds the tab component in the pane
+	 */
 	public void addTab()
 	{
 		if (this != null)
@@ -36,6 +51,9 @@ public class PVerticalTabbedPane extends JTabbedPane{
 		}	
 	}
 	
+	/**
+	 * This method removes the tab component in the pane
+	 */
 	public void remove()
 	{
 		pane.removeComponent(this);
