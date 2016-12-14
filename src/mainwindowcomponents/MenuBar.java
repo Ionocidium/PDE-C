@@ -8,6 +8,11 @@ import javax.swing.JTextArea;
 import model.APIInterface;
 import view.MainWindowView;
 
+/**
+ * This class represents the Menu bar of PDE-C
+ * @author Alexander John Jose
+ *
+ */
 public class MenuBar implements APIInterface
 {
   private static MenuBar instance = null;
@@ -15,6 +20,9 @@ public class MenuBar implements APIInterface
   private JMenuBar menuBar;
   private JTextArea consoleLog;
   
+  /**
+   * Constructor for MenuBar
+   */
   private MenuBar()
   {
 	main = MainWindowView.getInstance();
@@ -22,6 +30,10 @@ public class MenuBar implements APIInterface
 	consoleLog = main.getErrorLog();
   }
   
+  /**
+   * This method retrieves the menu bar of PDE-C
+   * @return the menu bar of PDE-C
+   */
   public static MenuBar getMenuBar()
   {
 	if (instance == null)
@@ -32,11 +44,17 @@ public class MenuBar implements APIInterface
 	return instance;
   }
   
+  /**
+   * Adds a <code>Component</code> to PDE-C
+   */
   public void addComponent(Component comp)
   {
 	menuBar.add(comp);
   }
   
+  /**
+   * Removes the component <code>temp</code> from PDE-C's menu bar
+   */
   public void removeComponent(Component temp)
   {
 	menuBar.remove(temp);
@@ -44,6 +62,9 @@ public class MenuBar implements APIInterface
 	menuBar.repaint();
   }
   
+  /**
+   * Sets the console text
+   */
   public void setConsoleText(String message)
   {
 	if (consoleLog.getText().equals(""))

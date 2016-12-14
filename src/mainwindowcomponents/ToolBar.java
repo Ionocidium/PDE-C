@@ -9,6 +9,11 @@ import javax.swing.JToolBar;
 import model.APIInterface;
 import view.MainWindowView;
 
+/**
+ * This class resembles the tool bar of PDE-C
+ * @author Alexander John Jose
+ *
+ */
 public class ToolBar implements APIInterface
 {
   private static ToolBar instance = null;
@@ -16,6 +21,9 @@ public class ToolBar implements APIInterface
   private JToolBar toolBar;
   private JTextArea consoleLog;
   
+  /**
+   * The constructor of PDE-C
+   */
   private ToolBar()
   {
 	mainWindow = MainWindowView.getInstance();
@@ -23,6 +31,10 @@ public class ToolBar implements APIInterface
 	consoleLog = mainWindow.getErrorLog();
   }
   
+  /**
+   * 
+   * @return the toolbar of PDE-C
+   */
   public static ToolBar getToolbar()
   {
 	if (instance == null)
@@ -33,11 +45,17 @@ public class ToolBar implements APIInterface
 	return instance;
   }
   
+  /**
+   * Adds the <code>comp</code> to PDE-C
+   */
   public void addComponent(Component comp)
   {
 	toolBar.add(comp);
   }
   
+  /**
+   * Removes the component <code>comp</code> to PDE-C
+   */
   public void removeComponent(Component comp)
   {
 	toolBar.remove(comp);
@@ -45,11 +63,17 @@ public class ToolBar implements APIInterface
 	toolBar.repaint();
   }
   
+  /**
+   * Adds a separator for the components in the toolbar
+   */
   public void addSeparator()
   {
 	toolBar.addSeparator();
   }
   
+  /**
+   * Sets the console text through <code>message</code>
+   */
   public void setConsoleText(String message)
   {
 	if (consoleLog.getText().toString().equals(""))
@@ -64,6 +88,9 @@ public class ToolBar implements APIInterface
 	}
   }
   
+  /**
+   * Sets the tool bar as visible or not
+   */
   public void setVisible(boolean isVisible)
   {
 	toolBar.setVisible(isVisible);
