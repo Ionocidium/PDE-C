@@ -12,7 +12,7 @@ import configuration.LocalConfiguration;
  * It executes sets of commands to further run the program.<br>
  * <code>CommandLineDebugging</code> is run through the following commands shown below:<br>
  * <br>
- *	<table style="border: 1px solid black;">
+ *	<table style="border: 1px solid black;" summary="Command Line for debugging C Source Code">
  *		<tr>
  *			<th colspan="2" style="border: 1px solid black;">
  *				<center>

@@ -18,18 +18,37 @@ import org.fife.ui.rsyntaxtextarea.parser.ParseResult;
 import configuration.LocalConfiguration;
 import controller.EventController;
 
+/**
+ * Parses C code from <code>RSyntaxTextArea</code>.
+ * 
+ * <p>
+ *  Based on <a href=http://svn.fifesoft.com/viewvc-1.0.5/bin/cgi/viewvc.cgi/RSTALanguageSupport/trunk/src/org/fife/rsta/ac/perl/PerlParser.java?root=RSyntaxTextArea&revision=194&content-type=text%2Fplain&pathrev=425>PerlParser.java</a>
+ * </p>
+ * 
+ * @author In Yong S. Lee
+ *
+ */
 public class Parsers extends AbstractParser
 {
 
 	private DefaultParseResult res;
 	private LocalConfiguration local;
 	
+	/**
+	 * The default constructor of C Parser.
+	 */
 	public Parsers()
 	{
 		res = new DefaultParseResult(this);
 		local = LocalConfiguration.getInstance();
 	}
-	
+
+	/**
+	 * Parses the code and returns the parse results given by the current compiler used by the current <code>LocalConfiguration</code>.
+	 * @param doc The current <code>RSyntaxDocument</code> to use.
+	 * @param style The current style to use, which is <code>SyntaxConstants.SYNTAX_STYLE_C</code>, by default in <code>MainWindowView</code>.
+	 * @return the <code>ParseResult</code> from the parsed C code, based on the current compiler used.
+	 */
 	@Override
 	public ParseResult parse(RSyntaxDocument doc, String style)
 	{

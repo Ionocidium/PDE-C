@@ -16,7 +16,7 @@ import debugging.model.LocalObject;
  * 
  * will be translated to the following:<br>
  * <br>
- *	<table style="border: 1px solid black;">
+ *	<table style="border: 1px solid black;" summary="Local Variable Lists Object Representation List">
  *		<tr>
  *  		<th style="border: 1px solid black;">Variable Name</th>
  *  		<th style="border: 1px solid black;">Value</th>

@@ -13,6 +13,14 @@ import org.fife.ui.rsyntaxtextarea.parser.DefaultParserNotice;
 import controller.SimplifyError;
 import model.ErrorMessage;
 
+/**
+ * Collects the standard output or standard error of temporarily compiled C code while the student writes their source code in C file.
+ * <p>
+ *  Based on <a href=http://svn.fifesoft.com/viewvc-1.0.5/bin/cgi/viewvc.cgi/RSTALanguageSupport/trunk/src/org/fife/rsta/ac/perl/PerlOutputCollector.java?root=RSyntaxTextArea&revision=194&content-type=text%2Fplain&pathrev=425>PerlOutputCollector.java</a>
+ * </p>
+ * @author In Yong S. Lee
+ */
+
 public class COutputCollector extends OutputCollector{
 	
 	private Parsers parser;
@@ -22,6 +30,13 @@ public class COutputCollector extends OutputCollector{
 	private static final Pattern ERROR_PATTERN = Pattern.compile("((?!.c:)[0-9]+(?=:\\d))");
 	private static final Pattern ERROR_PATTERN2 = Pattern.compile("((error:)|(warning:)) (.*)");
 	
+	/**
+	 * Constructor for COutputCollector.
+	 * @param in The input stream.
+	 * @param cParser the C Parser to use.
+	 * @param res the Default Parse Result to use.
+	 * @param root the Element to use.
+	 */
 	public COutputCollector(InputStream in, Parsers cParser,
 								DefaultParseResult res, Element root) {
 		super(in);

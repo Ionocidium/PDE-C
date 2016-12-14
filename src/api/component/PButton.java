@@ -81,7 +81,7 @@ public class PButton extends JButton
 				 action input. The specific codes are:
 			 	 <code>CompileAction.COMPILE</code>,
 				 <code>CompileAction.COMPILE RUN</code>,
-				 <code>CompileAction.NO ACTION<code>.
+				 <code>CompileAction.NO ACTION</code>.
 				 No Action code must be used when the button is not to be
 				 programmed as a compile button.
    */
