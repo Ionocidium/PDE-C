@@ -79,6 +79,9 @@ public class MenuBar implements APIInterface
 	}
   }
   
+  /**
+   * Sets the menu bar as visible
+   */
   public void setVisible(boolean isVisible)
   {
 	menuBar.setVisible(isVisible);

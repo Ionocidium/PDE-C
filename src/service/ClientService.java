@@ -11,7 +11,12 @@ import java.net.Socket;
 
 import api.component.PObject;
 import clientservices.DownloadHandler;
-
+/**
+ * This is class is responsible for sending and receiving information from PDE-C Server
+ * 
+ * @author Alexander John Jose
+ *
+ */
 public class ClientService
 {
   private static ClientService instance = null;
@@ -37,6 +42,11 @@ public class ClientService
 	
   }
   
+  /**
+   * This method returns the single instantiated ClientService
+   * 
+   * @return a single instantiated ClientService
+   */
   public static ClientService getClientService()
   {
 	if (instance == null)
@@ -47,6 +57,10 @@ public class ClientService
 	return instance;
   }
   
+  /**
+   * Sets the IP Address of where PDE-C Server is
+   * @param Ip the IP Address of PDE-C Server
+   */
   public void setIPAddress(String Ip)
   {
 	
@@ -62,6 +76,11 @@ public class ClientService
 	}
 	
   }
+  
+  /**
+   * 
+   * This method initializes the socket that PDE-C use.
+   */
   
   public void initSocket()
   {
@@ -84,6 +103,10 @@ public class ClientService
 	
   }
   
+  /**
+   * Facilitates the sending of <code>PObject</code> from PDE-C to PDE-C Server
+   * @param obj the Object that will be sent.
+   */
   public void sendObject(Object obj)
   {
 	try
@@ -104,6 +127,11 @@ public class ClientService
 	}
   }
   
+  /**
+   * Sends an actual data to PDE-C Server
+   * @param data the information, in <code>String</code>, to be sent to PDE-C Server
+   * @throws IOException
+   */
   public void sendDataToServer(String data) throws IOException
   {
 	
@@ -116,6 +144,11 @@ public class ClientService
 	 toServer.close();
   }
   
+  
+  /**
+   * Retrieves the activity list from PDE-C Server
+   * @throws IOException
+   */
   public void getActivity() throws IOException
   {
 	if (clientSocket == null)
@@ -135,6 +168,11 @@ public class ClientService
 	clientSocket = null;
   }
   
+  /**
+   * Retrieves a particular activity file from PDE-C Server
+   * @param idNum ID Number, from the database, of the activity file to be downloaded
+   * @throws IOException
+   */
   public void getActivityFile(int idNum) throws IOException
   {
 	if (clientSocket == null)
@@ -146,21 +184,36 @@ public class ClientService
 	download.start();
   }
 
+  /**
+   * Retrieves the current IP Address in use for connecting to PDE-C Server
+   * @return the IP Address in <code>String</code> of PDE-C Server
+   */
   public String getCurrIpAddr()
   {
     return currIpAddr;
   }
   
+  /**
+   * Retrieves the socket in use by the client
+   * @return a <code>Socket</code> object in use by the client
+   */
   public Socket getClientSocket()
   {
 	return clientSocket;
   }
   
+  /**
+   * Retrieves the output stream of the client
+   * @return the output stream of the client
+   */
   public DataOutputStream getClientOutputStream()
   {
 	return toServer;
   }
   
+  /**
+   * Sets the <code>Socket</code> of PDE-C client as null
+   */
   public void setClientSocketNull()
   {
 	clientSocket = null;
