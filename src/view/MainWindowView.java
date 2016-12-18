@@ -3,6 +3,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -53,6 +54,8 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.awt.event.InputEvent;
 import javax.swing.JLabel;
@@ -1047,6 +1050,22 @@ public class MainWindowView
 		helpMenu.setMnemonic(KeyEvent.VK_H);
 		JMenuItem helpHelpItem = new JMenuItem("Help Contents", KeyEvent.VK_H);
 		helpHelpItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
+		helpHelpItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (Desktop.isDesktopSupported()) {
+				    try {
+				        File myFile = new File("resources/Help.pdf");
+				        Desktop.getDesktop().open(myFile);
+				    } catch (IOException ioe) {
+						JOptionPane.showMessageDialog(null, "Nothing to open here.", "", JOptionPane.INFORMATION_MESSAGE);
+				    } catch (Exception ex) {
+				    	
+				    }
+				}
+			}
+		});
 		JMenuItem aboutHelpItem = new JMenuItem("About this System", KeyEvent.VK_A);
 		JDialog aboutDialog = new JDialog(frame, "About PDE-C");
 		aboutDialog.getContentPane().setLayout(null);
