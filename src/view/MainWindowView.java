@@ -27,6 +27,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -54,6 +55,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.awt.event.InputEvent;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 /**
  * Contains the PDE-C Client window.
@@ -1045,6 +1048,75 @@ public class MainWindowView
 		JMenuItem helpHelpItem = new JMenuItem("Help Contents", KeyEvent.VK_H);
 		helpHelpItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
 		JMenuItem aboutHelpItem = new JMenuItem("About this System", KeyEvent.VK_A);
+		JDialog aboutDialog = new JDialog(frame, "About PDE-C");
+		aboutDialog.getContentPane().setLayout(null);
+		aboutHelpItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(aboutDialog.isVisible())
+				{
+					aboutDialog.requestFocus();
+				}
+				else
+				{
+					aboutDialog.setSize(450, 240);
+					aboutDialog.setLocationRelativeTo(null);
+					aboutDialog.setResizable(false);
+					aboutDialog.setVisible(true);
+
+					JLabel lblPdec = new JLabel("PDE-C Version 1.0\r");
+					lblPdec.setHorizontalAlignment(SwingConstants.LEFT);
+					lblPdec.setBounds(148, 11, 286, 14);
+					aboutDialog.add(lblPdec);
+					
+					JLabel lblAllRightsReserved = new JLabel("All rights reserved.");
+					lblAllRightsReserved.setHorizontalAlignment(SwingConstants.LEFT);
+					lblAllRightsReserved.setBounds(148, 36, 286, 14);
+					aboutDialog.add(lblAllRightsReserved);
+					
+					JLabel lblThirdPartyUsed = new JLabel("Third party used by the proponents are the property of their respective owners.");
+					lblThirdPartyUsed.setHorizontalAlignment(SwingConstants.CENTER);
+					lblThirdPartyUsed.setBounds(10, 150, 414, 14);
+					aboutDialog.add(lblThirdPartyUsed);
+					
+					JLabel lblIcon = new JLabel("");
+					URL pdecicon = Main.class.getResource("/PDECICON.png");
+					lblIcon.setIcon(new ImageIcon(pdecicon));
+					lblIcon.setBounds(10, 11, 128, 128);
+					aboutDialog.add(lblIcon);
+					
+					JButton btnLicenses = new JButton("Licenses");
+					btnLicenses.setBounds(10, 175, 89, 23);
+					JDialog licensesDialog = new JDialog(frame, "Licenses");
+					btnLicenses.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							if(licensesDialog.isVisible())
+							{
+								licensesDialog.requestFocus();
+							}
+							else
+							{
+								JScrollPane scrollPane = new JScrollPane();
+								licensesDialog.add(scrollPane, BorderLayout.CENTER);
+								
+								JTextArea txtrCopyrightc = new JTextArea();
+								txtrCopyrightc.setFont(new Font("Consolas", Font.PLAIN, 13));
+								txtrCopyrightc.setText("RSyntaxTextArea\r\n\r\nCopyright (c) 2012, Robert Futrell\r\nAll rights reserved.\r\n\r\nRedistribution and use in source and binary forms, with or without\r\nmodification, are permitted provided that the following conditions are met:\r\n    * Redistributions of source code must retain the above copyright\r\n      notice, this list of conditions and the following disclaimer.\r\n    * Redistributions in binary form must reproduce the above copyright\r\n      notice, this list of conditions and the following disclaimer in the\r\n      documentation and/or other materials provided with the distribution.\r\n    * Neither the name of the author nor the names of its contributors may\r\n      be used to endorse or promote products derived from this software\r\n      without specific prior written permission.\r\n\r\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND\r\nANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\r\nWARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\r\nDISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY\r\nDIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES\r\n(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\r\nLOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND\r\nON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\r\n(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\r\nSOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.");
+								scrollPane.setViewportView(txtrCopyrightc);
+								licensesDialog.setSize(640, 480);
+								licensesDialog.setLocationRelativeTo(null);
+								licensesDialog.setResizable(false);
+								licensesDialog.setVisible(true);
+							}
+						}
+					});
+					aboutDialog.add(btnLicenses);
+				}
+			}
+		});
 		menuBar.add(fileMenu);
 		fileMenu.add(newFileItem);
 		fileMenu.add(openFileItem);
