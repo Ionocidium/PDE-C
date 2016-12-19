@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.Desktop;
 import java.awt.Font;
+import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -912,18 +913,136 @@ public class MainWindowView
 		editMenu.setMnemonic(KeyEvent.VK_E);
 		JMenuItem undoEditItem = new JMenuItem("Undo", KeyEvent.VK_U);
 		undoEditItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
+		undoEditItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				editorPane.requestFocus();
+				try
+				{
+					Robot r = new Robot();
+					r.keyPress(KeyEvent.VK_CONTROL);
+					r.keyPress(KeyEvent.VK_Z);
+					r.keyRelease(KeyEvent.VK_Z);
+					r.keyRelease(KeyEvent.VK_CONTROL);
+				}
+				catch (Exception e)
+				{
+					
+				}
+			}
+		});
 		JMenuItem redoEditItem = new JMenuItem("Redo", KeyEvent.VK_R);
 		redoEditItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK));
+		redoEditItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				editorPane.requestFocus();
+				try
+				{
+					Robot r = new Robot();
+					r.keyPress(KeyEvent.VK_CONTROL);
+					r.keyPress(KeyEvent.VK_Y);
+					r.keyRelease(KeyEvent.VK_Y);
+					r.keyRelease(KeyEvent.VK_CONTROL);
+				}
+				catch (Exception e)
+				{
+					
+				}
+			}
+		});
 		JMenuItem cutEditItem = new JMenuItem("Cut", KeyEvent.VK_T);
 		cutEditItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
+		cutEditItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				editorPane.requestFocus();
+				try
+				{
+					Robot r = new Robot();
+					r.keyPress(KeyEvent.VK_CONTROL);
+					r.keyPress(KeyEvent.VK_X);
+					r.keyRelease(KeyEvent.VK_X);
+					r.keyRelease(KeyEvent.VK_CONTROL);
+				}
+				catch (Exception e)
+				{
+					
+				}
+			}
+		});
 		JMenuItem copyEditItem = new JMenuItem("Copy", KeyEvent.VK_C);
 		copyEditItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
+		copyEditItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				editorPane.requestFocus();
+				try
+				{
+					Robot r = new Robot();
+					r.keyPress(KeyEvent.VK_CONTROL);
+					r.keyPress(KeyEvent.VK_C);
+					r.keyRelease(KeyEvent.VK_C);
+					r.keyRelease(KeyEvent.VK_CONTROL);
+				}
+				catch (Exception e)
+				{
+					
+				}
+			}
+		});
 		JMenuItem pasteEditItem = new JMenuItem("Paste", KeyEvent.VK_P);
 		pasteEditItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
-		JMenuItem findEditItem = new JMenuItem("Find...", KeyEvent.VK_F);
-		findEditItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));
+		pasteEditItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				editorPane.requestFocus();
+				try
+				{
+					Robot r = new Robot();
+					r.keyPress(KeyEvent.VK_CONTROL);
+					r.keyPress(KeyEvent.VK_V);
+					r.keyRelease(KeyEvent.VK_V);
+					r.keyRelease(KeyEvent.VK_CONTROL);
+				}
+				catch (Exception e)
+				{
+					
+				}
+			}
+		});
 		JMenuItem selectAllEditItem = new JMenuItem("Select All", KeyEvent.VK_A);
 		selectAllEditItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
+		selectAllEditItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				editorPane.requestFocus();
+				try
+				{
+					Robot r = new Robot();
+					r.keyPress(KeyEvent.VK_CONTROL);
+					r.keyPress(KeyEvent.VK_A);
+					r.keyRelease(KeyEvent.VK_A);
+					r.keyRelease(KeyEvent.VK_CONTROL);
+				}
+				catch (Exception e)
+				{
+					
+				}
+			}
+		});
 		JMenu buildMenu = new JMenu("Build");
 		buildMenu.setMnemonic(KeyEvent.VK_B);
 		
@@ -1128,6 +1247,7 @@ public class MainWindowView
 								licensesDialog.setSize(640, 480);
 								licensesDialog.setLocationRelativeTo(null);
 								licensesDialog.setResizable(false);
+								txtrCopyrightc.setEditable(false);
 								licensesDialog.setVisible(true);
 							}
 						}
@@ -1150,7 +1270,6 @@ public class MainWindowView
 		editMenu.add(cutEditItem);
 		editMenu.add(copyEditItem);
 		editMenu.add(pasteEditItem);
-		editMenu.add(findEditItem);
 		editMenu.addSeparator();
 		editMenu.add(selectAllEditItem);
 		menuBar.add(buildMenu);
