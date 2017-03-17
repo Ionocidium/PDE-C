@@ -70,3 +70,4 @@ local.properties
 
 # Out files
 *.out
+/QUEST TEST/nbproject/private/
