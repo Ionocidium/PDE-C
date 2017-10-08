@@ -1331,6 +1331,33 @@ public class MainWindowView
 //		buildMenu.add(delBreakItem);
 //		buildMenu.add(delallBreakItem);
 		
+		JMenu questMenu = new JMenu("QUEST");
+		JMenuItem questLaunch = new JMenuItem("Launch QUEST");
+		questLaunch.addActionListener(new ActionListener(){
+			
+			@Override
+			
+			public void actionPerformed(ActionEvent e){
+				//eventController.launchQuest();
+			}
+		});
+		
+		JMenuItem questAbout = new JMenuItem("About QUEST");
+		JDialog questDialog = new JDialog(frame, "About QUEST");
+		questDialog.getContentPane().setLayout(null);
+		questAbout.addActionListener(new ActionListener(){
+			
+			@Override
+			
+			public void actionPerformed(ActionEvent e){
+				if(questDialog.isVisible())
+					questDialog.requestFocus();
+				else{
+					//setup about dialog for quest
+				}
+			}
+		});
+		
 		toggleBreakItem = new JMenuItem("Toggle Breakpoint");
 		toggleBreakItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

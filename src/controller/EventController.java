@@ -1352,4 +1352,8 @@ public class EventController
 		  
 		  return itExists;
 		}
+		public void launchQuest(){
+			//check if QUEST is already running. if it's running, set focus.
+			//if it's not running, either call the Login class or do Run.exec() whatever
+		}
 	}
