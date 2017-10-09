@@ -1354,6 +1354,26 @@ public class MainWindowView
 					questDialog.requestFocus();
 				else{
 					//setup about dialog for quest
+					questDialog.setSize(450, 240);
+					questDialog.setLocationRelativeTo(null);
+					questDialog.setResizable(false);
+					questDialog.setVisible(true);
+					
+					JLabel lblQDec = new JLabel("QUEST for PDE-C Ver 1.0\r");
+					lblQDec.setHorizontalAlignment(SwingConstants.LEFT);
+					lblQDec.setBounds(148, 11, 286, 14);
+					questDialog.add(lblQDec);
+					
+					JLabel lblQInf = new JLabel("A gamification plugin for PDE-C");
+					lblQInf.setHorizontalAlignment(SwingConstants.LEFT);
+					lblQInf.setBounds(148, 36, 286, 14);
+					questDialog.add(lblQInf);
+					
+					JLabel lblQPUsed = new JLabel("PDE-C and its components are properties of its respective owners.");
+					lblQPUsed.setHorizontalAlignment(SwingConstants.CENTER);
+					lblQPUsed.setBounds(10, 150, 414, 14);
+					questDialog.add(lblQPUsed);
+					
 				}
 			}
 		});
