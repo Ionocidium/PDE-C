@@ -1338,7 +1338,8 @@ public class MainWindowView
 			@Override
 			
 			public void actionPerformed(ActionEvent e){
-				//eventController.launchQuest();
+				
+				eventController.launchQuest();
 			}
 		});
 		
@@ -1347,13 +1348,17 @@ public class MainWindowView
 		questDialog.getContentPane().setLayout(null);
 		questAbout.addActionListener(new ActionListener(){
 			
+			
 			@Override
 			
 			public void actionPerformed(ActionEvent e){
+				
+				
 				if(questDialog.isVisible())
 					questDialog.requestFocus();
 				else{
 					//setup about dialog for quest
+					//JOptionPane.showMessageDialog("test!");
 					questDialog.setSize(450, 240);
 					questDialog.setLocationRelativeTo(null);
 					questDialog.setResizable(false);
@@ -1377,6 +1382,24 @@ public class MainWindowView
 				}
 			}
 		});
+		
+		JMenuItem questTerminate = new JMenuItem("Close QUEST");
+		questTerminate.addActionListener(new ActionListener(){
+			
+			@Override
+			
+			public void actionPerformed(ActionEvent e){
+				
+				eventController.terminateQuest();
+			}
+			
+		});
+		
+		questMenu.add(questLaunch);
+		questMenu.add(questTerminate);
+		questMenu.add(questAbout);
+		
+		
 		
 		toggleBreakItem = new JMenuItem("Toggle Breakpoint");
 		toggleBreakItem.addActionListener(new ActionListener() {
@@ -1424,6 +1447,7 @@ public class MainWindowView
 		helpMenu.add(helpHelpItem);
 		helpMenu.add(aboutHelpItem);
 		
+		menuBar.add(questMenu);
 		frame.setJMenuBar(menuBar);
 		frame.getContentPane().setLayout(new BorderLayout());
 		//frame.getContentPane().add(scrollPane, BorderLayout.CENTER);

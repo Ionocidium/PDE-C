@@ -80,6 +80,9 @@ public class EventController
 	private FileSave saveFile;
 	private FileNameExtensionFilter cFilter;
 	private String command = "";
+	private boolean questRunning = false;
+	private ProcessBuilder questPb;
+	private Process questP;
 
 	private EventController()
 	{
@@ -1355,5 +1358,33 @@ public class EventController
 		public void launchQuest(){
 			//check if QUEST is already running. if it's running, set focus.
 			//if it's not running, either call the Login class or do Run.exec() whatever
+			if(questRunning){
+				JOptionPane.showMessageDialog(null, "QUEST is still running!");
+			}
+			else{
+				questRunning = true;
+				questPb = new ProcessBuilder("java", "-jar", "questsystem.jar");
+				try {
+					 questP = questPb.start();
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			
+		}
+		public void terminateQuest(){
+			
+			if(!questRunning){
+				JOptionPane.showMessageDialog(null, "QUEST is not running!");
+			}
+			else{
+				questP.destroy();
+				questRunning = false;
+				
+			}
+			
 		}
 	}
