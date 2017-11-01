@@ -216,6 +216,7 @@ public class MainWindowView
 		
 		eventController = EventController.getEventController();
         eventController.checkIfResourceExists();
+        
 		editorPane = new RSyntaxTextArea();
 		fontStyle = editorPane.getFont().getFamily();
 		editorPane.getDocument().addDocumentListener(new DocumentListener() {
@@ -1489,6 +1490,9 @@ public class MainWindowView
 		springLayout.putConstraint(SpringLayout.SOUTH, coreToolbar, 48, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, coreToolbar, 2500, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(coreToolbar, BorderLayout.NORTH);
+		
+		////////////////////////////////////////////////QUEST START
+		eventController.launchQuest();
 
 
 	}
