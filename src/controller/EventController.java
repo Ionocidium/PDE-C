@@ -1387,8 +1387,5 @@ public class EventController
 			}
 			
 		}
-		public void fixQuest(){
-			questRunning = false;
-			JOptionPane.showMessageDialog(null, "QUEST has been fixed. You can run it now!");
-		}
+		
 	}
