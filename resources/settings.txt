@@ -1,0 +1,2 @@
+C:\TDM-GCC-32\bin\gcc.exe
+C:\cygwin64\bin\gdb.exe

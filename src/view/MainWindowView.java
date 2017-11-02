@@ -1383,7 +1383,7 @@ public class MainWindowView
 			}
 		});
 		
-		JMenuItem questTerminate = new JMenuItem("Close QUEST");
+		JMenuItem questTerminate = new JMenuItem("Close/Fix QUEST");
 		questTerminate.addActionListener(new ActionListener(){
 			
 			@Override
@@ -1394,6 +1394,7 @@ public class MainWindowView
 			}
 			
 		});
+		
 		
 		questMenu.add(questLaunch);
 		questMenu.add(questTerminate);
@@ -1489,7 +1490,8 @@ public class MainWindowView
 		springLayout.putConstraint(SpringLayout.SOUTH, coreToolbar, 48, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, coreToolbar, 2500, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(coreToolbar, BorderLayout.NORTH);
-
+		
+		eventController.launchQuest();
 
 	}
 
